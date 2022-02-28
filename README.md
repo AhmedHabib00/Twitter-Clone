@@ -1,7 +1,7 @@
 # Whisper
-# Front-End Developers
-Abdulrehman Suliman (Leader)
-Amr Zayed
-Nermmen Allam 
-Asmaa Lotfy
-Noha Tarek
+## Front-End Developers __
+Abdulrehman Suliman (Leader) __
+Amr Zayed __
+Nermmen Allam __
+Asmaa Lotfy __
+Noha Tarek 
