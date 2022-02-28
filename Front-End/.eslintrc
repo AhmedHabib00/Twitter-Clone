@@ -1,0 +1,15 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": ["airbnb","airbnb/hooks"],
+    "plugins": [
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
+    "rules": {
+        "linebreak-style":"off"
+    }
+}
