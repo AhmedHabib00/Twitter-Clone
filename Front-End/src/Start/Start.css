@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 100%;
+}
+
+.left-column-container {
+  width: 70%;
+  height: 800px;
+  background-image: url("https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+}
+
+.logo {
+  display: flex;
+  padding: auto;
+  margin: auto;
+  margin-top: 150px;
+  z-index: 100;
+  color: #ffff;
+}
+
+.logo-size {
+  font-size: 400px !important;
+}
+
+.right-column-container {
+  min-width: 45vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  /* margin: 40px auto; */
+}
+
+.right-logo {
+  color: #1d9bf0;
+  font-size: 50px !important;
+  margin-top: 27px;
+}
+
+.right-group {
+  margin-left: 35px;
+}
+
+.right-group h1 {
+  font-size: 64px;
+  margin-top: 35px;
+}
+
+.right-group h2 {
+  font-size: 31px;
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 1024px) {
+  .right-column-container {
+    min-width: 55%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .logo {
+    margin: auto;
+  }
+
+  .logo-size {
+    font-size: 200px !important;
+  }
+
+  .left-column-container {
+    width: 100%;
+    height: 50%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .logo-size {
+    font-size: 200px !important;
+  }
+}
+
+@media screen and (max-width: 535px) {
+  .logo-size {
+    font-size: 200px !important;
+  }
+}
