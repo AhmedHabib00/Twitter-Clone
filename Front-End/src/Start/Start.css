@@ -6,6 +6,7 @@
 
 .left-column-container {
   width: 70%;
+  min-width: 425px;
   height: 800px;
   background-image: url("https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png");
   background-position: center;
