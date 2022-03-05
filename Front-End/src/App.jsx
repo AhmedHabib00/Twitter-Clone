@@ -24,8 +24,8 @@ function App() {
           <Route path="Lists" element={<Lists />} />
           <Route path="Profile" element={<Profile />} />
           <Route path="More" element={<More />} />
-          <Route path="Start" element={(<Start />)} />
         </Route>
+        <Route path="/Start" element={(<Start />)} />
       </Routes>
     </Router>
   );
