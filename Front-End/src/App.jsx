@@ -10,6 +10,7 @@ import Lists from './Lists/Lists';
 import Profile from './Profile/Profile';
 import More from './More/More';
 import Home from './Home/Home';
+import Start from './Start/Start';
 
 function App() {
   return (
@@ -23,8 +24,8 @@ function App() {
           <Route path="Lists" element={<Lists />} />
           <Route path="Profile" element={<Profile />} />
           <Route path="More" element={<More />} />
+          <Route path="Start" element={(<Start />)} />
         </Route>
-
       </Routes>
     </Router>
   );
