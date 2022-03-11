@@ -1,0 +1,134 @@
+/* html,
+body {
+  height: 100%;
+  overflow: hidden;
+} */
+
+.signup-background {
+  background: center;
+  background-color: rgb(0 0 0 / 40%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-container {
+  background: #fff;
+  min-height: 400px;
+  max-width: 600px;
+  max-height: 90vh;
+  height: 650px;
+  min-width: 600px;
+  flex-shrink: 1;
+  border-radius: 16px;
+  padding: 10px;
+  z-index: 100;
+}
+
+.header {
+  display: flex;
+}
+
+.signup-icon {
+  color: #1d9bf0;
+
+  /* padding-top: 10px; */
+  padding-left: 40%;
+  padding-right: 50%;
+}
+
+.signup-icon-size {
+  font-size: 40px !important;
+}
+
+.body {
+  margin-left: 1%;
+  overflow-y: scroll;
+}
+
+.title {
+  margin-bottom: 16px;
+  margin-top: 16px;
+  margin-left: 5%;
+  color: rgb(15 20 25);
+  line-height: 28px;
+  font-size: 23px;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-weight: 700;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.signup-form label {
+  margin-bottom: 15px;
+  color: rgb(118 118 118);
+  position: relative;
+}
+
+.signup-form input input::placeholder {
+  color: transparent;
+}
+
+.signup-form span {
+  position: absolute;
+  top: 0;
+  left: 38px;
+  transform: translateY(40px);
+  transition-duration: 300ms;
+  font-size: 17px;
+}
+
+.signup-form input {
+  width: 85%;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 25px;
+  height: 35px;
+  outline-color: #1d9bf0;
+  border-color: rgb(207 217 222 / 70%);
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+label:focus-within > span,
+input:not(:placeholder-shown) + span {
+  color: #1d9bf0;
+  transform: translateY(20px);
+  font-size: 0.825em;
+}
+
+.date-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 4%;
+  margin-top: 20px;
+}
+
+.date-container h3 {
+  color: rgb(15 20 25);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.date-container p {
+  color: rgb(83 100 113);
+  margin-top: -10px;
+}
