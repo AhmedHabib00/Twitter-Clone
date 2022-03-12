@@ -30,7 +30,10 @@ function Start() {
               <Button
                 variant="outlined"
                 className="signup-tweet"
-                onClick={() => { setSignup(true); }}
+                onClick={() => {
+                  setSignup(true);
+                  document.body.style.overflow = 'hidden';
+                }}
               >
                 Sign up with email
               </Button>

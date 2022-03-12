@@ -49,6 +49,7 @@ body {
 .body {
   margin-left: 1%;
   overflow-y: scroll;
+  height: 420px;
 }
 
 .title {
@@ -131,4 +132,40 @@ input:not(:placeholder-shown) + span {
 .date-container p {
   color: rgb(83 100 113);
   margin-top: -10px;
+}
+
+.button {
+  height: 50px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.next-button {
+  background-color: rgb(15 20 25) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+  margin-top: 20px !important;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+  line-height: 20px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  width: 90% !important;
+}
+
+.next-button:hover {
+  background-color: rgb(53 53 53) !important;
 }

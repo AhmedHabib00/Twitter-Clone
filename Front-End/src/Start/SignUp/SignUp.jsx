@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import DatePicker from '../Components/DatePicker';
 
 function SignUp({ closeSignup }) {
   return (
@@ -11,7 +13,11 @@ function SignUp({ closeSignup }) {
       <div className="signup-container">
         <div className="header">
           <div className="close-signup">
-            <IconButton onClick={() => closeSignup(false)}>
+            <IconButton onClick={() => {
+              closeSignup(false);
+              document.body.style.overflow = 'unset';
+            }}
+            >
               <CloseIcon />
             </IconButton>
           </div>
@@ -45,11 +51,20 @@ function SignUp({ closeSignup }) {
                 This will not be shown publicly. Confirm your own age,
                 even if this account is for a business, a pet, or something else.
               </p>
+              <DatePicker />
             </div>
           </form>
         </div>
+        <div className="button">
+          <Button
+            variant="outlined"
+            className="next-button"
+            // onClick={() => { setSignup(true); }}
+          >
+            Next
+          </Button>
+        </div>
       </div>
-      <div className="footer">footer</div>
 
     </div>
   );
