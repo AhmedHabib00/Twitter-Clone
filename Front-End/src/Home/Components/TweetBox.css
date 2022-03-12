@@ -1,0 +1,17 @@
+.tweet-box {
+  text-align: left;
+}
+
+.icon {
+  font-size: 45px !important;
+}
+
+.tweet-input {
+  border: none;
+  outline: none !important;
+  font-size: 25px;
+}
+
+.icon-button {
+  padding-top: 105px;
+}

@@ -1,4 +1,19 @@
 .home {
   text-align: center;
   font-size: large;
+  max-width: 650px;
+}
+
+.home-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
+  border: 1px solid var(--twitter-background);
+  padding: 15px 20px;
+}
+
+.home-header > h2 {
+  font-size: 20px;
+  font-weight: 800;
 }

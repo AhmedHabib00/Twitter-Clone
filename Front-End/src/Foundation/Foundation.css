@@ -1,7 +1,6 @@
 .foundation {
   margin: 0;
   display: flex;
-  max-width: 1420px;
   justify-content: flex-start;
 
   /* to be deleted */
