@@ -22,8 +22,7 @@ function Post() {
               <span className="postheaderSpecial">
                 {true && <VerifiedIcon className="postbadge" />}
                 {' '}
-                @
-                Noha EL-Boghdady
+                @Noha EL-Boghdady
 
               </span>
             </h3>
@@ -32,6 +31,10 @@ function Post() {
             <p>Hope This Will Work ISA.</p>
           </div>
         </div>
+        <img
+          src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+          alt=""
+        />
 
         <div className="postfooter">
           <ChatBubbleIcon fontSize="small" />
