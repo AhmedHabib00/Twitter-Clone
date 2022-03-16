@@ -1,19 +1,17 @@
 .home {
-  text-align: center;
-  font-size: large;
-  max-width: 650px;
+  display: flex;
+  flex-direction: column;
 }
 
 .home-header {
-  position: sticky;
-  top: 0;
   background-color: white;
-  z-index: 100;
-  border: 1px solid var(--twitter-background);
-  padding: 15px 20px;
+  align-self: flex-start;
+  width: 100%;
 }
 
 .home-header > h2 {
+  left: 10px;
+  text-align: left;
   font-size: 20px;
   font-weight: 800;
 }

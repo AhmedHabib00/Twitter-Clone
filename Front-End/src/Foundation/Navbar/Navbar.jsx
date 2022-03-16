@@ -9,7 +9,7 @@ function Navbar({ children }) {
     <div className="main">
       <TwitterIcon className="tw-icon" />
       {children.map((child) => child)}
-      <button type="button" className="icons tweet-button">Tweet</button>
+      <button type="button" className="icons tweet-button">Whisp</button>
     </div>
   );
 }

@@ -2,19 +2,17 @@
   margin: 0;
   display: flex;
   justify-content: flex-start;
-
-  /* to be deleted */
-  height: 900px;
+  height: fit-content;
 }
 
 .found-margins {
   display: flex;
   justify-content: center;
+  height: fit-content;
 }
 
-hr {
-  margin: 0;
-  border: hidden;
-  width: 1px;
-  background-color: lightgray;
+.outlet {
+  overflow-x: hidden;
+  max-width: 700px;
+  height: fit-content;
 }

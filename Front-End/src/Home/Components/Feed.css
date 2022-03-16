@@ -1,10 +1,5 @@
 .feed {
   flex-grow: 1;
-  border-right: 1px solid var(--twitter-background);
-  max-width: 700px;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

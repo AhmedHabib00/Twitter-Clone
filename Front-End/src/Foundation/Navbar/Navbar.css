@@ -2,12 +2,15 @@
   display: flex;
   max-width: 300px;
   flex-direction: column;
+  position: sticky;
+  top: 0;
 }
 
 .tw-icon {
   color: rgb(29 155 240);
   font-size: 32px !important;
   padding: 7px;
+  cursor: pointer;
 }
 
 .tw-icon:hover {
@@ -53,7 +56,7 @@
   font-size: 20px !important;
   font-weight: bold;
   border: none;
-  max-width: 200px;
+  width: 100%;
   border-radius: 45px;
   height: 55px;
   margin-top: 10px;

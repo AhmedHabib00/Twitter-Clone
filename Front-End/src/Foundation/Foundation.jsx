@@ -11,18 +11,20 @@ function Foundation() {
   return (
     <div className="found-margins">
       <div className="foundation">
-        <Navbar>
-          {pages.map((page) => (
-            <Link to={`/${page.name}`} key={page.name} className="link-style a-tag">
-              <NavItem title={page.name}>
-                {page.icon}
-              </NavItem>
-            </Link>
-          ))}
-        </Navbar>
-        <hr />
-        <Outlet />
-        <hr />
+        <div className="navbar">
+          <Navbar>
+            {pages.map((page) => (
+              <Link to={`/${page.name}`} key={page.name} className="link-style a-tag">
+                <NavItem title={page.name}>
+                  {page.icon}
+                </NavItem>
+              </Link>
+            ))}
+          </Navbar>
+        </div>
+        <div className="outlet">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

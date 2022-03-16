@@ -9,8 +9,8 @@ function Home() {
       <div className="home-header">
         <h2>Home</h2>
       </div>
-      <TweetBox />
-      <Feed />
+      <TweetBox className="tweetbox" />
+      <Feed className="feed" />
     </div>
   );
 }
