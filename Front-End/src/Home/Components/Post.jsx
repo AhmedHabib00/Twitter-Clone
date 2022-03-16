@@ -63,20 +63,20 @@ function Post() {
                 <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className="postblue posthoricon" />
 
                 <Menu className="postdropmenu " id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                  <MenuList className="postblue ">
+                  <MenuList className="dropdown-content ">
                     {'    '}
                     <PlaylistAddSharpIcon />
                     {' '}
                     Add/remove @Noha from Lists
                   </MenuList>
 
-                  <MenuList className="postblue ">
+                  <MenuList className="dropdown-content">
                     {'    '}
                     <VolumeOffSharpIcon />
                     {' '}
                     Mute @Noha
                   </MenuList>
-                  <MenuList className="postblue ">
+                  <MenuList className="dropdown-content">
                     {'    '}
                     <BlockSharpIcon />
                     {' '}
@@ -85,14 +85,14 @@ function Post() {
                 </Menu>
 
                 <Menu className="postdropmenu " id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
-                  <MenuList className="postblue ">
+                  <MenuList className="dropdown-content ">
                     {'    '}
                     <BookmarkAddSharpIcon />
                     {' '}
                     Bookmark
                   </MenuList>
 
-                  <MenuList className="postblue ">
+                  <MenuList className="dropdown-content">
                     {'    '}
                     <LinkIcon />
                     {' '}
@@ -101,15 +101,16 @@ function Post() {
 
                 </Menu>
 
-                <Menu className="postdropmenu " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
-                  <MenuList className="postblue ">
+                <Menu className=" postdropmenu " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
+                  <MenuList className="dropdown-content">
                     {'    '}
                     <RepeatIcon />
                     {' '}
                     Retweet
                   </MenuList>
 
-                  <MenuList className="postblue ">
+                  <MenuList className="dropdown-content">
+
                     {'    '}
                     <EditIcon />
                     {' '}
