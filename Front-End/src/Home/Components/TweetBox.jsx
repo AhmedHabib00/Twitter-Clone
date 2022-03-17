@@ -1,14 +1,19 @@
 import React, { createRef, useState } from 'react';
-import './TweetBox.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
+import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
+
 import ImageBox from './ImageBox';
+import PopupGif from './PopupGif';
+
+import './TweetBox.css';
 
 function TweetBox() {
   const inputFile = createRef();
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(1);
+  const [isGifOpen, setIsGifOpen] = useState(false);
 
   const deleteImage = (id) => {
     const newImages = images.filter((image) => image.id !== id);
@@ -42,6 +47,10 @@ function TweetBox() {
       setImages(tempImages);
     }
   };
+
+  const onOpenGif = () => {
+    setIsGifOpen(!isGifOpen);
+  };
   return (
     <div>
       <div className="tweet-box">
@@ -61,12 +70,15 @@ function TweetBox() {
                 <input type="file" id="file" multiple="multiple" accept=".jpg, .png" ref={inputFile} onChange={handleFileInput} style={{ display: 'none' }} />
               </div>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-              <div role="button" tabIndex="0" onClick={onSelectFIle}>
+              <div role="button" tabIndex="0" onClick={onOpenGif}>
                 <GifBoxOutlinedIcon className="media-icon" />
+                <PopupGif trigger={isGifOpen}>
+                  <div>amr</div>
+                </PopupGif>
               </div>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <div role="button" tabIndex="0" onClick={onSelectFIle}>
-                <GifBoxOutlinedIcon className="media-icon" />
+                <SentimentSatisfiedOutlinedIcon className="media-icon" />
               </div>
             </div>
             <button type="submit" className="tweet-icons-button">whisp</button>
