@@ -1,19 +1,46 @@
-import React from 'react';
+import React, { createRef, useState } from 'react';
 import './TweetBox.css';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import ImageBox from './ImageBox';
 
 function TweetBox() {
+  const inputFile = createRef();
+  const [images, setImages] = useState([]);
+  const [imageCount, setImageCount] = useState(1);
+
+  const deleteImage = (id) => {
+    const newImages = images.filter((image) => image.id !== id);
+    setImages(newImages);
+  };
   const autoGrow = (element) => {
     // eslint-disable-next-line no-param-reassign
     element.target.style.height = 'inherit';
     // eslint-disable-next-line no-param-reassign
     element.target.style.height = `${element.target.scrollHeight < 101 ? element.target.scrollHeight - 22 : element.target.scrollHeight}px`;
   };
-  const textEmpty = (element) => {
-    console.log(element.data);
+  const onSelectFIle = () => {
+    inputFile.current.click();
+  };
+
+  const handleFileInput = (event) => {
+    if (event.target.files.length + imageCount - 1 > 4) {
+      return;
+    }
+    const tempImages = [...images];
+    let tempCounter = imageCount;
+    if (event.target.files && event.target.files[0]) {
+      Array.from(event.target.files).forEach((file) => {
+        tempImages.push({
+          id: tempCounter,
+          imageUrl: URL.createObjectURL(file),
+        });
+        tempCounter += 1;
+      });
+      setImageCount(tempCounter);
+      setImages(tempImages);
+    }
   };
   return (
     <div>
@@ -23,13 +50,24 @@ function TweetBox() {
         </a>
         <div className="text-area">
           <div>
-            <textarea placeholder="What's Happening?" className="tweet-input" onInput={autoGrow} onBeforeInput={textEmpty} />
+            <textarea placeholder="What's Happening?" className="tweet-input" onInput={autoGrow} />
           </div>
+          <ImageBox images={images} onDeleteImage={deleteImage} />
           <div className="text-area-icons">
             <div className="media-icons">
-              <PhotoOutlinedIcon className="media-icon" />
-              <GifBoxOutlinedIcon className="media-icon" />
-              <EventAvailableOutlinedIcon className="media-icon" />
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+              <div role="button" tabIndex="0" onClick={onSelectFIle}>
+                <PhotoOutlinedIcon className="media-icon" />
+                <input type="file" id="file" multiple="multiple" accept=".jpg, .png" ref={inputFile} onChange={handleFileInput} style={{ display: 'none' }} />
+              </div>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+              <div role="button" tabIndex="0" onClick={onSelectFIle}>
+                <GifBoxOutlinedIcon className="media-icon" />
+              </div>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+              <div role="button" tabIndex="0" onClick={onSelectFIle}>
+                <GifBoxOutlinedIcon className="media-icon" />
+              </div>
             </div>
             <button type="submit" className="tweet-icons-button">whisp</button>
           </div>
