@@ -29,6 +29,17 @@ function Start() {
               </Button>
               <Button
                 variant="outlined"
+                className="signup-tweet-google"
+              >
+                <img
+                  className="google-logo"
+                  src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
+                  alt="google logo"
+                />
+                Sign up with Facebook
+              </Button>
+              <Button
+                variant="outlined"
                 className="signup-tweet"
                 onClick={() => {
                   setSignup(true);

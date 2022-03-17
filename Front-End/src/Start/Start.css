@@ -129,7 +129,7 @@
   text-transform: inherit !important;
   border-radius: 30px !important;
   height: 50px !important;
-  margin-top: 20px !important;
+  margin-top: 10px !important;
   font-size: 15 !important;
   font-family:
     TwitterChirp,
@@ -216,7 +216,7 @@
 }
 
 .buttons-group h3 {
-  margin-top: 75px;
+  margin-top: 50px;
   font-size: 17px;
   color: rgb(15 20 25);
   font-weight: 700;
