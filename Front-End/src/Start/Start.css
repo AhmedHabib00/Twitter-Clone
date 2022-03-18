@@ -262,4 +262,12 @@
   .logo-size {
     font-size: 200px !important;
   }
+
+  .right-group h1 {
+    font-size: 50px;
+  }
+
+  .right-column-container {
+    min-width: 100px;
+  }
 }

@@ -3,9 +3,10 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
 import DatePicker from '../Components/DatePicker';
 
-function StepOne({ handleCloseSignup }) {
+function StepOne({ handleCloseSignup, setStepOne, setStepTwo }) {
   return (
     <div>
       <div className="header">
@@ -22,9 +23,9 @@ function StepOne({ handleCloseSignup }) {
           <TwitterIcon className="signup-icon-size" />
         </div>
       </div>
-      <div className="body">
-        <div className="title">Create your account</div>
-        <form className="signup-form">
+      <div className="title">Create your account</div>
+      <form className="signup-form">
+        <div className="body">
           <label htmlFor="name">
             <input
               type="text"
@@ -50,8 +51,20 @@ function StepOne({ handleCloseSignup }) {
             </p>
             <DatePicker />
           </div>
-        </form>
-      </div>
+        </div>
+        <div className="next-button-container">
+          <Button
+            variant="outlined"
+            className="next-button"
+            onClick={() => {
+              setStepOne(false);
+              setStepTwo(true);
+            }}
+          >
+            Next
+          </Button>
+        </div>
+      </form>
 
     </div>
   );
@@ -60,4 +73,6 @@ function StepOne({ handleCloseSignup }) {
 export default StepOne;
 StepOne.propTypes = {
   handleCloseSignup: PropTypes.func.isRequired,
+  setStepOne: PropTypes.func.isRequired,
+  setStepTwo: PropTypes.func.isRequired,
 };

@@ -43,6 +43,8 @@ function Start() {
                 className="signup-tweet"
                 onClick={() => {
                   setSignup(true);
+                  document.body.scrollTop = 0;
+                  document.documentElement.scrollTop = 0;
                   document.body.style.overflow = 'hidden';
                 }}
               >

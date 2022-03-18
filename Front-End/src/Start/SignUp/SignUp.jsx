@@ -1,14 +1,16 @@
-import React from 'react';
+import { React, useState } from 'react';
 import './SignUp.css';
 import PropTypes from 'prop-types';
 // import TwitterIcon from '@mui/icons-material/Twitter';
 // import CloseIcon from '@mui/icons-material/Close';
 // import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 // import DatePicker from '../Components/DatePicker';
 import StepOne from './StepOne';
 
 function SignUp({ closeSignup }) {
+  const [stepOne, setStepOne] = useState(true);
+  const [stepTwo, setStepTwo] = useState(false);
   const handleCloseSignup = (e) => {
     closeSignup(e);
   };
@@ -16,16 +18,14 @@ function SignUp({ closeSignup }) {
   return (
     <div className="signup-background">
       <div className="signup-container">
-        <StepOne handleCloseSignup={handleCloseSignup} />
-        <div className="button">
-          <Button
-            variant="outlined"
-            className="next-button"
-            // onClick={() => { setSignup(true); }}
-          >
-            Next
-          </Button>
-        </div>
+        {stepOne && (
+        <StepOne
+          handleCloseSignup={handleCloseSignup}
+          setStepOne={setStepOne}
+          setStepTwo={setStepTwo}
+        />
+        )}
+        {stepTwo && <div>Step two </div>}
       </div>
 
     </div>
