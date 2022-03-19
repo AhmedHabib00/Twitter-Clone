@@ -16,3 +16,17 @@
   max-width: 640px;
   background-color: #fff;
 }
+
+.popup-imgs-container {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll !important;
+}
+
+.popup-img {
+  width: fit-content;
+  height: 150px;
+
+  /* max-height: 50px; */
+  object-fit: cover;
+}

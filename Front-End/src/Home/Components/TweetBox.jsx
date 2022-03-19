@@ -53,6 +53,7 @@ function TweetBox() {
   };
   return (
     <div>
+      <PopupGif trigger={isGifOpen} />
       <div className="tweet-box">
         <a href="#top" className="icon-button">
           <AccountCircleIcon className="icon" />
@@ -72,9 +73,6 @@ function TweetBox() {
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <div role="button" tabIndex="0" onClick={onOpenGif}>
                 <GifBoxOutlinedIcon className="media-icon" />
-                <PopupGif trigger={isGifOpen}>
-                  <div>amr</div>
-                </PopupGif>
               </div>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <div role="button" tabIndex="0" onClick={onSelectFIle}>
