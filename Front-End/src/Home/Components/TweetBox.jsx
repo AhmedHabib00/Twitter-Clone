@@ -4,8 +4,10 @@ import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 
+import request from 'superagent';
 import ImageBox from './ImageBox';
-import PopupGif from './PopupGif';
+import PopupPage from './PopupPage';
+import SearchBar from './SearchBar';
 
 import './TweetBox.css';
 
@@ -14,10 +16,21 @@ function TweetBox() {
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(1);
   const [isGifOpen, setIsGifOpen] = useState(false);
+  const [gifs, setGifs] = useState([]);
 
+  const onSearchChange = (value) => {
+    let url;
+    if (value === '') {
+      url = 'http://api.giphy.com/v1/gifs/trending?api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF';
+    } else { url = `http://api.giphy.com/v1/gifs/search?q=${value}&api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`; }
+    request.get(url, (err, res) => {
+      setGifs(res.body.data);
+    });
+  };
   const deleteImage = (id) => {
     const newImages = images.filter((image) => image.id !== id);
     setImages(newImages);
+    setImageCount(imageCount - 1);
   };
   const autoGrow = (element) => {
     // eslint-disable-next-line no-param-reassign
@@ -49,11 +62,38 @@ function TweetBox() {
   };
 
   const onOpenGif = () => {
+    if (imageCount - 1 < 4) {
+      document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden');
+      setIsGifOpen(!isGifOpen);
+      onSearchChange('');
+    }
+  };
+
+  const onSelectGif = (url) => {
+    setImages([...images,
+      {
+        id: imageCount,
+        imageUrl: url,
+      }]);
+    setImageCount(imageCount + 1);
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     setIsGifOpen(!isGifOpen);
   };
   return (
     <div>
-      <PopupGif trigger={isGifOpen} />
+      <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen}>
+        <div className="inner-gif">
+          <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
+          <div className="popup-imgs-container">
+            {gifs.map((gif) => ((gifs.length === 0) ? '' : (
+              <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>
+                <img className="popup-img" alt="" src={gif.images.original.url} />
+              </div>
+            )))}
+          </div>
+        </div>
+
+      </PopupPage>
       <div className="tweet-box">
         <a href="#top" className="icon-button">
           <AccountCircleIcon className="icon" />
@@ -65,16 +105,13 @@ function TweetBox() {
           <ImageBox images={images} onDeleteImage={deleteImage} />
           <div className="text-area-icons">
             <div className="media-icons">
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <div role="button" tabIndex="0" onClick={onSelectFIle}>
                 <PhotoOutlinedIcon className="media-icon" />
                 <input type="file" id="file" multiple="multiple" accept=".jpg, .png" ref={inputFile} onChange={handleFileInput} style={{ display: 'none' }} />
               </div>
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <div role="button" tabIndex="0" onClick={onOpenGif}>
                 <GifBoxOutlinedIcon className="media-icon" />
               </div>
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <div role="button" tabIndex="0" onClick={onSelectFIle}>
                 <SentimentSatisfiedOutlinedIcon className="media-icon" />
               </div>

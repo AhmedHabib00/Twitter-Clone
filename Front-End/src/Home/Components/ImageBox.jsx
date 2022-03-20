@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import './ImageBox.css';
 
-// eslint-disable-next-line no-unused-vars
 function ImageBox({ images, onDeleteImage }) {
   let imageWidth = 100;
   if (images.length > 1) {
@@ -21,7 +20,6 @@ function ImageBox({ images, onDeleteImage }) {
             width: `${imageWidth}%`,
           }}
         >
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
           <div className="delete-image" role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X</div>
 
         </div>
