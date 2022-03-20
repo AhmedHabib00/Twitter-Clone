@@ -5,16 +5,20 @@ import NavItem from './Navbar/NavItem';
 import getPages from './Navbar/NavItems';
 import './Foundation.css';
 import './Navbar/Navbar.css';
+import SearchBar from '../Home/Components/SearchBar';
 
 function Foundation() {
   const pages = getPages();
+  const onSearchChange = (value) => {
+    console.log(value);
+  };
   return (
     <div className="found-margins">
       <div className="foundation">
-        <div className="navbar">
+        <div>
           <Navbar>
             {pages.map((page) => (
-              <Link to={`/${page.name}`} key={page.name} className="link-style a-tag">
+              <Link to={`/${page.name}`} key={page.name} className="foundation-a-tag">
                 <NavItem title={page.name}>
                   {page.icon}
                 </NavItem>
@@ -25,6 +29,11 @@ function Foundation() {
         <div className="outlet">
           <Outlet />
         </div>
+
+        <div className="foundation-widget">
+          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
+        </div>
+
       </div>
     </div>
   );

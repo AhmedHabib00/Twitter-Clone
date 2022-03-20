@@ -37,6 +37,8 @@
   display: flex;
   flex-flow: row;
   justify-content: space-between;
+  border-top: 1px solid rgb(225 225 225 / 40%);
+  padding: 8px 0;
 }
 
 .media-icons {
@@ -63,8 +65,8 @@
   font-weight: bold;
   border: none;
   border-radius: 45px;
-  height: 38px;
-  width: 13%;
+  height: 40px;
+  width: 80px;
   color: #edf7fe;
   cursor: pointer;
 }

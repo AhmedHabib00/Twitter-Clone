@@ -15,4 +15,17 @@
   overflow-x: hidden;
   max-width: 600px;
   height: fit-content;
+  border-right: 1px solid rgb(225 225 225 / 40%);
+  border-left: 1px solid rgb(225 225 225 / 40%);
+}
+
+.foundation-widget {
+  width: 250px;
+  max-width: 300px;
+}
+
+@media screen and (max-width: 910px) {
+  .foundation-widget {
+    display: none;
+  }
 }

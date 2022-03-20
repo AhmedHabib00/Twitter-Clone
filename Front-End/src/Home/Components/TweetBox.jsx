@@ -2,7 +2,6 @@ import React, { createRef, useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
-import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 
 import request from 'superagent';
 import ImageBox from './ImageBox';
@@ -92,8 +91,8 @@ function TweetBox() {
             )))}
           </div>
         </div>
-
       </PopupPage>
+
       <div className="tweet-box">
         <a href="#top" className="icon-button">
           <AccountCircleIcon className="icon" />
@@ -111,9 +110,6 @@ function TweetBox() {
               </div>
               <div role="button" tabIndex="0" onClick={onOpenGif}>
                 <GifBoxOutlinedIcon className="media-icon" />
-              </div>
-              <div role="button" tabIndex="0" onClick={onSelectFIle}>
-                <SentimentSatisfiedOutlinedIcon className="media-icon" />
               </div>
             </div>
             <button type="submit" className="tweet-icons-button">whisp</button>

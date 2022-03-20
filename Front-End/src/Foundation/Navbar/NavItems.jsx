@@ -12,23 +12,23 @@ import './Navbar.css';
 
 const Pages = [{
   name: 'Home',
-  icon: <HomeOutlinedIcon className="icons" />,
+  icon: <HomeOutlinedIcon className="nav-bar-icons" />,
 },
 {
   name: 'Notifications',
-  icon: <NotificationsNoneOutlinedIcon className="icons" />,
+  icon: <NotificationsNoneOutlinedIcon className="nav-bar-icons" />,
 }, {
   name: 'Bookmarks',
-  icon: <BookmarkBorderIcon className="icons" />,
+  icon: <BookmarkBorderIcon className="nav-bar-icons" />,
 }, {
   name: 'Lists',
-  icon: <FeaturedPlayListOutlinedIcon className="icons" />,
+  icon: <FeaturedPlayListOutlinedIcon className="nav-bar-icons" />,
 }, {
   name: 'Profile',
-  icon: <PermIdentityIcon className="icons" />,
+  icon: <PermIdentityIcon className="nav-bar-icons" />,
 }, {
   name: 'More',
-  icon: <MoreHorizIcon className="icons" />,
+  icon: <MoreHorizIcon className="nav-bar-icons" />,
 },
 ];
 

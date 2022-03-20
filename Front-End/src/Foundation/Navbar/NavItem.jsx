@@ -5,9 +5,9 @@ import './Navbar.css';
 
 function NavItem({ title, children }) {
   return (
-    <div className="item dimensions">
+    <div className="nav-item nav-item-dimensions">
       {children}
-      <p className="item-text">{title}</p>
+      <p className="nav-item-text">{title}</p>
     </div>
   );
 }
