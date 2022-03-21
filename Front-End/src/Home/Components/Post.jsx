@@ -145,10 +145,10 @@ function Post() {
         </div>
 
         <div>
-          <a href onClick={() => setImagePopUp(true)}><img onMouseClick={() => setImagePopUp(true)} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
-          <a href onClick={() => setImagePopUp(true)}><img onMouseClick={() => setImagePopUp(true)} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
-          <a href onClick={() => setImagePopUp(true)}><img onMouseClick={() => setImagePopUp(true)} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
-          <a href onClick={() => setImagePopUp(true)}><img onMouseClick={() => setImagePopUp(true)} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /></a>
         </div>
 
         <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
