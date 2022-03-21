@@ -5,12 +5,13 @@ import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import DatePicker from '../Components/DatePicker';
+import styles from './StepOne.module.css';
 
 function StepOne({ handleCloseSignup, setStepOne, setStepTwo }) {
   return (
     <div>
-      <div className="header">
-        <div className="close-signup">
+      <div className={styles.header}>
+        <div className={styles['close-signup']}>
           <IconButton onClick={() => {
             handleCloseSignup(false);
             document.body.style.overflow = 'unset';
@@ -19,13 +20,13 @@ function StepOne({ handleCloseSignup, setStepOne, setStepTwo }) {
             <CloseIcon />
           </IconButton>
         </div>
-        <div className="signup-icon">
-          <TwitterIcon className="signup-icon-size" />
+        <div className={styles['signup-icon']}>
+          <TwitterIcon className={styles['signup-icon-size']} />
         </div>
       </div>
-      <div className="title">Create your account</div>
-      <form className="signup-form">
-        <div className="body">
+      <h1 className={styles.title}>Create your account</h1>
+      <form className={styles['signup-form']}>
+        <div className={styles.body}>
           <label htmlFor="name">
             <input
               type="text"
@@ -43,7 +44,7 @@ function StepOne({ handleCloseSignup, setStepOne, setStepTwo }) {
             />
             <span>Email</span>
           </label>
-          <div className="date-container">
+          <div className={styles['date-container']}>
             <h3>Date of birth</h3>
             <p>
               This will not be shown publicly. Confirm your own age,
@@ -52,10 +53,10 @@ function StepOne({ handleCloseSignup, setStepOne, setStepTwo }) {
             <DatePicker />
           </div>
         </div>
-        <div className="next-button-container">
+        <div className={styles['next-button-container']}>
           <Button
             variant="outlined"
-            className="next-button"
+            className={styles['next-button']}
             onClick={() => {
               setStepOne(false);
               setStepTwo(true);

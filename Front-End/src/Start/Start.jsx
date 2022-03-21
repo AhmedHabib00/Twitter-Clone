@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
-import './Start.css';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
+import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 
 function Start() {
@@ -9,19 +9,19 @@ function Start() {
 
   return (
     <div>
-      <div className="container">
-        <div className="right-column-container">
-          <div className="right-group">
-            <TwitterIcon className="right-logo" />
+      <div className={styles.container}>
+        <div className={styles['right-column-container']}>
+          <div className={styles['right-group']}>
+            <TwitterIcon className={styles['right-logo']} />
             <h1>Happening now</h1>
             <h2>Join Whisper today.</h2>
-            <div className="buttons-group">
+            <div className={styles['buttons-group']}>
               <Button
                 variant="outlined"
-                className="signup-tweet-google"
+                className={styles['signup-tweet-google']}
               >
                 <img
-                  className="google-logo"
+                  className={styles['google-logo']}
                   src="https://img.icons8.com/color/48/000000/google-logo.png"
                   alt="google logo"
                 />
@@ -29,10 +29,10 @@ function Start() {
               </Button>
               <Button
                 variant="outlined"
-                className="signup-tweet-google"
+                className={styles['signup-tweet-google']}
               >
                 <img
-                  className="google-logo"
+                  className={styles['google-logo']}
                   src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
                   alt="google logo"
                 />
@@ -40,7 +40,7 @@ function Start() {
               </Button>
               <Button
                 variant="outlined"
-                className="signup-tweet"
+                className={styles['signup-tweet']}
                 onClick={() => {
                   setSignup(true);
                   document.body.scrollTop = 0;
@@ -67,16 +67,16 @@ function Start() {
               <h3>Already have an acount?</h3>
               <Button
                 variant="outlined"
-                className="sign-in"
+                className={styles['sign-in']}
               >
                 Sign in
               </Button>
             </div>
           </div>
         </div>
-        <div className="left-column-container">
-          <div className="logo">
-            <TwitterIcon className="logo-size" />
+        <div className={styles['left-column-container']}>
+          <div className={styles.logo}>
+            <TwitterIcon className={styles['logo-size']} />
           </div>
         </div>
       </div>
