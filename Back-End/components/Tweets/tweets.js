@@ -12,6 +12,7 @@ router.get("/",function(req,res){
 
 })
 
+//Posting a tweet:
 router.post("/",async function(req,res){
 
     //if the tweet content exists
@@ -40,5 +41,16 @@ router.post("/",async function(req,res){
     }
 
 })
+
+//Deleting a tweet:
+router.delete("/:id", function(req, res){
+    tweet.findByIdAndDelete(req.params.id)
+    .then(() => res.sendStatus(202))
+    .catch(function(error){
+           res.sendStatus(400);
+    })
+})
+
+
 
 module.exports =router;
