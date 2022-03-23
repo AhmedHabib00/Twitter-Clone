@@ -11,6 +11,10 @@
   height: fit-content;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .outlet {
   overflow-x: hidden;
   max-width: 600px;

@@ -4,7 +4,12 @@
   flex-direction: column;
   position: sticky;
   top: 0;
-  margin-right: 20px;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.nav-bar-tw-icon-link {
+  width: fit-content;
 }
 
 .nav-bar-icons {
@@ -63,8 +68,8 @@
   font-size: 20px !important;
   font-weight: bold;
   border: none;
-  border-radius: 45px;
-  height: 55px;
+  border-radius: 65px;
+  height: 65px;
   margin-top: 10px;
   color: #edf7fe;
   cursor: pointer;

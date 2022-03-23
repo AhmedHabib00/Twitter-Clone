@@ -11,6 +11,7 @@ import Profile from './Profile/Profile';
 import More from './More/More';
 import Home from './Home/Home';
 import Start from './Start/Start';
+import Admin from './Admin/Admin';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="More" element={<More />} />
         </Route>
         <Route path="/Start" element={(<Start />)} />
+        <Route path="/admin" element={(<Admin />)} />
       </Routes>
     </Router>
   );
