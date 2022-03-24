@@ -6,9 +6,6 @@ function Feed() {
   return (
     <div className={styles.feed}>
       <Post />
-      <Post />
-      <Post />
-
     </div>
   );
 }
