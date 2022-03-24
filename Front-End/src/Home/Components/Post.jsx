@@ -53,136 +53,136 @@ function Post() {
   return (
     <div className={styles.post}>
       {
-       Data.map((post) => (
-         <div className={styles.postbody} key={post.id}>
-           <div className={styles.postheader}>
+         Data && Data.map((post) => (
+           <div className={styles.postbody} key={post.id}>
+             <div className={styles.postheader}>
 
-             <div className={styles.postheadertext}>
+               <div className={styles.postheadertext}>
 
-               <h3>
-                 <div className={styles.postavatar}>
+                 <h3>
+                   <div className={styles.postavatar}>
 
-                   <AccountCircleIcon />
+                     <AccountCircleIcon />
 
-                   {post.displayname}
-                   {' '}
-                   <span className={styles.postheaderSpecial}>
-                     {true && <VerifiedIcon className={styles.postbadge} />}
+                     {post.displayname}
                      {' '}
-                     @
-                     {post.username}
-
-                   </span>
-                   <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={[styles.postblue, styles.posthoricon]} />
-
-                   <Menu className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                     <MenuList className={styles['dropdown-content ']}>
-                       {'    '}
-                       <PlaylistAddSharpIcon className={styles['dropdown-content']} />
+                     <span className={styles.postheaderSpecial}>
+                       {true && <VerifiedIcon className={styles.postbadge} />}
                        {' '}
-                       Add/remove @Noha from Lists
-                     </MenuList>
+                       @
+                       {post.username}
 
-                     <MenuList className={styles['dropdown-content']}>
-                       {'    '}
-                       <VolumeOffSharpIcon className={styles['dropdown-content']} />
-                       {' '}
-                       Mute @Noha
-                     </MenuList>
-                     <MenuList className={styles['dropdown-content']}>
-                       {'    '}
-                       <BlockSharpIcon className={styles['dropdown-content']} />
-                       {' '}
-                       Block @Noha
-                     </MenuList>
-                     <MenuList className={styles['dropdown-content']}>
-                       {'    '}
-                       <FollowTheSignsIcon className={styles['dropdown-content']} />
-                       {' '}
-                       Follow @Noha
-                     </MenuList>
-                   </Menu>
+                     </span>
+                     <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={[styles.postblue, styles.posthoricon]} />
 
-                   <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
-                     <MenuList className={styles['dropdown-content']}>
-                       {'    '}
-                       <BookmarkAddSharpIcon className={styles['dropdown-content']} />
-                       {' '}
-                       Bookmark
-                     </MenuList>
+                     <Menu className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
+                       <MenuList className={styles['dropdown-content ']}>
+                         {'    '}
+                         <PlaylistAddSharpIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Add/remove @Noha from Lists
+                       </MenuList>
 
-                     <MenuList className={styles['dropdown-content']}>
-                       {'    '}
-                       <LinkIcon className={styles['dropdown-content']} />
-                       {' '}
-                       Copy link to Tweet
-                     </MenuList>
+                       <MenuList className={styles['dropdown-content']}>
+                         {'    '}
+                         <VolumeOffSharpIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Mute @Noha
+                       </MenuList>
+                       <MenuList className={styles['dropdown-content']}>
+                         {'    '}
+                         <BlockSharpIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Block @Noha
+                       </MenuList>
+                       <MenuList className={styles['dropdown-content']}>
+                         {'    '}
+                         <FollowTheSignsIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Follow @Noha
+                       </MenuList>
+                     </Menu>
 
-                   </Menu>
+                     <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
+                       <MenuList className={styles['dropdown-content']}>
+                         {'    '}
+                         <BookmarkAddSharpIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Bookmark
+                       </MenuList>
 
-                   <Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
-                     <MenuList className={styles['dropdown-content']}>
-                       {'    '}
-                       <RepeatIcon className={styles['dropdown-content']} />
-                       {' '}
-                       Retweet
-                     </MenuList>
+                       <MenuList className={styles['dropdown-content']}>
+                         {'    '}
+                         <LinkIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Copy link to Tweet
+                       </MenuList>
 
-                     <MenuList className={styles['dropdown-content']}>
+                     </Menu>
 
-                       {'    '}
-                       <EditIcon className={styles['dropdown-content']} />
-                       {' '}
+                     <Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
+                       <MenuList className={styles['dropdown-content']}>
+                         {'    '}
+                         <RepeatIcon className={styles['dropdown-content']} />
+                         {' '}
+                         Retweet
+                       </MenuList>
 
-                       Quote Tweet
+                       <MenuList className={styles['dropdown-content']}>
 
-                     </MenuList>
+                         {'    '}
+                         <EditIcon className={styles['dropdown-content']} />
+                         {' '}
 
-                   </Menu>
+                         Quote Tweet
 
-                 </div>
-               </h3>
-             </div>
+                       </MenuList>
 
-             <div className={styles.postheaderdescription}>
-               <p>{post.content}</p>
-             </div>
-           </div>
+                     </Menu>
 
-           <div>
-             {
-             post.images.map((src) => (
-               <a href="# " onClick={() => setImagePopUp(true)}><img src={src.src} alt="pic1" /></a>
-             ))
-           }
-
-           </div>
-
-           <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-             <Carousel>
-               {
-             post.images.map((src) => (
-               <div>
-                 <img className={styles.imgpopup} src={src.src} alt="pic1" />
+                   </div>
+                 </h3>
                </div>
+
+               <div className={styles.postheaderdescription}>
+                 <p>{post.content}</p>
+               </div>
+             </div>
+
+             <div>
+               {
+             post.images && post.images.map((src) => (
+               <a href="# " onClick={() => setImagePopUp(true)} key={src.id}><img src={src.src} alt="pic1" /></a>
              ))
            }
-             </Carousel>
-           </ImagePopUp>
 
-           <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
-             <TweetBox />
-           </PopupPage>
+             </div>
 
-           <div className={styles.postfooter}>
-             <ChatBubbleIcon className={styles.postblue} fontSize="small" onClick={() => setReplyPopUp(true)} />
-             <RepeatIcon className={styles.postgreen} fontSize="small" aria-controls="retweet" onClick={handelOpenRetweet} />
-             <FavoriteBorderIcon className={styles.postpink} fontSize="small" />
-             <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
+             <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+               <Carousel>
+                 {
+            post.images && post.images.map((src) => (
+              <div key={src.id}>
+                <img className={styles.imgpopup} src={src.src} alt="pic1" />
+              </div>
+            ))
+           }
+               </Carousel>
+             </ImagePopUp>
+
+             <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
+               <TweetBox />
+             </PopupPage>
+
+             <div className={styles.postfooter}>
+               <ChatBubbleIcon className={styles.postblue} fontSize="small" onClick={() => setReplyPopUp(true)} />
+               <RepeatIcon className={styles.postgreen} fontSize="small" aria-controls="retweet" onClick={handelOpenRetweet} />
+               <FavoriteBorderIcon className={styles.postpink} fontSize="small" />
+               <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
+             </div>
+
            </div>
-
-         </div>
-       ))
+         ))
      }
 
     </div>
