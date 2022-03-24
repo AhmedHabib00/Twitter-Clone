@@ -18,6 +18,8 @@ import LinkIcon from '@mui/icons-material/Link';
 import EditIcon from '@mui/icons-material/Edit';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import ImagePopUp from './ImagePopUp';
+import PopupPage from './PopupPage';
+import TweetBox from './TweetBox';
 
 // import Trial from './Trial';
 
@@ -47,6 +49,7 @@ function Post() {
   };
 
   const [imagePopUp, setImagePopUp] = useState(false);
+  const [replyPopUp, setReplyPopUp] = useState(false);
 
   return (
     <div className="post">
@@ -168,9 +171,12 @@ function Post() {
           </Carousel>
           {/* <img className="imgpopup" src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /> */}
         </ImagePopUp>
+        <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
+          <TweetBox />
+        </PopupPage>
 
         <div className="postfooter">
-          <ChatBubbleIcon className="postblue" fontSize="small" />
+          <ChatBubbleIcon className="postblue" fontSize="small" onClick={() => setReplyPopUp(true)} />
           <RepeatIcon className="postgreen" fontSize="small" aria-controls="retweet" onClick={handelOpenRetweet} />
           <FavoriteBorderIcon className="postpink" fontSize="small" />
           <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className="postblue " />
