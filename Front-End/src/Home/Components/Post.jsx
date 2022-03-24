@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import './Post.css';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import RepeatIcon from '@mui/icons-material/Repeat';
@@ -17,9 +16,11 @@ import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
 import LinkIcon from '@mui/icons-material/Link';
 import EditIcon from '@mui/icons-material/Edit';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
+import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
+// import PostList from './PostData.json';
 
 // import Trial from './Trial';
 
@@ -52,66 +53,67 @@ function Post() {
   const [replyPopUp, setReplyPopUp] = useState(false);
 
   return (
-    <div className="post">
+    <div className={styles.post}>
 
-      <div className="postbody">
-        <div className="postheader">
+      <div className={styles.postbody}>
+        <div className={styles.postheader}>
 
-          <div className="postheadertext">
+          <div className={styles.postheadertext}>
 
             <h3>
-              <div className="postavatar">
+              <div className={styles.postavatar}>
+
                 <AccountCircleIcon />
 
                 Noha
                 {' '}
-                <span className="postheaderSpecial">
-                  {true && <VerifiedIcon className="postbadge" />}
+                <span className={styles.postheaderSpecial}>
+                  {true && <VerifiedIcon className={styles.postbadge} />}
                   {' '}
                   @Noha EL-Boghdady
 
                 </span>
-                <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className="postblue posthoricon" />
+                <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={[styles.postblue, styles.posthoricon]} />
 
-                <Menu className="dropdown  " id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                  <MenuList className="dropdown-content ">
+                <Menu className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
+                  <MenuList className={styles['dropdown-content ']}>
                     {'    '}
-                    <PlaylistAddSharpIcon className="dropdown-content" />
+                    <PlaylistAddSharpIcon className={styles['dropdown-content']} />
                     {' '}
                     Add/remove @Noha from Lists
                   </MenuList>
 
-                  <MenuList className="dropdown-content">
+                  <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <VolumeOffSharpIcon className="dropdown-content" />
+                    <VolumeOffSharpIcon className={styles['dropdown-content']} />
                     {' '}
                     Mute @Noha
                   </MenuList>
-                  <MenuList className="dropdown-content">
+                  <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <BlockSharpIcon className="dropdown-content" />
+                    <BlockSharpIcon className={styles['dropdown-content']} />
                     {' '}
                     Block @Noha
                   </MenuList>
-                  <MenuList className="dropdown-content">
+                  <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <FollowTheSignsIcon className="dropdown-content" />
+                    <FollowTheSignsIcon className={styles['dropdown-content']} />
                     {' '}
                     Follow @Noha
                   </MenuList>
                 </Menu>
 
                 <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
-                  <MenuList className="dropdown-content ">
+                  <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <BookmarkAddSharpIcon className="dropdown-content" />
+                    <BookmarkAddSharpIcon className={styles['dropdown-content']} />
                     {' '}
                     Bookmark
                   </MenuList>
 
-                  <MenuList className="dropdown-content">
+                  <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <LinkIcon className="dropdown-content" />
+                    <LinkIcon className={styles['dropdown-content']} />
                     {' '}
                     Copy link to Tweet
                   </MenuList>
@@ -119,17 +121,17 @@ function Post() {
                 </Menu>
 
                 <Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
-                  <MenuList className="dropdown-content">
+                  <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <RepeatIcon className="dropdown-content" />
+                    <RepeatIcon className={styles['dropdown-content']} />
                     {' '}
                     Retweet
                   </MenuList>
 
-                  <MenuList className="dropdown-content">
+                  <MenuList className={styles['dropdown-content']}>
 
                     {'    '}
-                    <EditIcon className="dropdown-content" />
+                    <EditIcon className={styles['dropdown-content']} />
                     {' '}
 
                     Quote Tweet
@@ -142,7 +144,7 @@ function Post() {
             </h3>
           </div>
 
-          <div className="postheaderdescription">
+          <div className={styles.postheaderdescription}>
             <p>Hope This Will Work ISA.</p>
           </div>
         </div>
@@ -157,16 +159,16 @@ function Post() {
         <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
           <Carousel>
             <div>
-              <img className="imgpopup" src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
+              <img className={styles.imgpopup} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
             </div>
             <div>
-              <img className="imgpopup" src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
+              <img className={styles.imgpopup} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
             </div>
             <div>
-              <img className="imgpopup" src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
+              <img className={styles.imgpopup} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
             </div>
             <div>
-              <img className="imgpopup" src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
+              <img className={styles.imgpopup} src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" />
             </div>
           </Carousel>
           {/* <img className="imgpopup" src="https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319" alt="pic1" /> */}
@@ -175,11 +177,11 @@ function Post() {
           <TweetBox />
         </PopupPage>
 
-        <div className="postfooter">
-          <ChatBubbleIcon className="postblue" fontSize="small" onClick={() => setReplyPopUp(true)} />
-          <RepeatIcon className="postgreen" fontSize="small" aria-controls="retweet" onClick={handelOpenRetweet} />
-          <FavoriteBorderIcon className="postpink" fontSize="small" />
-          <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className="postblue " />
+        <div className={styles.postfooter}>
+          <ChatBubbleIcon className={styles.postblue} fontSize="small" onClick={() => setReplyPopUp(true)} />
+          <RepeatIcon className={styles.postgreen} fontSize="small" aria-controls="retweet" onClick={handelOpenRetweet} />
+          <FavoriteBorderIcon className={styles.postpink} fontSize="small" />
+          <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
         </div>
 
       </div>

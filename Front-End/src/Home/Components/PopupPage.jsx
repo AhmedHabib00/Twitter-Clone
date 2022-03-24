@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './PopupPage.css';
+import styles from './PopupPage.module.css';
 
 function PopupPage({ trigger, children, SetTrigger }) {
   let toClose = true;
@@ -16,8 +16,8 @@ function PopupPage({ trigger, children, SetTrigger }) {
     toClose = false;
   };
   return (trigger) ? (
-    <div role="button" tabIndex={0} className="popup-page" onClick={closePopup}>
-      <div role="button" tabIndex={0} className="popup-page-click-detect" onClick={childClick}>
+    <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
+      <div role="button" tabIndex={0} className={styles['popup-page-click-detect']} onClick={childClick}>
         {children}
       </div>
     </div>

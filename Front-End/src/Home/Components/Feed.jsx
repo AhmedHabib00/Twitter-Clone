@@ -1,13 +1,14 @@
 import React from 'react';
-import './Feed.css';
+import styles from './Feed.module.css';
 import Post from './Post';
 
 function Feed() {
   return (
-    <div className="feed">
+    <div className={styles.feed}>
       <Post />
       <Post />
       <Post />
+
     </div>
   );
 }

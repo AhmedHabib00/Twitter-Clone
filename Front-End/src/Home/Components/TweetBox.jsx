@@ -8,7 +8,7 @@ import ImageBox from './ImageBox';
 import PopupPage from './PopupPage';
 import SearchBar from './SearchBar';
 
-import './TweetBox.css';
+import styles from './TweetBox.module.css';
 
 function TweetBox() {
   const inputFile = createRef();
@@ -81,38 +81,38 @@ function TweetBox() {
   return (
     <div>
       <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen}>
-        <div className="inner-gif">
+        <div className={styles['inner-gif']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
-          <div className="popup-imgs-container">
+          <div className={styles['popup-imgs-container']}>
             {gifs.map((gif) => ((gifs.length === 0) ? '' : (
               <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>
-                <img className="popup-img" alt="" src={gif.images.original.url} />
+                <img className={styles['popup-img']} alt="" src={gif.images.original.url} />
               </div>
             )))}
           </div>
         </div>
       </PopupPage>
 
-      <div className="tweet-box">
-        <a href="#top" className="icon-button">
-          <AccountCircleIcon className="icon" />
+      <div className={styles['tweet-box']}>
+        <a href="#top" className={styles['icon-button']}>
+          <AccountCircleIcon className={styles.icon} />
         </a>
-        <div className="text-area">
+        <div className={styles['text-area']}>
           <div>
-            <textarea placeholder="What's Happening?" className="tweet-input" onInput={autoGrow} />
+            <textarea placeholder="What's Happening?" className={styles['tweet-input']} onInput={autoGrow} />
           </div>
           <ImageBox images={images} onDeleteImage={deleteImage} />
-          <div className="text-area-icons">
-            <div className="media-icons">
+          <div className={styles['text-area-icons']}>
+            <div className={styles['media-icons']}>
               <div role="button" tabIndex="0" onClick={onSelectFIle}>
-                <PhotoOutlinedIcon className="media-icon" />
+                <PhotoOutlinedIcon className={styles['media-icon']} />
                 <input type="file" id="file" multiple="multiple" accept=".jpg, .png" ref={inputFile} onChange={handleFileInput} style={{ display: 'none' }} />
               </div>
               <div role="button" tabIndex="0" onClick={onOpenGif}>
-                <GifBoxOutlinedIcon className="media-icon" />
+                <GifBoxOutlinedIcon className={styles['media-icon']} />
               </div>
             </div>
-            <button type="submit" className="tweet-icons-button">whisp</button>
+            <button type="submit" className={styles['tweet-icons-button']}>whisp</button>
           </div>
         </div>
       </div>

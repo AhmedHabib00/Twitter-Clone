@@ -1,13 +1,13 @@
 import React from 'react';
-import './ImagePopUp.css';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import styles from './ImagePopUp.module.css';
 
 function ImagePopUp({ trigger, setTrigger, children }) {
   return (trigger) ? (
-    <div className="popup">
-      <div className="popup-inner">
-        <CloseIcon className="close-btn" onClick={() => { setTrigger(false); }} />
+    <div className={styles.popup}>
+      <div className={styles['popup-inner']}>
+        <CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); }} />
         {children}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import './SearchBar.css';
+import styles from './SearchBar.module.css';
 
 function SearchBar({ placeHolder, searchValue }) {
   const updateGifs = () => {
@@ -9,9 +9,9 @@ function SearchBar({ placeHolder, searchValue }) {
     searchValue(value);
   };
   return (
-    <div className="searchbar">
-      <SearchOutlinedIcon className="searchbar-icon" />
-      <input type="search" placeholder={placeHolder} className="searchbar-input" onChange={updateGifs} />
+    <div className={styles.searchbar}>
+      <SearchOutlinedIcon className={styles['searchbar-icon']} />
+      <input type="search" placeholder={placeHolder} className={styles['searchbar-input']} onChange={updateGifs} />
     </div>
   );
 }

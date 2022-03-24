@@ -1,6 +1,6 @@
 import React from 'react';
 import Feed from './Components/Feed';
-import './Home.css';
+import './Home.module.css';
 import TweetBox from './Components/TweetBox';
 
 function Home() {

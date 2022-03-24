@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './ImageBox.css';
+import styles from './ImageBox.module.css';
 
 function ImageBox({ images, onDeleteImage }) {
   let imageWidth = 100;
@@ -9,10 +9,10 @@ function ImageBox({ images, onDeleteImage }) {
     imageWidth = 46;
   }
   return (
-    <div className="imagebox">
+    <div className={styles.imagebox}>
       {images.map((image) => (
         <div
-          className="image"
+          className={styles.image}
           key={image.id}
           style={{
             backgroundImage: `url(${image.imageUrl})`,
@@ -20,7 +20,7 @@ function ImageBox({ images, onDeleteImage }) {
             width: `${imageWidth}%`,
           }}
         >
-          <div className="delete-image" role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X</div>
+          <div className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X</div>
 
         </div>
       ))}
