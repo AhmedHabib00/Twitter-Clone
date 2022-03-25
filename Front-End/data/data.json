@@ -1,0 +1,45 @@
+{"posts":[
+    {
+        "id":1,
+        "displayname": "Noha",
+        "username": "Noha EL-Boghdady",
+        "content": "Hello this is my first trial to create json file and request it.",
+        "images": [
+            {"src": "https://www.beautycrew.com.au/media/31742/best-natural-beauty-products-p.jpg?width=490"},
+            {"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"}
+
+        ],
+        "likes":100
+    },
+    {
+        "id":2,
+        "displayname": "Ahmed ",
+        "username": "Ahmed Mohamed",
+        "content": "Hello this is my first trial to create json file and request it.",
+        "images": [
+            {"id":1,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"id":2,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"id":3,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"id":4,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"}
+
+        ],
+        "likes":200
+    },
+    {
+        "id":3,
+        "displayname": "Noha",
+        "username": "Noha EL-Boghdady",
+        "content": "Hello this is my first trial to create json file and request it.",
+        "images": [
+            {"id":1,"src": "https://www.beautycrew.com.au/media/31742/best-natural-beauty-products-p.jpg?width=490"},
+            {"id":2,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"id":3,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"},
+            {"id":4,"src": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"}
+
+        ],
+        "likes":300
+    }
+]
+}
