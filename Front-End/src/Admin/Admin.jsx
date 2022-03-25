@@ -1,7 +1,8 @@
 import React from 'react';
+import styles from './Admin.module.css';
 
 function Admin() {
-  return (<div className="admin">Admin page</div>);
+  return (<div className={styles.admin}>Admin page</div>);
 }
 
 export default Admin;
