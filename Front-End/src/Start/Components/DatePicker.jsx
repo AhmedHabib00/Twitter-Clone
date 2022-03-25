@@ -25,14 +25,14 @@ function DatePicker() {
             year={dateOfBirth.year} // mandatory
             required // default is false
             value={dateOfBirth.month} // mandatory
+            id="month"
+            name="birthMonth"
+            classes="menu"
+            optionClasses="option class"
             onChange={(month) => {
             // mandatory
               setDateOfBirth((date) => ({ ...date, month }));
             }}
-            id="month"
-            name="month"
-            classes="menu"
-            optionClasses="option class"
           />
         </div>
         <div className="day-container">
@@ -47,14 +47,14 @@ function DatePicker() {
             endYearGiven // mandatory if end={} is given in YearPicker
             required // default is false
             value={dateOfBirth.day} // mandatory
+            id="day"
+            name="birthDay"
+            classes="menu"
+            optionClasses="option classes"
             onChange={(day) => {
             // mandatory
               setDateOfBirth((date) => ({ ...date, day }));
             }}
-            id="day"
-            name="day"
-            classes="menu"
-            optionClasses="option classes"
           />
         </div>
         <div className="year-container">
@@ -69,14 +69,14 @@ function DatePicker() {
             reverse // default is ASCENDING
             required // default is false
             value={dateOfBirth.year} // mandatory
+            id="year"
+            name="birthYear"
+            classes="menu"
+            optionClasses="option classes"
             onChange={(year) => {
             // mandatory
               setDateOfBirth((date) => ({ ...date, year }));
             }}
-            id="year"
-            name="year"
-            classes="menu"
-            optionClasses="option classes"
           />
         </div>
       </div>
