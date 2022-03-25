@@ -1,13 +1,13 @@
 import React from 'react';
 import Feed from './Components/Feed';
-import './Home.module.css';
+import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
 import Data from './Components/PostData.json';
 
 function Home() {
   return (
-    <div className="home">
-      <div className="home-header">
+    <div className={styles.home}>
+      <div className={styles['home-header']}>
         <h2>Home</h2>
       </div>
       <TweetBox className="home-tweetbox" />
@@ -16,4 +16,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
