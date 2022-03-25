@@ -27,20 +27,23 @@ function Foundation() {
       <div className="foundation">
         <div>
           <Navbar onTwIconClick={onNavItemClick}>
-            {pages.map((page) => (
-              <Link
-                to={`/${page.name}`}
-                key={page.name}
-                onClick={() => onNavItemClick(page.name)}
-                className="foundation-a-tag"
-              >
-                <div className="nav-item-bold" id={page.name}>
-                  <NavItem title={page.name}>
-                    {page.icon}
-                  </NavItem>
-                </div>
-              </Link>
-            ))}
+            <div>
+              {pages.map((page) => (
+                <Link
+                  to={`/${page.name}`}
+                  key={page.name}
+                  onClick={() => onNavItemClick(page.name)}
+                  className="foundation-a-tag"
+                >
+                  <div className="nav-item-bold" id={page.name}>
+                    <NavItem title={page.name}>
+                      {page.icon}
+                    </NavItem>
+                  </div>
+                </Link>
+              ))}
+
+            </div>
           </Navbar>
         </div>
         <div className="outlet">

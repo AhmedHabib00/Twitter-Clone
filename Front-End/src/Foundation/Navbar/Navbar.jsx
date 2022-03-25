@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import './Navbar.css';
 import PropTypes from 'prop-types';
@@ -15,14 +13,16 @@ function Navbar({ children, onTwIconClick }) {
         <TwitterIcon className="tw-icon" />
 
       </Link>
-      {children.map((child) => child)}
+      {children}
       <button type="button" className="tweet-button whisp-button-text">Whisp</button>
-      <button type="button" className="tweet-button whisp-button-icon"><HistoryEduIcon className="feather-icon" /></button>
+      <button type="button" aria-label="save" className="tweet-button whisp-button-icon">
+        <HistoryEduIcon className="feather-icon" />
+      </button>
     </div>
   );
 }
 Navbar.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.element.isRequired,
   onTwIconClick: PropTypes.func.isRequired,
 };
 export default Navbar;

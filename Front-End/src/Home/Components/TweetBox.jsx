@@ -1,9 +1,9 @@
 import React, { createRef, useState } from 'react';
+import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 
-import request from 'superagent';
 import ImageBox from './ImageBox';
 import PopupPage from './PopupPage';
 import SearchBar from './SearchBar';
@@ -21,9 +21,11 @@ function TweetBox() {
     let url;
     if (value === '') {
       url = 'http://api.giphy.com/v1/gifs/trending?api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF';
-    } else { url = `http://api.giphy.com/v1/gifs/search?q=${value}&api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`; }
-    request.get(url, (err, res) => {
-      setGifs(res.body.data);
+    } else {
+      url = `http://api.giphy.com/v1/gifs/search?q=${value}&api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`;
+    }
+    axios.get(url).then((res) => {
+      setGifs(res.data.data);
     });
   };
   const deleteImage = (id) => {

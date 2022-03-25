@@ -5,7 +5,7 @@ import styles from './SearchBar.module.css';
 
 function SearchBar({ placeHolder, searchValue }) {
   const updateGifs = () => {
-    const { value } = document.getElementsByClassName('searchbar-input')[0];
+    const { value } = document.getElementsByClassName(styles['searchbar-input'])[0];
     searchValue(value);
   };
   return (
