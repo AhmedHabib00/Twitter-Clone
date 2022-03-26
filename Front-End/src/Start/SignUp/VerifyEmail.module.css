@@ -3,11 +3,17 @@
   justify-content: center;
 }
 
-.password-logo {
+.body {
+  margin-left: 1%;
+  overflow-y: scroll;
+  height: 320px;
+}
+
+.code-logo {
   color: #1d9bf0;
 
   /* padding-top: 10px; */
-  padding-left: 50%;
+  padding-left: 40%;
   padding-right: 50%;
 }
 
@@ -44,28 +50,27 @@
   margin-left: 5%;
 }
 
-.password-form {
+.code-form {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.password-form label {
-  margin-bottom: 40%;
+.code-form label {
   color: rgb(118 118 118);
   position: relative;
   display: flex;
 }
 
-.password-form p {
+.code-form p {
   margin-right: 15px;
 }
 
-.password-form input input::placeholder {
+.code-form input input::placeholder {
   color: transparent;
 }
 
-.password-form span {
+.code-form span {
   position: absolute;
   bottom: 60px;
   left: 38px;
@@ -74,7 +79,7 @@
   font-size: 17px;
 }
 
-.password-form input {
+.code-form input {
   width: 85%;
   padding: 10px;
   margin-top: 20px;
@@ -93,7 +98,7 @@ input:not(:placeholder-shown) + span {
   font-size: 0.825em;
 }
 
-.password-adornment {
+.code-adornment {
   margin-top: 50px !important;
   right: 10% !important;
   position: absolute;
@@ -129,7 +134,7 @@ input:not(:placeholder-shown) + span {
   line-height: 20px !important;
 
   /* min-width: 36px !important;
-    min-height: 36px !important; */
+      min-height: 36px !important; */
   width: 90% !important;
 }
 
@@ -142,26 +147,45 @@ input:not(:placeholder-shown) + span {
     margin-top: 5% !important;
     padding: 0 !important;
   }
+
+  .body {
+    height: 300px;
+    margin-right: 5%;
+  }
 }
 
 @media screen and (max-width: 768px) {
-  .password-form label {
-    margin-bottom: 30%;
+  .body {
+    height: 270px;
   }
 }
 
 @media screen and (max-width: 425px) {
-  .password-form input {
+  .code-form input {
     margin-left: 15px;
   }
 
   .signup-button {
     margin-right: 25px !important;
   }
+
+  .body {
+    height: 320px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .body {
+    height: 370px;
+  }
 }
 
 @media screen and (max-width: 320px) {
   .signup-button-container {
     margin-top: 20%;
+  }
+
+  .body {
+    height: auto;
   }
 }

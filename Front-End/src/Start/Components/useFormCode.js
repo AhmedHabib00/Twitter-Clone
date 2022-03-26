@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import validateInfo from './validateInfo';
+import validateCode from './validateCode';
 
-const useForm = (date, setStepOne, setStepVerify) => {
+const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
   const [values, setValues] = useState({
-    name: '',
+    code: '',
     email: '',
-    birthdate: '',
   });
   const [errors, setErrors] = useState({});
   const handleChange = (e) => {
@@ -13,15 +12,15 @@ const useForm = (date, setStepOne, setStepVerify) => {
     setValues({
       ...values,
       [name]: value,
-      birthdate: date,
+      email: userEmail,
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateInfo(values));
-    if (Object.keys(errors).length === 0) {
-      setStepOne(false);
-      setStepVerify(true);
+    setErrors(validateCode(values));
+    if (Object.keys(validateCode(values)).length === 0) {
+      setStepVerify(false);
+      setStepPassword(true);
     }
   };
 
@@ -30,4 +29,4 @@ const useForm = (date, setStepOne, setStepVerify) => {
   };
 };
 
-export default useForm;
+export default useFormCode;

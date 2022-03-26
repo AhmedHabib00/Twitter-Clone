@@ -1,8 +1,22 @@
 import { React, useState } from 'react';
 import './DatePicker.css';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
+import PropTypes from 'prop-types';
 
-function DatePicker() {
+const formatDate = (date) => {
+  // formats a JS date to 'yyyy-mm-dd'
+  const d = new Date(date.year, date.month, date.day);
+  let month = `${d.getMonth() + 1}`;
+  let day = `${d.getDate()}`;
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = `0${month}`;
+  if (day.length < 2) day = `0${day}`;
+
+  return [year, month, day].join('-');
+};
+
+function DatePicker({ setDate }) {
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
@@ -11,6 +25,8 @@ function DatePicker() {
   const today = new Date();
   const endYear = today.getFullYear();
   const startYear = endYear - 120;
+  const newDate = formatDate(dateOfBirth);
+  setDate(newDate);
   return (
     <div>
       <div className="date">
@@ -85,3 +101,7 @@ function DatePicker() {
 }
 
 export default DatePicker;
+
+DatePicker.propTypes = {
+  setDate: PropTypes.func.isRequired,
+};

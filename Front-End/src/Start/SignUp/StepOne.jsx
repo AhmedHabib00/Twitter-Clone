@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -7,12 +7,16 @@ import Button from '@mui/material/Button';
 import DatePicker from '../Components/DatePicker';
 import styles from './StepOne.module.css';
 import useForm from '../Components/useForm';
-// import validateInfo from '../Components/validateInfo';
 
-function StepOne({ handleCloseSignup }) {
+function StepOne({
+  handleCloseSignup, setEmail, setStepOne,
+  setStepVerify,
+}) {
+  const [date, setDate] = useState();
   const {
     handleChange, values, handleSubmit, errors,
-  } = useForm();
+  } = useForm(date, setStepOne, setStepVerify);
+  setEmail(values.email);
   return (
     <div>
       <div className={styles.header}>
@@ -66,7 +70,7 @@ function StepOne({ handleCloseSignup }) {
               This will not be shown publicly. Confirm your own age,
               even if this account is for a business, a pet, or something else.
             </p>
-            <DatePicker />
+            <DatePicker setDate={setDate} />
           </div>
         </div>
         <div className={styles['next-button-container']}>
@@ -87,4 +91,8 @@ function StepOne({ handleCloseSignup }) {
 export default StepOne;
 StepOne.propTypes = {
   handleCloseSignup: PropTypes.func.isRequired,
+  setEmail: PropTypes.func.isRequired,
+  setStepOne: PropTypes.func.isRequired,
+  setStepVerify: PropTypes.func.isRequired,
+
 };

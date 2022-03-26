@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import validateInfo from './validateInfo';
+// import { useNavigate } from 'react-router-dom';
+import validateUsername from './validateUsername';
 
-const useForm = (date, setStepOne, setStepVerify) => {
+const useFormUserName = (userEmail) => {
   const [values, setValues] = useState({
-    name: '',
+    username: '',
     email: '',
-    birthdate: '',
   });
   const [errors, setErrors] = useState({});
   const handleChange = (e) => {
@@ -13,15 +13,14 @@ const useForm = (date, setStepOne, setStepVerify) => {
     setValues({
       ...values,
       [name]: value,
-      birthdate: date,
+      email: userEmail,
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors(validateInfo(values));
-    if (Object.keys(errors).length === 0) {
-      setStepOne(false);
-      setStepVerify(true);
+    setErrors(validateUsername(values));
+    if (Object.keys(validateUsername(values)).length === 0) {
+      // route to the home page
     }
   };
 
@@ -30,4 +29,4 @@ const useForm = (date, setStepOne, setStepVerify) => {
   };
 };
 
-export default useForm;
+export default useFormUserName;
