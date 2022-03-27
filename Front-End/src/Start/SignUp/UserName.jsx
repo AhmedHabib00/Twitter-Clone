@@ -13,10 +13,10 @@ function UserName({ email }) {
     <div>
       <div className={styles.header}>
         <div className={styles['username-logo']}>
-          <TwitterIcon className={styles['signup-icon-size']} />
+          <TwitterIcon className="start-modals-icon-size" />
         </div>
       </div>
-      <div className={styles['title-container']}>
+      <div className="start-modals-title-container">
         <h1 className={styles.title}>What should we call you?</h1>
         <p className={styles.subtitle}>
           Your @username is unique. You can always change it later.
@@ -26,9 +26,10 @@ function UserName({ email }) {
         className={styles['username-form']}
         onSubmit={handleSubmit}
       >
-        <div className={styles.body}>
+        <div className="start-modals-body">
           <label htmlFor="username">
             <input
+              className="start-modals-form-input"
               type="text"
               id="username"
               name="username"
@@ -38,12 +39,13 @@ function UserName({ email }) {
             />
             <span>Username</span>
           </label>
-          {errors.username && <p>{errors.username}</p>}
+          {errors.username
+           && <p className="start-modals-form-errors">{errors.username}</p>}
         </div>
-        <div className={styles['signup-button-container']}>
+        <div className="start-modals-button-container">
           <Button
             variant="outlined"
-            className={styles['signup-button']}
+            className="start-modals-button"
             type="submit"
           >
             Next

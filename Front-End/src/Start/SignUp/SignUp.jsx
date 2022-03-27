@@ -23,7 +23,7 @@ function SignUp({ closeSignup }) {
   };
   return (
     <div className={styles['signup-background']}>
-      <div className={styles['signup-container']}>
+      <div className="start-modals-container">
         {stepOne && (
         <StepOne
           handleCloseSignup={handleCloseSignup}

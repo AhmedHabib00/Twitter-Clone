@@ -1,15 +1,7 @@
-.header {
-  display: flex;
-}
-
 .signup-icon {
   color: #1d9bf0;
   padding-left: 40%;
   padding-right: 50%;
-}
-
-.signup-icon-size {
-  font-size: 40px !important;
 }
 
 .body {
@@ -49,12 +41,8 @@
   position: relative;
 }
 
-.signup-form p {
+.signup-form-text {
   margin-right: 15px;
-}
-
-.signup-form input input::placeholder {
-  color: transparent;
 }
 
 .signup-form span {
@@ -64,18 +52,6 @@
   transform: translateY(40px);
   transition-duration: 300ms;
   font-size: 17px;
-}
-
-.signup-form input {
-  width: 85%;
-  padding: 10px;
-  margin-top: 20px;
-  margin-left: 25px;
-  height: 35px;
-  outline-color: #1d9bf0;
-  border-color: rgb(207 217 222 / 70%);
-  border-width: 1px;
-  border-radius: 5px;
 }
 
 label:focus-within > span,
@@ -103,90 +79,4 @@ input:not(:placeholder-shown) + span {
 .date-container p {
   color: rgb(83 100 113);
   margin-top: -10px;
-}
-
-.next-button-container {
-  height: 60px;
-  display: flex;
-  justify-content: center;
-}
-
-.next-button {
-  background-color: rgb(15 20 25) !important;
-  border: none !important;
-  color: white !important;
-  font-weight: 700 !important;
-  font-size: 15px !important;
-  text-transform: inherit !important;
-  border-radius: 30px !important;
-  height: 50px !important;
-  padding-top: 1% !important;
-  margin-bottom: 10% !important;
-  margin-top: 5% !important;
-  font-family:
-    TwitterChirp,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif !important;
-  line-height: 20px !important;
-
-  /* min-width: 36px !important;
-  min-height: 36px !important; */
-  width: 90% !important;
-}
-
-.next-button:hover {
-  background-color: rgb(53 53 53) !important;
-}
-
-@media screen and (max-width: 768px) {
-  .body {
-    height: 270px;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .body {
-    height: 300px;
-    margin-right: 5%;
-  }
-
-  .next-button {
-    margin-top: 5% !important;
-    padding: 0 !important;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .signup-form input {
-    margin-left: 15px;
-  }
-
-  .body {
-    height: 320px;
-  }
-
-  .next-button {
-    margin-right: 25px !important;
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .body {
-    height: 370px;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .body {
-    height: auto;
-  }
-
-  .next-button-container {
-    margin-top: 20%;
-  }
 }

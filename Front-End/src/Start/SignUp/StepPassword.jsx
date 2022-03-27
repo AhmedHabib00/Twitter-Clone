@@ -27,10 +27,10 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
     <div>
       <div className={styles.header}>
         <div className={styles['password-logo']}>
-          <TwitterIcon className={styles['signup-icon-size']} />
+          <TwitterIcon className="start-modals-icon-size" />
         </div>
       </div>
-      <div className={styles['title-container']}>
+      <div className="start-modals-title-container">
         <h1 className={styles.title}> You&apos;ll need a pssword</h1>
         <p className={styles.subtitle}>Make sure it&apos;s 8 characters or more.</p>
       </div>
@@ -38,9 +38,10 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
         className={styles['password-form']}
         onSubmit={handleSubmit}
       >
-        <div className={styles.body}>
+        <div className="start-modals-body">
           <label htmlFor="password">
             <input
+              className="start-modals-form-input"
               type={fieldvalues.showPassword ? 'text' : 'password'}
               id="password"
               name="password"
@@ -61,12 +62,13 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
             </div>
 
           </label>
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password
+           && <p className="start-modals-form-errors">{errors.password}</p>}
         </div>
-        <div className={styles['signup-button-container']}>
+        <div className="start-modals-button-container">
           <Button
             variant="outlined"
-            className={styles['signup-button']}
+            className="start-modals-button"
             type="submit"
           >
             Sign Up

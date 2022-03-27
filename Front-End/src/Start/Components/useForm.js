@@ -19,7 +19,7 @@ const useForm = (date, setStepOne, setStepVerify) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(validateInfo(values));
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(validateInfo(values)).length === 0) {
       setStepOne(false);
       setStepVerify(true);
     }

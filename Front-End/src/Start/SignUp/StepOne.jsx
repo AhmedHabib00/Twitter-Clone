@@ -19,7 +19,7 @@ function StepOne({
   setEmail(values.email);
   return (
     <div>
-      <div className={styles.header}>
+      <div className="start-modals-header">
         <div className={styles['close-signup']}>
           <IconButton onClick={() => {
             handleCloseSignup(false);
@@ -30,7 +30,7 @@ function StepOne({
           </IconButton>
         </div>
         <div className={styles['signup-icon']}>
-          <TwitterIcon className={styles['signup-icon-size']} />
+          <TwitterIcon className="start-modals-icon-size" />
         </div>
       </div>
       <h1 className={styles.title}>Create your account</h1>
@@ -39,8 +39,9 @@ function StepOne({
         onSubmit={handleSubmit}
       >
         <div className={styles.body}>
-          <label htmlFor="name">
+          <label className="start-modals-form-label" htmlFor="name">
             <input
+              className="start-modals-form-input"
               type="text"
               id="name"
               name="name"
@@ -51,9 +52,11 @@ function StepOne({
             />
             <span>Name</span>
           </label>
-          {errors.name && <p>{errors.name}</p>}
-          <label htmlFor="email">
+          {errors.name
+           && <p className="start-modals-form-errors">{errors.name}</p>}
+          <label className="start-modals-form-label" htmlFor="email">
             <input
+              className="start-modals-form-input"
               type="email"
               id="email"
               name="email"
@@ -62,21 +65,22 @@ function StepOne({
               onChange={handleChange}
             />
             <span>Email</span>
-            {errors.email && <p>{errors.email}</p>}
+            {errors.email
+             && <p className="start-modals-form-errors">{errors.email}</p>}
           </label>
           <div className={styles['date-container']}>
             <h3>Date of birth</h3>
-            <p>
+            <p className={styles['signup-form-text']}>
               This will not be shown publicly. Confirm your own age,
               even if this account is for a business, a pet, or something else.
             </p>
             <DatePicker setDate={setDate} />
           </div>
         </div>
-        <div className={styles['next-button-container']}>
+        <div className="start-modals-button-container">
           <Button
             variant="outlined"
-            className={styles['next-button']}
+            className="start-modals-button"
             type="submit"
           >
             Next

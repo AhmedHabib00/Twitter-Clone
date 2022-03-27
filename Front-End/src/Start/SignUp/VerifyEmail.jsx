@@ -15,17 +15,17 @@ function VerifyEmail({
   } = useFormCode(setStepPassword, setStepVerify, email);
   return (
     <div>
-      <div className={styles.header}>
+      <div className="start-modals-header">
         <div className={styles['close-signup']}>
           <IconButton onClick={handleGoToStepOne}>
             <ArrowBackIcon />
           </IconButton>
         </div>
         <div className={styles['code-logo']}>
-          <TwitterIcon className={styles['signup-icon-size']} />
+          <TwitterIcon className="start-modals-icon-size" />
         </div>
       </div>
-      <div className={styles['title-container']}>
+      <div className="start-modals-title-container">
         <h1 className={styles.title}> We sent you a code</h1>
         <p className={styles.subtitle}>
           Enter it below to verify
@@ -37,9 +37,10 @@ function VerifyEmail({
         className={styles['code-form']}
         onSubmit={handleSubmit}
       >
-        <div className={styles.body}>
+        <div className="start-modals-body">
           <label htmlFor="verificationCode">
             <input
+              className="start-modals-form-input"
               type="text"
               id="verificationCode"
               name="code"
@@ -49,12 +50,13 @@ function VerifyEmail({
             />
             <span>Verification Code</span>
           </label>
-          {errors.code && <p>{errors.code}</p>}
+          {errors.code
+           && <p className="start-modals-form-errors">{errors.code}</p>}
         </div>
-        <div className={styles['signup-button-container']}>
+        <div className="start-modals-button-container">
           <Button
             variant="outlined"
-            className={styles['signup-button']}
+            className="start-modals-button"
             type="submit"
           >
             Next

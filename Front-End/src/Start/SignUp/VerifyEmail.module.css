@@ -1,24 +1,9 @@
-.header {
-  display: flex;
-  justify-content: center;
-}
-
-.body {
-  margin-left: 1%;
-  overflow-y: scroll;
-  height: 320px;
-}
-
 .code-logo {
   color: #1d9bf0;
 
   /* padding-top: 10px; */
   padding-left: 40%;
   padding-right: 50%;
-}
-
-.signup-icon-size {
-  font-size: 40px !important;
 }
 
 .title {
@@ -44,12 +29,6 @@
   margin-top: -5px;
 }
 
-.title-container {
-  display: flex;
-  flex-direction: column;
-  margin-left: 5%;
-}
-
 .code-form {
   display: flex;
   flex-direction: column;
@@ -62,14 +41,6 @@
   display: flex;
 }
 
-.code-form p {
-  margin-right: 15px;
-}
-
-.code-form input input::placeholder {
-  color: transparent;
-}
-
 .code-form span {
   position: absolute;
   bottom: 60px;
@@ -79,67 +50,11 @@
   font-size: 17px;
 }
 
-.code-form input {
-  width: 85%;
-  padding: 10px;
-  margin-top: 20px;
-  margin-left: 25px;
-  height: 35px;
-  outline-color: #1d9bf0;
-  border-color: rgb(207 217 222 / 70%);
-  border-width: 1px;
-  border-radius: 5px;
-}
-
 label:focus-within > span,
 input:not(:placeholder-shown) + span {
   color: #1d9bf0;
   transform: translateY(20px);
   font-size: 0.825em;
-}
-
-.code-adornment {
-  margin-top: 50px !important;
-  right: 10% !important;
-  position: absolute;
-}
-
-.signup-button-container {
-  height: 60px;
-  display: flex;
-  justify-content: center;
-}
-
-.signup-button {
-  background-color: rgb(15 20 25) !important;
-  border: none !important;
-  color: white !important;
-  font-weight: 700 !important;
-  font-size: 15px !important;
-  text-transform: inherit !important;
-  border-radius: 30px !important;
-  height: 50px !important;
-  padding-top: 1% !important;
-  margin-bottom: 10% !important;
-  margin-top: 5% !important;
-  font-family:
-    TwitterChirp,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif !important;
-  line-height: 20px !important;
-
-  /* min-width: 36px !important;
-      min-height: 36px !important; */
-  width: 90% !important;
-}
-
-.signup-button:hover {
-  background-color: rgb(53 53 53) !important;
 }
 
 @media screen and (max-width: 700px) {
@@ -171,21 +86,5 @@ input:not(:placeholder-shown) + span {
 
   .body {
     height: 320px;
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .body {
-    height: 370px;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .signup-button-container {
-    margin-top: 20%;
-  }
-
-  .body {
-    height: auto;
   }
 }
