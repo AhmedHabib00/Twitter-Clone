@@ -1,63 +1,86 @@
-import React from 'react';
-import './Start.css';
+import { React, useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
+import styles from './Start.module.css';
+import SignUp from './SignUp/SignUp';
 
 function Start() {
+  const [signup, setSignup] = useState(false);
+
   return (
-    <div className="container">
-      <div className="right-column-container">
-        <div className="right-group">
-          <TwitterIcon className="right-logo" />
-          <h1>Happening now</h1>
-          <h2>Join Whisper today.</h2>
-          <div className="buttons-group">
-            <Button
-              variant="outlined"
-              className="signup-tweet-google"
-            >
-              <img
-                className="google-logo"
-                src="https://img.icons8.com/color/48/000000/google-logo.png"
-                alt="google logo"
-              />
-              Sign up with Google
-            </Button>
-            <Button
-              variant="outlined"
-              className="signup-tweet"
-            >
-              Sign up with email
-            </Button>
-            <p>
-              By signing up, you agree to the
-              {' '}
-              <span>Terms of Service</span>
-              {' '}
-              and
-              {' '}
-              <span>Privacy Policy</span>
-              ,
-              including
-              {' '}
-              <span>Cookie Use</span>
-              .
-            </p>
-            <h3>Already have an acount?</h3>
-            <Button
-              variant="outlined"
-              className="sign-in"
-            >
-              Sign in
-            </Button>
+    <div>
+      <div className={styles.container}>
+        <div className={styles['right-column-container']}>
+          <div className={styles['right-group']}>
+            <TwitterIcon className={styles['right-logo']} />
+            <h1>Happening now</h1>
+            <h2>Join Whisper today.</h2>
+            <div className={styles['buttons-group']}>
+              <Button
+                variant="outlined"
+                className={styles['signup-tweet-google']}
+              >
+                <img
+                  className={styles['google-logo']}
+                  src="https://img.icons8.com/color/48/000000/google-logo.png"
+                  alt="google logo"
+                />
+                Sign up with Google
+              </Button>
+              <Button
+                variant="outlined"
+                className={styles['signup-tweet-google']}
+              >
+                <img
+                  className={styles['google-logo']}
+                  src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
+                  alt="google logo"
+                />
+                Sign up with Facebook
+              </Button>
+              <Button
+                variant="outlined"
+                className={styles['signup-tweet']}
+                onClick={() => {
+                  setSignup(true);
+                  document.body.scrollTop = 0;
+                  document.documentElement.scrollTop = 0;
+                  document.body.style.overflow = 'hidden';
+                }}
+              >
+                Sign up with email
+              </Button>
+              <p>
+                By signing up, you agree to the
+                {' '}
+                <span>Terms of Service</span>
+                {' '}
+                and
+                {' '}
+                <span>Privacy Policy</span>
+                ,
+                including
+                {' '}
+                <span>Cookie Use</span>
+                .
+              </p>
+              <h3>Already have an acount?</h3>
+              <Button
+                variant="outlined"
+                className={styles['sign-in']}
+              >
+                Sign in
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className={styles['left-column-container']}>
+          <div className={styles.logo}>
+            <TwitterIcon className={styles['logo-size']} />
           </div>
         </div>
       </div>
-      <div className="left-column-container">
-        <div className="logo">
-          <TwitterIcon className="logo-size" />
-        </div>
-      </div>
+      {signup && <SignUp closeSignup={setSignup} />}
     </div>
   );
 }
