@@ -9,11 +9,23 @@ const { redirect } = require("express/lib/response");
 const app=express();
 app.use(bodyParser.urlencoded({extended: false}));
 
+
 const multer=require('multer')
 
-  const upload=multer({
-    dest:'uploads/'
+const filestorageEngine=multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null,"./uploads")
+    },
+    filename:(req,file,cb) => {
+    cb (null,Date.now()+"-"+file.originalname);
+    }
 });
+
+objectMulter={
+    storage: filestorageEngine
+}
+
+const upload=multer(objectMulter).array('im',4);
 
 
 
@@ -33,9 +45,17 @@ const multer=require('multer')
 
 
 
-router.post("/",upload.array('im'), function(req,res){
+router.post("/", function(req,res){
 
-    console.log("awel 7aga")
+    upload(req,res,function(err){
+    if(err){
+            console.log("here")
+            res.sendStatus(400);
+            
+        }
+    
+    else
+    {console.log("awel 7aga")
 
     let token = req.headers["authorization"]
     token = token.split(" ")[1];
@@ -94,7 +114,9 @@ router.post("/",upload.array('im'), function(req,res){
          console.log("hiooooo")
          res.sendStatus(400);
      }
+    }
  });
+});
  
  
  //Deleting a tweet:
@@ -105,6 +127,16 @@ router.post("/",upload.array('im'), function(req,res){
             res.sendStatus(400);
      })
  })
+
+//  router.get("/LikesCount/:id",function(req,res){
+//      tweetTuple=tweet.findById(req.params.id)
+     
+//      .then(() => res.sendStatus(202))
+//      .catch(function(error){
+//             res.sendStatus(400);
+//      })
+
+//  })
 
 
 
