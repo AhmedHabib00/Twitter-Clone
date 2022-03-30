@@ -22,8 +22,20 @@ import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
-// import Data from './PostData.json';
 
+/**
+ *
+ * @param {Number} id     Post Id
+ * @param {String} displayname      User posted display name (user first name).
+ * @param {String} username     User posted user name (user full name).
+ * @param {String} content      Posted text.
+ * @param {String} img1     uploaded image-1 url.
+ * @param {String} img2     uploaded image-2 url.
+ * @param {String} img3     uploaded image-3 url.
+ * @param {String} img4     uploaded image-4 url.
+ *
+ * @returns div element containing the whole whispered tweet
+ */
 function Post({
   id, displayname, username, content, img1, img2, img3, img4,
 }) {
@@ -32,8 +44,13 @@ function Post({
   const [replyPopUp, setReplyPopUp] = useState(false);
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const localurl = 'http://localhost:800/posts?id=1';
+  const [shareEl, setShareEl] = useState(null);
+  const [retweetEl, setRetweetEl] = useState(null);
+  const localurl = 'http://localhost:8000/posts?id=1';
 
+  /**
+   *@returns get the number of the post likes.
+   */
   const handellikes = () => {
     axios.get(localurl)
       .then((resp) => {
@@ -43,46 +60,23 @@ function Post({
         whole.likesNo = resp.data.map((post) => ({
           likesNo: post.likes,
         }));
-        console.log(resp.data);
-        console.log(whole.likesNo);
-        // setLike(!like);
+        // console.log(resp.data);
+        console.log(whole.likesNo[0]);
+        let likecounts = likeCount;
         if (!like) {
-          let likecounts = likeCount;
+          // let likecounts = likeCount;
           likecounts += 1;
           setLikeCount(likecounts);
         } else {
-          let likecounts = likeCount;
+          // let likecounts = likeCount;
           likecounts -= 1;
           setLikeCount(likecounts);
         }
-        // setLikeCount(likeCount);
-        // setLikeCount(whole.likesNo);
       }).catch((error) => {
         console.log(error);
       });
-    // axios.get(localurl).then((res) => {
-    //   const whole = {};
-    //   whole.total = res.data;
-    //   whole.total = res.data.map((post) => ({
-
-    //     likesNo: post.likes,
-    //   }));
-
-    //   console.log(like);
-    //   setLike(!like);
-    //   console.log(like);
-    //   setLikeCount(whole.likesNo[0]);
-    //   console.log(whole.likesNo[0]);
-    // });
   };
 
-  // const handelLikes = () => {
-  //   axios.get('http://localhost:8000/posts')
-  //     .then((res) => {
-  //       console.log(res);
-  //       console.log(res.data);
-  //     });
-  // };
   const handelOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -90,7 +84,6 @@ function Post({
     setAnchorEl(null);
   };
 
-  const [shareEl, setShareEl] = useState(null);
   const handelOpenShare = (e) => {
     setShareEl(e.currentTarget);
   };
@@ -98,7 +91,6 @@ function Post({
     setShareEl(null);
   };
 
-  const [retweetEl, setRetweetEl] = useState(null);
   const handelOpenRetweet = (e) => {
     setRetweetEl(e.currentTarget);
   };
@@ -107,7 +99,7 @@ function Post({
   };
 
   return (
-    <div className={styles.post}>
+    <div data-testid="post-render-test" className={styles.post}>
       {/* {
          Data && Data.map((post) => ( */}
       <div className={styles.postbody} key={id}>
@@ -116,7 +108,7 @@ function Post({
           <div className={styles.postheadertext}>
 
             <h3>
-              <div className={styles.postavatar}>
+              <div data-testid="post-avatar-render-test" className={styles.postavatar}>
 
                 <AccountCircleIcon />
 
@@ -131,7 +123,7 @@ function Post({
                 </span>
                 <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={[styles.postblue, styles.posthoricon]} />
 
-                <Menu className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
+                <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
                   <MenuList className={styles['dropdown-content ']}>
                     {'    '}
                     <PlaylistAddSharpIcon className={styles['dropdown-content']} />
@@ -206,11 +198,11 @@ function Post({
             </h3>
           </div>
 
-          <div className={styles.postheaderdescription}>
+          <div data-testid="content-render-test" className={styles.postheaderdescription}>
             <p>{content}</p>
           </div>
         </div>
-        <div>
+        <div data-testid="images-render-test">
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img1} alt="pic1" /></a>
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img2} alt="pic1" /></a>
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img3} alt="pic1" /></a>
@@ -263,7 +255,7 @@ function Post({
           <TweetBox />
         </PopupPage>
 
-        <div className={styles.postfooter}>
+        <div data-testid="footer-render-test" className={styles.postfooter}>
           <ChatBubbleIcon
             className={styles.postblue}
             fontSize="small"
@@ -302,10 +294,6 @@ Post.propTypes = {
   img2: PropTypes.string.isRequired,
   img3: PropTypes.string.isRequired,
   img4: PropTypes.string.isRequired,
-  // images: PropTypes.arrayOf(PropTypes.shape({
-  //   id: PropTypes.number.isRequired, src: PropTypes.string.isRequired,
-  // })).isRequired,
-
 };
 
 export default Post;

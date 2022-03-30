@@ -3,9 +3,16 @@ import PropTypes from 'prop-types';
 import styles from './Feed.module.css';
 import Post from './Post';
 
+/**
+ *
+ * @param {array} data array containing our posts.
+ *
+ * @returns map through the post array data and starts passing the post props
+ * to display the posts in the feed component.
+ */
 function Feed({ data }) {
   return (
-    <div className={styles.feed}>
+    <div data-testid="feed-render-test" className={styles.feed}>
 
       {
         data && data.map((post) => (
