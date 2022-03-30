@@ -15,7 +15,7 @@ function ImageBox({ images, onDeleteImage }) {
     imageWidth = 46;
   }
   return (
-    <div className={styles.imagebox}>
+    <div data-testid="image" className={styles.imagebox}>
       {images.map((image) => (
         <div
           className={styles.image}
