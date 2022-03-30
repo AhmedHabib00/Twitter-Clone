@@ -1,14 +1,18 @@
 import { React, useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
-import getPages from './Navbar/NavItems';
-import './Foundation.css';
-import './Navbar/Navbar.css';
+import getUserPages from '../Home/NavItems';
 import SearchBar from '../Home/Components/SearchBar';
 
+import styles from './Foundation.module.css';
+import './Navbar/Navbar.css';
+
 function Foundation() {
-  const pages = getPages();
+  const pages = getUserPages();
   const [openedPage, setOpenedPage] = useState('Home');
   useEffect(() => {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
@@ -23,10 +27,10 @@ function Foundation() {
     setOpenedPage(id);
   };
   return (
-    <div className="found-margins">
-      <div className="foundation">
+    <div className={styles['found-margins']}>
+      <div className={styles.foundation}>
         <div>
-          <Navbar onTwIconClick={onNavItemClick}>
+          <Navbar onTwIconClick={onNavItemClick} route="Home">
             <div>
               {pages.map((page) => (
                 <Link
@@ -35,22 +39,25 @@ function Foundation() {
                   onClick={() => onNavItemClick(page.name)}
                   className="foundation-a-tag"
                 >
-                  <div className="nav-item-bold" id={page.name}>
+                  <div id={page.name}>
                     <NavItem title={page.name}>
                       {page.icon}
                     </NavItem>
                   </div>
                 </Link>
               ))}
-
+              <button type="button" className="tweet-button whisp-button-text">Whisp</button>
+              <button type="button" aria-label="save" className="tweet-button whisp-button-icon">
+                <HistoryEduIcon className="feather-icon" />
+              </button>
             </div>
           </Navbar>
         </div>
-        <div className="outlet">
+        <div className={styles.outlet}>
           <Outlet />
         </div>
 
-        <div className="foundation-widget">
+        <div className={styles['foundation-widget']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
         </div>
 

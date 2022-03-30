@@ -80,6 +80,14 @@ function TweetBox() {
     document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     setIsGifOpen(!isGifOpen);
   };
+
+  const handleSendData = () => {
+    const { value } = document.getElementById('twbox-text-area');
+    console.log(value);
+    document.getElementById('twbox-text-area').value = '';
+    setImages([]);
+    setImageCount(1);
+  };
   return (
     <div>
       <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen}>
@@ -101,7 +109,7 @@ function TweetBox() {
         </a>
         <div className={styles['text-area']}>
           <div>
-            <textarea placeholder="What's Happening?" className={styles['tweet-input']} onInput={autoGrow} />
+            <textarea id="twbox-text-area" placeholder="What's Happening?" className={styles['tweet-input']} onInput={autoGrow} />
           </div>
           <ImageBox images={images} onDeleteImage={deleteImage} />
           <div className={styles['text-area-icons']}>
@@ -114,7 +122,7 @@ function TweetBox() {
                 <GifBoxOutlinedIcon className={styles['media-icon']} />
               </div>
             </div>
-            <button type="submit" className={styles['tweet-icons-button']}>whisp</button>
+            <button type="submit" className={styles['tweet-icons-button']} onClick={handleSendData}>whisp</button>
           </div>
         </div>
       </div>

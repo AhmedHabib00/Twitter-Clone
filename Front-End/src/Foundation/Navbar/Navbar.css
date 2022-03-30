@@ -47,6 +47,12 @@
   border-radius: 45px;
 }
 
+.nav-item-text {
+  font-size: 20px;
+  margin-left: 15px;
+  margin-top: 0;
+}
+
 .foundation-a-tag {
   max-width: 200px;
   text-decoration: none;
@@ -55,12 +61,6 @@
 
 .foundation-a-tag:hover .nav-item-dimensions {
   background-color: #e7e7e8;
-}
-
-.nav-item-text {
-  font-size: 20px;
-  margin-left: 15px;
-  margin-top: 0;
 }
 
 .tweet-button {

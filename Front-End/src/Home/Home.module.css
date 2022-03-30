@@ -7,6 +7,7 @@
   background-color: white;
   align-self: flex-start;
   width: 100%;
+  margin-left: 5px;
 }
 
 .home-header > h2 {

@@ -3,26 +3,22 @@ import './Navbar.css';
 import PropTypes from 'prop-types';
 
 import TwitterIcon from '@mui/icons-material/Twitter';
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import { Link } from 'react-router-dom';
 
-function Navbar({ children, onTwIconClick }) {
+function Navbar({ children, onTwIconClick, route }) {
   return (
     <div className="nav-bar-main">
-      <Link to="Home" className="nav-bar-tw-icon-link" onClick={() => onTwIconClick('Home')}>
+      <Link to={route} className="nav-bar-tw-icon-link" onClick={() => onTwIconClick(route)}>
         <TwitterIcon className="tw-icon" />
 
       </Link>
       {children}
-      <button type="button" className="tweet-button whisp-button-text">Whisp</button>
-      <button type="button" aria-label="save" className="tweet-button whisp-button-icon">
-        <HistoryEduIcon className="feather-icon" />
-      </button>
     </div>
   );
 }
 Navbar.propTypes = {
   children: PropTypes.element.isRequired,
   onTwIconClick: PropTypes.func.isRequired,
+  route: PropTypes.string.isRequired,
 };
 export default Navbar;

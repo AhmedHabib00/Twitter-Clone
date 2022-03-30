@@ -1,14 +1,11 @@
 import React from 'react';
-// import HomeIcon from '@mui/icons-material/Home';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-// import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-// import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import './Navbar.css';
+import '../Foundation/Navbar/Navbar';
 
 const Pages = [{
   name: 'Home',
@@ -32,6 +29,6 @@ const Pages = [{
 },
 ];
 
-const getPages = () => Pages;
+const getUserPages = () => Pages;
 
-export default getPages;
+export default getUserPages;

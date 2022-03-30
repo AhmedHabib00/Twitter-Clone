@@ -9,7 +9,7 @@ function Home() {
       <div className={styles['home-header']}>
         <h2>Home</h2>
       </div>
-      <TweetBox className={styles['home-tweetbox']} />
+      <TweetBox />
       <hr className={styles['home-hor-hr']} />
       <Feed className={styles.feed} />
     </div>

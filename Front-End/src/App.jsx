@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
@@ -11,23 +11,74 @@ import Profile from './Profile/Profile';
 import More from './More/More';
 import Home from './Home/Home';
 import Start from './Start/Start';
-import Admin from './Admin/Admin';
+import AdminFoundation from './Admin/AdminFoundation';
+import AdminUsers from './Admin/AdminUsers';
+import Dashboard from './Admin/Dashboard';
+import BlockedUsers from './Admin/AdminBlocked';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setisAdmin] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(true);
+    setisAdmin(false);
+  }, []);
+  const mainPage = () => {
+    if (isLoggedIn) {
+      if (isAdmin) {
+        return <AdminFoundation />;
+      }
+      return <Foundation />;
+    }
+    return <Start />;
+  };
+
+  const mainPath = () => {
+    if (isLoggedIn) {
+      if (isAdmin) {
+        return 'users';
+      }
+      return 'Home';
+    }
+    return '';
+  };
+  const adminRoutes = () => (
+    <>
+      <Route path="users" element={<AdminUsers />} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="blocked-users" element={<BlockedUsers />} />
+    </>
+  );
+  const startRoutes = () => (
+    null
+  );
+  const userRoutes = () => (
+    <>
+      <Route path="Home" element={<Home />} />
+      <Route path="Notifications" element={<Notifications />} />
+      <Route path="Bookmarks" element={<Bookmarks />} />
+      <Route path="Lists" element={<Lists />} />
+      <Route path="Profile" element={<Profile />} />
+      <Route path="More" element={<More />} />
+    </>
+  );
+  const selectingRoute = () => {
+    if (isLoggedIn) {
+      if (isAdmin) {
+        return adminRoutes();
+      }
+      return userRoutes();
+    }
+    return startRoutes;
+  };
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Foundation />}>
-          <Route path="" element={<Navigate to="/Home" />} />
-          <Route path="Home" element={<Home />} />
-          <Route path="Notifications" element={<Notifications />} />
-          <Route path="Bookmarks" element={<Bookmarks />} />
-          <Route path="Lists" element={<Lists />} />
-          <Route path="Profile" element={<Profile />} />
-          <Route path="More" element={<More />} />
+
+        <Route path="/" element={mainPage()}>
+          <Route path="" element={<Navigate to={mainPath()} />} />
+          {selectingRoute()}
         </Route>
-        <Route path="/Start" element={(<Start />)} />
-        <Route path="/admin" element={(<Admin />)} />
       </Routes>
     </Router>
   );
