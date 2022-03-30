@@ -16,7 +16,7 @@ import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
 import LinkIcon from '@mui/icons-material/Link';
 import EditIcon from '@mui/icons-material/Edit';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
-// import axios from 'axios';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
@@ -30,6 +30,51 @@ function Post({
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
   const [replyPopUp, setReplyPopUp] = useState(false);
+  const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const localurl = 'http://localhost:800/posts?id=1';
+
+  const handellikes = () => {
+    axios.get(localurl)
+      .then((resp) => {
+        setLike(!like);
+        const whole = {};
+        whole.total = resp.data;
+        whole.likesNo = resp.data.map((post) => ({
+          likesNo: post.likes,
+        }));
+        console.log(resp.data);
+        console.log(whole.likesNo);
+        // setLike(!like);
+        if (!like) {
+          let likecounts = likeCount;
+          likecounts += 1;
+          setLikeCount(likecounts);
+        } else {
+          let likecounts = likeCount;
+          likecounts -= 1;
+          setLikeCount(likecounts);
+        }
+        // setLikeCount(likeCount);
+        // setLikeCount(whole.likesNo);
+      }).catch((error) => {
+        console.log(error);
+      });
+    // axios.get(localurl).then((res) => {
+    //   const whole = {};
+    //   whole.total = res.data;
+    //   whole.total = res.data.map((post) => ({
+
+    //     likesNo: post.likes,
+    //   }));
+
+    //   console.log(like);
+    //   setLike(!like);
+    //   console.log(like);
+    //   setLikeCount(whole.likesNo[0]);
+    //   console.log(whole.likesNo[0]);
+    // });
+  };
 
   // const handelLikes = () => {
   //   axios.get('http://localhost:8000/posts')
@@ -91,26 +136,32 @@ function Post({
                     {'    '}
                     <PlaylistAddSharpIcon className={styles['dropdown-content']} />
                     {' '}
-                    Add/remove @Noha from Lists
+                    Add/remove @
+                    {displayname}
+                    {' '}
+                    from Lists
                   </MenuList>
 
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <VolumeOffSharpIcon className={styles['dropdown-content']} />
                     {' '}
-                    Mute @Noha
+                    Mute @
+                    {displayname}
                   </MenuList>
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <BlockSharpIcon className={styles['dropdown-content']} />
                     {' '}
-                    Block @Noha
+                    Block @
+                    {displayname}
                   </MenuList>
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <FollowTheSignsIcon className={styles['dropdown-content']} />
                     {' '}
-                    Follow @Noha
+                    Follow @
+                    {displayname}
                   </MenuList>
                 </Menu>
 
@@ -213,9 +264,26 @@ function Post({
         </PopupPage>
 
         <div className={styles.postfooter}>
-          <ChatBubbleIcon className={styles.postblue} fontSize="small" onClick={() => setReplyPopUp(true)} />
-          <RepeatIcon className={styles.postgreen} fontSize="small" aria-controls="retweet" onClick={handelOpenRetweet} />
-          <FavoriteBorderIcon className={styles.postpink} fontSize="small" />
+          <ChatBubbleIcon
+            className={styles.postblue}
+            fontSize="small"
+            onClick={() => setReplyPopUp(true)}
+          />
+          <RepeatIcon
+            className={styles.postgreen}
+            fontSize="small"
+            aria-controls="retweet"
+            onClick={handelOpenRetweet}
+          />
+          <div className={styles.like}>
+            <FavoriteBorderIcon
+              style={(like) ? { color: '#f02896' } : { color: '' }}
+              className={styles.postpink}
+              fontSize="small"
+              onClick={handellikes}
+            />
+            <p>{likeCount}</p>
+          </div>
           <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
         </div>
 
