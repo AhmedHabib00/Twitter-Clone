@@ -5,9 +5,9 @@ import styles from './ImagePopUp.module.css';
 
 /**
  *
- * @param {boolean} trigger
- * @param {function} setTrigger
- * @param {elements} childern
+ * @param {boolean} trigger     flag to see if the user has clicked on the image.
+ * @param {function} setTrigger function that set trigger to false when the user click close.
+ * @param {elements} childern   elements which will whole/display post's image in.
  *
  * @returns div element which will contain popUp including close-icon
  * and passed childern
