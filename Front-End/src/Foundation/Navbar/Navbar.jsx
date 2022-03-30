@@ -1,19 +1,29 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import './Navbar.css';
 import PropTypes from 'prop-types';
 
-function Navbar({ children }) {
+import TwitterIcon from '@mui/icons-material/Twitter';
+import { Link } from 'react-router-dom';
+/**
+ * custom navbar component that fits the theme of twitter
+ * @param {element} children elements to show in the navbar
+ * @param {Function} onTwIconClick takes a specific route to a page and Reroute the user t this page
+ * @param {String} route route to the page when twitter icon is clicked
+ */
+function Navbar({ children, onTwIconClick, route }) {
   return (
-    <div className="main">
-      <TwitterIcon className="tw-icon" />
-      {children.map((child) => child)}
-      <button type="button" className="icons tweet-button">Tweet</button>
+    <div className="nav-bar-main">
+      <Link to={route} className="nav-bar-tw-icon-link" onClick={() => onTwIconClick(route)}>
+        <TwitterIcon className="tw-icon" />
+
+      </Link>
+      {children}
     </div>
   );
 }
 Navbar.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.element.isRequired,
+  onTwIconClick: PropTypes.func.isRequired,
+  route: PropTypes.string.isRequired,
 };
 export default Navbar;

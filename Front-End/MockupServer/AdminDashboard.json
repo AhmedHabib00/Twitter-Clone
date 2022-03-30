@@ -1,0 +1,58 @@
+{
+    "statData": [
+        {
+            "noUsers": 1242,
+            "tweetsRatio": 57,
+            "noBanned": 30,
+            "noTweets": [
+                {
+                    "Jan": 142,
+                    "Feb": 43,
+                    "Mar": 202,
+                    "Apr": 1532,
+                    "May": 1532,
+                    "June": 232,
+                    "July": 12,
+                    "Aug": 32,
+                    "Sep": 252,
+                    "Oct": 432,
+                    "Nov": 132,
+                    "Dec": 232
+                }
+            ],
+            "noJoined": [
+                {
+                    "Jan": 142,
+                    "Feb": 43,
+                    "Mar": 202,
+                    "Apr": 1532,
+                    "May": 1532,
+                    "June": 232,
+                    "July": 12,
+                    "Aug": 32,
+                    "Sep": 252,
+                    "Oct": 432,
+                    "Nov": 132,
+                    "Dec": 232
+                }
+            ],
+            "ageRange": [
+                {
+                    "fifteen": 10,
+                    "twenty": 30,
+                    "thirty": 20,
+                    "fourty": 15,
+                    "fifty": 25
+                }
+            ],
+            "mostFollowed": [
+                {
+                    "topOne": 130,
+                    "topTwo": 90,
+                    "topThree": 30,
+                    "topFour": 10
+                }
+            ]
+        }
+    ]
+}
