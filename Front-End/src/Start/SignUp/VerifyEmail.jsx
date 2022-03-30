@@ -14,7 +14,7 @@ function VerifyEmail({
     handleChange, values, handleSubmit, errors,
   } = useFormCode(setStepPassword, setStepVerify, email);
   return (
-    <div>
+    <div data-testid="verify-email">
       <div className="start-modals-header">
         <div className={styles['close-signup']}>
           <IconButton onClick={handleGoToStepOne}>

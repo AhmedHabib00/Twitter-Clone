@@ -24,7 +24,7 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
     handleChange, values, handleSubmit, errors,
   } = useFormPassword(setStepPassword, setStepUsername, email);
   return (
-    <div>
+    <div data-testid="password">
       <div className={styles.header}>
         <div className={styles['password-logo']}>
           <TwitterIcon className="start-modals-icon-size" />

@@ -49,6 +49,7 @@ function SignUp({ closeSignup }) {
         )}
         {stepUsername && (
         <UserName
+          data-testid="username"
           email={email}
         />
         )}

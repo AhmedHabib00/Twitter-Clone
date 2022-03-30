@@ -18,7 +18,7 @@ function StepOne({
   } = useForm(date, setStepOne, setStepVerify);
   setEmail(values.email);
   return (
-    <div>
+    <div data-testid="step-one">
       <div className="start-modals-header">
         <div className={styles['close-signup']}>
           <IconButton onClick={() => {
@@ -41,6 +41,7 @@ function StepOne({
         <div className={styles.body}>
           <label className="start-modals-form-label" htmlFor="name">
             <input
+              data-testid="input-name"
               className="start-modals-form-input"
               type="text"
               id="name"
@@ -56,6 +57,7 @@ function StepOne({
            && <p className="start-modals-form-errors">{errors.name}</p>}
           <label className="start-modals-form-label" htmlFor="email">
             <input
+              data-testid="input-email"
               className="start-modals-form-input"
               type="email"
               id="email"
@@ -79,6 +81,7 @@ function StepOne({
         </div>
         <div className="start-modals-button-container">
           <Button
+            data-testid="next-button"
             variant="outlined"
             className="start-modals-button"
             type="submit"

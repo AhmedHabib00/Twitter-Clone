@@ -28,7 +28,7 @@ function DatePicker({ setDate }) {
   const newDate = formatDate(dateOfBirth);
   setDate(newDate);
   return (
-    <div>
+    <div data-testid="date-picker">
       <div className="date">
         <div className="month-container">
           <label className="year-label" htmlFor="month">

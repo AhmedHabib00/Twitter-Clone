@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import validateCode from './validateCode';
+import { signUpCode } from '../../Services/accountServices';
 
 const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
   const [values, setValues] = useState({
@@ -19,8 +20,12 @@ const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
     e.preventDefault();
     setErrors(validateCode(values));
     if (Object.keys(validateCode(values)).length === 0) {
-      setStepVerify(false);
-      setStepPassword(true);
+      signUpCode(values).then((response) => {
+        if (response.status === 201) {
+          setStepVerify(false);
+          setStepPassword(true);
+        }
+      });
     }
   };
 

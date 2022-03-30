@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import validatePassword from './validatePassword';
+import { signUpPassword } from '../../Services/accountServices';
 
 const useFormPassword = (setStepPassword, setStepUsername, userEmail) => {
   const [values, setValues] = useState({
@@ -19,8 +20,12 @@ const useFormPassword = (setStepPassword, setStepUsername, userEmail) => {
     e.preventDefault();
     setErrors(validatePassword(values));
     if (Object.keys(validatePassword(values)).length === 0) {
-      setStepPassword(false);
-      setStepUsername(true);
+      signUpPassword(values).then((response) => {
+        if (response.status === 201) {
+          setStepPassword(false);
+          setStepUsername(true);
+        }
+      });
     }
   };
 

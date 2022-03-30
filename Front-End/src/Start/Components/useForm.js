@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import validateInfo from './validateInfo';
+import signUpInfo from '../../Services/accountServices';
 
 const useForm = (date, setStepOne, setStepVerify) => {
   const [values, setValues] = useState({
@@ -20,8 +21,12 @@ const useForm = (date, setStepOne, setStepVerify) => {
     e.preventDefault();
     setErrors(validateInfo(values));
     if (Object.keys(validateInfo(values)).length === 0) {
-      setStepOne(false);
-      setStepVerify(true);
+      signUpInfo(values).then((response) => {
+        if (response.status === 201) {
+          setStepOne(false);
+          setStepVerify(true);
+        }
+      });
     }
   };
 

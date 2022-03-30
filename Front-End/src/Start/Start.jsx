@@ -17,6 +17,7 @@ function Start() {
             <h2>Join Whisper today.</h2>
             <div className={styles['buttons-group']}>
               <Button
+                data-testid="google-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
               >
@@ -28,6 +29,7 @@ function Start() {
                 Sign up with Google
               </Button>
               <Button
+                data-testid="facebook-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
               >
@@ -39,6 +41,7 @@ function Start() {
                 Sign up with Facebook
               </Button>
               <Button
+                data-testid="signup-button"
                 variant="outlined"
                 className={styles['signup-tweet']}
                 onClick={() => {
@@ -66,6 +69,7 @@ function Start() {
               </p>
               <h3>Already have an acount?</h3>
               <Button
+                data-testid="signin-button"
                 variant="outlined"
                 className={styles['sign-in']}
               >
@@ -80,7 +84,12 @@ function Start() {
           </div>
         </div>
       </div>
-      {signup && <SignUp closeSignup={setSignup} />}
+      {signup && (
+      <SignUp
+        data-testid="signup-modal"
+        closeSignup={setSignup}
+      />
+      )}
     </div>
   );
 }

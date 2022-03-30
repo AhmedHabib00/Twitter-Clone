@@ -1,0 +1,84 @@
+{
+  "signup": [
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 1
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 2
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 3
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 4
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 5
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 6
+    }
+  ],
+  "verification": [
+    {
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 1
+    },
+    {
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 2
+    },
+    {
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 3
+    },
+    {
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 4
+    }
+  ],
+  "Password": [
+    {
+      "password": "123456456",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 1
+    },
+    {
+      "password": "",
+      "email": "",
+      "id": 2
+    },
+    {
+      "password": "123456489",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 3
+    },
+    {
+      "password": "$2a$10$heV3YfHj2EgOKaaT4.A0m.j6YAb5fUwSLvCHFB5zQ0CTXoAK.hyXi",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 4
+    }
+  ]
+}
