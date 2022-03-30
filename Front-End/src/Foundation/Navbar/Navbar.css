@@ -1,25 +1,40 @@
-.main {
+.nav-bar-main {
   display: flex;
+  max-width: 300px;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.nav-bar-tw-icon-link {
+  width: fit-content;
+}
+
+.nav-bar-icons {
+  font-size: 31px !important;
 }
 
 .tw-icon {
   color: rgb(29 155 240);
   font-size: 32px !important;
-  padding: 7px;
+  padding: 15px;
+  cursor: pointer;
 }
 
 .tw-icon:hover {
   background-color: #e8f5fd;
-  border-radius: 21px;
+  border-radius: 30px;
 }
 
-.item {
+.nav-item {
   display: flex;
-  padding: 0;
-  padding-left: 5px;
-  padding-right: 15px;
-  padding-top: 10px;
+  padding: 15px;
+
+  /* padding-left: 5px;
+  padding-right: 25px;
+  padding-top: 20px; */
   font-size: 25px;
   margin: 0;
   margin-top: 10px;
@@ -27,24 +42,25 @@
   width: fit-content;
 }
 
-.a-tag {
-  width: 200px;
+.nav-item-dimensions {
+  max-width: 200px;
+  border-radius: 45px;
+}
+
+.nav-item-text {
+  font-size: 20px;
+  margin-left: 15px;
+  margin-top: 0;
+}
+
+.foundation-a-tag {
+  max-width: 200px;
   text-decoration: none;
   color: #0f1419 !important;
 }
 
-.a-tag:hover .item {
+.foundation-a-tag:hover .nav-item-dimensions {
   background-color: #e7e7e8;
-}
-
-.icons {
-  font-size: 28px !important;
-}
-
-.item-text {
-  font-size: 20px;
-  margin-left: 15px;
-  margin-top: 0;
 }
 
 .tweet-button {
@@ -52,9 +68,8 @@
   font-size: 20px !important;
   font-weight: bold;
   border: none;
-  max-width: 200px;
-  border-radius: 45px;
-  height: 55px;
+  border-radius: 65px;
+  height: 65px;
   margin-top: 10px;
   color: #edf7fe;
   cursor: pointer;
@@ -64,7 +79,29 @@
   background-color: #1a8cd8;
 }
 
-.dimensions {
-  max-width: 200px;
-  border-radius: 45px;
+.whisp-button-icon {
+  display: none;
+}
+
+.whisp-button-text {
+  width: 100%;
+}
+
+@media screen and (max-width: 1100px) {
+  .nav-item-text {
+    display: none;
+  }
+
+  .whisp-button-text {
+    display: none;
+  }
+
+  .whisp-button-icon {
+    display: inline;
+    width: auto;
+  }
+
+  .feather-icon {
+    font-size: 31px !important;
+  }
 }

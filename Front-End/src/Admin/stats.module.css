@@ -1,0 +1,35 @@
+.number-stat {
+  max-width: 270px;
+  min-width: 270px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: rgb(245 245 245);
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 19%) !important;
+  margin: 15px 5px;
+}
+
+.number-stat-type {
+  font-size: 30px;
+  font-weight: 400;
+  color: rgb(55 58 65);
+  margin: 0;
+}
+
+.number-stat-description {
+  font-size: 20px;
+  font-weight: 300;
+  color: rgb(55 58 65);
+  margin: 0;
+}
+
+.number-stat-val {
+  font-size: 100px;
+  text-align: center;
+  font-weight: 10;
+  color: rgb(55 58 65);
+  margin: 0;
+}
