@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 const user = require('../User/userSchema');
 const tweet=require('./tweetsSchema'); //returns the model 
 
-const { redirect } = require("express/lib/response");
+// const { redirect } = require("express/lib/response");
 // const express = require('express');
-const app=express();
-app.use(bodyParser.urlencoded({extended: false}));
+// const app=express();
+// app.use(bodyParser.urlencoded({extended: false}));
 
 
 const multer=require('multer')
@@ -29,14 +29,14 @@ const upload=multer(objectMulter).array('im',4);
 
 
 
-// const u1=new user({
-//     firstName:"Ali",
-//     lastName: "Adel",
-//     username: "Ali_adell098",
-//     email: "ali2000@gmail.com",
-//     password: "123"
-// });
-// u1.save();
+const u1=new user({
+    firstName:"Ali",
+    lastName: "Adel",
+    username: "Ali_adell098",
+    email: "ali2000@gmail.com",
+    password: "123"
+});
+u1.save();
 
 // const t1=new tweet({
 //     content:"hi world"
@@ -60,6 +60,7 @@ router.post("/", function(req,res){
     let token = req.headers["authorization"]
     token = token.split(" ")[1];
     console.log(token)
+    // token="623ed35374a406aca722ac9b"
  
      mediaTemp=[]
      contentTemp=""
@@ -67,7 +68,7 @@ router.post("/", function(req,res){
         
      
      if(req.body.tweetContent!=""){
- 
+        console.log("the tweet:"+ req.body.tweetContent)
          contentTemp=req.body.tweetContent
      }
  
@@ -85,6 +86,7 @@ router.post("/", function(req,res){
  
      if(contentTemp!="" || mediaTemp!="")
      {
+            
             const userTweet= new tweet({
              content: req.body.tweetContent,
              postedBy: token,
