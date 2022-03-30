@@ -3,6 +3,10 @@ import Feed from './Components/Feed';
 import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
 
+/**
+ * consists of 3 main components.
+ * Header, Tweetbox, Feed
+ */
 function Home() {
   return (
     <div className={styles.home}>

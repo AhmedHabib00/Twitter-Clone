@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './ImageBox.module.css';
-
+/**
+ * component that previews images in a resizable component.
+ * it a close button for each image
+ * @param {Array} images URL of images to preview
+ * @param {Function} onDeleteImage takes an id as an input for the parent component
+ * to has remove image of repective id
+ */
 function ImageBox({ images, onDeleteImage }) {
   let imageWidth = 100;
   if (images.length > 1) {

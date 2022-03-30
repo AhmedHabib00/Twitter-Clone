@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './PopupPage.module.css';
-
+/**
+ * A customizable component that has a white background where you can add your components.
+ * It closes when user clicks outside of white area
+ * @param {boolean} trigger tells the PopupPage component to open or closes
+ * @param {Element} children elements to render in the popup page
+ * @param {Function} SetTrigger setter for trigger
+ */
 function PopupPage({ trigger, children, SetTrigger }) {
   let toClose = true;
   const closePopup = () => {

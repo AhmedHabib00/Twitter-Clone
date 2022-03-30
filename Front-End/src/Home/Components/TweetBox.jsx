@@ -10,6 +10,11 @@ import SearchBar from './SearchBar';
 
 import styles from './TweetBox.module.css';
 
+/**
+ * This components takes a text input from user and a maximum of 4 media items
+ * (local images or gifs).
+ * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
+ */
 function TweetBox() {
   const inputFile = createRef();
   const [images, setImages] = useState([]);

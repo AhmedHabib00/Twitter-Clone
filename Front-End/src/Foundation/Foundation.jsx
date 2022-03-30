@@ -10,7 +10,11 @@ import SearchBar from '../Home/Components/SearchBar';
 
 import styles from './Foundation.module.css';
 import './Navbar/Navbar.css';
-
+/**
+ * The main layout for a normal user that logs in.
+ * It displays the navbar, opened page, widgets.
+ * The navbar is not scrollable
+ */
 function Foundation() {
   const pages = getUserPages();
   const [openedPage, setOpenedPage] = useState('Home');

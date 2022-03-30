@@ -4,7 +4,10 @@ import styles from './AdminFoundation.module.css';
 import Navbar from '../Foundation/Navbar/Navbar';
 import getAdminPages from './AdminNavitems';
 import NavItem from '../Foundation/Navbar/NavItem';
-
+/**
+ * The main layout for a user logged in as admin.
+ * It displays the navbar and opened page.
+ */
 function AdminFoundation() {
   const pages = getAdminPages();
   const onNavItemClick = (id) => {
