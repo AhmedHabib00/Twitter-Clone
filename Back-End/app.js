@@ -15,3 +15,5 @@ console.log(`app is running on port ${port}`));
 
 const postRoute = require('./components/Tweets/tweets');
 app.use("/tweets", postRoute);
+
+module.exports = server
