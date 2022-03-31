@@ -12,6 +12,12 @@
   text-align: left;
 }
 
+.like {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
 img {
   border-radius: 20px;
   object-fit: fill;

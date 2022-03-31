@@ -2,6 +2,7 @@ import React from 'react';
 import Feed from './Components/Feed';
 import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
+import Data from './Components/PostData.json';
 
 /**
  * consists of 3 main components.
@@ -15,7 +16,7 @@ function Home() {
       </div>
       <TweetBox />
       <hr className={styles['home-hor-hr']} />
-      <Feed className={styles.feed} />
+      <Feed className={styles.feed} data={Data} />
     </div>
   );
 }

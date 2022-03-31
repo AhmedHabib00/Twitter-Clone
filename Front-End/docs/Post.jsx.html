@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Post.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Post.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import PublishIcon from '@mui/icons-material/Publish';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
+import VolumeOffSharpIcon from '@mui/icons-material/VolumeOffSharp';
+import BlockSharpIcon from '@mui/icons-material/BlockSharp';
+import { Menu, MenuList } from '@mui/material';
+import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
+import LinkIcon from '@mui/icons-material/Link';
+import EditIcon from '@mui/icons-material/Edit';
+import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import styles from './Post.module.css';
+import ImagePopUp from './ImagePopUp';
+import PopupPage from './PopupPage';
+import TweetBox from './TweetBox';
+
+/**
+ *
+ * @param {Number} id     Post Id
+ * @param {String} displayname      User posted display name (user first name).
+ * @param {String} username     User posted user name (user full name).
+ * @param {String} content      Posted text.
+ * @param {String} img1     uploaded image-1 url.
+ * @param {String} img2     uploaded image-2 url.
+ * @param {String} img3     uploaded image-3 url.
+ * @param {String} img4     uploaded image-4 url.
+ *
+ * @returns div element containing the whole whispered tweet
+ */
+function Post({
+  id, displayname, username, content, img1, img2, img3, img4,
+}) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [imagePopUp, setImagePopUp] = useState(false);
+  const [replyPopUp, setReplyPopUp] = useState(false);
+  const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [shareEl, setShareEl] = useState(null);
+  const [retweetEl, setRetweetEl] = useState(null);
+  const localurl = 'http://localhost:8000/posts?id=1';
+
+  /**
+   *@returns get the number of the post likes.
+   */
+  const handellikes = () => {
+    axios.get(localurl)
+      .then((resp) => {
+        setLike(!like);
+        const whole = {};
+        whole.total = resp.data;
+        whole.likesNo = resp.data.map((post) => ({
+          likesNo: post.likes,
+        }));
+        // console.log(resp.data);
+        console.log(whole.likesNo[0]);
+        let likecounts = likeCount;
+        if (!like) {
+          // let likecounts = likeCount;
+          likecounts += 1;
+          setLikeCount(likecounts);
+        } else {
+          // let likecounts = likeCount;
+          likecounts -= 1;
+          setLikeCount(likecounts);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handelOpenMenu = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const handelCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handelOpenShare = (e) => {
+    setShareEl(e.currentTarget);
+  };
+  const handelCloseShare = () => {
+    setShareEl(null);
+  };
+
+  const handelOpenRetweet = (e) => {
+    setRetweetEl(e.currentTarget);
+  };
+  const handelCloseRetweet = () => {
+    setRetweetEl(null);
+  };
+
+  return (
+    &lt;div data-testid="post-render-test" className={styles.post}>
+      {/* {
+         Data &amp;&amp; Data.map((post) => ( */}
+      &lt;div className={styles.postbody} key={id}>
+        &lt;div className={styles.postheader}>
+
+          &lt;div className={styles.postheadertext}>
+
+            &lt;h3>
+              &lt;div data-testid="post-avatar-render-test" className={styles.postavatar}>
+
+                &lt;AccountCircleIcon />
+
+                {displayname}
+                {' '}
+                &lt;span className={styles.postheaderSpecial}>
+                  {true &amp;&amp; &lt;VerifiedIcon className={styles.postbadge} />}
+                  {' '}
+                  @
+                  {username}
+
+                &lt;/span>
+                &lt;MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
+
+                &lt;Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
+                  &lt;MenuList className={styles['dropdown-content ']}>
+                    {'    '}
+                    &lt;PlaylistAddSharpIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Add/remove @
+                    {displayname}
+                    {' '}
+                    from Lists
+                  &lt;/MenuList>
+
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    {'    '}
+                    &lt;VolumeOffSharpIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Mute @
+                    {displayname}
+                  &lt;/MenuList>
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    {'    '}
+                    &lt;BlockSharpIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Block @
+                    {displayname}
+                  &lt;/MenuList>
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    {'    '}
+                    &lt;FollowTheSignsIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Follow @
+                    {displayname}
+                  &lt;/MenuList>
+                &lt;/Menu>
+
+                &lt;Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    {'    '}
+                    &lt;BookmarkAddSharpIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Bookmark
+                  &lt;/MenuList>
+
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    {'    '}
+                    &lt;LinkIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Copy link to Tweet
+                  &lt;/MenuList>
+
+                &lt;/Menu>
+
+                &lt;Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    {'    '}
+                    &lt;RepeatIcon className={styles['dropdown-content']} />
+                    {' '}
+                    Retweet
+                  &lt;/MenuList>
+
+                  &lt;MenuList className={styles['dropdown-content']}>
+
+                    {'    '}
+                    &lt;EditIcon className={styles['dropdown-content']} />
+                    {' '}
+
+                    Quote Tweet
+
+                  &lt;/MenuList>
+
+                &lt;/Menu>
+
+              &lt;/div>
+            &lt;/h3>
+          &lt;/div>
+
+          &lt;div data-testid="content-render-test" className={styles.postheaderdescription}>
+            &lt;p>{content}&lt;/p>
+          &lt;/div>
+        &lt;/div>
+        &lt;div data-testid="images-render-test">
+          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img1} alt="pic1" />&lt;/a>
+          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img2} alt="pic1" />&lt;/a>
+          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img3} alt="pic1" />&lt;/a>
+          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img4} alt="pic1" />&lt;/a>
+        &lt;/div>
+        &lt;ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+          &lt;Carousel>
+
+            &lt;div>
+              &lt;img className={styles.imgpopup} src={img1} alt="pic1" />
+            &lt;/div>
+
+            &lt;div>
+              &lt;img className={styles.imgpopup} src={img2} alt="pic1" />
+            &lt;/div>
+
+            &lt;div>
+              &lt;img className={styles.imgpopup} src={img3} alt="pic1" />
+            &lt;/div>
+
+            &lt;div>
+              &lt;img className={styles.imgpopup} src={img4} alt="pic1" />
+            &lt;/div>
+
+          &lt;/Carousel>
+        &lt;/ImagePopUp>
+        {/* &lt;div>
+          {
+             images &amp;&amp; images.map((src) => (
+
+             ))
+
+           }
+
+        &lt;/div>
+
+        &lt;ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+          &lt;Carousel>
+            {
+          images &amp;&amp; images.map((src) => (
+            &lt;div key={src.id}>
+              &lt;img className={styles.imgpopup} src={src.src} alt="pic1" />
+            &lt;/div>
+          ))
+           }
+          &lt;/Carousel>
+        &lt;/ImagePopUp> */}
+
+        &lt;PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
+          &lt;TweetBox />
+        &lt;/PopupPage>
+
+        &lt;div data-testid="footer-render-test" className={styles.postfooter}>
+          &lt;ChatBubbleIcon
+            className={styles.postblue}
+            fontSize="small"
+            onClick={() => setReplyPopUp(true)}
+          />
+          &lt;RepeatIcon
+            className={styles.postgreen}
+            fontSize="small"
+            aria-controls="retweet"
+            onClick={handelOpenRetweet}
+          />
+          &lt;div className={styles.like}>
+            &lt;FavoriteBorderIcon
+              style={(like) ? { color: '#f02896' } : { color: '' }}
+              className={styles.postpink}
+              fontSize="small"
+              onClick={handellikes}
+            />
+            &lt;p>{likeCount}&lt;/p>
+          &lt;/div>
+          &lt;PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
+        &lt;/div>
+
+      &lt;/div>
+
+    &lt;/div>
+  );
+}
+
+Post.propTypes = {
+  id: PropTypes.number.isRequired,
+  displayname: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  img1: PropTypes.string.isRequired,
+  img2: PropTypes.string.isRequired,
+  img3: PropTypes.string.isRequired,
+  img4: PropTypes.string.isRequired,
+};
+
+export default Post;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Post">Post</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Wed Mar 30 2022 23:12:31 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
