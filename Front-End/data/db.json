@@ -35,6 +35,12 @@
       "email": "abdulrehmansuliman@gmail.com",
       "birthdate": "1899-12-31",
       "id": 6
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 7
     }
   ],
   "verification": [
@@ -57,6 +63,11 @@
       "code": "248542",
       "email": "abdulrehmansuliman@gmail.com",
       "id": 4
+    },
+    {
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 5
     }
   ],
   "Password": [
@@ -79,6 +90,18 @@
       "password": "$2a$10$heV3YfHj2EgOKaaT4.A0m.j6YAb5fUwSLvCHFB5zQ0CTXoAK.hyXi",
       "email": "abdulrehmansuliman@gmail.com",
       "id": 4
+    },
+    {
+      "password": "$2a$10$iR8L7ZAWnAhxbNcEbEqt.OXt/FNAIwUrGuiwDlA4lu7mzSppbM8EC",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 5
+    }
+  ],
+  "username": [
+    {
+      "username": "@abdo",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 1
     }
   ]
 }
