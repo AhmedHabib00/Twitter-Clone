@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/home_page.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:whisper/modules/tweetBoxWidget.dart';
 
