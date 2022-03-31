@@ -1,3 +1,73 @@
-.lists {
+/* .lists {
   text-align: center;
+} */
+
+.back-icon {
+  color: rgb(15 20 25);
+  font-size: 20px !important;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+
+  /* margin-right: 340px;
+  margin-top: 20px;
+  padding: 1px; */
+
+  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+  padding: 5px;
+  text-align: center;
+}
+
+.back-icon:hover {
+  background-color: #e9ebec;
+  border-radius: 21px;
+}
+
+.lists-text {
+  font-size: 22px !important;
+  font-weight: bold;
+  border: none;
+  width: 195px;
+  height: 40px;
+  display: inline-flex;
+  margin-left: 50px;
+  margin-left: 1px;
+  margin-top: 1px;
+  margin-bottom: 11px;
+  padding: 1px;
+  color: black;
+  cursor: pointer;
+}
+
+.newlist-icon {
+  font-size: 22px !important;
+  display: inline-flex;
+  text-align: right;
+  margin-left: 50px;
+}
+
+.newlist-icon:hover {
+  background-color: #e9ebec;
+  border-radius: 21px;
+}
+
+.more-icon {
+  font-size: 20px !important;
+  display: inline-flex;
+  text-align: right;
+  margin-left: 100px;
+}
+
+.more-icon:hover {
+  background-color: #e9ebec;
+  border-radius: 21px;
+}
+
+.pinnedists-text {
+  font-size: 22px !important;
+  font-weight: bold;
+  border: none;
+  text-align: left;
+  color: black;
 }
