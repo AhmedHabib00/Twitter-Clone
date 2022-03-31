@@ -1,3 +1,8 @@
+/**
+ * This function is used to validate the code user input.
+ * @param {object} values contains the email and code
+ * @returns errors
+ */
 export default function validateCode(values) {
   const errors = {};
   if (!values.code) {

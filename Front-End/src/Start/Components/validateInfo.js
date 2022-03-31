@@ -1,3 +1,8 @@
+/**
+ * This function is used to validate the email and name user input.
+ * @param {object} values contains the email, name and date
+ * @returns errors
+ */
 export default function validateInfo(values) {
   const errors = {};
   if (!values.name.trim()) {

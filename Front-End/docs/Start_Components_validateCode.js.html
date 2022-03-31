@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Home/Components/ImageBox.jsx</title>
+    <title>JSDoc: Source: Start/Components/validateCode.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Home/Components/ImageBox.jsx</h1>
+    <h1 class="page-title">Source: Start/Components/validateCode.js</h1>
 
     
 
@@ -26,50 +26,20 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
-import PropTypes from 'prop-types';
-
-import styles from './ImageBox.module.css';
-/**
- * component that previews images in a resizable component.
- * it a close button for each image
- * @param {Array} images URL of images to preview
- * @param {Function} onDeleteImage takes an id as an input for the parent component
- * to has remove image of repective id
+            <pre class="prettyprint source linenums"><code>/**
+ * This function is used to validate the code user input.
+ * @param {object} values contains the email and code
+ * @returns errors
  */
-function ImageBox({ images, onDeleteImage }) {
-  let imageWidth = 100;
-  if (images.length > 1) {
-    imageWidth = 46;
+export default function validateCode(values) {
+  const errors = {};
+  if (!values.code) {
+    errors.code = 'Verification code is required';
+  } else if (values.code.length &lt; 6 || values.code.length > 6) {
+    errors.code = 'Verification code should be 6 characters';
   }
-  return (
-    &lt;div data-testid="image" className={styles.imagebox}>
-      {images.map((image) => (
-        &lt;div
-          className={styles.image}
-          key={image.id}
-          style={{
-            backgroundImage: `url(${image.imageUrl})`,
-            paddingBottom: `${imageWidth}%`,
-            width: `${imageWidth}%`,
-          }}
-        >
-          &lt;div className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X&lt;/div>
-
-        &lt;/div>
-      ))}
-    &lt;/div>
-  );
+  return errors;
 }
-
-ImageBox.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-  })).isRequired,
-  onDeleteImage: PropTypes.func.isRequired,
-};
-export default ImageBox;
 </code></pre>
         </article>
     </section>

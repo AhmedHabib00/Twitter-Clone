@@ -6,6 +6,11 @@ import StepPassword from './StepPassword';
 import VerifyEmail from './VerifyEmail';
 import UserName from './UserName';
 
+/**
+ * This Function manages signup and its states.
+ * @param {boolean} closeSignup [boolen to close signup modal]
+ * @returns SignUp modal
+ */
 function SignUp({ closeSignup }) {
   const [stepOne, setStepOne] = useState(true);
   const [stepPassword, setStepPassword] = useState(false);

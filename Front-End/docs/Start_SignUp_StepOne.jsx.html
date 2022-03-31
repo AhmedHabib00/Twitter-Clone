@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Start/SignUp/StepOne.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Start/SignUp/StepOne.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import DatePicker from '../Components/DatePicker';
+import styles from './StepOne.module.css';
+import useForm from '../Components/useForm';
+
+/**
+ * This is the first state in the signup form in which the user will
+ * type the name, email and birthdate.
+ * @param {function} handleCloseSignup [used to manage closing the modal]
+ * @param {function} setEmail [sets the email of the user to be able to use
+ * it in the up comming steps]
+ * @param {function} setStepOne [used to manage the first step status]
+ * @param {function} setStepVerify [used to manage the verification step]
+ * @returns Name, Email , birthdate form
+ */
+function StepOne({
+  handleCloseSignup, setEmail, setStepOne,
+  setStepVerify,
+}) {
+  const [date, setDate] = useState();
+  const {
+    handleChange, values, handleSubmit, errors,
+  } = useForm(date, setStepOne, setStepVerify);
+  setEmail(values.email);
+  return (
+    &lt;div data-testid="step-one">
+      &lt;div className="start-modals-header">
+        &lt;div className={styles['close-signup']}>
+          &lt;IconButton onClick={() => {
+            handleCloseSignup(false);
+            document.body.style.overflow = 'unset';
+          }}
+          >
+            &lt;CloseIcon />
+          &lt;/IconButton>
+        &lt;/div>
+        &lt;div className={styles['signup-icon']}>
+          &lt;TwitterIcon className="start-modals-icon-size" />
+        &lt;/div>
+      &lt;/div>
+      &lt;h1 className={styles.title}>Create your account&lt;/h1>
+      &lt;form
+        className={styles['signup-form']}
+        onSubmit={handleSubmit}
+      >
+        &lt;div className={styles.body}>
+          &lt;label className="start-modals-form-label" htmlFor="name">
+            &lt;input
+              data-testid="input-name"
+              className="start-modals-form-input"
+              type="text"
+              id="name"
+              name="name"
+              placeholder=" "
+              maxLength="50"
+              value={values.name}
+              onChange={handleChange}
+            />
+            &lt;span>Name&lt;/span>
+          &lt;/label>
+          {errors.name
+           &amp;&amp; &lt;p className="start-modals-form-errors">{errors.name}&lt;/p>}
+          &lt;label className="start-modals-form-label" htmlFor="email">
+            &lt;input
+              data-testid="input-email"
+              className="start-modals-form-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder=" "
+              value={values.email}
+              onChange={handleChange}
+            />
+            &lt;span>Email&lt;/span>
+            {errors.email
+             &amp;&amp; &lt;p className="start-modals-form-errors">{errors.email}&lt;/p>}
+          &lt;/label>
+          &lt;div className={styles['date-container']}>
+            &lt;h3>Date of birth&lt;/h3>
+            &lt;p className={styles['signup-form-text']}>
+              This will not be shown publicly. Confirm your own age,
+              even if this account is for a business, a pet, or something else.
+            &lt;/p>
+            &lt;DatePicker setDate={setDate} />
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="start-modals-button-container">
+          &lt;Button
+            data-testid="next-button"
+            variant="outlined"
+            className="start-modals-button"
+            type="submit"
+          >
+            Next
+          &lt;/Button>
+        &lt;/div>
+      &lt;/form>
+
+    &lt;/div>
+  );
+}
+
+export default StepOne;
+StepOne.propTypes = {
+  handleCloseSignup: PropTypes.func.isRequired,
+  setEmail: PropTypes.func.isRequired,
+  setStepOne: PropTypes.func.isRequired,
+  setStepVerify: PropTypes.func.isRequired,
+
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Thu Mar 31 2022 16:10:02 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -8,6 +8,16 @@ import DatePicker from '../Components/DatePicker';
 import styles from './StepOne.module.css';
 import useForm from '../Components/useForm';
 
+/**
+ * This is the first state in the signup form in which the user will
+ * type the name, email and birthdate.
+ * @param {function} handleCloseSignup [used to manage closing the modal]
+ * @param {function} setEmail [sets the email of the user to be able to use
+ * it in the up comming steps]
+ * @param {function} setStepOne [used to manage the first step status]
+ * @param {function} setStepVerify [used to manage the verification step]
+ * @returns Name, Email , birthdate form
+ */
 function StepOne({
   handleCloseSignup, setEmail, setStepOne,
   setStepVerify,

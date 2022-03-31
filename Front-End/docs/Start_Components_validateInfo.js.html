@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Home/Components/ImageBox.jsx</title>
+    <title>JSDoc: Source: Start/Components/validateInfo.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Home/Components/ImageBox.jsx</h1>
+    <h1 class="page-title">Source: Start/Components/validateInfo.js</h1>
 
     
 
@@ -26,50 +26,26 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
-import PropTypes from 'prop-types';
-
-import styles from './ImageBox.module.css';
-/**
- * component that previews images in a resizable component.
- * it a close button for each image
- * @param {Array} images URL of images to preview
- * @param {Function} onDeleteImage takes an id as an input for the parent component
- * to has remove image of repective id
+            <pre class="prettyprint source linenums"><code>/**
+ * This function is used to validate the email and name user input.
+ * @param {object} values contains the email, name and date
+ * @returns errors
  */
-function ImageBox({ images, onDeleteImage }) {
-  let imageWidth = 100;
-  if (images.length > 1) {
-    imageWidth = 46;
+export default function validateInfo(values) {
+  const errors = {};
+  if (!values.name.trim()) {
+    errors.name = 'name required';
+  } else if (!/^[A-Za-z]+/.test(values.name.trim())) {
+    errors.name = 'Enter a valid name';
   }
-  return (
-    &lt;div data-testid="image" className={styles.imagebox}>
-      {images.map((image) => (
-        &lt;div
-          className={styles.image}
-          key={image.id}
-          style={{
-            backgroundImage: `url(${image.imageUrl})`,
-            paddingBottom: `${imageWidth}%`,
-            width: `${imageWidth}%`,
-          }}
-        >
-          &lt;div className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X&lt;/div>
 
-        &lt;/div>
-      ))}
-    &lt;/div>
-  );
+  if (!values.email) {
+    errors.email = 'Email required';
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = 'Email address is invalid';
+  }
+  return errors;
 }
-
-ImageBox.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-  })).isRequired,
-  onDeleteImage: PropTypes.func.isRequired,
-};
-export default ImageBox;
 </code></pre>
         </article>
     </section>

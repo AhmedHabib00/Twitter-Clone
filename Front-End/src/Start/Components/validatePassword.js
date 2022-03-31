@@ -1,3 +1,8 @@
+/**
+ * This function is used to validate the password user input.
+ * @param {object} values contains the email, password
+ * @returns errors
+ */
 export default function validatePassword(values) {
   const errors = {};
   if (!values.password) {

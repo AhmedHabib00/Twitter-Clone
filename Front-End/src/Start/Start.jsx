@@ -3,7 +3,11 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
-
+/**
+ * This functions renders the start page from which
+ * user can login or signup with google, facebook, or email.
+ * @returns Start page
+ */
 function Start() {
   const [signup, setSignup] = useState(false);
 

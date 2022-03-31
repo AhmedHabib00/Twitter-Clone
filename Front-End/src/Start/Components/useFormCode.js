@@ -2,6 +2,14 @@ import { useState } from 'react';
 import validateCode from './validateCode';
 import { signUpCode } from '../../Services/accountServices';
 
+/**
+ * This function is used to manage the verification step in the signup form and apply
+ * validations on the code.
+ * @param {function} setStepPassword Manages the password step status
+ * @param {function} setStepVerify Manages the verification step status
+ * @param {string} userEmail used to send with code to the backend
+ * @returns handleChange, values, handleSubmit, errors
+ */
 const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
   const [values, setValues] = useState({
     code: '',

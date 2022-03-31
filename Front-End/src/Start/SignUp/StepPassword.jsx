@@ -9,6 +9,13 @@ import PropTypes from 'prop-types';
 import styles from './StepPassword.module.css';
 import useFormPassword from '../Components/useFormPassword';
 
+/**
+ * In this function the user will type his password
+ * @param {function}  setStepPassword [used to manage the password step status]
+ * @param {function}  setStepUsername [used to manage the username selection step status]
+ * @param {string}  email [used to be able to send the password to the backend with it]
+ * @returns Password form
+ */
 function StepPassword({ setStepPassword, setStepUsername, email }) {
   const [fieldvalues, setfieldvalues] = useState({
     password: '',

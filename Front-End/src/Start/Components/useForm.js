@@ -2,6 +2,14 @@ import { useState } from 'react';
 import validateInfo from './validateInfo';
 import signUpInfo from '../../Services/accountServices';
 
+/**
+ * This function is used to manage the first step in the signup form and apply
+ * validations.
+ * @param {string} date The birthdate of the user
+ * @param {function} setStepOne Manages the status of the first step
+ * @param {function} setStepVerify Manages the verification step status
+ * @returns handleChange, values, handleSubmit, errors,
+ */
 const useForm = (date, setStepOne, setStepVerify) => {
   const [values, setValues] = useState({
     name: '',

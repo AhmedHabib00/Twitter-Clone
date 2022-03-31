@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 import styles from './UserName.module.css';
 import useFormUserName from '../Components/useFormUserName';
 
+/**
+ * In this function the user will type his username
+ * @param {string}  email [used to be able to send the username to the backend with it]
+ * @returns Username form
+ */
+
 function UserName({ email }) {
   const {
     handleChange, values, handleSubmit, errors,

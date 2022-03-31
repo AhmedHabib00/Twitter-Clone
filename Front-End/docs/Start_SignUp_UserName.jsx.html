@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Home/Components/ImageBox.jsx</title>
+    <title>JSDoc: Source: Start/SignUp/UserName.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Home/Components/ImageBox.jsx</h1>
+    <h1 class="page-title">Source: Start/SignUp/UserName.jsx</h1>
 
     
 
@@ -26,50 +26,74 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import { React } from 'react';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
+import styles from './UserName.module.css';
+import useFormUserName from '../Components/useFormUserName';
 
-import styles from './ImageBox.module.css';
 /**
- * component that previews images in a resizable component.
- * it a close button for each image
- * @param {Array} images URL of images to preview
- * @param {Function} onDeleteImage takes an id as an input for the parent component
- * to has remove image of repective id
+ * In this function the user will type his username
+ * @param {string}  email [used to be able to send the username to the backend with it]
+ * @returns Username form
  */
-function ImageBox({ images, onDeleteImage }) {
-  let imageWidth = 100;
-  if (images.length > 1) {
-    imageWidth = 46;
-  }
-  return (
-    &lt;div data-testid="image" className={styles.imagebox}>
-      {images.map((image) => (
-        &lt;div
-          className={styles.image}
-          key={image.id}
-          style={{
-            backgroundImage: `url(${image.imageUrl})`,
-            paddingBottom: `${imageWidth}%`,
-            width: `${imageWidth}%`,
-          }}
-        >
-          &lt;div className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X&lt;/div>
 
+function UserName({ email }) {
+  const {
+    handleChange, values, handleSubmit, errors,
+  } = useFormUserName(email);
+  return (
+    &lt;div>
+      &lt;div className={styles.header}>
+        &lt;div className={styles['username-logo']}>
+          &lt;TwitterIcon className="start-modals-icon-size" />
         &lt;/div>
-      ))}
+      &lt;/div>
+      &lt;div className="start-modals-title-container">
+        &lt;h1 className={styles.title}>What should we call you?&lt;/h1>
+        &lt;p className={styles.subtitle}>
+          Your @username is unique. You can always change it later.
+        &lt;/p>
+      &lt;/div>
+      &lt;form
+        className={styles['username-form']}
+        onSubmit={handleSubmit}
+      >
+        &lt;div className="start-modals-body">
+          &lt;label htmlFor="username">
+            &lt;input
+              className="start-modals-form-input"
+              type="text"
+              id="username"
+              name="username"
+              value={values.username}
+              placeholder=" "
+              onChange={handleChange}
+            />
+            &lt;span>Username&lt;/span>
+          &lt;/label>
+          {errors.username
+           &amp;&amp; &lt;p className="start-modals-form-errors">{errors.username}&lt;/p>}
+        &lt;/div>
+        &lt;div className="start-modals-button-container">
+          &lt;Button
+            variant="outlined"
+            className="start-modals-button"
+            type="submit"
+          >
+            Next
+          &lt;/Button>
+        &lt;/div>
+      &lt;/form>
     &lt;/div>
   );
 }
 
-ImageBox.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-  })).isRequired,
-  onDeleteImage: PropTypes.func.isRequired,
+export default UserName;
+UserName.propTypes = {
+  email: PropTypes.string.isRequired,
 };
-export default ImageBox;
 </code></pre>
         </article>
     </section>

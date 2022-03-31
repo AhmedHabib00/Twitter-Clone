@@ -6,6 +6,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PropTypes from 'prop-types';
 import styles from './VerifyEmail.module.css';
 import useFormCode from '../Components/useFormCode';
+/**
+ * In this function the user will type his verification code
+ * @param {function}  handleGoToStepOne [used to manage the back arrow to step one]
+ * @param {function}  setStepPassword [used to manage the password step status]
+ * @param {function}  setStepVerify [used to manage the verification code step status]
+ * @param {string}  email [used to be able to send the password to the backend with it]
+ * @returns Verfication email form
+ */
 
 function VerifyEmail({
   handleGoToStepOne, setStepPassword, setStepVerify, email,
