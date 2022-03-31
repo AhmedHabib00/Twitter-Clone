@@ -1,6 +1,6 @@
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import validateUsername from './validateUsername';
+import { signUpUsername } from '../../Services/accountServices';
 
 const useFormUserName = (userEmail) => {
   const [values, setValues] = useState({
@@ -20,7 +20,11 @@ const useFormUserName = (userEmail) => {
     e.preventDefault();
     setErrors(validateUsername(values));
     if (Object.keys(validateUsername(values)).length === 0) {
-      // route to the home page
+      signUpUsername(values).then((response) => {
+        if (response.status === 201) {
+          // go to home page
+        }
+      });
     }
   };
 
