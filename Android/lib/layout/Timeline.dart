@@ -2,21 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'API/Tweet.dart';
+import 'package:whisper/models/tweet_model.dart';
+import 'package:whisper/modules/tweetBoxWidget.dart';
 
 
-class Home extends StatelessWidget {
-   Home({Key? key}) : super(key: key);
+class TimelinePage extends StatelessWidget {
+   TimelinePage({Key? key}) : super(key: key);
 
 
-  final List<Tweet> Tweeets = [
-    Tweet(" Kareem", "Lorem ipsum dolor sit amet", "7h", "@Kareem1"),
-    Tweet(" Ahmed", "Lorem ipsum dolor sit amet", "3m", "@Ahmed28"),
-    Tweet(" Kareem", "Lorem ipsum dolor sit amet", "8m", "@Kareem1"),
-    Tweet(" Hassan", "Lorem ipsum dolor sit amet", "1h", "@Hassan3"),
-    Tweet(" Ahmed", "Lorem ipsum dolor sit amet", "3m", "@Ahmed28"),
-
-
+  final List<TweetModel> Tweets = [
+    TweetModel(username: " Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
+    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
+    TweetModel(username: " Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
+    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
+    TweetModel(username: "Hassan", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Hassan212"),
   ];
 
   @override
@@ -33,7 +32,7 @@ class Home extends StatelessWidget {
           children: [
             CircleAvatar(backgroundImage: NetworkImage('https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'), radius: 26,),
             IconButton(
-              onPressed: (){}, 
+              onPressed: (){},
               icon: FaIcon(FontAwesomeIcons.twitter),
               iconSize: 30.0,
               color: Colors.blue,
@@ -42,46 +41,7 @@ class Home extends StatelessWidget {
 
         ]),
 
-          Container(
-            padding: EdgeInsets.all(0),
-            color: Colors.white,
-            child: Column(children: [
-              ...Tweeets.map((val){
-                return Container(
-                  //decoration: BoxDecoration(border: Border.all(color: Color.fromARGB(255, 0, 0, 0),width: 0)),
-                  padding: EdgeInsets.all(7),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(bottom: 7),
-                        child: Row(
-                          mainAxisAlignment : MainAxisAlignment.start,
-                          children: [
-                          CircleAvatar(backgroundImage: NetworkImage('https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'), radius: 23,),
-                          Text("${val.username} ", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                          Text("${val.twitterHandle} . ", style: TextStyle(fontSize: 20),),
-                          Text("${val.time}", style: TextStyle(fontSize: 18),),
-                        ],),
-                      ),
-                      Row(
-                        mainAxisAlignment : MainAxisAlignment.start, 
-                        children: [
-                          Text(val.tweet, style: TextStyle(fontSize: 18),),
-                        ],
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [ 
-                           Container(margin: EdgeInsets.all(8),child: Text.rich(TextSpan(children:[WidgetSpan(child:FaIcon(FontAwesomeIcons.comment,size: 17,) ),TextSpan(text: "  55")]))),
-                           Container(child: Text.rich(TextSpan(children: [WidgetSpan(child:FaIcon(FontAwesomeIcons.retweet,size: 17,) ),TextSpan(text: "  20",)]))),
-                          Container(child: Text.rich(TextSpan(children: [WidgetSpan(child:FaIcon(FontAwesomeIcons.heart,size: 17,)),TextSpan(text: "  724")])))
-        ])     
-                    ],
-                  ),
-                );
-              }).toList(),
-            ]),
-          ),
+         tweetBoxWidget(Tweets, false, (){})
         ]),
         
         
