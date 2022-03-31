@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_app/login.dart';
+import 'package:whisper/layout//login.dart';
 //import 'package:twitter_app/login.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_button/sign_button.dart';
-import 'package:twitter_app/API/google_signIn_api.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:whisper/layout//API/google_signIn_api.dart';
 //import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -118,14 +118,16 @@ class SignUpPage extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: SignInButton.mini(
-                        buttonType: ButtonType.facebook,
+                    child: SignInButton(
+                        Buttons.Facebook,
+                        mini: true,
                         onPressed: signIn2 //() => null,
                         ),
                   ),
                   Expanded(
-                    child: SignInButton.mini(
-                        buttonType: ButtonType.google,
+                    child: SignInButton(
+                        Buttons.Google,
+                        mini: true,
                         onPressed: signIn //() => null,
                         ),
                   )
