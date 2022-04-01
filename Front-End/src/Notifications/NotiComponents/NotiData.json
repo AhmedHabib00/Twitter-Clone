@@ -1,0 +1,20 @@
+[
+    {
+        "id":1,
+        "displayname": "Asmaa",
+        "content": "Liked your tweet.",
+        "notitype": "like"
+    },
+    {
+        "id":2,
+        "displayname": "Asmaa",
+        "content": "Liked your tweet.",
+        "notitype": "like"
+    },
+    {
+        "id":3,
+        "displayname": "Asmaa",
+        "content": "Liked your tweet.",
+        "notitype": "like"
+    }
+]

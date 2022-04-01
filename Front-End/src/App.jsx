@@ -6,7 +6,6 @@ import {
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
 import Bookmarks from './Bookmarks/Bookmarks';
-import Lists from './Lists/Lists';
 import Profile from './Profile/Profile';
 import More from './More/More';
 import Home from './Home/Home';
@@ -20,7 +19,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
   useEffect(() => {
-    setIsLoggedIn(false);
+    setIsLoggedIn(true);
     setisAdmin(false);
   }, []);
   const mainPage = () => {
@@ -57,7 +56,6 @@ function App() {
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
-      <Route path="Lists" element={<Lists />} />
       <Route path="Profile" element={<Profile />} />
       <Route path="More" element={<More />} />
     </>
