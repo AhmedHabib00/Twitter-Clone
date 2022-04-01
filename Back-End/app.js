@@ -19,3 +19,5 @@ app.use ('/signUp',signUp);
 
 const server =app.listen(port,()=>
 console.log(`app is running on port ${port}`));
+
+module.exports = server

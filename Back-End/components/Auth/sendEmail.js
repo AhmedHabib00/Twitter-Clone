@@ -29,8 +29,8 @@ const sendConfirmationEmail = async function sendEmail(
     await transporter.sendMail(mailOptions);
     
 };
-    //1)create transporter
-    //2)Define the email options
+    //1)create  using options
+    //2)Define the email it self
     //3) Actually send the email 
     
 

@@ -9,11 +9,11 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-   
+
     //request body is valid based on schema and joi validations
     const { error } = validateRegisterer(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
-
+    
 
    // checking if user already exists
     const user =  await User.findOne({ email: req.body.email});
@@ -23,34 +23,30 @@ router.post('/', async (req, res) => {
     if (registerer && !registerer.confirmedEmail) {
         const deleteRegisterer = await Registerer.deleteMany({email: req.body.email});
     }
-
-    //generate otp for the new user and encrypt it 
+    //generate otp for the new user 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    //const salt = await bcrypt.genSalt(10);
-    //const encryptedOtp = await bcrypt.hash (otp,salt);
     
     registerer = new Registerer({
         name: req.body.name,
         email:req.body.email,
         birthdate: req.body.birthdate,
-        otp: 123456
+        otp: otp
     }); 
-
     await registerer.save();
     try{
         await sendConfirmationEmail(registerer);
-        res.status(200).send({registererId: registerer._id, statusCode: 201 , message: "Verifaication email sent" });
+        res.status(201).send({registererId: registerer._id, statusCode: 201 , message: "Verifaication email sent" });
     }
     catch (err){
-        res.status(409).send({ statusCode: 409, error: 'YALAHWYYY b2aaa email msh rady ytb3t' });
+        res.status(409).send({ statusCode: 409, error: 'couldnt send email there is a conflict the relevant resource' });
     }
-    
+
 });
 
-router.post('/verifyEmail', async (req, res) => {
+router.patch('/verifyEmail', async (req, res) => {
    
     let registerer =  await Registerer.findOne({ email: req.body.email});
-    if (!registerer) return res.status(400).send('Error: you used an expired code/registerer not found');
+    if (!registerer) return res.status(400).send('Error: you used an expired code - registerer not found');
 
     if (req.body.code === registerer.otp && req.body.email === registerer.email){
 
@@ -59,15 +55,19 @@ router.post('/verifyEmail', async (req, res) => {
         if (result.matchedCount == 1) return res.status(200).send('Email verified successfuly');
     }
         
-    else return res.status(400).send('Incorrect verification code / Registeration session expired');
+    else return res.status(400).send('Incorrect verification code - Registeration session expired');
     
 });
 
-router.post('/setPassword', async (req, res) => {
+router.patch('/setPassword', async (req, res) => {
+
+    if (!req.body.email || !req.body.password )
+        return res.status(400).send('Bad request provide email and password');
+
    
     let registerer =  await Registerer.findOne({ email: req.body.email});
     if (!registerer) {
-        return res.status(400).send('Registeration session expired..Try signing up again');
+        return res.status(400).send('Registeration session expired..registerer not found');
     }
 
     if (!registerer.confirmedEmail) {
@@ -91,7 +91,7 @@ router.post('/setUsername', async (req, res) => {
    
     let registerer =  await Registerer.findOne({ email: req.body.email});
     if (!registerer) {
-        return res.status(400).send('Registeration session expired..no registerer found with given email');
+        return res.status(404).send('Registeration session expired..no registerer found with given email');
     }
 
     if (!registerer.confirmedEmail) {
