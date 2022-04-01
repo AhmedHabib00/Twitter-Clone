@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import styles from './AdminFoundation.module.css';
 import Navbar from '../Foundation/Navbar/Navbar';
@@ -10,8 +10,14 @@ import NavItem from '../Foundation/Navbar/NavItem';
  */
 function AdminFoundation() {
   const pages = getAdminPages();
+  const [openedPage, setOpenedPage] = useState('users');
+  useEffect(() => {
+    document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+  }, [openedPage]);
   const onNavItemClick = (id) => {
-    console.log(id);
+    document.getElementById(openedPage).style.setProperty('font-weight', '400');
+    document.getElementById(id).style.setProperty('font-weight', 'bolder');
+    setOpenedPage(id);
   };
   return (
     <div className={styles['admin-foundation']}>
@@ -20,13 +26,16 @@ function AdminFoundation() {
           {
             pages.map((page) => (
               <Link
-                id={`admin-nav-${page.name}`}
                 to={`/${page.url}`}
                 key={page.url}
-                onClick={() => onNavItemClick(page.name)}
                 className="foundation-a-tag"
               >
-                <div id={page.name}>
+                <div
+                  id={page.url}
+                  onClick={() => onNavItemClick(page.url)}
+                  role="button"
+                  tabIndex={0}
+                >
                   <NavItem title={page.name}>
                     {page.icon}
                   </NavItem>

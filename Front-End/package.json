@@ -23,6 +23,7 @@
     "better-docs": "^2.7.2",
     "bootstrap": "^5.1.3",
     "core-js": "^3.21.1",
+    "enzyme-adapter-react-16": "^1.15.6",
     "jest-css-modules-transform": "^4.3.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -50,7 +51,7 @@
   "jest": {
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
-      "\\.(module.css|less)$": "<rootDir>/styleMock.js",
+      "\\.(module.css|css|less)$": "<rootDir>/styleMock.js",
       "\\/(carousel.min.css)$": "<rootDir>/styleMock.js"
     }
   },

@@ -264,6 +264,102 @@
       "email": "ahmed@gmail.com",
       "birthdate": "22-5-2022",
       "id": 45
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 46
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 47
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 48
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 49
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 50
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 51
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 52
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 53
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 54
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 55
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 56
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 57
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 58
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 59
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 60
+    },
+    {
+      "name": "ahmed",
+      "email": "ahmed@gmail.com",
+      "birthdate": "22-5-2022",
+      "id": 61
     }
   ],
   "verification": [
@@ -411,6 +507,86 @@
       "code": "123456",
       "email": "ahmed@gmail.com",
       "id": 29
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 30
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 31
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 32
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 33
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 34
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 35
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 36
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 37
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 38
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 39
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 40
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 41
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 42
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 43
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 44
+    },
+    {
+      "code": "123456",
+      "email": "ahmed@gmail.com",
+      "id": 45
     }
   ],
   "Password": [
@@ -535,6 +711,168 @@
       "username": "@ahmed",
       "email": "ahmed@gmail.com",
       "id": 10
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 11
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 12
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 13
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 14
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 15
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 16
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 17
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 18
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 19
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 20
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 21
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 22
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 23
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 24
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 25
+    },
+    {
+      "username": "@ahmed",
+      "email": "ahmed@gmail.com",
+      "id": 26
+    }
+  ],
+  "statData": [
+    {
+      "noUsers": {
+        "title": "No. of users",
+        "interval": "all time",
+        "count": "10M"
+      },
+      "noBanned": {
+        "title": "No. of banned users",
+        "interval": "all time",
+        "count": "50"
+      },
+      "ratioTweets": {
+        "title": "Tweets increased/decreased at",
+        "interval": "Mar 2022",
+        "count": "50%"
+      },
+      "noTweets": {
+        "title": "No. of tweets",
+        "interval": "2022",
+        "count": [
+          {
+            "Jan": 142,
+            "Feb": 43,
+            "Mar": 202,
+            "Apr": 1532,
+            "May": 1532,
+            "June": 232,
+            "July": 12,
+            "Aug": 32,
+            "Sep": 252,
+            "Oct": 432,
+            "Nov": 132,
+            "Dec": 232
+          }
+        ]
+      },
+      "noJoined": {
+        "title": "No. of joined users",
+        "interval": 2022,
+        "count": [
+          {
+            "Jan": 142,
+            "Feb": 43,
+            "Mar": 202,
+            "Apr": 1532,
+            "May": 1532,
+            "June": 232,
+            "July": 12,
+            "Aug": 32,
+            "Sep": 252,
+            "Oct": 432,
+            "Nov": 132,
+            "Dec": 232
+          }
+        ]
+      },
+      "noAgeUsers": {
+        "title": "Age of users",
+        "count": [
+          {
+            "<15": 10,
+            "15-20": 30,
+            "20-30": 20,
+            "30-40": 15,
+            "40-50": 25
+          }
+        ]
+      },
+      "noMostFollowed": {
+        "title": "Most followed users",
+        "count": [
+          {
+            "USERNAME": 130,
+            "USERNAME_1": 90,
+            "USERNAME_2": 30,
+            "USERNAME_3": 10
+          }
+        ]
+      }
     }
   ]
 }
