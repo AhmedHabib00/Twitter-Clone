@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
-import './DatePicker.css';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
 import PropTypes from 'prop-types';
+import styles from './DatePicker.module.css';
 
 const formatDate = (date) => {
   // formats a JS date to 'yyyy-mm-dd'
@@ -29,9 +29,9 @@ function DatePicker({ setDate }) {
   setDate(newDate);
   return (
     <div data-testid="date-picker">
-      <div className="date">
-        <div className="month-container">
-          <label className="year-label" htmlFor="month">
+      <div className={styles.date}>
+        <div className={styles['month-container']}>
+          <label className={styles['year-label']} htmlFor="month">
             {' '}
             Month
           </label>
@@ -43,7 +43,7 @@ function DatePicker({ setDate }) {
             value={dateOfBirth.month} // mandatory
             id="month"
             name="birthMonth"
-            classes="menu"
+            classes={styles.menu}
             optionClasses="option class"
             onChange={(month) => {
             // mandatory
@@ -51,8 +51,8 @@ function DatePicker({ setDate }) {
             }}
           />
         </div>
-        <div className="day-container">
-          <label className="year-label" htmlFor="month">
+        <div className={styles['day-container']}>
+          <label className={styles['year-label']} htmlFor="month">
             {' '}
             Day
           </label>
@@ -65,7 +65,7 @@ function DatePicker({ setDate }) {
             value={dateOfBirth.day} // mandatory
             id="day"
             name="birthDay"
-            classes="menu"
+            classes={styles.menu}
             optionClasses="option classes"
             onChange={(day) => {
             // mandatory
@@ -73,8 +73,8 @@ function DatePicker({ setDate }) {
             }}
           />
         </div>
-        <div className="year-container">
-          <label className="year-label" htmlFor="year">
+        <div className={styles['year-container']}>
+          <label className={styles['year-label']} htmlFor="year">
             {' '}
             Year
           </label>
@@ -87,7 +87,7 @@ function DatePicker({ setDate }) {
             value={dateOfBirth.year} // mandatory
             id="year"
             name="birthYear"
-            classes="menu"
+            classes={styles.menu}
             optionClasses="option classes"
             onChange={(year) => {
             // mandatory

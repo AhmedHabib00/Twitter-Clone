@@ -1,5 +1,6 @@
 import signUpInfo, { signUpCode, signUpUsername } from '../accountServices';
-
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import '@testing-library/jest-dom';
 
 describe('test post name, email, and birthdate', () => {
