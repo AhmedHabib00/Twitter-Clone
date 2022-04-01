@@ -101,7 +101,12 @@ function TweetBox() {
           <div className={styles['popup-imgs-container']}>
             {gifs.map((gif) => ((gifs.length === 0) ? '' : (
               <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>
-                <img className={styles['popup-img']} alt="" src={gif.images.original.url} />
+                <img
+                  id={`gif-popup-children-${gif.id}`}
+                  className={styles['popup-img']}
+                  alt=""
+                  src={gif.images.original.url}
+                />
               </div>
             )))}
           </div>
@@ -114,20 +119,40 @@ function TweetBox() {
         </a>
         <div className={styles['text-area']}>
           <div>
-            <textarea id="twbox-text-area" placeholder="What's Happening?" className={styles['tweet-input']} onInput={autoGrow} />
+            <textarea
+              id="twbox-text-area"
+              placeholder="What's Happening?"
+              className={styles['tweet-input']}
+              onInput={autoGrow}
+            />
           </div>
           <ImageBox images={images} onDeleteImage={deleteImage} />
           <div className={styles['text-area-icons']}>
             <div className={styles['media-icons']}>
               <div role="button" tabIndex="0" onClick={onSelectFIle}>
                 <PhotoOutlinedIcon className={styles['media-icon']} />
-                <input type="file" id="file" multiple="multiple" accept=".jpg, .png" ref={inputFile} onChange={handleFileInput} style={{ display: 'none' }} />
+                <input
+                  id="media-selection-from-pc"
+                  type="file"
+                  multiple="multiple"
+                  accept=".jpg, .png"
+                  ref={inputFile}
+                  onChange={handleFileInput}
+                  style={{ display: 'none' }}
+                />
               </div>
               <div role="button" tabIndex="0" onClick={onOpenGif}>
                 <GifBoxOutlinedIcon className={styles['media-icon']} />
               </div>
             </div>
-            <button type="submit" className={styles['tweet-icons-button']} onClick={handleSendData}>whisp</button>
+            <button
+              id="twbox-submit"
+              type="submit"
+              className={styles['tweet-icons-button']}
+              onClick={handleSendData}
+            >
+              whisp
+            </button>
           </div>
         </div>
       </div>

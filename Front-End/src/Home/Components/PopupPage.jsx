@@ -23,7 +23,7 @@ function PopupPage({ trigger, children, SetTrigger }) {
   };
   return (trigger) ? (
     <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
-      <div role="button" tabIndex={0} className={styles['popup-page-click-detect']} onClick={childClick}>
+      <div id="popup-page-children" role="button" tabIndex={0} className={styles['popup-page-click-detect']} onClick={childClick}>
         {children}
       </div>
     </div>

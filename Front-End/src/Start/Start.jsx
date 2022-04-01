@@ -21,6 +21,7 @@ function Start() {
             <h2>Join Whisper today.</h2>
             <div className={styles['buttons-group']}>
               <Button
+                id="signup-google-button"
                 data-testid="google-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
@@ -33,6 +34,7 @@ function Start() {
                 Sign up with Google
               </Button>
               <Button
+                id="signup-facebook-button"
                 data-testid="facebook-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
@@ -45,6 +47,7 @@ function Start() {
                 Sign up with Facebook
               </Button>
               <Button
+                id="signup-email-button"
                 data-testid="signup-button"
                 variant="outlined"
                 className={styles['signup-tweet']}
@@ -73,6 +76,7 @@ function Start() {
               </p>
               <h3>Already have an acount?</h3>
               <Button
+                id="signin-button"
                 data-testid="signin-button"
                 variant="outlined"
                 className={styles['sign-in']}

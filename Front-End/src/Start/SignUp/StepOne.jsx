@@ -91,6 +91,7 @@ function StepOne({
         </div>
         <div className="start-modals-button-container">
           <Button
+            id="next-button"
             data-testid="next-button"
             variant="outlined"
             className="start-modals-button"

@@ -16,7 +16,7 @@ function SearchBar({ placeHolder, searchValue }) {
   return (
     <div className={styles.searchbar}>
       <SearchOutlinedIcon className={styles['searchbar-icon']} />
-      <input type="search" placeholder={placeHolder} className={styles['searchbar-input']} onChange={updateGifs} />
+      <input id="searchbar-input-element" type="search" placeholder={placeHolder} className={styles['searchbar-input']} onChange={updateGifs} />
     </div>
   );
 }

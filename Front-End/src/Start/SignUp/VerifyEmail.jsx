@@ -63,6 +63,7 @@ function VerifyEmail({
         </div>
         <div className="start-modals-button-container">
           <Button
+            id="signup-submit-verification-code"
             variant="outlined"
             className="start-modals-button"
             type="submit"

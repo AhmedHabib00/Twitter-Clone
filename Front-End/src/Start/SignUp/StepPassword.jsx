@@ -74,6 +74,7 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
         </div>
         <div className="start-modals-button-container">
           <Button
+            id="Signup-submit-password"
             variant="outlined"
             className="start-modals-button"
             type="submit"

@@ -20,6 +20,7 @@ function AdminFoundation() {
           {
             pages.map((page) => (
               <Link
+                id={`admin-nav-${page.name}`}
                 to={`/${page.url}`}
                 key={page.url}
                 onClick={() => onNavItemClick(page.name)}

@@ -18,6 +18,7 @@ function ImageBox({ images, onDeleteImage }) {
     <div data-testid="image" className={styles.imagebox}>
       {images.map((image) => (
         <div
+          id="image-box-image-canvas"
           className={styles.image}
           key={image.id}
           style={{
@@ -26,7 +27,7 @@ function ImageBox({ images, onDeleteImage }) {
             width: `${imageWidth}%`,
           }}
         >
-          <div className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X</div>
+          <div id="image-box-delete-button" className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X</div>
 
         </div>
       ))}
