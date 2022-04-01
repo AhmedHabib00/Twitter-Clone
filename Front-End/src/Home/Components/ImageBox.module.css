@@ -1,7 +1,7 @@
 .imagebox {
   display: flex;
   justify-content: space-around;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .image {
@@ -10,6 +10,11 @@
   background-position: center center;
   background-size: cover;
   margin: 5px;
+}
+
+.row-images {
+  display: flex;
+  flex-direction: row;
 }
 
 .delete-image {

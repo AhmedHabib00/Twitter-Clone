@@ -20,7 +20,7 @@ function App() {
   const [isAdmin, setisAdmin] = useState(false);
   useEffect(() => {
     setIsLoggedIn(true);
-    setisAdmin(false);
+    setisAdmin(true);
   }, []);
   const mainPage = () => {
     if (isLoggedIn) {
@@ -67,7 +67,7 @@ function App() {
       }
       return userRoutes();
     }
-    return startRoutes;
+    return startRoutes();
   };
   return (
     <Router>
