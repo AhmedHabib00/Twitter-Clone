@@ -9,8 +9,6 @@ export default async function getStats(props) {
       setTweetsRatio(res.data[0].ratioTweets);
       setNoBanned(res.data[0].noBanned);
     });
-    // Success
-    // console.log(response);
     return (response);
   } catch (error) {
     if (error.response) {

@@ -1,4 +1,7 @@
 import getStats from '../adminServices';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import '@testing-library/jest-dom';
 
 describe('testing dashboard apis', () => {
   let noBanned = {};
@@ -15,9 +18,12 @@ describe('testing dashboard apis', () => {
   const setNoUsers = (data) => {
     noUsers = data;
   };
-  test('testing getting stats', async () => {
-    getStats({ setNoBanned, setTweetsRatio, setNoUsers }).then((response) => {
+  it('test post verification code', async () => {
+    getStats({ setNoBanned, setNoUsers, setTweetsRatio }).then((response) => {
       expect(response.status).toBe(201);
     });
+    console.log(noUsers);
+    console.log(tweetsRatio);
+    console.log(noBanned);
   });
 });
