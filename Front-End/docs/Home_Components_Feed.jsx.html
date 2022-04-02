@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Start/Components/useFormUserName.js</title>
+    <title>JSDoc: Source: Home/Components/Feed.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Start/Components/useFormUserName.js</h1>
+    <h1 class="page-title">Source: Home/Components/Feed.jsx</h1>
 
     
 
@@ -26,48 +26,58 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
-import validateUsername from './validateUsername';
-import { signUpUsername } from '../../Services/accountServices';
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './Feed.module.css';
+import Post from './Post';
 
 /**
- * This function is used to manage the username step in the signup form and apply
- * validations on it.
- * @param {string} userEmail used to send with username to the backend
- * @returns handleChange, values, handleSubmit, errors
+ *
+ * @param {array} data array containing our posts.
+ *
+ * @returns map through the post array data and starts passing the post props
+ * to display the posts in the feed component.
  */
-const useFormUserName = (userEmail) => {
-  const [values, setValues] = useState({
-    username: '',
-    email: '',
-  });
-  const [errors, setErrors] = useState({});
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-      email: userEmail,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validateUsername(values));
-    if (Object.keys(validateUsername(values)).length === 0) {
-      signUpUsername(values).then((response) => {
-        if (response.status === 201) {
-          // go to home page
-        }
-      });
+function Feed({ data }) {
+  return (
+    &lt;div data-testid="feed-render-test" className={styles.feed}>
+
+      {
+        data &amp;&amp; data.map((post) => (
+          &lt;Post
+            id={post.id}
+            displayname={post.displayname}
+            username={post.username}
+            content={post.content}
+            img1={post.img1}
+            img2={post.img2}
+            img3={post.img3}
+            img4={post.img4}
+          />
+        ))
     }
-  };
 
-  return {
-    handleChange, values, handleSubmit, errors,
-  };
+    &lt;/div>
+  );
+}
+
+Feed.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    displayname: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    img1: PropTypes.string.isRequired,
+    img2: PropTypes.string.isRequired,
+    img3: PropTypes.string.isRequired,
+    img4: PropTypes.string.isRequired,
+
+    // images: PropTypes.arrayOf(PropTypes.shape({
+    //   id: PropTypes.number.isRequired, src: PropTypes.string.isRequired,
+    // })).isRequired,
+  })).isRequired,
 };
-
-export default useFormUserName;
+export default Feed;
 </code></pre>
         </article>
     </section>

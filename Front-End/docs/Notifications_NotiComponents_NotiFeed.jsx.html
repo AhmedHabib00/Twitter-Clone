@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Start/Components/useFormUserName.js</title>
+    <title>JSDoc: Source: Notifications/NotiComponents/NotiFeed.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Start/Components/useFormUserName.js</h1>
+    <h1 class="page-title">Source: Notifications/NotiComponents/NotiFeed.jsx</h1>
 
     
 
@@ -26,48 +26,61 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
-import validateUsername from './validateUsername';
-import { signUpUsername } from '../../Services/accountServices';
-
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './NotiFeed.css';
+import NotiContent from './NotiContent';
 /**
- * This function is used to manage the username step in the signup form and apply
- * validations on it.
- * @param {string} userEmail used to send with username to the backend
- * @returns handleChange, values, handleSubmit, errors
+ * @param {array} data array containing our notifications.
+ * @returns map through the post array data and starts passing the notifications props
+ * to display the notifications in the feed component.
  */
-const useFormUserName = (userEmail) => {
-  const [values, setValues] = useState({
-    username: '',
-    email: '',
-  });
-  const [errors, setErrors] = useState({});
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-      email: userEmail,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validateUsername(values));
-    if (Object.keys(validateUsername(values)).length === 0) {
-      signUpUsername(values).then((response) => {
-        if (response.status === 201) {
-          // go to home page
-        }
-      });
+function NotiFeed({ data }) {
+  return (
+    &lt;div data-testid="feed-render-test" className={styles.notifeed}>
+
+      {
+        data &amp;&amp; data.map((content) => (
+          &lt;section className="feedbox1">
+            &lt;button className="feedbox2" type="button">
+              &lt;NotiContent
+                id={content.id}
+                displayname={content.displayname}
+                content1={content.content1}
+                content11={content.content11}
+                content2={content.content2}
+                content22={content.content22}
+                content3={content.content3}
+                content4={content.content4}
+                content5={content.content5}
+                content55={content.content55}
+                content6={content.content6}
+                notitype={content.notitype}
+              />
+            &lt;/button>
+          &lt;/section>
+        ))
     }
-  };
-
-  return {
-    handleChange, values, handleSubmit, errors,
-  };
+    &lt;/div>
+  );
+}
+NotiFeed.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    displayname: PropTypes.string.isRequired,
+    content1: PropTypes.string.isRequired,
+    content11: PropTypes.string.isRequired,
+    content2: PropTypes.string.isRequired,
+    content22: PropTypes.string.isRequired,
+    content3: PropTypes.string.isRequired,
+    content4: PropTypes.string.isRequired,
+    content5: PropTypes.string.isRequired,
+    content55: PropTypes.string.isRequired,
+    content6: PropTypes.string.isRequired,
+    notitype: PropTypes.string.isRequired,
+  })).isRequired,
 };
-
-export default useFormUserName;
+export default NotiFeed;
 </code></pre>
         </article>
     </section>
