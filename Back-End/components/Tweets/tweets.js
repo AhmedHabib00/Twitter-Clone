@@ -28,21 +28,20 @@ objectMulter={
 const upload=multer(objectMulter).array('im',4);
 
 
-
-const u1=new user({
-    firstName:"Ali",
-    lastName: "Adel",
-    username: "Ali_adell098",
-    email: "ali2000@gmail.com",
-    password: "123"
-});
-u1.save();
+// Test
+// const u1=new user({
+//     firstName:"Ali",
+//     lastName: "Adel",
+//     username: "Ali_adell098",
+//     email: "ali2000@gmail.com",
+//     password: "123"
+// });
+// u1.save();
 
 // const t1=new tweet({
 //     content:"hi world"
 // })
 // t1.save()
-
 
 
 router.post("/", function(req,res){
