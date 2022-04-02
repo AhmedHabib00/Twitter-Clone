@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 
 describe('test post name, email, and birthdate', () => {
   it('test post user info', async () => {
-    await signUpInfo({
+    signUpInfo({
       name: 'ahmed',
       email: 'ahmed@gmail.com',
       birthdate: '22-5-2022',
@@ -16,7 +16,7 @@ describe('test post name, email, and birthdate', () => {
 });
 describe('test verfication code', () => {
   it('test post verification code', async () => {
-    await signUpCode({
+    signUpCode({
       code: '123456',
       email: 'ahmed@gmail.com',
     }).then((response) => {
@@ -27,7 +27,7 @@ describe('test verfication code', () => {
 
 describe('test username ', () => {
   it('test post username', async () => {
-    await signUpUsername({
+    signUpUsername({
       username: '@ahmed',
       email: 'ahmed@gmail.com',
     }).then((response) => {
