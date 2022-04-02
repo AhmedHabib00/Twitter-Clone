@@ -15,13 +15,13 @@ function Dashboard() {
     interval: '',
     count: '',
   });
-  const [tweetsRatio, settweetsRatio] = useState({
+  const [tweetsRatio, setTweetsRatio] = useState({
     title: '',
     interval: '',
     count: '',
   });
   useEffect(() => {
-    getStats({ setNoUsers, setNoBanned, settweetsRatio });
+    getStats({ setNoUsers, setNoBanned, setTweetsRatio });
   }, []);
   return (
     <div className={styles.dashboard}>
