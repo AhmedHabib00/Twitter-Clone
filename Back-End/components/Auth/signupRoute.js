@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
     if (registerer && !registerer.confirmedEmail) {
         const deleteRegisterer = await Registerer.deleteMany({email: req.body.email});
     }
+
     //generate otp for the new user 
     const otp = Math.floor(100000 + Math.random() * 900000);
     
@@ -32,14 +33,16 @@ router.post('/', async (req, res) => {
         birthdate: req.body.birthdate,
         otp: otp
     }); 
-    await registerer.save();
+
+    const result= await registerer.save();
     try{
         await sendConfirmationEmail(registerer);
-        res.status(201).send({registererId: registerer._id, statusCode: 201 , message: "Verifaication email sent" });
+        return res.status(201).send({registererId: registerer._id, statusCode: 201 , message: "Verifaication email sent" });
     }
     catch (err){
-        res.status(409).send({ statusCode: 409, error: 'couldnt send email there is a conflict the relevant resource' });
+        return res.status(409).send({ statusCode: 409, error: 'couldnt send email there is a conflict the relevant resource' });
     }
+
 
 });
 

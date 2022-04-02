@@ -1,34 +1,33 @@
 const request=require('supertest');
 const server=require('../app');
 
-// describe("POST /signUp" ,()=>{
+describe("POST /signUp" ,()=>{
 
-//     describe("user gives required signup information (name email and bithdate)", ()=>{
-//         //status code is 201
-//         test("should respond with 201 status code", async ()=> {
-//             const response = await request(server).post('/signUp').send({
-//                 name:"name",
-//                 email:"useremail@gmail.com",
-//                 birthdate:"2355"
-//             })
+    describe("user gives required signup information (name email and bithdate)", ()=>{
+        //status code is 201
+        test("should respond with 201 status code", async ()=> {
+            const response = await request(server).post('/signUp').send({
+                name:"emailtestuser",
+                email:"user2@gmail.com",
+                birthdate:"12-3-45"
+            })
                 
-//             expect(response.statusCode).toBe(201)
-//         })
-//         //verification email is sent
-//     })
-//     describe("missing a signup inormation", ()=>{
+            expect(response.statusCode).toBe(201)
+        })
+        
+    })
+    describe("missing a signup inormation", ()=>{
 
-//         test("should respond with 400 status code", async ()=> {
-//             const response = await request(server).post("/signUp").send({
-//                 name:"name",
-//                 email:"useremail@gmail.com"
-//             })
-//             expect(response.statusCode).toBe(400)
-//         })
-//         //status code 400(bad request)
-//     })
+        test("should respond with 400 status code", async ()=> {
+            const response = await request(server).post("/signUp").send({
+                name:"emailtestuser",
+                email:"user2@gmail.com"
+            })
+            expect(response.statusCode).toBe(400)
+        })
+    })
 
-// });
+ });
 
 
 
@@ -41,7 +40,7 @@ describe("PATCH /signUp/verifyEmail" ,()=>{
         //status code is 200
         test("correct code entered and valid registerer", async ()=> {
             const response = await request(server).patch('/signUp/verifyEmail').send({
-                code:  333566,
+                code:  552419,
                 email: "user2@gmail.com"
             })
                 
@@ -49,7 +48,7 @@ describe("PATCH /signUp/verifyEmail" ,()=>{
         })
         test("Invalid registerer", async ()=> {
             const response = await request(server).patch('/signUp/verifyEmail').send({
-                code:  333566,
+                code:  552419,
                 email: "user5@gmail.com"
             })
                 

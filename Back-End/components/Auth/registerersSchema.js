@@ -41,8 +41,8 @@ const registererSchema = new mongoose.Schema({
     username: {
       type: String,
       minlength: 5,
-      maxlength: 50,
-      unique: true
+      maxlength: 50
+      //unique: true
     },
   },{ timestamps:true });
   
