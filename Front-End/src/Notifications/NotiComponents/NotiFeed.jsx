@@ -1,52 +1,55 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-import styles from './NotiFeed.css';
+import styles from './NotiFeed.module.css';
 import NotiContent from './NotiContent';
-
 /**
- *
- * @param {array} data array containing our posts.
- *
- * @returns map through the post array data and starts passing the post props
- * to display the posts in the feed component.
+ * @param {array} data array containing our notifications.
+ * @returns map through the post array data and starts passing the notifications props
+ * to display the notifications in the feed component.
  */
 function NotiFeed({ data }) {
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // setAnchorEl(data);
-  // console.log(data.contentss[0].displayname);
   return (
-    <div data-testid="feed-render-test" className={styles.notifeed}>
+    <div data-testid="notifeed-render-test" className={styles.notifeed}>
 
       {
         data && data.map((content) => (
-          <section className="feedbox1">
-            <button className="feedbox2" type="button">
+          <section className={styles.feedbox1}>
+            <button className={styles.feedbox2} type="button">
               <NotiContent
                 id={content.id}
                 displayname={content.displayname}
-                content={content.content}
-                notitype={content.content}
+                content1={content.content1}
+                content11={content.content11}
+                content2={content.content2}
+                content22={content.content22}
+                content3={content.content3}
+                content4={content.content4}
+                content5={content.content5}
+                content55={content.content55}
+                content6={content.content6}
+                notitype={content.notitype}
               />
             </button>
           </section>
         ))
     }
-
     </div>
   );
 }
-
 NotiFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     displayname: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    content1: PropTypes.string.isRequired,
+    content11: PropTypes.string.isRequired,
+    content2: PropTypes.string.isRequired,
+    content22: PropTypes.string.isRequired,
+    content3: PropTypes.string.isRequired,
+    content4: PropTypes.string.isRequired,
+    content5: PropTypes.string.isRequired,
+    content55: PropTypes.string.isRequired,
+    content6: PropTypes.string.isRequired,
     notitype: PropTypes.string.isRequired,
-
-    // images: PropTypes.arrayOf(PropTypes.shape({
-    //   id: PropTypes.number.isRequired, src: PropTypes.string.isRequired,
-    // })).isRequired,
   })).isRequired,
 };
 export default NotiFeed;

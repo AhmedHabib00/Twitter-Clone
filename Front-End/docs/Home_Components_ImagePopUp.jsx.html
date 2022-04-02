@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Start/Components/useFormUserName.js</title>
+    <title>JSDoc: Source: Home/Components/ImagePopUp.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Start/Components/useFormUserName.js</h1>
+    <h1 class="page-title">Source: Home/Components/ImagePopUp.jsx</h1>
 
     
 
@@ -26,48 +26,37 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
-import validateUsername from './validateUsername';
-import { signUpUsername } from '../../Services/accountServices';
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
+import styles from './ImagePopUp.module.css';
 
 /**
- * This function is used to manage the username step in the signup form and apply
- * validations on it.
- * @param {string} userEmail used to send with username to the backend
- * @returns handleChange, values, handleSubmit, errors
+ *
+ * @param {boolean} trigger     flag to see if the user has clicked on the image.
+ * @param {function} setTrigger function that set trigger to false when the user click close.
+ * @param {elements} childern   elements which will whole/display post's image in.
+ *
+ * @returns div element which will contain popUp including close-icon
+ * and passed childern
  */
-const useFormUserName = (userEmail) => {
-  const [values, setValues] = useState({
-    username: '',
-    email: '',
-  });
-  const [errors, setErrors] = useState({});
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-      email: userEmail,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validateUsername(values));
-    if (Object.keys(validateUsername(values)).length === 0) {
-      signUpUsername(values).then((response) => {
-        if (response.status === 201) {
-          // go to home page
-        }
-      });
-    }
-  };
+function ImagePopUp({ trigger, setTrigger, children }) {
+  return (trigger) ? (
+    &lt;div data-testid="image-render-test" className={styles.popup}>
+      &lt;div className={styles['popup-inner']}>
+        &lt;CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); }} />
+        {children}
+      &lt;/div>
+    &lt;/div>
+  ) : '';
+}
 
-  return {
-    handleChange, values, handleSubmit, errors,
-  };
+ImagePopUp.propTypes = {
+  trigger: PropTypes.bool.isRequired,
+  setTrigger: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
 };
-
-export default useFormUserName;
+export default ImagePopUp;
 </code></pre>
         </article>
     </section>

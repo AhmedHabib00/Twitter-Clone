@@ -1,84 +1,102 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-// import { Carousel } from 'react-responsive-carousel';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Menu } from '@mui/material';
-// import FlashOnRoundedIcon from '@mui/icons-material/FlashOnRounded';
+import FlashOnRoundedIcon from '@mui/icons-material/FlashOnRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-// import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-// import TwitterIcon from '@mui/icons-material/Twitter';
-// import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
-// import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PropTypes from 'prop-types';
-import styles from './NotiContent.css';
-// import ImagePopUp from './ImagePopUp';
-// import PopupPage from './PopupPage';
-// import TweetBox from './TweetBox';
-
+import styles from './NotiContent.module.css';
 /**
- *
- * @param {Number} id     Post Id
- * @param {String} displayname      User posted display name (user first name).
- * @param {String} content      Posted text.
+ * @param {Number} id      Id
+ * @param {String} displayname      User display name (user first name).
+ * @param {String} content1       text.
+ * @param {String} content2      text.
+ * @param {String} content3       text.
+ * @param {String} content4      text.
+ * @param {String} content5       text.
+ * @param {String} content6      text.
+ * @param {String} content11      tweets.
+ * @param {String} content22      tweets.
+ * @param {String} content55       text.
  *@param {String} notitype     different notifications icons.
- * @returns div element containing the whole whispered tweet
+ /**
+ return notifications content inside feed insidd notifications component
  */
 function NotiContent({
-  id, displayname, content,
+  id, displayname, content1, content11, content2, content22, content3, content4,
+  content5, content55, content6, notitype,
 }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  // const [imagePopUp, setImagePopUp] = useState(false);
-  // const [replyPopUp, setReplyPopUp] = useState(false);
-  // const [like, setLike] = useState(false);
-  // const [likeCount, setLikeCount] = useState(0);
-  // const [shareEl, setShareEl] = useState(null);
-  // const [retweetEl, setRetweetEl] = useState(null);
-  // const localurl = 'http://localhost:8000/NotiContent?id=1';
-  /**
-   *@returns get the number of the post likes.
-   */
-  const handelOpenMenu = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
-  const handelCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
+  let icon = null;
+  // console.log(content);
+  if (notitype === 'like') {
+    icon = <FavoriteRoundedIcon className={styles['like-icon']} />;
+  } else if (notitype === 'retweet') {
+    icon = <RepeatRoundedIcon className={styles['retweet-icon']} />;
+  } else if (notitype === 'missed') {
+    icon = <AutoAwesomeIcon className={styles['missed-icon']} />;
+  } else if (notitype === 'followed') {
+    icon = <PersonRoundedIcon className={styles['followed-icon']} />;
+  } else if (notitype === 'login') {
+    icon = <TwitterIcon className={styles['login-icon']} />;
+  } else if (notitype === 'news') {
+    icon = <FlashOnRoundedIcon className={styles['news-icon']} />;
+  } else {
+    icon = null;
+  }
+  let pp = <AccountCircleIcon />;
+  if (notitype === 'login' || notitype === 'news') {
+    console.log('pppppppppp');
+    pp = null;
+  }
+  console.log(id);
+  console.log(styles);
   return (
-    <div data-testid="post-render-test" className={styles.post}>
+    <div data-testid="noticontent-render-test" className={styles.parent}>
       {/* {
          Data && Data.map((post) => ( */}
-      <div className={styles.postbody} key={id}>
-        <div className={styles.postheader}>
-
-          <div className={styles.postheadertext}>
-
-            <h3>
-              <div data-testid="post-avatar-render-test" className={styles.postavatar}>
-
-                <FavoriteRoundedIcon className="like-icon" />
-
-                <AccountCircleIcon />
-
-                {displayname}
-                {' '}
-
-                <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
-
-                <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)} />
-
-              </div>
-            </h3>
-          </div>
-
-          <div data-testid="content-render-test" className={styles.postheaderdescription}>
-            <p>{content}</p>
-          </div>
-        </div>
-
+      <div data-testid="notitype-render-test">
+        {icon}
       </div>
-
+      {/* <AccountCircleIcon /> */}
+      <div data-testid="noticontent-avatar-render-test" className={styles.postavatar}>
+        {pp}
+      </div>
+      <div className={styles['display-name']}>
+        {displayname}
+      </div>
+      {' '}
+      <div data-testid="content-render-test">
+        <div className={styles.content1}>
+          {content1}
+        </div>
+        <div className={styles.content11}>
+          {content11}
+        </div>
+        <div className={styles.content2}>
+          {content2}
+        </div>
+        <div className={styles.content22}>
+          {content22}
+        </div>
+        <div className={styles.content3}>
+          {content3}
+        </div>
+        <div className={styles.content4}>
+          {content4}
+        </div>
+        <div className={styles.content5}>
+          {content5}
+        </div>
+        <div className={styles.content55}>
+          {content55}
+        </div>
+        <div className={styles.content6}>
+          {content6}
+        </div>
+      </div>
     </div>
   );
 }
@@ -86,7 +104,16 @@ function NotiContent({
 NotiContent.propTypes = {
   id: PropTypes.number.isRequired,
   displayname: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  content1: PropTypes.string.isRequired,
+  content11: PropTypes.string.isRequired,
+  content2: PropTypes.string.isRequired,
+  content22: PropTypes.string.isRequired,
+  content3: PropTypes.string.isRequired,
+  content4: PropTypes.string.isRequired,
+  content5: PropTypes.string.isRequired,
+  content55: PropTypes.string.isRequired,
+  content6: PropTypes.string.isRequired,
+  notitype: PropTypes.string.isRequired,
 };
 
 export default NotiContent;

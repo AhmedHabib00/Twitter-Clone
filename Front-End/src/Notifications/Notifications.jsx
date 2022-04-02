@@ -1,19 +1,20 @@
 import React from 'react';
 import NotiFeed from './NotiComponents/NotiFeed';
-import './Notifications.css';
+import styles from './Notifications.module.css';
 import Data from './NotiComponents/NotiData.json';
-
-// import Data from './Components/PostData.json';
-
+/**
+ *
+ * @returns shows everything in the notifications component
+ */
 function Notifications() {
   return (
-    <div className="notifications">
-      <section className="header1">
+    <div className={styles.notifications}>
+      <section className={styles.header1}>
         Notifications
       </section>
-      <section className="flex1">
-        <button className="flex-container" type="button">All</button>
-        <button className="flex-container" type="button">Mentions</button>
+      <section className={styles.flex1}>
+        <button className={styles['flex-container']} type="button">All</button>
+        <button className={styles['flex-container']} type="button">Mentions</button>
       </section>
       {/* <div>
         <h1>helloooooo</h1>

@@ -8,7 +8,7 @@
 }
 
 .feedbox1 {
-  text-align: left;
+  /* text-align: left; */
   background-color: white;
   color: black;
   font-weight: bold;
@@ -23,7 +23,7 @@
 .feedbox2 {
   flex: auto;
   background-color: white;
-  height: 200px;
+  min-height: 90px !important;
   width: 278px;
   margin: auto;
   cursor: pointer;
@@ -37,7 +37,7 @@
   background-color: #e9ebec;
 
   /* border-radius: 21px; */
-  height: 200px;
+  min-height: 90px !important;
   width: 278px;
   border-width: thick;
   border-color: grey;

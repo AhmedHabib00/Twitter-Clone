@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Start/Components/useFormUserName.js</title>
+    <title>JSDoc: Source: Notifications/Notifications.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Start/Components/useFormUserName.js</h1>
+    <h1 class="page-title">Source: Notifications/Notifications.jsx</h1>
 
     
 
@@ -26,48 +26,35 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
-import validateUsername from './validateUsername';
-import { signUpUsername } from '../../Services/accountServices';
-
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import NotiFeed from './NotiComponents/NotiFeed';
+import './Notifications.css';
+import Data from './NotiComponents/NotiData.json';
 /**
- * This function is used to manage the username step in the signup form and apply
- * validations on it.
- * @param {string} userEmail used to send with username to the backend
- * @returns handleChange, values, handleSubmit, errors
+ *
+ * @returns shows everything in the notifications component
  */
-const useFormUserName = (userEmail) => {
-  const [values, setValues] = useState({
-    username: '',
-    email: '',
-  });
-  const [errors, setErrors] = useState({});
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-      email: userEmail,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validateUsername(values));
-    if (Object.keys(validateUsername(values)).length === 0) {
-      signUpUsername(values).then((response) => {
-        if (response.status === 201) {
-          // go to home page
-        }
-      });
-    }
-  };
+function Notifications() {
+  return (
+    &lt;div className="notifications">
+      &lt;section className="header1">
+        Notifications
+      &lt;/section>
+      &lt;section className="flex1">
+        &lt;button className="flex-container" type="button">All&lt;/button>
+        &lt;button className="flex-container" type="button">Mentions&lt;/button>
+      &lt;/section>
+      {/* &lt;div>
+        &lt;h1>helloooooo&lt;/h1>
+      &lt;/div> */}
+      &lt;div>
+        &lt;NotiFeed className="notifeed" data={Data} />
+      &lt;/div>
+    &lt;/div>
 
-  return {
-    handleChange, values, handleSubmit, errors,
-  };
-};
-
-export default useFormUserName;
+  );
+}
+export default Notifications;
 </code></pre>
         </article>
     </section>
