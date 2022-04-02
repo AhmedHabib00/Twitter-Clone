@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import NumberStat from './NumberStat';
 import styles from './Dashboard.module.css';
+import getStats from '../Services/adminServices';
 
 function Dashboard() {
   const [noUsers, setNoUsers] = useState({
@@ -20,11 +21,7 @@ function Dashboard() {
     count: '',
   });
   useEffect(() => {
-    axios.get('http://localhost:8000/statData').then((res) => {
-      setNoUsers(res.data[0].noUsers);
-      settweetsRatio(res.data[0].ratioTweets);
-      setNoBanned(res.data[0].noBanned);
-    });
+    getStats({ setNoUsers, setNoBanned, settweetsRatio });
   }, []);
   return (
     <div className={styles.dashboard}>
