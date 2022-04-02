@@ -24,9 +24,6 @@ const userSchema = new mongoose.Schema ({
     // banned boolean
     // ban startDate and endDate
     // banning adminID   
-    
-
-
 },{timestamps: true});
 
 userSchema.methods.generateJWT = function (){
