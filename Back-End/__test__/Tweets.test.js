@@ -43,17 +43,6 @@
 //       });
   
 
-<<<<<<< HEAD
-=======
-//       it('Media exists and tweet content does not exist: should respond with a 200 status code',async() =>{
-//         const rs=await request(server).post('/tweets/').field("tweetContent", "")
-//         .attach('im',imagePath1)
-//         .attach('im',imagePath2)
-//         .set('authorization', `Bearer ${TOKEN}`) 
-
-//         expect(rs.statusCode).toEqual(200);
-//       });    
->>>>>>> f396c3ce7198d0a386e5939b5ca59ab642ad99d4
       
 //       it('More than 4 images are attached: should respond with a 400 status code',async() =>{
         
