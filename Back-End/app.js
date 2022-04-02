@@ -4,8 +4,6 @@ const session = require('express-session');
 const mongoose= require('./database');
 
 
-
-
 const signUp = require('./components/Auth/signupRoute');
 
 const port = process.env.PORT || 3000;

@@ -43,7 +43,6 @@ const upload=multer(objectMulter).array('im',4);
 // t1.save()
 
 
-
 router.post("/", function(req,res){
 
     upload(req,res,function(err){

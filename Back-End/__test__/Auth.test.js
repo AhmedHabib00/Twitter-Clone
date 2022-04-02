@@ -1,36 +1,33 @@
 const request=require('supertest');
 const server=require('../app');
 
-describe("POST /signUp" ,()=>{
+// describe("POST /signUp" ,()=>{
 
-    describe("user gives required signup information (name email and bithdate)", ()=>{
-        //status code is 201
-        test("should respond with 201 status code", async ()=> {
-            const response = await request(server).post('/signUp').send({
-                name:"emailtestuser",
-                email:"user2@gmail.com",
-                birthdate:"12-3-45"
-            })
+//     describe("user gives required signup information (name email and bithdate)", ()=>{
+//         //status code is 201
+//         test("should respond with 201 status code", async ()=> {
+//             const response = await request(server).post('/signUp').send({
+//                 name:"emailtestuser",
+//                 email:"user2@gmail.com",
+//                 birthdate:"12-3-45"
+//             })
                 
-            expect(response.statusCode).toBe(201)
-        })
-        
-    })
-    describe("missing a signup inormation", ()=>{
+//             expect(response.statusCode).toBe(201)
+//         })  
+//     })
+    
+//     describe("missing a signup inormation", ()=>{
 
-        test("should respond with 400 status code", async ()=> {
-            const response = await request(server).post("/signUp").send({
-                name:"emailtestuser",
-                email:"user2@gmail.com"
-            })
-            expect(response.statusCode).toBe(400)
-        })
-    })
+//         test("should respond with 400 status code", async ()=> {
+//             const response = await request(server).post("/signUp").send({
+//                 name:"emailtestuser",
+//                 email:"user2@gmail.com"
+//             })
+//             expect(response.statusCode).toBe(400)
+//         })
+//     })
 
- });
-
-
-
+//  });
 
 
 // describe("PATCH /signUp/verifyEmail" ,()=>{

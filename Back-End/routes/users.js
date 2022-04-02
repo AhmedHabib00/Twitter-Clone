@@ -17,9 +17,9 @@ router.get('/:id/followers', function(req,res){
     userSchema.find({"_id": req.params.id}).populate('followers').exec(function(err, followersData){
         if (!err) {
             // return followers data
-            res.send(followersData[0].followers)
+            return res.send(followersData[0].followers)
         } else {
-            res.send(err)
+            return res.send(err)
         }
     })
 });
@@ -30,9 +30,9 @@ router.get('/:id/following', function(req,res){
     userSchema.find({"_id": req.params.id}).populate('following').exec(function(err, followingData){
         if (!err) {
             // return following data
-            res.send(followingData[0].following)
+            return res.send(followingData[0].following)
         } else {
-            res.send(err)
+            return res.send(err)
         }
     })
 });
@@ -61,22 +61,22 @@ router.post('/:id/following', function(req,res){
                         followerData[0].followers.push(req.params.id);
                         followerData[0].save();
         
-                        res.send({"data": {
+                        return res.send({"data": {
                             "following": true
                         }});
                     }else{
-                        res.send({"data": {
+                        return res.send({"data": {
                             "following": false
                         }});
                     }
                 } else {
-                    res.send({"data": {
+                    return res.send({"data": {
                         "following": false
                     }});
                 }
             });
         } else {
-            res.send({"data": {
+            return res.send({"data": {
                 "following": false
             }});
         }
@@ -108,22 +108,22 @@ router.delete('/:source_user_id/following/:target_user_id', function(req,res){
                         followerData[0].followers = removeItem(followingData[0].followers, req.params.source_user_id);
                         followerData[0].save();
                         
-                        res.send({"data": {
+                        return res.send({"data": {
                             "following": false
                         }});
                     }else{
-                        res.send({"data": {
+                        return res.send({"data": {
                             "following": true
                         }});
                     }
                 } else {
-                    res.send({"data": {
+                    return res.send({"data": {
                         "following": true
                     }});
                 }
             });
         } else {
-            res.send({"data": {
+            return res.send({"data": {
                 "following": true
             }});
         }
