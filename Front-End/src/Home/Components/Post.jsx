@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -48,6 +48,21 @@ function Post({
   const [retweetEl, setRetweetEl] = useState(null);
   const localurl = 'http://localhost:8000/posts?id=1';
 
+  useEffect(() => {
+    axios.get(localurl)
+      .then((resp) => {
+        setLike(!like);
+        const whole = {};
+        whole.total = resp.data;
+        whole.likesNo = resp.data.map((post) => ({
+          likesNo: post.likes,
+        }));
+        setLikeCount(whole.likesNo[0].likesNo);
+      }).catch((error) => {
+        console.log('rfseargerhgtr');
+        console.log(error);
+      });
+  }, [like]);
   /**
    *@returns get the number of the post likes.
    */
@@ -61,8 +76,9 @@ function Post({
           likesNo: post.likes,
         }));
         // console.log(resp.data);
-        console.log(whole.likesNo[0]);
-        let likecounts = likeCount;
+        let likecounts = whole.likesNo[0].likesNo;
+
+        // setLikeCount(whole.likesNo[0].likesNo);
         if (!like) {
           // let likecounts = likeCount;
           likecounts += 1;
@@ -73,6 +89,7 @@ function Post({
           setLikeCount(likecounts);
         }
       }).catch((error) => {
+        console.log('rfseargerhgtr');
         console.log(error);
       });
   };
