@@ -30,13 +30,12 @@ const User = require('../User/userSchema');
 
 //gets data from the database about a single user
 router.get('/:userProfileId/profile_settings', async(req,res) => {
+    const user = await User.findById(req.params.userProfileId);
 
-    try{
-        const user = await User.findById(req.params.userProfileId);
-        // console.log(user);
+    if (user)
         return res.status(200).send(user);
-    }
-    catch (err){
+    else
+    {
         return res.status(400).send("Couldnot find ID")
     }
 
@@ -48,7 +47,7 @@ router.patch('/:userProfileId/profile_settings',async (req,res) => {
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
-            {$set:{name:req.body.name, bio:req.body.bio, location:req.body.location, birthDate:req.body.birthdate }});
+            {$set:{name:req.body.name, description:req.body.description, location:req.body.location, birthDate:req.body.birthdate }});
         res.json(updateUserProfile);
     }
     catch (err){

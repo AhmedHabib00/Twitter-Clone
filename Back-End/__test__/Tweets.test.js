@@ -1,7 +1,7 @@
 // const server=require('../app');
 // const request=require('supertest');
 // const path=require('path')
-// const TOKEN="62488bb6b2f6965dd7c6ff79"
+// const TOKEN="6248c3b66ad307b6e8623c57"
 // const imagePath1 = path.resolve(__dirname, `./TestImage1.JPG`);
 // const imagePath2 = path.resolve(__dirname, `./TestImage2.JPG`);
 // const imagePath3 = path.resolve(__dirname, `./TestImage3.JPG`);
@@ -42,7 +42,7 @@
 //         expect(rs.statusCode).toEqual(200);
 //       });
   
-
+ 
       
 //       it('More than 4 images are attached: should respond with a 400 status code',async() =>{
         

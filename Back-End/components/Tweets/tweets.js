@@ -14,7 +14,7 @@ const multer=require('multer')
 
 const filestorageEngine=multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null,"./uploads")
+        cb(null,"./__test__")
     },
     filename:(req,file,cb) => {
     cb (null,Date.now()+"-"+file.originalname);
@@ -75,6 +75,7 @@ router.post("/", function(req,res){
          console.log("no img")
      }
      else{
+         console.log("images here")
          m=req.files
          for(i=0;i<m.length;i++)
           {

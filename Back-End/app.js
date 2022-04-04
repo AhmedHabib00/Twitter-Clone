@@ -13,6 +13,9 @@ const port = process.env.PORT || 3000;
 
 app.use('/uploads',express.static('uploads'));
 
+app.use(bodyParser.json());
+app.use(express.json());
+
 
 // Users end points
 var users = require('./routes/users')
@@ -26,7 +29,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(bodyParser.json());
 
 
 const userProfileRoute = require('./components/UserProfile/userProfile')
@@ -40,7 +42,6 @@ app.use("/tweets", postRoute);
 
 
 // app.use(bodyParser.urlencoded({extended : true})) //for body-parser to return warning
-app.use(express.json());
 app.use ('/signUp',signUp);
 
 

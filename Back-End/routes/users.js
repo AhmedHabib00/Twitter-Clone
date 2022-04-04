@@ -45,6 +45,7 @@ router.post('/:id/following', function(req,res){
             // Get data of the user that will be followed from body request by target_user_id
             userSchema.find({"_id": req.body.target_user_id}).exec(function(err, followerData){
                 if (!err) {
+                    
                      // Check if user not follow target_user
                     followingExistPass = followingData[0].following.find(following => following == req.body.target_user_id)
                     followerExistPass = followerData[0].followers.find(follower => follower == req.params.id)
