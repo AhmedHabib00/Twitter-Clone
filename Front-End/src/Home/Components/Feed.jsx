@@ -25,6 +25,7 @@ function Feed({ data }) {
             img2={post.img2}
             img3={post.img3}
             img4={post.img4}
+            isLiked={post.isLiked}
           />
         ))
     }
@@ -43,7 +44,7 @@ Feed.propTypes = {
     img2: PropTypes.string.isRequired,
     img3: PropTypes.string.isRequired,
     img4: PropTypes.string.isRequired,
-
+    isLike: PropTypes.bool.isRequired,
     // images: PropTypes.arrayOf(PropTypes.shape({
     //   id: PropTypes.number.isRequired, src: PropTypes.string.isRequired,
     // })).isRequired,

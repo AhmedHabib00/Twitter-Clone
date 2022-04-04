@@ -37,7 +37,7 @@ import TweetBox from './TweetBox';
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, img1, img2, img3, img4,
+  id, displayname, username, content, img1, img2, img3, img4, isLiked,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
@@ -46,52 +46,53 @@ function Post({
   const [likeCount, setLikeCount] = useState(0);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
-  const localurl = 'http://localhost:8000/posts?id=1';
+  const localurl = `http://localhost:8000/posts?id=${id}`;
 
   useEffect(() => {
     axios.get(localurl)
       .then((resp) => {
-        setLike(!like);
-        const whole = {};
-        whole.total = resp.data;
-        whole.likesNo = resp.data.map((post) => ({
-          likesNo: post.likes,
-        }));
-        setLikeCount(whole.likesNo[0].likesNo);
+        console.log(resp.data);
+        setLikeCount(resp.data[0].likes);
+        setLike(isLiked);
       }).catch((error) => {
-        console.log('rfseargerhgtr');
         console.log(error);
       });
-  }, [like]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   /**
    *@returns get the number of the post likes.
    */
   const handellikes = () => {
-    axios.get(localurl)
-      .then((resp) => {
-        setLike(!like);
-        const whole = {};
-        whole.total = resp.data;
-        whole.likesNo = resp.data.map((post) => ({
-          likesNo: post.likes,
-        }));
-        // console.log(resp.data);
-        let likecounts = whole.likesNo[0].likesNo;
-
-        // setLikeCount(whole.likesNo[0].likesNo);
-        if (!like) {
-          // let likecounts = likeCount;
-          likecounts += 1;
-          setLikeCount(likecounts);
-        } else {
-          // let likecounts = likeCount;
-          likecounts -= 1;
-          setLikeCount(likecounts);
-        }
-      }).catch((error) => {
-        console.log('rfseargerhgtr');
-        console.log(error);
-      });
+    if (like) {
+      setLikeCount(likeCount - 1);
+      // axios.post(localurl, {
+      //   likes: (likeCount - 1),
+      //   isLiked: false,
+      //   id,
+      // })
+      //   .then((response) => {
+      //     setLikeCount(response.data[0].likes);
+      //     setLike(response.data[0].isLiked);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+    } else {
+      setLikeCount(likeCount + 1);
+      // axios.post(localurl, {
+      //   likes: (likeCount + 1),
+      //   isLiked: true,
+      // })
+      //   .then((response) => {
+      //     console.log(response);
+      //     setLikeCount(response.data[0].likes);
+      //     setLike(response.data[0].isLiked);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+    }
+    setLike(!like);
   };
 
   const handelOpenMenu = (e) => {
@@ -311,6 +312,7 @@ Post.propTypes = {
   img2: PropTypes.string.isRequired,
   img3: PropTypes.string.isRequired,
   img4: PropTypes.string.isRequired,
+  isLiked: PropTypes.bool.isRequired,
 };
 
 export default Post;
