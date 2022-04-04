@@ -29,14 +29,13 @@ const upload=multer(objectMulter).array('im',4);
 
 
 
-const u1=new user({
-    firstName:"Ali",
-    lastName: "Adel",
-    username: "Ali_adell098",
-    email: "ali2000@gmail.com",
-    password: "123"
-});
-u1.save();
+// const u1=new user({
+//     name:"Ali",
+//     username: "Adel",
+//     email: "Ali_adell098",
+//     password: "123"
+// });
+// u1.save();
 
 // const t1=new tweet({
 //     content:"hi world"
@@ -130,15 +129,49 @@ router.post("/", function(req,res){
      })
  })
 
-//  router.get("/LikesCount/:id",function(req,res){
-//      tweetTuple=tweet.findById(req.params.id)
-     
-//      .then(() => res.sendStatus(202))
-//      .catch(function(error){
-//             res.sendStatus(400);
-//      })
 
-//  })
+
+
+//Liking and unliking posts:
+//put not post(tell nouran)
+router.put("/:id/like",async(req,res)=>{
+    console.log("aywa")
+    console.log(req.params.id); //post id
+    var postId=req.params.id;
+    let token = req.headers["authorization"]
+    token = token.split(" ")[1];
+    console.log(token)
+    
+    //checking if this tweet exists:
+    var tweetFound=await tweet.find({_id:postId});
+    if(tweetFound.length==0){
+        return res.sendStatus(404)
+    }
+
+    var foundLike= await user.find({_id:token,likes:{ $all:[postId]}},{new:true})
+
+    if(foundLike.length!=0){
+
+        await user.findByIdAndUpdate(token,{$pull:{likes: postId}},{new:true})
+        await tweet.findByIdAndUpdate(postId,{$pull:{likes: token}},{new:true})
+        .catch(error => {
+            console.log(error);
+            return res.sendStatus(400);
+        })
+
+    }
+    else{
+        await user.findByIdAndUpdate(token,{$addToSet:{likes: postId}},{new:true})
+        await tweet.findByIdAndUpdate(postId,{$addToSet: {likes: token}},{new:true})
+        .catch(error => {
+            console.log(error);
+            return res.sendStatus(400);
+        })
+
+    }
+        return res.sendStatus(200);
+
+})
 
 
 

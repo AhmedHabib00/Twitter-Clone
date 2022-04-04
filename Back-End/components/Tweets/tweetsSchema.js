@@ -5,7 +5,7 @@ const Schema=mongoose.Schema;
 
 const tweetSchema = new mongoose.Schema({
 
-    content: {type: String ,trim: true ,required :true},
+    content: {type: String ,trim: true},
     //private: {type: Boolean, default: false}  
     pinned: {type: Boolean},
     postedBy: { type: Schema.Types.ObjectId, ref:'User'},
