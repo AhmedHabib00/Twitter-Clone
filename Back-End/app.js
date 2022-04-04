@@ -11,7 +11,7 @@ const signUp = require('./components/Auth/signupRoute');
 
 const port = process.env.PORT || 3000;
 
-app.use('/uploads',express.static('uploads'));
+app.use('/__test__',express.static('__test__'));
 
 app.use(bodyParser.json());
 app.use(express.json());
