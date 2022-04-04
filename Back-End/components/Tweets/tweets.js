@@ -30,10 +30,10 @@ const upload=multer(objectMulter).array('im',4);
 
 
 // const u1=new user({
-//     name:"Ali",
-//     username: "Adel",
-//     email: "Ali_adell098",
-//     password: "123"
+//     name:"Aliokk",
+//     username: "Adellflfl",
+//     email: "Ali_adell0983232525",
+//     password: "1232431431"
 // });
 // u1.save();
 
@@ -44,9 +44,9 @@ const upload=multer(objectMulter).array('im',4);
 
 
 
-router.post("/", function(req,res){
+router.post("/", async function(req,res){
 
-    upload(req,res,function(err){
+    upload(req,res,async function(err){
     if(err){
             console.log("here")
             res.sendStatus(400);
@@ -63,6 +63,7 @@ router.post("/", function(req,res){
  
      mediaTemp=[]
      contentTemp=""
+     replyTemp=""
      console.log("iam here");
         
      
@@ -82,18 +83,31 @@ router.post("/", function(req,res){
                  mediaTemp.push(req.files[i].path)
           }
      }
+
+     //if the tweet is a reply to another tweet
+             if(req.body.replyId) {
+                replyTemp = req.body.replyId;
+                //add to user the reply
+                await user.findByIdAndUpdate(token,{$addToSet:{replies: replyTemp}},{new:true})
+                .catch(error => {
+                    console.log(error);
+                    return res.sendStatus(400);
+                })                
+            } 
  
-     if(contentTemp!="" || mediaTemp!="")
-     {
-            
+     if(contentTemp!="" || mediaTemp!="" || replyTemp!="")
+     {  
+
             const userTweet= new tweet({
              content: req.body.tweetContent,
              postedBy: token,
              likes: token,
              retweeters:  token,
              retweetInfo:  token,
-             media: mediaTemp
-         });
+             media: mediaTemp,
+             replyTo:replyTemp
+            });
+
  
              userTweet.save(async function(err){
              if(err)
@@ -254,10 +268,11 @@ router.put("/:id/retweet",async(req,res)=>{
 })
 
 
-
-
-
-
+//reply to one tweet?
+//added fields in userschema
+//populate
+//token
+//count of likes
 
 
 
