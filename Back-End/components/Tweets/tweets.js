@@ -173,6 +173,93 @@ router.put("/:id/like",async(req,res)=>{
 
 })
 
+//Retweeting and unretweeting:
+router.put("/:id/retweet",async(req,res)=>{
+
+    console.log(req.params.id); //post id
+    var postId=req.params.id;
+    let token = req.headers["authorization"]
+    token = token.split(" ")[1];
+    console.log(token)
+    
+    //checking if the tweet we want to retweet exists:
+    var tweetFound=await tweet.find({_id:postId});
+    if(tweetFound.length==0){
+        return res.sendStatus(404)
+    }
+
+    //problem is en ma3nash id el retweeted tweet ele hia hatkonn el generated tweet law fe3lan howa msh 3amel retweet:
+    //checking law fe retweet 3al post ele bel id el ma3ana(haykoon fe info ek retweet data)
+    console.log("refrefr")
+    var found=await tweet.find({retweetInfo:postId,postedBy:token},{_id:1})
+    .catch(error => {
+        console.log(error);
+        return res.sendStatus(400);
+    })
+    console.log(found)
+    if(found.length==0) //couldn't find the retweet, therefore create it.
+        {
+            //create a tweet in table tweets di hatkoon el retweet
+            //A retweet has no content.
+            const userTweet= new tweet({
+                postedBy: token,
+                retweetInfo: postId,
+            });
+    
+            userTweet.save(async function(err){
+            if(err)
+                return res.sendStatus(400)
+            });
+        
+            //add to retweets in users table
+            await user.findByIdAndUpdate(token,{$addToSet:{retweets: postId}},{new:true})
+            .catch(error => {
+                console.log(error);
+                return res.sendStatus(400);
+            })
+            //add to retweeters of the post in table tweets
+            await tweet.findByIdAndUpdate(postId,{$addToSet:{retweeters: token}},{new:true})
+            .catch(error => {
+                console.log(error);
+                return res.sendStatus(400);
+            })
+        }
+        else 
+        {
+            console.log("sfrs")
+            //remove the retweet from tweets
+            await tweet.findByIdAndDelete(found)
+            .catch(error => {
+                console.log(error);
+                return res.sendStatus(400);
+            })
+            
+            //remove from retweets in users table
+            await user.findByIdAndUpdate(token,{$pull:{retweets: postId}},{new:true})
+            .catch(error => {
+                console.log(error);
+                return res.sendStatus(400);
+            })
+            //remove from retweeters in tweets table
+            await tweet.findByIdAndUpdate(postId,{$pull:{retweeters: token}},{new:true})
+            .catch(error => {
+                console.log(error);
+                return res.sendStatus(400);
+            })
+
+        }
+
+        res.sendStatus(200)
+
+})
+
+
+
+
+
+
+
+
 
 
 module.exports =router;
