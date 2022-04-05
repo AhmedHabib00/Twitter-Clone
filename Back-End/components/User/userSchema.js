@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema ({
     bookmarks: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
     //TODO : add list of tweets (refrences tweet schema)
     tweets:[ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
-    retweets:[ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
+    retweets:[ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }], //REMOVEEE
     replies:[ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }]
     //add pinned tweets (refrences tweet schema)	
     // banned boolean

@@ -54,7 +54,8 @@ router.post("/", async function(req,res){
         }
     
     else
-    {console.log("awel 7aga")
+    {
+        console.log("awel 7aga")
 
     let token = req.headers["authorization"]
     token = token.split(" ")[1];
@@ -63,17 +64,18 @@ router.post("/", async function(req,res){
  
      mediaTemp=[]
      contentTemp=""
-     replyTemp=""
+     replyTemp=undefined
      console.log("iam here");
         
      
-     if(req.body.tweetContent!=""){
-        console.log("the tweet:"+ req.body.tweetContent)
+     if(req.body.tweetContent!="")
+     {
          contentTemp=req.body.tweetContent
      }
  
  
-     if(!req.files){
+     if(!req.files)
+     {
          console.log("no img")
      }
      else{
@@ -85,17 +87,14 @@ router.post("/", async function(req,res){
      }
 
      //if the tweet is a reply to another tweet
-             if(req.body.replyId) {
-                replyTemp = req.body.replyId;
-                //add to user the reply
-                await user.findByIdAndUpdate(token,{$addToSet:{replies: replyTemp}},{new:true})
-                .catch(error => {
-                    console.log(error);
-                    return res.sendStatus(400);
-                })                
-            } 
+     if(req.body.replyId!="") 
+     {
+        replyTemp = req.body.replyId
+     }
+               
+             
  
-     if(contentTemp!="" || mediaTemp!="" || replyTemp!="")
+     if(contentTemp!="" || mediaTemp!="")
      {  
 
             const userTweet= new tweet({
@@ -109,25 +108,37 @@ router.post("/", async function(req,res){
             });
 
  
-             userTweet.save(async function(err){
+             userTweet.save(async function(err,theTweet){
              if(err)
              {
-                 console.log("heeree");
                  res.sendStatus(400);
              }
              else
              {
-                 await user.populate(userTweet, { path: "postedBy" });
-                 await user.populate(userTweet, { path: "likes" });
-                 await user.populate(userTweet, { path: "retweeters" });
-                 await tweet.populate(userTweet, { path: "retweetInfo" });
-                 res.sendStatus(200);
+                
+                 if(replyTemp==undefined)
+                 {
+                    await user.findByIdAndUpdate(token,{$addToSet:{tweets: theTweet.id}},{new:true})
+                    .catch(error => {
+                    console.log(error);
+                    return res.sendStatus(400);
+                    })  
+                 }
+                 else{
+                   //add to user the reply
+                   await user.findByIdAndUpdate(token,{$addToSet:{replies: replyTemp}},{new:true})
+                   .catch(error => {
+                      console.log(error);
+                   return res.sendStatus(400);
+                }) 
+                 }
+                 return res.sendStatus(200);
              }
          });
      }
      else{
-         console.log("hiooooo")
-         res.sendStatus(400);
+        
+         return res.sendStatus(400);
      }
     }
  });
@@ -220,13 +231,13 @@ router.put("/:id/retweet",async(req,res)=>{
                 retweetInfo: postId,
             });
     
-            userTweet.save(async function(err){
+            userTweet.save(async function(err,theRetweet){
             if(err)
                 return res.sendStatus(400)
             });
         
             //add to retweets in users table
-            await user.findByIdAndUpdate(token,{$addToSet:{retweets: postId}},{new:true})
+            await user.findByIdAndUpdate(token,{$addToSet:{retweets: theRetweet.id}},{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
@@ -249,7 +260,7 @@ router.put("/:id/retweet",async(req,res)=>{
             })
             
             //remove from retweets in users table
-            await user.findByIdAndUpdate(token,{$pull:{retweets: postId}},{new:true})
+            await user.findByIdAndUpdate(token,{$pull:{retweets: found}},{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
@@ -267,13 +278,17 @@ router.put("/:id/retweet",async(req,res)=>{
 
 })
 
-
+//reply has to have content/image
 //reply to one tweet?
 //added fields in userschema
+//post or put
 //populate
 //token
 //count of likes
-
+//api documentation
+//character count when posting tweets
+//deleting check law not found
+//pagenation
 
 
 
