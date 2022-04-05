@@ -1,11 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Timeline.dart';
 import 'package:whisper/layout/login.dart';
+import 'package:whisper/layout/profile_layout.dart';
 import 'package:whisper/layout/signup.dart';
-import 'package:whisper/shared/bloc_observer.dart';
 
-import 'layout/profile_layout.dart';
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -13,10 +14,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Whisper',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: ProfilePage(),
     );
   }
 }
@@ -27,12 +28,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(toolbarHeight: 0,),
       body: SafeArea(
         child: Container(
           // we will give media query height
           // double.infinity make it big as my parent allows
           // while MediaQuery make it big as per the screen
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
           child: Column(
@@ -71,7 +73,7 @@ class HomePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 4,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/twitterlogoB.png"))),
+                        image: AssetImage("lib/shared/Assets/Twitter_LogoB.png"))),
               ),
               Column(
                 children: <Widget>[

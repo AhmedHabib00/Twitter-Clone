@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TweetModel {
+  bool isLiked = false;
   late String tweet;
   late String username;
   late String time;
@@ -12,4 +13,12 @@ class TweetModel {
     required this.time,
     required this.twitterHandle
     });
+
+  void setLike(val) {
+    isLiked = val;
+  }
+
+  bool getLike(val) {
+    return isLiked;
+  }
 }
