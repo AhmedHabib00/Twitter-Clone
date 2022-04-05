@@ -202,7 +202,7 @@ router.put("/:id/like",async(req,res)=>{
 router.put("/:id/retweet",async(req,res)=>{
 
     console.log(req.params.id); //post id
-    var postId=req.params.id;
+    var postId=req.params.id; 
     let token = req.headers["authorization"]
     token = token.split(" ")[1];
     console.log(token)
@@ -212,16 +212,14 @@ router.put("/:id/retweet",async(req,res)=>{
     if(tweetFound.length==0){
         return res.sendStatus(404)
     }
+    
 
     //problem is en ma3nash id el retweeted tweet ele hia hatkonn el generated tweet law fe3lan howa msh 3amel retweet:
     //checking law fe retweet 3al post ele bel id el ma3ana(haykoon fe info ek retweet data)
     console.log("refrefr")
-    var found=await tweet.find({retweetInfo:postId,postedBy:token},{_id:1})
-    .catch(error => {
-        console.log(error);
-        return res.sendStatus(400);
-    })
-    console.log(found)
+    found=await tweet.find({retweetInfo:postId,postedBy:token}).select("_id") 
+
+
     if(found.length==0) //couldn't find the retweet, therefore create it.
         {
             //create a tweet in table tweets di hatkoon el retweet
@@ -234,10 +232,10 @@ router.put("/:id/retweet",async(req,res)=>{
             userTweet.save(async function(err,theRetweet){
             if(err)
                 return res.sendStatus(400)
-            });
-        
+            
+            
             //add to retweets in users table
-            await user.findByIdAndUpdate(token,{$addToSet:{retweets: theRetweet.id}},{new:true})
+            await user.findByIdAndUpdate(token,{$addToSet:{tweets: theRetweet.id}},{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
@@ -248,19 +246,21 @@ router.put("/:id/retweet",async(req,res)=>{
                 console.log(error);
                 return res.sendStatus(400);
             })
+        });
         }
         else 
         {
-            console.log("sfrs")
+            // console.log(found[_id])
             //remove the retweet from tweets
-            await tweet.findByIdAndDelete(found)
+            RetweetID=await tweet.findByIdAndDelete(found)
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
             })
             
+            
             //remove from retweets in users table
-            await user.findByIdAndUpdate(token,{$pull:{retweets: found}},{new:true})
+            await user.findByIdAndUpdate(token,{$pull:{tweets: RetweetID._id}},{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
