@@ -23,6 +23,9 @@ class TimelinePage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false ,
       home: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 0,
+        ),
         body: Column(
           children:
            [
@@ -30,14 +33,17 @@ class TimelinePage extends StatelessWidget {
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CircleAvatar(backgroundImage: NetworkImage('https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'), radius: 26,),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircleAvatar(backgroundImage: NetworkImage('https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'), radius: 16,),
+            ),
             IconButton(
               onPressed: (){},
               icon: FaIcon(FontAwesomeIcons.twitter),
-              iconSize: 30.0,
+              iconSize: 20.0,
               color: Colors.blue,
               ),
-            IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.star),iconSize: 30.0,),
+            IconButton(onPressed: (){}, icon: FaIcon(FontAwesomeIcons.star),iconSize: 20.0,),
 
         ]),
 

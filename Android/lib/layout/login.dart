@@ -122,14 +122,12 @@ class LoginPage extends StatelessWidget {
                       Expanded(
                         child: SignInButton(
                             Buttons.Facebook,
-                            mini: true,
                             onPressed: signIn2 //() => null,
                             ),
                       ),
                       Expanded(
                         child: SignInButton(
                             Buttons.Google,
-                            mini: true,
                             onPressed: signIn //() => null,
                             ),
                       )
