@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+//import 'package:flutter_signin_button/flutter_signin_button.dart';
+//import 'package:sign_button/constants.dart';
+import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/signup.dart';
+import 'package:whisper/layout/FogotPassword.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -94,44 +97,72 @@ class LoginPage extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          height: 20,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUpPage()));
-                          },
-                          child: const Text(
-                            "Don't have an account? Sig Up",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                    children: [
+                      const Text('Don\'t have an account? '),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const SignUpPage();
+                              },
                             ),
+                          );
+                        },
+                        child: const Text(
+                          'Sign up',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.blueAccent,
                           ),
                         ),
                       ),
                     ],
                   ),
                   Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: SignInButton(
-                            Buttons.Facebook,
-                            onPressed: signIn2 //() => null,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const ForgotPassPage();
+                              },
                             ),
+                          );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
                       ),
-                      Expanded(
-                        child: SignInButton(
-                            Buttons.Google,
-                            onPressed: signIn //() => null,
-                            ),
-                      )
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: SignInButton.mini(
+                              buttonType: ButtonType.facebook,
+                              onPressed: signIn2 //() => null,
+                              ),
+                        ),
+                        Expanded(
+                          child: SignInButton.mini(
+                              buttonType: ButtonType.google,
+                              buttonSize: ButtonSize.small,
+                              onPressed: signIn //() {},
+                              ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

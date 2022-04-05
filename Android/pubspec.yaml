@@ -38,8 +38,9 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_sticky_header: ^0.6.1
   font_awesome_flutter: ^9.0.0
+  sign_button: ^2.0.2
+  google_fonts: ^2.3.1
   google_sign_in: ^5.2.4
-  flutter_signin_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +66,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - lib/shared/Assets/Twitter_LogoB.png
+      - lib/shared/Assets/twitterlogoB.png
+      #- Assets/twitterlogoB.png
+      #- Assets/Google_Logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, prefer_const_literals_to_create_immutables, unnecessary_const
+
 import 'package:flutter/material.dart';
 import 'package:whisper/modules/tweetBoxWidget.dart';
 
@@ -10,7 +12,8 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+class _ProfilePageState extends State<ProfilePage>
+    with SingleTickerProviderStateMixin {
   bool isTitlePassed = false;
   bool isLiked = false;
 
@@ -26,38 +29,126 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     }
   }
 
-  var selectedIndex=0;
+  var selectedIndex = 0;
 
   final List<TweetModel> Tweets = [
-    TweetModel(username: "Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
-    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
-    TweetModel(username: "Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
-    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
-    TweetModel(username: "Hassan", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Hassan212"),
+    TweetModel(
+      username: "Kareem",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Kareem1",
+    ),
+    TweetModel(
+        username: "Ahmed",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Ahmed28"),
+    TweetModel(
+      username: "Kareem",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Kareem1",
+    ),
+    TweetModel(
+        username: "Ahmed",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Ahmed28"),
+    TweetModel(
+        username: "Hassan",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Hassan212"),
   ];
 
   final List<TweetModel> TweetsAndReplies = [
-    TweetModel(username: "Mario",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Mario12",),
-    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
-    TweetModel(username: "Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
-    TweetModel(username: "Mazen", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Mazen13"),
-    TweetModel(username: "Hassan", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Hassan212"),
+    TweetModel(
+      username: "Mario",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Mario12",
+    ),
+    TweetModel(
+        username: "Ahmed",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Ahmed28"),
+    TweetModel(
+      username: "Kareem",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Kareem1",
+    ),
+    TweetModel(
+        username: "Mazen",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Mazen13"),
+    TweetModel(
+        username: "Hassan",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Hassan212"),
   ];
 
   final List<TweetModel> Media = [
-    TweetModel(username: "Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
-    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
-    TweetModel(username: "Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
-    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
-    TweetModel(username: "Hassan", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Hassan212"),
+    TweetModel(
+      username: "Kareem",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Kareem1",
+    ),
+    TweetModel(
+        username: "Ahmed",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Ahmed28"),
+    TweetModel(
+      username: "Kareem",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Kareem1",
+    ),
+    TweetModel(
+        username: "Ahmed",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Ahmed28"),
+    TweetModel(
+        username: "Hassan",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Hassan212"),
   ];
 
   final List<TweetModel> Likes = [
-    TweetModel(username: "Mario",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Mario12",),
-    TweetModel(username: "Ahmed", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Ahmed28"),
-    TweetModel(username: "Kareem",tweet: "Lorem ipsum dolor sit amet", time: "7h",  twitterHandle: "@Kareem1",),
-    TweetModel(username: "Mazen", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Mazen13"),
-    TweetModel(username: "Hassan", tweet: "Lorem ipsum dolor sit amet",time: "3m",twitterHandle: "@Hassan212"),
+    TweetModel(
+      username: "Mario",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Mario12",
+    ),
+    TweetModel(
+        username: "Ahmed",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Ahmed28"),
+    TweetModel(
+      username: "Kareem",
+      tweet: "Lorem ipsum dolor sit amet",
+      time: "7h",
+      twitterHandle: "@Kareem1",
+    ),
+    TweetModel(
+        username: "Mazen",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Mazen13"),
+    TweetModel(
+        username: "Hassan",
+        tweet: "Lorem ipsum dolor sit amet",
+        time: "3m",
+        twitterHandle: "@Hassan212"),
   ];
 
   void _onUpdateScroll(ScrollMetrics metrics) {
@@ -94,22 +185,29 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 SliverAppBar(
                   title: Text(
                     isTitlePassed ? 'Username' : '',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
-                    ),
+                        color: Colors.white),
                   ),
-                  leading: Icon(Icons.arrow_back_rounded),
+                  leading: const Icon(Icons.arrow_back_rounded),
                   actions: [
-                    Icon(Icons.search_rounded, size: 30,),
-                    Icon(Icons.more_vert_rounded, size: 30,),
+                    const Icon(
+                      Icons.search_rounded,
+                      size: 30,
+                    ),
+                    const Icon(
+                      Icons.more_vert_rounded,
+                      size: 30,
+                    ),
                   ],
                   pinned: true,
                   expandedHeight: 140,
-
                   flexibleSpace: FlexibleSpaceBar(
-                    background: Image.network('https://pbs.twimg.com/profile_banners/829000467732639744/1619180713/1500x500', fit: BoxFit.cover,),
+                    background: Image.network(
+                      'https://pbs.twimg.com/profile_banners/829000467732639744/1619180713/1500x500',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -121,62 +219,60 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 27,
                               backgroundColor: Colors.white,
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage('https://pbs.twimg.com/profile_images/1464718930161844225/JUMaARns_400x400.jpg'),
+                              child: const CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    'https://pbs.twimg.com/profile_images/1464718930161844225/JUMaARns_400x400.jpg'),
                                 radius: 25,
                                 backgroundColor: Colors.white38,
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: (){},
+                                onPressed: () {},
                                 style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(18.0),
-                                            side: BorderSide(color: Colors.black, width: 0.25)
-                                        )
-                                    ),
-                                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                                    overlayColor: MaterialStateProperty.all(Colors.grey),
-                                    fixedSize: MaterialStateProperty.all(Size(120,30))
-                                ),
-
-                                child: const Text(
-                                    'Edit Profile',
+                                            borderRadius:
+                                                BorderRadius.circular(18.0),
+                                            side: const BorderSide(
+                                                color: Colors.black,
+                                                width: 0.25))),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    overlayColor:
+                                        MaterialStateProperty.all(Colors.grey),
+                                    fixedSize: MaterialStateProperty.all(
+                                        const Size(120, 30))),
+                                child: const Text('Edit Profile',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black
-                                    )
-                                ))
+                                        color: Colors.black)))
                           ],
                           mainAxisSize: MainAxisSize.max,
                         ),
-                        Text(
+                        const Text(
                           'Username',
                           style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: const Text(
                             '@username',
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w400,
                               color: Colors.grey,
-
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: const Text(
                             'Bio inserted here!',
                             style: TextStyle(
                               fontSize: 15,
@@ -184,84 +280,85 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                             ),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(top: 10),
-                          child: Row(
-                              children: [
-                                Expanded(
-                                    child: Text.rich(
-                                      TextSpan(
-                                          children: <InlineSpan>[
-                                            WidgetSpan(child: Icon(Icons.location_on_outlined, size: 20,)),
-                                            TextSpan(text: ' Location')
-                                          ]
-                                      ),
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black45
-                                      ),
-                                    )
-                                ),
-                                Expanded(
-                                    child: Text.rich(
-                                      TextSpan(
-                                          children: <InlineSpan>[
-                                            WidgetSpan(child: Icon(Icons.circle_outlined, size: 20,)),
-                                            TextSpan(text: ' Birthday')
-                                          ]
-                                      ),
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.black45
-                                      ),
-                                    )
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Row(children: [
+                            const Expanded(
+                                child: const Text.rich(
+                              TextSpan(children: <InlineSpan>[
+                                WidgetSpan(
+                                    child: Icon(
+                                  Icons.location_on_outlined,
+                                  size: 20,
+                                )),
+                                TextSpan(text: ' Location')
                               ]),
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.black45),
+                            )),
+                            const Expanded(
+                                child: const Text.rich(
+                              TextSpan(children: <InlineSpan>[
+                                WidgetSpan(
+                                    child: Icon(
+                                  Icons.circle_outlined,
+                                  size: 20,
+                                )),
+                                TextSpan(text: ' Birthday')
+                              ]),
+                              style: TextStyle(
+                                  fontSize: 15, color: Colors.black45),
+                            )),
+                          ]),
                         ),
-                        Padding(padding: EdgeInsets.only(top: 10),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 10),
                           child: Text.rich(
-                            TextSpan(
-                                children: <InlineSpan>[
-                                  WidgetSpan(child: Icon(Icons.calendar_month_outlined, size: 20,)),
-                                  TextSpan(text: ' Join Date')
-                                ]
-                            ),
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black45
-                            ),
+                            const TextSpan(children: <InlineSpan>[
+                              WidgetSpan(
+                                  child: Icon(
+                                Icons.calendar_month_outlined,
+                                size: 20,
+                              )),
+                              TextSpan(text: ' Join Date')
+                            ]),
+                            style:
+                                TextStyle(fontSize: 15, color: Colors.black45),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top:16.0),
+                          padding: const EdgeInsets.only(top: 16.0),
                           child: Row(
                             children: [
-                              Text('999',
+                              const Text(
+                                '999',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700
-                                ),),
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
                               InkWell(
-                                onTap: (){},
-                                child: Text(' Following',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black45
-                                  ),),
+                                onTap: () {},
+                                child: const Text(
+                                  ' Following',
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.black45),
+                                ),
                                 highlightColor: Colors.black26,
                               ),
-                              SizedBox(width: 10,),
-                              Text('999',
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                '999',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700
-                                ),),
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
                               InkWell(
-                                onTap: (){},
-                                child: Text(' Followers',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black45
-                                  ),),
+                                onTap: () {},
+                                child: const Text(
+                                  ' Followers',
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.black45),
+                                ),
                                 highlightColor: Colors.black26,
                               ),
                             ],
@@ -280,20 +377,18 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                     labelColor: Colors.black,
                     isScrollable: true,
                     tabs: [
-                      Tab(
+                      const Tab(
                         text: 'Tweets',
                       ),
-                      Tab(
+                      const Tab(
                         text: 'Tweets & Replies',
                       ),
-                      Tab (
-                          text: 'Media'
-                      ),
-                      Tab(
+                      const Tab(text: 'Media'),
+                      const Tab(
                         text: 'Likes',
                       ),
                     ],
-                    onTap: (index){
+                    onTap: (index) {
                       setState(() {
                         selectedIndex = index;
                       });
@@ -302,35 +397,43 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 ),
                 SliverToBoxAdapter(
                   child: IndexedStack(
-                      children: <Widget>[
-                        Visibility(
-                          child: Padding(child: tweetBoxWidget(Tweets, isLiked, like), padding: EdgeInsets.all(12)),
-                          maintainState: true,
-                          visible: selectedIndex == 0,
-                        ),
-                        Visibility(
-                          child: Padding(child: tweetBoxWidget(TweetsAndReplies, isLiked, like), padding: EdgeInsets.all(12)),
-                          maintainState: true,
-                          visible: selectedIndex == 1,
-                        ),
-                        Visibility(
-                          child: Padding(child: tweetBoxWidget(Media,isLiked, like), padding: EdgeInsets.all(12)),
-                          maintainState: true,
-                          visible: selectedIndex == 2,
-                        ),
-                        Visibility(
-                          child: Padding(child: tweetBoxWidget(Likes,isLiked, like), padding: EdgeInsets.all(12)),
-                          maintainState: true,
-                          visible: selectedIndex == 3,
-                        ),
-                      ],
-                      index: selectedIndex,
-                    ),
+                    children: <Widget>[
+                      Visibility(
+                        child: Padding(
+                            child: tweetBoxWidget(Tweets, isLiked, like),
+                            padding: const EdgeInsets.all(12)),
+                        maintainState: true,
+                        visible: selectedIndex == 0,
+                      ),
+                      Visibility(
+                        child: Padding(
+                            child:
+                                tweetBoxWidget(TweetsAndReplies, isLiked, like),
+                            padding: const EdgeInsets.all(12)),
+                        maintainState: true,
+                        visible: selectedIndex == 1,
+                      ),
+                      Visibility(
+                        child: Padding(
+                            child: tweetBoxWidget(Media, isLiked, like),
+                            padding: const EdgeInsets.all(12)),
+                        maintainState: true,
+                        visible: selectedIndex == 2,
+                      ),
+                      Visibility(
+                        child: Padding(
+                            child: tweetBoxWidget(Likes, isLiked, like),
+                            padding: const EdgeInsets.all(12)),
+                        maintainState: true,
+                        visible: selectedIndex == 3,
+                      ),
+                    ],
+                    index: selectedIndex,
+                  ),
                 ),
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }

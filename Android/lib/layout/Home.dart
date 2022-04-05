@@ -1,13 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:twitter_app/login.dart';
-import 'package:twitter_app/signup.dart';
+// ignore_for_file: file_names
 
-// void main() {
-//   runApp(const MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     home: HomePage(),
-//   ));
-// }
+import 'package:flutter/material.dart';
+import 'package:whisper/layout//login.dart';
+import 'package:whisper/layout/signup.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -59,7 +54,8 @@ class HomePage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 4,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage("assets/twitterlogoB.png"))),
+                        image:
+                            AssetImage("lib/shared/Assets/twitterlogoB.png"))),
               ),
               Column(
                 children: <Widget>[

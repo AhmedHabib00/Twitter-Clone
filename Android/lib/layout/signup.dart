@@ -1,7 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/login.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+//import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:whisper/layout//API/google_signIn_api.dart';
+import 'package:sign_button/sign_button.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -96,46 +99,48 @@ class SignUpPage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      height: 20,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
-                      },
-                      child: const Text(
-                        "Already have an account? Log in",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                children: [
+                  const Text('Already have an account? '),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const LoginPage();
+                          },
                         ),
+                      );
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.blueAccent,
                       ),
                     ),
                   ),
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SignInButton(
-                        Buttons.Facebook,
-
-                        onPressed: signIn2 //() => null,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: SignInButton.mini(
+                          buttonType: ButtonType.facebook,
+                          onPressed: signIn2 //() => null,
+                          ),
                     ),
-                  ),
-                  Expanded(
-                    child: SignInButton(
-
-                        Buttons.Google,
-                        onPressed: signIn //() => null,
-                    ),
-                  )
-                ],
+                    Expanded(
+                      child: SignInButton.mini(
+                          buttonType: ButtonType.google,
+                          buttonSize: ButtonSize.small,
+                          onPressed: signIn //() {},
+                          ),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
