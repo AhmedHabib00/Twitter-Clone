@@ -18,14 +18,15 @@ function Feed({ data }) {
         data && data.map((post) => (
           <Post
             id={post.id}
-            displayname={post.displayname}
-            username={post.username}
+            displayname={post.displayName}
+            username={post.userName}
             content={post.content}
             img1={post.img1}
             img2={post.img2}
             img3={post.img3}
             img4={post.img4}
             isLiked={post.isLiked}
+            noOfLike={post.likeCount}
           />
         ))
     }
@@ -37,8 +38,8 @@ function Feed({ data }) {
 Feed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    displayname: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     img1: PropTypes.string.isRequired,
     img2: PropTypes.string.isRequired,

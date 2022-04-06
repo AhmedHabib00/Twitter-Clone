@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -16,7 +16,6 @@ import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
 import LinkIcon from '@mui/icons-material/Link';
 import EditIcon from '@mui/icons-material/Edit';
 import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
@@ -37,28 +36,16 @@ import TweetBox from './TweetBox';
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, img1, img2, img3, img4, isLiked,
+  id, displayname, username, content, img1, img2, img3, img4, isLiked, noOfLike,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
   const [replyPopUp, setReplyPopUp] = useState(false);
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [like, setLike] = useState(isLiked);
+  const [likeCount, setLikeCount] = useState(noOfLike);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
-  const localurl = `http://localhost:8000/posts?id=${id}`;
 
-  useEffect(() => {
-    axios.get(localurl)
-      .then((resp) => {
-        console.log(resp.data);
-        setLikeCount(resp.data[0].likes);
-        setLike(isLiked);
-      }).catch((error) => {
-        console.log(error);
-      });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   /**
    *@returns get the number of the post likes.
    */
@@ -313,6 +300,7 @@ Post.propTypes = {
   img3: PropTypes.string.isRequired,
   img4: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
+  noOfLike: PropTypes.number.isRequired,
 };
 
 export default Post;
