@@ -139,7 +139,7 @@ function Post({
                   {username}
 
                 </span>
-                <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={[styles.postblue, styles.posthoricon]} />
+                <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
 
                 <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
                   <MenuList className={styles['dropdown-content ']}>
