@@ -9,6 +9,7 @@ import styles from './ImageBox.module.css';
  * @param {Function} onDeleteImage takes an id as an input for the parent component
  * to has remove image of repective id
  */
+
 function ImageBox({ images, onDeleteImage }) {
   let imageWidth = 100;
   if (images.length > 1) {

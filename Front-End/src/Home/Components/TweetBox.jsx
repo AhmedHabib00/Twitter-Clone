@@ -9,6 +9,7 @@ import PopupPage from './PopupPage';
 import SearchBar from './SearchBar';
 
 import styles from './TweetBox.module.css';
+import PostTweet from '../../Services/userServices';
 
 /**
  * This components takes a text input from user and a maximum of 4 media items
@@ -18,7 +19,7 @@ import styles from './TweetBox.module.css';
 function TweetBox() {
   const inputFile = createRef();
   const [images, setImages] = useState([]);
-  const [imageCount, setImageCount] = useState(1);
+  const [imageCount, setImageCount] = useState(0);
   const [isGifOpen, setIsGifOpen] = useState(false);
   const [gifs, setGifs] = useState([]);
 
@@ -49,7 +50,7 @@ function TweetBox() {
   };
 
   const handleFileInput = (event) => {
-    if (event.target.files.length + imageCount - 1 > 4) {
+    if (event.target.files.length + imageCount > 4) {
       return;
     }
     const tempImages = [...images];
@@ -57,8 +58,10 @@ function TweetBox() {
     if (event.target.files && event.target.files[0]) {
       Array.from(event.target.files).forEach((file) => {
         tempImages.push({
+          type: 'img',
           id: tempCounter,
           imageUrl: URL.createObjectURL(file),
+          imgFile: file,
         });
         tempCounter += 1;
       });
@@ -78,20 +81,23 @@ function TweetBox() {
   const onSelectGif = (url) => {
     setImages([...images,
       {
+        type: 'gif',
         id: imageCount,
         imageUrl: url,
       }]);
     setImageCount(imageCount + 1);
     document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     setIsGifOpen(!isGifOpen);
+    setGifs([]);
   };
 
   const handleSendData = () => {
     const { value } = document.getElementById('twbox-text-area');
-    console.log(value);
     document.getElementById('twbox-text-area').value = '';
     setImages([]);
-    setImageCount(1);
+    setGifs([]);
+    setImageCount(0);
+    PostTweet({ value, images });
   };
   return (
     <div>

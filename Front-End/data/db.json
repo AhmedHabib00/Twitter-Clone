@@ -1,4 +1,18 @@
 {
+  "Tweet": [
+    {
+      "content": "Amr Mohamed Zayed Basyouny",
+      "media": [
+        {},
+        {}
+      ],
+      "gifs": [
+        "https://media2.giphy.com/media/vQqeT3AYg8S5O/giphy.gif?cid=9610b4ce9ogzn5758azhizw24g4nnold6aatxo8sqjq61vly&rid=giphy.gif&ct=g",
+        "https://media1.giphy.com/media/rduw43Pq8B8OkrnOow/giphy.gif?cid=9610b4ce9ogzn5758azhizw24g4nnold6aatxo8sqjq61vly&rid=giphy.gif&ct=g"
+      ],
+      "id": 1
+    }
+  ],
   "signup": [
     {
       "name": "Abdulrehman Mahmoud Suliman",
