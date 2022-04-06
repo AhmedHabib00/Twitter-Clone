@@ -36,16 +36,23 @@ import TweetBox from './TweetBox';
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, img1, img2, img3, img4, isLiked, noOfLike,
+  id, displayname, username, content, img1, img2, img3,
+  img4, isLiked, noOfLike,
+  //  isRetweeted, noOfReplies, noOfRetweets,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
   const [replyPopUp, setReplyPopUp] = useState(false);
   const [like, setLike] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(noOfLike);
+  // const [repliesCount, setRepliesCount] = useState(noOfReplies);
+  // const [retweetCount, setRetweetCount] = useState(noOfRetweets);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
 
+  // const handleRetweets = () => {
+
+  // };
   /**
    *@returns get the number of the post likes.
    */

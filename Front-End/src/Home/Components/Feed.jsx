@@ -16,6 +16,7 @@ function Feed({ data }) {
 
       {
         data && data.map((post) => (
+
           <Post
             id={post.id}
             displayname={post.displayName}
@@ -26,9 +27,13 @@ function Feed({ data }) {
             img3={post.img3}
             img4={post.img4}
             isLiked={post.isLiked}
-            noOfLike={post.likeCount}
+            noOfLike={post.noOfLike}
+            isRetweeted={post.isRetweeted}
+            noOfReplies={post.noOfReplies}
+            noOfRetweets={post.noOfRetweets}
           />
         ))
+
     }
 
     </div>
@@ -45,10 +50,11 @@ Feed.propTypes = {
     img2: PropTypes.string.isRequired,
     img3: PropTypes.string.isRequired,
     img4: PropTypes.string.isRequired,
-    isLike: PropTypes.bool.isRequired,
-    // images: PropTypes.arrayOf(PropTypes.shape({
-    //   id: PropTypes.number.isRequired, src: PropTypes.string.isRequired,
-    // })).isRequired,
+    isLiked: PropTypes.bool.isRequired,
+    noOfLike: PropTypes.number.isRequired,
+    isRetweeted: PropTypes.bool.isRequired,
+    noOfReplies: PropTypes.number.isRequired,
+    noOfRetweets: PropTypes.number.isRequired,
   })).isRequired,
 };
 export default Feed;
