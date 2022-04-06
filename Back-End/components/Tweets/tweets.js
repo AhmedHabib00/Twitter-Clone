@@ -146,12 +146,26 @@ router.post("/", async function(req,res){
  
  
  //Deleting a tweet:
- router.delete("/:id", function(req, res){
-     tweet.findByIdAndDelete(req.params.id)
-     .then(() => res.sendStatus(202))
-     .catch(function(error){
-            res.sendStatus(400);
-     })
+ router.delete("/:id", async function(req, res){
+
+    try
+    {
+        deletedTweet=await tweet.findByIdAndDelete(req.params.id)
+    }
+    catch(error) 
+    {
+         return res.sendStatus(400);
+    }
+
+    if(!deletedTweet)
+    {
+        return res.sendStatus(400);
+    }
+    else
+    {
+        return res.sendStatus(200);
+    }
+     
  })
 
 
@@ -289,7 +303,7 @@ router.put("/:id/retweet",async(req,res)=>{
 //character count when posting tweets
 //deleting check law not found
 //pagenation
-
+//breaks connection if id not valid
 
 
 module.exports =router;
