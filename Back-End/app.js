@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended : true})) //for body-parser to return warning
 app.use(bodyParser.json())
 app.use('/uploads',express.static('uploads'));
-
+app.use('/gifs',express.static('gifs'));
 
 
 

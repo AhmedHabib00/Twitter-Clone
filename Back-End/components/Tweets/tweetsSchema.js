@@ -15,6 +15,9 @@ const tweetSchema = new mongoose.Schema({
     retweeters: [{ type: Schema.Types.ObjectId ,ref: 'User'}],
     retweetInfo: [{type:Schema.Types.ObjectId, ref: 'Tweet' }],
     replyTo: {type:Schema.Types.ObjectId, ref: 'Tweet' }, //changed to object instead of array of objects
+    gifs:[{
+        type:String
+    }],
     //mentions    
 // >>>>>>> Backend
 
