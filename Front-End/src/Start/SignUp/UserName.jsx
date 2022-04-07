@@ -3,7 +3,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './UserName.module.css';
-import useFormUserName from '../Components/useFormUserName';
+import useFormUserName from './Components/useFormUserName';
 
 /**
  * In this function the user will type his username

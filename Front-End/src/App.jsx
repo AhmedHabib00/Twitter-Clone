@@ -19,7 +19,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
   useEffect(() => {
-    setIsLoggedIn(true);
+    setIsLoggedIn(false);
     setisAdmin(true);
   }, []);
   const mainPage = () => {

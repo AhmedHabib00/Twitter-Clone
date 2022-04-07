@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import validateUsername from './validateUsername';
-import { signUpUsername } from '../../Services/accountServices';
+import { signUpUsername } from '../../../Services/accountServices';
 
 /**
  * This function is used to manage the username step in the signup form and apply

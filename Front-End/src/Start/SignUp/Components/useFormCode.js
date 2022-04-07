@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import validateCode from './validateCode';
-import { signUpCode } from '../../Services/accountServices';
+import { signUpCode } from '../../../Services/accountServices';
 
 /**
  * This function is used to manage the verification step in the signup form and apply

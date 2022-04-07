@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PropTypes from 'prop-types';
 import styles from './VerifyEmail.module.css';
-import useFormCode from '../Components/useFormCode';
+import useFormCode from './Components/useFormCode';
 /**
  * In this function the user will type his verification code
  * @param {function}  handleGoToStepOne [used to manage the back arrow to step one]

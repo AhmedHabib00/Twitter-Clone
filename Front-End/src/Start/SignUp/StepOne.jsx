@@ -4,9 +4,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import DatePicker from '../Components/DatePicker';
+import DatePicker from './Components/DatePicker';
 import styles from './StepOne.module.css';
-import useForm from '../Components/useForm';
+import useForm from './Components/useForm';
 
 /**
  * This is the first state in the signup form in which the user will

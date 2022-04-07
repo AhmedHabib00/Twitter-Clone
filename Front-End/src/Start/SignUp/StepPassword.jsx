@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './StepPassword.module.css';
-import useFormPassword from '../Components/useFormPassword';
+import useFormPassword from './Components/useFormPassword';
 
 /**
  * In this function the user will type his password

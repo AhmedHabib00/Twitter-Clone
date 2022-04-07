@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import validateInfo from './validateInfo';
-import signUpInfo from '../../Services/accountServices';
+import signUpInfo from '../../../Services/accountServices';
 
 /**
  * This function is used to manage the first step in the signup form and apply

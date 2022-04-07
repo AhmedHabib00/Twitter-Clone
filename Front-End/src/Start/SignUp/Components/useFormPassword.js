@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import validatePassword from './validatePassword';
-import { signUpPassword } from '../../Services/accountServices';
+import { signUpPassword } from '../../../Services/accountServices';
 
 /**
  * This function is used to manage the Password step in the signup form and apply
