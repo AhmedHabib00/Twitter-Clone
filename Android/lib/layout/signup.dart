@@ -1,13 +1,22 @@
 // ignore_for_file: sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:whisper/layout/login.dart';
-//import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
+import 'package:whisper/layout/VerifyEmail.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
+  @override
+  _SignUpPage createState() => _SignUpPage();
+}
+
+class _SignUpPage extends State<SignUpPage> {
+  DateTime date = DateTime.now();
+
+  get dateCtl => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,11 +68,38 @@ class SignUpPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: <Widget>[
-                    inputFile(label: "Username"),
+                    inputFile(label: "Name"),
                     inputFile(label: "Email"),
-                    inputFile(label: "Password", obscureText: true),
-                    inputFile(label: "Confirm Password", obscureText: true),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: TextFormField(
+                  readOnly: true,
+                  controller: dateCtl,
+                  decoration: const InputDecoration(
+                    labelText: 'Date of Birth',
+                  ),
+                  onTap: () async {
+                    await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2015),
+                      lastDate: DateTime(2025),
+                    ).then((selectedDate) {
+                      if (selectedDate != null) {
+                        dateCtl.text =
+                            DateFormat('yyyy-MM-dd').format(selectedDate);
+                      }
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter date.';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
@@ -80,14 +116,19 @@ class SignUpPage extends StatelessWidget {
                   child: MaterialButton(
                     minWidth: double.infinity,
                     height: 60,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const VerifyEmail()));
+                    },
                     color: const Color(0xff0095FF),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: const Text(
-                      "Sign Up",
+                      "Next",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
@@ -138,7 +179,7 @@ class SignUpPage extends StatelessWidget {
                           buttonSize: ButtonSize.small,
                           onPressed: signIn //() {},
                           ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -156,4 +197,34 @@ class SignUpPage extends StatelessWidget {
   Future signIn2() async {
     await GoogleSignInApi.login();
   }
+}
+
+// we will be creating a widget for text field
+Widget inputFile({label, obscureText = false}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text(
+        label,
+        style: const TextStyle(
+            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      TextField(
+        obscureText: obscureText,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color.fromARGB(255, 126, 126, 126)),
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Color.fromARGB(255, 139, 139, 139)),
+          ),
+          //hintText: 'looool'
+        ),
+      ),
+    ],
+  );
 }

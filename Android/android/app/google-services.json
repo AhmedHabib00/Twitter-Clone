@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "893102997808",
+    "project_id": "mindful-linker-344420",
+    "storage_bucket": "mindful-linker-344420.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893102997808:android:f3db976da09a1be9c288f5",
+        "android_client_info": {
+          "package_name": "com.example.Whisper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893102997808-7r5551kh9vnqcf2tfr6jlmhse6r28d86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTPh-suR60epuNLL5cTTWNJ078a2rrCis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893102997808-7r5551kh9vnqcf2tfr6jlmhse6r28d86.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

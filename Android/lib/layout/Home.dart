@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:whisper/layout//login.dart';
 import 'package:whisper/layout/signup.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+  @override
+  _HomePage createState() => _HomePage();
+}
 
+class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +107,7 @@ class HomePage extends StatelessWidget {
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ),
