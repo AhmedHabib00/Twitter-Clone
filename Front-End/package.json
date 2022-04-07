@@ -36,6 +36,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-test-renderer": "^18.0.0",
+    "recharts": "^2.1.9",
     "regenerator-runtime": "^0.13.9",
     "superagent": "^7.1.1",
     "web-vitals": "^2.1.4"
