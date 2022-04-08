@@ -18,6 +18,15 @@
   margin-top: 0;
 }
 
+.label-out {
+  display: flex;
+}
+
+.label {
+  padding-right: 10px;
+  margin-top: 0;
+}
+
 img {
   border-radius: 20px;
   object-fit: fill;

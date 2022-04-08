@@ -2,22 +2,25 @@ import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import PublishIcon from '@mui/icons-material/Publish';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
-import VolumeOffSharpIcon from '@mui/icons-material/VolumeOffSharp';
+// import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
 import BlockSharpIcon from '@mui/icons-material/BlockSharp';
 import { Menu, MenuList } from '@mui/material';
-import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
-import LinkIcon from '@mui/icons-material/Link';
-import EditIcon from '@mui/icons-material/Edit';
-import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
-import axios from 'axios';
+// import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
+// import LinkIcon from '@mui/icons-material/Link';
+// import EditIcon from '@mui/icons-material/Edit';
+// import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faComment, faShareFromSquare, faBookmark,
+} from '@fortawesome/free-regular-svg-icons';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
+import 'font-awesome/css/font-awesome.min.css';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
@@ -37,44 +40,57 @@ import TweetBox from './TweetBox';
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, img1, img2, img3, img4,
+  id, displayname, username, content, img1, img2, img3,
+  img4, isLiked, noOfLike,
+  isRetweeted, noOfRetweets, noOfReplies,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
   const [replyPopUp, setReplyPopUp] = useState(false);
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [like, setLike] = useState(isLiked);
+  const [likeCount, setLikeCount] = useState(noOfLike);
+  // const [repliesCount, setRepliesCount] = useState(noOfReplies);
+  // const [retweetCount, setRetweetCount] = useState(noOfRetweets);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
-  const localurl = 'http://localhost:8000/posts?id=1';
 
+  // const handleRetweets = () => {
+
+  // };
   /**
    *@returns get the number of the post likes.
    */
   const handellikes = () => {
-    axios.get(localurl)
-      .then((resp) => {
-        setLike(!like);
-        const whole = {};
-        whole.total = resp.data;
-        whole.likesNo = resp.data.map((post) => ({
-          likesNo: post.likes,
-        }));
-        // console.log(resp.data);
-        console.log(whole.likesNo[0]);
-        let likecounts = likeCount;
-        if (!like) {
-          // let likecounts = likeCount;
-          likecounts += 1;
-          setLikeCount(likecounts);
-        } else {
-          // let likecounts = likeCount;
-          likecounts -= 1;
-          setLikeCount(likecounts);
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
+    if (like) {
+      setLikeCount(likeCount - 1);
+      // axios.post(localurl, {
+      //   likes: (likeCount - 1),
+      //   isLiked: false,
+      //   id,
+      // })
+      //   .then((response) => {
+      //     setLikeCount(response.data[0].likes);
+      //     setLike(response.data[0].isLiked);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+    } else {
+      setLikeCount(likeCount + 1);
+      // axios.post(localurl, {
+      //   likes: (likeCount + 1),
+      //   isLiked: true,
+      // })
+      //   .then((response) => {
+      //     console.log(response);
+      //     setLikeCount(response.data[0].likes);
+      //     setLike(response.data[0].isLiked);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
+    }
+    setLike(!like);
   };
 
   const handelOpenMenu = (e) => {
@@ -100,6 +116,9 @@ function Post({
 
   return (
     <div data-testid="post-render-test" className={styles.post}>
+      {/* <div>
+        <FontAwesomeIcon icon={faCoffee} />
+      </div> */}
       {/* {
          Data && Data.map((post) => ( */}
       <div className={styles.postbody} key={id}>
@@ -124,53 +143,65 @@ function Post({
                 <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
 
                 <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                  <MenuList className={styles['dropdown-content ']}>
-                    {'    '}
-                    <PlaylistAddSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Add/remove @
-                    {displayname}
-                    {' '}
-                    from Lists
-                  </MenuList>
 
                   <MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    <VolumeOffSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Mute @
-                    {displayname}
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <VolumeOffOutlinedIcon className={styles['dropdown-content']} />
+                      <p className={styles.label}>
+                        {' '}
+                        Mute @
+                        {displayname}
+                      </p>
+                    </div>
                   </MenuList>
                   <MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    <BlockSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Block @
-                    {displayname}
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <BlockSharpIcon className={styles['dropdown-content']} />
+                      <p className={styles.label}>
+                        {' '}
+                        Block @
+                        {displayname}
+                      </p>
+                    </div>
                   </MenuList>
-                  <MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    <FollowTheSignsIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Follow @
-                    {displayname}
-                  </MenuList>
+                  {/* <MenuList className={styles['dropdown-content']}>
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <FollowTheSignsIcon className={styles['dropdown-content']} />
+                      {' '}
+                      <p className={styles.label}>
+                        {' '}
+                        Follow @
+                        {displayname}
+
+                      </p>
+                    </div>
+                  </MenuList> */}
                 </Menu>
 
                 <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <BookmarkAddSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Bookmark
+                    <div className={styles['label-out']}>
+                      <FontAwesomeIcon
+                        fontSize="large"
+                        className={styles['dropdown-content']}
+                        icon={faBookmark}
+                      />
+                      {/* <BookmarkAddSharpIcon className={styles['dropdown-content']} /> */}
+                      {' '}
+                      <p className={styles.label}>Bookmark</p>
+                    </div>
                   </MenuList>
-
+                  {/*
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <LinkIcon className={styles['dropdown-content']} />
                     {' '}
                     Copy link to Tweet
-                  </MenuList>
+                  </MenuList> */}
 
                 </Menu>
 
@@ -183,13 +214,13 @@ function Post({
                   </MenuList>
 
                   <MenuList className={styles['dropdown-content']}>
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <EditOutlinedIcon className={styles['dropdown-content']} />
+                      {' '}
 
-                    {'    '}
-                    <EditIcon className={styles['dropdown-content']} />
-                    {' '}
-
-                    Quote Tweet
-
+                      <p className={styles.label}>Quote Tweet</p>
+                    </div>
                   </MenuList>
 
                 </Menu>
@@ -229,44 +260,32 @@ function Post({
 
           </Carousel>
         </ImagePopUp>
-        {/* <div>
-          {
-             images && images.map((src) => (
-
-             ))
-
-           }
-
-        </div>
-
-        <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-          <Carousel>
-            {
-          images && images.map((src) => (
-            <div key={src.id}>
-              <img className={styles.imgpopup} src={src.src} alt="pic1" />
-            </div>
-          ))
-           }
-          </Carousel>
-        </ImagePopUp> */}
-
         <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
           <TweetBox />
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>
-          <ChatBubbleIcon
-            className={styles.postblue}
-            fontSize="small"
-            onClick={() => setReplyPopUp(true)}
-          />
-          <RepeatIcon
-            className={styles.postgreen}
-            fontSize="small"
-            aria-controls="retweet"
-            onClick={handelOpenRetweet}
-          />
+
+          <div className={styles.like}>
+            <FontAwesomeIcon
+              className={styles.postblue}
+              fontSize="large"
+              onClick={() => setReplyPopUp(true)}
+              icon={faComment}
+            />
+            <p>{noOfReplies}</p>
+          </div>
+
+          <div className={styles.like}>
+            <RepeatIcon
+              style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
+              className={styles.postgreen}
+              fontSize="small"
+              aria-controls="retweet"
+              onClick={handelOpenRetweet}
+            />
+            <p>{noOfRetweets}</p>
+          </div>
           <div className={styles.like}>
             <FavoriteBorderIcon
               style={(like) ? { color: '#f02896' } : { color: '' }}
@@ -276,7 +295,15 @@ function Post({
             />
             <p>{likeCount}</p>
           </div>
-          <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
+
+          <FontAwesomeIcon
+            className={styles.postblue}
+            fontSize="large"
+            aria-controls="share"
+            onClick={handelOpenShare}
+            icon={faShareFromSquare}
+          />
+
         </div>
 
       </div>
@@ -294,6 +321,11 @@ Post.propTypes = {
   img2: PropTypes.string.isRequired,
   img3: PropTypes.string.isRequired,
   img4: PropTypes.string.isRequired,
+  isLiked: PropTypes.bool.isRequired,
+  noOfLike: PropTypes.number.isRequired,
+  isRetweeted: PropTypes.bool.isRequired,
+  noOfRetweets: PropTypes.number.isRequired,
+  noOfReplies: PropTypes.number.isRequired,
 };
 
 export default Post;
