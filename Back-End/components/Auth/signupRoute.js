@@ -1,4 +1,3 @@
-const _= require('lodash');
 const bcrypt = require('bcrypt');
 const sendConfirmationEmail= require('./sendEmail.js');
 const User = require('../User/userSchema');
