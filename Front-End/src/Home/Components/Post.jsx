@@ -2,21 +2,25 @@ import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import PublishIcon from '@mui/icons-material/Publish';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
-import VolumeOffSharpIcon from '@mui/icons-material/VolumeOffSharp';
+// import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
 import BlockSharpIcon from '@mui/icons-material/BlockSharp';
 import { Menu, MenuList } from '@mui/material';
-import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
-import LinkIcon from '@mui/icons-material/Link';
-import EditIcon from '@mui/icons-material/Edit';
-import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
+// import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
+// import LinkIcon from '@mui/icons-material/Link';
+// import EditIcon from '@mui/icons-material/Edit';
+// import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faComment, faShareFromSquare, faBookmark,
+} from '@fortawesome/free-regular-svg-icons';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
+import 'font-awesome/css/font-awesome.min.css';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
@@ -38,7 +42,7 @@ import TweetBox from './TweetBox';
 function Post({
   id, displayname, username, content, img1, img2, img3,
   img4, isLiked, noOfLike,
-  //  isRetweeted, noOfReplies, noOfRetweets,
+  isRetweeted, // noOfReplies, noOfRetweets,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
@@ -112,6 +116,9 @@ function Post({
 
   return (
     <div data-testid="post-render-test" className={styles.post}>
+      {/* <div>
+        <FontAwesomeIcon icon={faCoffee} />
+      </div> */}
       {/* {
          Data && Data.map((post) => ( */}
       <div className={styles.postbody} key={id}>
@@ -136,53 +143,65 @@ function Post({
                 <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
 
                 <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                  <MenuList className={styles['dropdown-content ']}>
-                    {'    '}
-                    <PlaylistAddSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Add/remove @
-                    {displayname}
-                    {' '}
-                    from Lists
-                  </MenuList>
 
                   <MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    <VolumeOffSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Mute @
-                    {displayname}
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <VolumeOffOutlinedIcon className={styles['dropdown-content']} />
+                      <p className={styles.label}>
+                        {' '}
+                        Mute @
+                        {displayname}
+                      </p>
+                    </div>
                   </MenuList>
                   <MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    <BlockSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Block @
-                    {displayname}
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <BlockSharpIcon className={styles['dropdown-content']} />
+                      <p className={styles.label}>
+                        {' '}
+                        Block @
+                        {displayname}
+                      </p>
+                    </div>
                   </MenuList>
-                  <MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    <FollowTheSignsIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Follow @
-                    {displayname}
-                  </MenuList>
+                  {/* <MenuList className={styles['dropdown-content']}>
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <FollowTheSignsIcon className={styles['dropdown-content']} />
+                      {' '}
+                      <p className={styles.label}>
+                        {' '}
+                        Follow @
+                        {displayname}
+
+                      </p>
+                    </div>
+                  </MenuList> */}
                 </Menu>
 
                 <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    <BookmarkAddSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Bookmark
+                    <div className={styles['label-out']}>
+                      <FontAwesomeIcon
+                        fontSize="large"
+                        className={styles['dropdown-content']}
+                        icon={faBookmark}
+                      />
+                      {/* <BookmarkAddSharpIcon className={styles['dropdown-content']} /> */}
+                      {' '}
+                      <p className={styles.label}>Bookmark</p>
+                    </div>
                   </MenuList>
-
+                  {/*
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <LinkIcon className={styles['dropdown-content']} />
                     {' '}
                     Copy link to Tweet
-                  </MenuList>
+                  </MenuList> */}
 
                 </Menu>
 
@@ -195,13 +214,13 @@ function Post({
                   </MenuList>
 
                   <MenuList className={styles['dropdown-content']}>
+                    <div className={styles['label-out']}>
+                      {'    '}
+                      <EditOutlinedIcon className={styles['dropdown-content']} />
+                      {' '}
 
-                    {'    '}
-                    <EditIcon className={styles['dropdown-content']} />
-                    {' '}
-
-                    Quote Tweet
-
+                      <p className={styles.label}>Quote Tweet</p>
+                    </div>
                   </MenuList>
 
                 </Menu>
@@ -241,39 +260,20 @@ function Post({
 
           </Carousel>
         </ImagePopUp>
-        {/* <div>
-          {
-             images && images.map((src) => (
-
-             ))
-
-           }
-
-        </div>
-
-        <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-          <Carousel>
-            {
-          images && images.map((src) => (
-            <div key={src.id}>
-              <img className={styles.imgpopup} src={src.src} alt="pic1" />
-            </div>
-          ))
-           }
-          </Carousel>
-        </ImagePopUp> */}
-
         <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
           <TweetBox />
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>
-          <ChatBubbleIcon
+          <FontAwesomeIcon
             className={styles.postblue}
-            fontSize="small"
+            fontSize="large"
             onClick={() => setReplyPopUp(true)}
+            icon={faComment}
           />
+
           <RepeatIcon
+            style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
             className={styles.postgreen}
             fontSize="small"
             aria-controls="retweet"
@@ -288,7 +288,15 @@ function Post({
             />
             <p>{likeCount}</p>
           </div>
-          <PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
+
+          <FontAwesomeIcon
+            className={styles.postblue}
+            fontSize="large"
+            aria-controls="share"
+            onClick={handelOpenShare}
+            icon={faShareFromSquare}
+          />
+
         </div>
 
       </div>
@@ -308,6 +316,7 @@ Post.propTypes = {
   img4: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
   noOfLike: PropTypes.number.isRequired,
+  isRetweeted: PropTypes.bool.isRequired,
 };
 
 export default Post;
