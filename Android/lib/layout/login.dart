@@ -1,14 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
-//import 'package:flutter_signin_button/flutter_signin_button.dart';
-//import 'package:sign_button/constants.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/signup.dart';
 import 'package:whisper/layout/FogotPassword.dart';
+import 'package:whisper/layout/HomePage.dart';
+import 'package:whisper/models/TextField.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,11 +63,20 @@ class LoginPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: <Widget>[
-                        inputFile(label: "Email"),
-                        inputFile(label: "Password", obscureText: true)
-                      ],
+                    child: reusableTextField(
+                      "Email",
+                      Icons.person_outline,
+                      false,
+                      _emailTextController,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: reusableTextField(
+                      "Password",
+                      Icons.lock_outline,
+                      false,
+                      _passwordTextController,
                     ),
                   ),
                   Padding(
@@ -78,7 +94,23 @@ class LoginPage extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 60,
-                        onPressed: () {},
+                        onPressed: () {
+                          FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: _emailTextController.text,
+                                  password: _passwordTextController.text)
+                              .then((value) {
+                            // ignore: avoid_print
+                            print("Logged In");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()));
+                          }).onError((error, stackTrace) {
+                            // ignore: avoid_print
+                            print("Error ${error.toString()}");
+                          });
+                        },
                         color: const Color(0xff0095FF),
                         elevation: 5,
                         shape: RoundedRectangleBorder(
@@ -180,35 +212,4 @@ class LoginPage extends StatelessWidget {
   Future signIn2() async {
     await GoogleSignInApi.login();
   }
-}
-
-// we will be creating a widget for text field
-Widget inputFile({label, obscureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color.fromARGB(255, 126, 126, 126)),
-            ),
-            border: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: Color.fromARGB(255, 139, 139, 139)))),
-      ),
-      // const SizedBox(
-      //   height: 10,
-      // )
-    ],
-  );
 }

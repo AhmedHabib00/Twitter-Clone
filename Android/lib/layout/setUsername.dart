@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:whisper/layout/HomePage.dart';
 
 // ignore: camel_case_types
 class setUsername extends StatelessWidget {
@@ -66,7 +67,16 @@ class setUsername extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 60,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const HomePage();
+                              },
+                            ),
+                          );
+                        },
                         color: const Color(0xff0095FF),
                         elevation: 5,
                         shape: RoundedRectangleBorder(

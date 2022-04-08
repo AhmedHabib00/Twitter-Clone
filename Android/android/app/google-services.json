@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "893102997808",
-    "project_id": "mindful-linker-344420",
-    "storage_bucket": "mindful-linker-344420.appspot.com"
+    "project_number": "663656895570",
+    "project_id": "signin-example-d0f3e",
+    "storage_bucket": "signin-example-d0f3e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:893102997808:android:f3db976da09a1be9c288f5",
+        "mobilesdk_app_id": "1:663656895570:android:fe43c7b6eaebf1b4c47b8b",
         "android_client_info": {
-          "package_name": "com.example.Whisper"
+          "package_name": "com.example.whisper"
         }
       },
       "oauth_client": [
         {
-          "client_id": "893102997808-7r5551kh9vnqcf2tfr6jlmhse6r28d86.apps.googleusercontent.com",
+          "client_id": "663656895570-al2rn7on3cql9f3q39hj8ifpejcj7m1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whisper",
+            "certificate_hash": "deb4607b48237fa9e6b58ded4d5d306571ac3575"
+          }
+        },
+        {
+          "client_id": "663656895570-dqpnj5d31nrigb5cuklkl5jbpfvgb6si.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDTPh-suR60epuNLL5cTTWNJ078a2rrCis"
+          "current_key": "AIzaSyAmldNBJAQMOE3pfz0795oWb-RTXctJKZQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "893102997808-7r5551kh9vnqcf2tfr6jlmhse6r28d86.apps.googleusercontent.com",
+              "client_id": "663656895570-dqpnj5d31nrigb5cuklkl5jbpfvgb6si.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
