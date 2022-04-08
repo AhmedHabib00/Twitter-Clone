@@ -44,7 +44,7 @@ const upload=multer(objectMulter).array('images',4);
 // t1.save()
 // router.get("/",(req,res,next)=>{
 //     let token=jwt.sign({
-//         _id:"624f8ace022bb4a166c15aa7"
+//         _id:"624e4262ebc21b56c4edc483"
 //     },config.get('jwtPrivateKey')
 // )
 //   res.json({
@@ -52,7 +52,7 @@ const upload=multer(objectMulter).array('images',4);
 //   })
 // });
 
-
+//////////////////////////////////////////////////////////////////////////////Posting and replying
 router.post("/",auth, async function(req,res){
 
     //A tweet can have content or images or gifs, but it can not be empty 
@@ -74,7 +74,7 @@ router.post("/",auth, async function(req,res){
     //initialising images,gifs,content,reply as empty
      mediaTemp=[]
      contentTemp=""
-     replyTemp=undefined
+     replyTemp=undefined //represents an empty object
      gifTemp=""
         
      
@@ -126,6 +126,23 @@ router.post("/",auth, async function(req,res){
      if(req.body.replyId!="") 
      {
         replyTemp = req.body.replyId
+
+        //checking if the id of the tweet we are repling to is valid.
+        try
+        {
+            originalTweet=await tweet.findById(req.body.replyId)
+        }
+        catch(error) //error with finding (invalid id)
+        {
+             return res.sendStatus(400);
+        }
+    
+        if(!originalTweet) //the id of the tweet is not found
+        {
+            return res.sendStatus(400);
+            
+        }
+
      }
                
              
@@ -183,7 +200,7 @@ router.post("/",auth, async function(req,res){
 });
  
  
- //Deleting a tweet:
+ //////////////////////////////////////////////////////////////////////////////Deleting a tweet:
  router.delete("/:id",auth, async function(req, res){
 
     try
@@ -220,7 +237,7 @@ router.post("/",auth, async function(req,res){
 
 
 
-//Liking and unliking posts:
+//////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
 router.put("/:id/like",auth,async(req,res)=>{
     console.log("aywa")
     console.log(req.params.id); //post id
@@ -228,8 +245,15 @@ router.put("/:id/like",auth,async(req,res)=>{
     token=req.user._id
     
     //checking if this tweet exists:
-    var tweetFound=await tweet.find({_id:postId});
-    if(tweetFound.length==0){
+    try
+    {
+        var tweetFound=await tweet.find({_id:postId});
+    }
+    catch(error) //invalid tweet
+    {
+        return res.sendStatus(400);
+    }
+    if(tweetFound.length==0){ //tweet not found
         return res.sendStatus(400)
     }
 
@@ -239,6 +263,10 @@ router.put("/:id/like",auth,async(req,res)=>{
     if(foundLike.length!=0){
 
         await user.findByIdAndUpdate(token,{$pull:{likes: postId}},{new:true})
+        .catch(error => {
+            console.log(error);
+            return res.sendStatus(400);
+        })
         await tweet.findByIdAndUpdate(postId,{$pull:{likes: token}},{new:true})
         .catch(error => {
             console.log(error);
@@ -249,6 +277,10 @@ router.put("/:id/like",auth,async(req,res)=>{
     //if the tweet is unliked,like it.
     else{
         await user.findByIdAndUpdate(token,{$addToSet:{likes: postId}},{new:true})
+        .catch(error => {
+            console.log(error);
+            return res.sendStatus(400);
+        })
         await tweet.findByIdAndUpdate(postId,{$addToSet: {likes: token}},{new:true})
         .catch(error => {
             console.log(error);
@@ -262,7 +294,7 @@ router.put("/:id/like",auth,async(req,res)=>{
 
 
 
-//Retweeting and unretweeting:
+//////////////////////////////////////////////////////////////////////////////Retweeting and unretweeting:
 router.post("/:id/retweet",auth,async(req,res)=>{
 
     console.log(req.params.id); //post id
@@ -270,14 +302,25 @@ router.post("/:id/retweet",auth,async(req,res)=>{
     token=req.user._id
     
     //checking if the tweet we want to retweet exists:
-    var tweetFound=await tweet.find({_id:postId});
-    if(tweetFound.length==0){
-        return res.sendStatus(404)
+    try
+    {
+        var tweetFound=await tweet.find({_id:postId});
     }
+    catch(error) //invalid tweet
+    {
+        return res.sendStatus(400);
+    }
+    if(tweetFound.length==0){ //tweet not found
+        return res.sendStatus(400)
+    }    
     
 
     //Checking if the retweet already exists
     found=await tweet.find({retweetInfo:postId,postedBy:token}).select("_id") 
+    .catch(error => {
+        console.log(error);
+        return res.sendStatus(400);
+    })
 
 
     if(found.length==0) //couldn't find the retweet, therefore create it.
@@ -339,11 +382,9 @@ router.post("/:id/retweet",auth,async(req,res)=>{
 
 })
 
-
+//should i check en el user id valid ? 3'er el token.
 //pagenation
-//catch try errors
 //QUOTE RETWEET!
-//replying to certain people in the tweet
-//tweet can have multiple replies
+
 
 module.exports =router;
