@@ -42,7 +42,7 @@ import TweetBox from './TweetBox';
 function Post({
   id, displayname, username, content, img1, img2, img3,
   img4, isLiked, noOfLike,
-  isRetweeted, // noOfReplies, noOfRetweets,
+  isRetweeted, noOfRetweets, noOfReplies,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
@@ -265,20 +265,27 @@ function Post({
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>
-          <FontAwesomeIcon
-            className={styles.postblue}
-            fontSize="large"
-            onClick={() => setReplyPopUp(true)}
-            icon={faComment}
-          />
 
-          <RepeatIcon
-            style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
-            className={styles.postgreen}
-            fontSize="small"
-            aria-controls="retweet"
-            onClick={handelOpenRetweet}
-          />
+          <div className={styles.like}>
+            <FontAwesomeIcon
+              className={styles.postblue}
+              fontSize="large"
+              onClick={() => setReplyPopUp(true)}
+              icon={faComment}
+            />
+            <p>{noOfReplies}</p>
+          </div>
+
+          <div className={styles.like}>
+            <RepeatIcon
+              style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
+              className={styles.postgreen}
+              fontSize="small"
+              aria-controls="retweet"
+              onClick={handelOpenRetweet}
+            />
+            <p>{noOfRetweets}</p>
+          </div>
           <div className={styles.like}>
             <FavoriteBorderIcon
               style={(like) ? { color: '#f02896' } : { color: '' }}
@@ -317,6 +324,8 @@ Post.propTypes = {
   isLiked: PropTypes.bool.isRequired,
   noOfLike: PropTypes.number.isRequired,
   isRetweeted: PropTypes.bool.isRequired,
+  noOfRetweets: PropTypes.number.isRequired,
+  noOfReplies: PropTypes.number.isRequired,
 };
 
 export default Post;
