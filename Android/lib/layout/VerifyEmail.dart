@@ -2,9 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/setPassword.dart';
+import 'package:whisper/models/TextField.dart';
 
-class VerifyEmail extends StatelessWidget {
+class VerifyEmail extends StatefulWidget {
   const VerifyEmail({Key? key}) : super(key: key);
+  @override
+  _VerifyEmail createState() => _VerifyEmail();
+}
+
+class _VerifyEmail extends State<VerifyEmail> {
+  final TextEditingController _emailTextController = TextEditingController();
+  //final TextEditingController _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +47,28 @@ class VerifyEmail extends StatelessWidget {
                       Text(
                         " Email Verification",
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       inputFile(label: "Enter Verification Code"),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: <Widget>[
-                        inputFile(label: "Enter Verification Code"),
+                        reusableTextField(
+                          "Verification Code",
+                          Icons.lock_outline,
+                          false,
+                          _emailTextController,
+                        ),
                       ],
                     ),
                   ),

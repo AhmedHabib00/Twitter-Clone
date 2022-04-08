@@ -2,10 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/setUsername.dart';
+import 'package:whisper/models/TextField.dart';
 
 // ignore: camel_case_types
-class setPassword extends StatelessWidget {
+class setPassword extends StatefulWidget {
   const setPassword({Key? key}) : super(key: key);
+  @override
+  _setPassword createState() => _setPassword();
+}
+
+// ignore: camel_case_types
+class _setPassword extends State<setPassword> {
+  final TextEditingController _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,11 +52,24 @@ class setPassword extends StatelessWidget {
                       ),
                     ],
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       inputFile(label: "Password"),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       children: <Widget>[
-                        inputFile(label: "Password"),
+                        reusableTextField(
+                          "Set Password",
+                          Icons.lock_outline,
+                          false,
+                          _passwordTextController,
+                        ),
                       ],
                     ),
                   ),
