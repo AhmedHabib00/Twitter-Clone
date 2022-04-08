@@ -2,20 +2,26 @@ const express=require('express');
 const bodyParser= require('body-parser');
 const session = require('express-session');
 const mongoose= require('./database');
-
+const jwt = require('jsonwebtoken');
 
 
 
 const signUp = require('./components/Auth/signupRoute');
 
 const port = process.env.PORT || 3000;
-
+const config=require('config');
 const app = express();
 app.use(bodyParser.urlencoded({extended : true})) //for body-parser to return warning
 app.use(bodyParser.json())
 app.use('/uploads',express.static('uploads'));
-app.use('/gifs',express.static('gifs'));
 
+
+
+
+if(!config.get('jwtPrivateKey')){
+    console.error('FATAL ERROR')
+    process.exit(1);
+}
 
 
 

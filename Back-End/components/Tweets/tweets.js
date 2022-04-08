@@ -1,12 +1,14 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const user = require('../User/userSchema');
-const tweet=require('./tweetsSchema'); //returns the model 
+const tweet=require('./tweetsSchema');  
+const auth=require('../middleware/auth');
 
-const http = require('https'); // or 'https' for https:// URLs
+const http = require('https'); 
 const fs = require('fs');
-
 
 
 const multer=require('multer')
@@ -40,10 +42,18 @@ const upload=multer(objectMulter).array('images',4);
 //     content:"hi world"
 // })
 // t1.save()
+// router.get("/",(req,res,next)=>{
+//     let token=jwt.sign({
+//         _id:"624f8ace022bb4a166c15aa7"
+//     },config.get('jwtPrivateKey')
+// )
+//   res.json({
+//       token:token
+//   })
+// });
 
 
-
-router.post("/", async function(req,res){
+router.post("/",auth, async function(req,res){
 
     //A tweet can have content or images or gifs, but it can not be empty 
     //A tweet can have maximum 4 images/4 gifs.
@@ -59,17 +69,13 @@ router.post("/", async function(req,res){
         
     else{
 
-    // Token passed in the header     
-    let token = req.headers["authorization"]
-    token = token.split(" ")[1];
-    console.log(token)
- 
+    token=req.user._id
     
     //initialising images,gifs,content,reply as empty
      mediaTemp=[]
      contentTemp=""
      replyTemp=undefined
-     gifTemp=[]
+     gifTemp=""
         
      
      //if the tweet has content 
@@ -93,27 +99,28 @@ router.post("/", async function(req,res){
           }
      }
 
-     //if the tweet has gifs:
+     //if the tweet has a gif:
      if(req.body.gifs.length!=0)
      {
-         console.log(req.body.gifs.length)
-         console.log("here")
-         m=req.body.gifs
-         //more than 4 gifs belong to the tweet
-         if(m.length>4)
-            return res.sendStatus(400)
+        if(typeof(req.body.gifs)=="string")
+            {
+                gifTemp=req.body.gifs
+            }
 
-         for(i=0;i<m.length;i++)  
-         {
-             s=Date.now()+".gif"
-             const file = fs.createWriteStream("./gifs/"+s);
- 
-             const request = http.get(m[i], function(response) {
-             response.pipe(file);
-             });
-             gifTemp.push("gifs/"+s)
-        }
-    }
+        else
+            {
+                return res.sendStatus(400)  //can not have more than 1 gif    
+            } 
+
+        
+        if(mediaTemp.length!=0) //can not have images and a gif
+            {
+                 return res.sendStatus(400)
+            }
+              
+
+     }
+
 
      //if the tweet is a reply to another tweet
      if(req.body.replyId!="") 
@@ -129,15 +136,11 @@ router.post("/", async function(req,res){
             const userTweet= new tweet({
              content: req.body.content,
              postedBy: token,
-             likes: token,
-             retweeters:  token,
-             retweetInfo:  token,
              media: mediaTemp,
              replyTo:replyTemp,
              gifs:gifTemp
             });
 
-             console.log("new tweet")
              userTweet.save(async function(err,theTweet){
              if(err)
              {
@@ -181,25 +184,34 @@ router.post("/", async function(req,res){
  
  
  //Deleting a tweet:
- router.delete("/:id", async function(req, res){
-
-    //delete the images/gifs still not done
+ router.delete("/:id",auth, async function(req, res){
 
     try
     {
         deletedTweet=await tweet.findByIdAndDelete(req.params.id)
     }
-    catch(error) 
+    catch(error) //error with deleting
     {
          return res.sendStatus(400);
     }
 
-    if(!deletedTweet)
+    if(!deletedTweet) //the id of the tweet in the path parameters is not found
     {
         return res.sendStatus(400);
     }
     else
     {
+        //deleting the tweet's images from the uploads file
+        if(deletedTweet.media.length!=0)
+        {
+            for(i=0;i<deletedTweet.media.length;i++)
+            {
+                //from index 5 till the end
+                fileName= deletedTweet.media[i].substring(8,deletedTweet.media[i].length)
+                fs.unlinkSync("./uploads/"+fileName)
+            }
+        }
+
         return res.sendStatus(200);
     }
      
@@ -209,23 +221,21 @@ router.post("/", async function(req,res){
 
 
 //Liking and unliking posts:
-//put not post(tell nouran)
-router.put("/:id/like",async(req,res)=>{
+router.put("/:id/like",auth,async(req,res)=>{
     console.log("aywa")
     console.log(req.params.id); //post id
     var postId=req.params.id;
-    let token = req.headers["authorization"]
-    token = token.split(" ")[1];
-    console.log(token)
+    token=req.user._id
     
     //checking if this tweet exists:
     var tweetFound=await tweet.find({_id:postId});
     if(tweetFound.length==0){
-        return res.sendStatus(404)
+        return res.sendStatus(400)
     }
 
     var foundLike= await user.find({_id:token,likes:{ $all:[postId]}},{new:true})
 
+    //if the tweet is liked, unlike it
     if(foundLike.length!=0){
 
         await user.findByIdAndUpdate(token,{$pull:{likes: postId}},{new:true})
@@ -236,6 +246,7 @@ router.put("/:id/like",async(req,res)=>{
         })
 
     }
+    //if the tweet is unliked,like it.
     else{
         await user.findByIdAndUpdate(token,{$addToSet:{likes: postId}},{new:true})
         await tweet.findByIdAndUpdate(postId,{$addToSet: {likes: token}},{new:true})
@@ -249,14 +260,14 @@ router.put("/:id/like",async(req,res)=>{
 
 })
 
+
+
 //Retweeting and unretweeting:
-router.put("/:id/retweet",async(req,res)=>{
+router.post("/:id/retweet",auth,async(req,res)=>{
 
     console.log(req.params.id); //post id
     var postId=req.params.id; 
-    let token = req.headers["authorization"]
-    token = token.split(" ")[1];
-    console.log(token)
+    token=req.user._id
     
     //checking if the tweet we want to retweet exists:
     var tweetFound=await tweet.find({_id:postId});
@@ -265,15 +276,13 @@ router.put("/:id/retweet",async(req,res)=>{
     }
     
 
-    //problem is en ma3nash id el retweeted tweet ele hia hatkonn el generated tweet law fe3lan howa msh 3amel retweet:
-    //checking law fe retweet 3al post ele bel id el ma3ana(haykoon fe info ek retweet data)
-    console.log("refrefr")
+    //Checking if the retweet already exists
     found=await tweet.find({retweetInfo:postId,postedBy:token}).select("_id") 
 
 
     if(found.length==0) //couldn't find the retweet, therefore create it.
         {
-            //create a tweet in table tweets di hatkoon el retweet
+            //create a new retweet 
             //A retweet has no content.
             const userTweet= new tweet({
                 postedBy: token,
@@ -299,9 +308,10 @@ router.put("/:id/retweet",async(req,res)=>{
             })
         });
         }
+
+        //there is a retweet, therefore unretweet.
         else 
         {
-            // console.log(found[_id])
             //remove the retweet from tweets
             RetweetID=await tweet.findByIdAndDelete(found)
             .catch(error => {
@@ -325,30 +335,15 @@ router.put("/:id/retweet",async(req,res)=>{
 
         }
 
-        res.sendStatus(200)
+        return res.sendStatus(200)
 
 })
 
-//reply has to have content/image
-//reply to one tweet?
-//added fields in userschema
-//post or put
-//populate
-//token
-//count of likes
-//api documentation
-//character count when posting tweets
-//deleting check law not found
+
 //pagenation
-//breaks connection if id not valid
 //catch try errors
-//https or http?
-
-//gifs
 //QUOTE RETWEET!
-//NOTE:
-//when deleting a tweet delete also the images that were part of it from file uploads :O
-//will I need the gif/image stored in a file?
-
+//replying to certain people in the tweet
+//tweet can have multiple replies
 
 module.exports =router;
