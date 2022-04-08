@@ -7,6 +7,8 @@ const mongoose= require('./database');
 
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
+const oAuth = require('./components/Auth/OAuthRoute');
+
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({extended : true})) //for body-parser to return wa
 app.use(express.json());
 app.use ('/signUp',signUp);
 app.use ('/login',login);
+app.use ('/auth',oAuth);
 
 
 const server =app.listen(port,()=>

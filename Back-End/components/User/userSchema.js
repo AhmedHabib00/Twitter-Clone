@@ -5,9 +5,10 @@ require('dotenv').config({ path: 'config.env'});
 const userSchema = new mongoose.Schema ({
 
     name: {type :String ,required :true,trim: true},
-    username: { type :String ,required :true,trim: true, unique: true},
+    username: { type :String ,trim: true, unique: true},
     email: { type :String ,required :true,trim: true, unique: true},
-    password: { type: String ,required :true},
+    password: { type: String},
+    googleId:{ type:String},
     profilePic: {type: String}, // TODO:add default picture url
     coverPhoto: {type: String},
     birthdate:{type: Date},
