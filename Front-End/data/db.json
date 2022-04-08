@@ -1,4 +1,18 @@
 {
+  "Tweet": [
+    {
+      "content": "Amr Mohamed Zayed Basyouny",
+      "media": [
+        {},
+        {}
+      ],
+      "gifs": [
+        "https://media2.giphy.com/media/vQqeT3AYg8S5O/giphy.gif?cid=9610b4ce9ogzn5758azhizw24g4nnold6aatxo8sqjq61vly&rid=giphy.gif&ct=g",
+        "https://media1.giphy.com/media/rduw43Pq8B8OkrnOow/giphy.gif?cid=9610b4ce9ogzn5758azhizw24g4nnold6aatxo8sqjq61vly&rid=giphy.gif&ct=g"
+      ],
+      "id": 1
+    }
+  ],
   "signup": [
     {
       "name": "Abdulrehman Mahmoud Suliman",
@@ -993,86 +1007,164 @@
       "id": 35
     }
   ],
-  "statData": [
-    {
-      "noUsers": {
-        "title": "No. of users",
-        "interval": "all time",
-        "count": "10M"
-      },
-      "noBanned": {
-        "title": "No. of banned users",
-        "interval": "all time",
-        "count": "50"
-      },
-      "ratioTweets": {
-        "title": "Tweets increased/decreased at",
-        "interval": "Mar 2022",
-        "count": "50%"
-      },
-      "noTweets": {
-        "title": "No. of tweets",
-        "interval": "2022",
-        "count": [
-          {
-            "Jan": 142,
-            "Feb": 43,
-            "Mar": 202,
-            "Apr": 1532,
-            "May": 1532,
-            "June": 232,
-            "July": 12,
-            "Aug": 32,
-            "Sep": 252,
-            "Oct": 432,
-            "Nov": 132,
-            "Dec": 232
-          }
-        ]
-      },
-      "noJoined": {
-        "title": "No. of joined users",
-        "interval": 2022,
-        "count": [
-          {
-            "Jan": 142,
-            "Feb": 43,
-            "Mar": 202,
-            "Apr": 1532,
-            "May": 1532,
-            "June": 232,
-            "July": 12,
-            "Aug": 32,
-            "Sep": 252,
-            "Oct": 432,
-            "Nov": 132,
-            "Dec": 232
-          }
-        ]
-      },
-      "noAgeUsers": {
-        "title": "Age of users",
-        "count": [
-          {
-            "<15": 10,
-            "15-20": 30,
-            "20-30": 20,
-            "30-40": 15,
-            "40-50": 25
-          }
-        ]
-      },
-      "noMostFollowed": {
-        "title": "Most followed users",
-        "count": [
-          {
-            "USERNAME": 130,
-            "USERNAME_1": 90,
-            "USERNAME_2": 30,
-            "USERNAME_3": 10
-          }
-        ]
-      }
+  "statData":
+  {
+    "noUsers": {
+      "title": "No. of users",
+      "interval": "all time",
+      "count": "10M"
+    },
+    "noBanned": {
+      "title": "No. of banned users",
+      "interval": "all time",
+      "count": "50"
+    },
+    "ratioTweets": {
+      "title": "Tweets increased/ decreased at",
+      "interval": "Mar 2022",
+      "count": "50%"
+    },
+    "noTweets": {
+      "title": "Number of tweets",
+      "stats": [
+        {
+          "name": "jan",
+          "count": 120
+        },
+        {
+          "name": "feb",
+          "count": 100
+        },
+        {
+          "name": "mar",
+          "count": 220
+        },
+        {
+          "name": "apr",
+          "count": 150
+        },
+        {
+          "name": "May",
+          "count": 50
+        },
+        {
+          "name": "June",
+          "count": 70
+        },
+        {
+          "name": "Jul",
+          "count": 100
+        },
+        {
+          "name": "Aug",
+          "count": 90
+        },
+        {
+          "name": "Sep",
+          "count": 250
+        },
+        {
+          "name": "Oct",
+          "count": 200
+        },
+        {
+          "name": "Nov",
+          "count": 170
+        },
+        {
+          "name": "Dec",
+          "count": 140
+        }
+      ]
+    },
+    "noJoined": {
+      "title": "No. of joined users",
+      "stats": [
+        {
+          "name": "jan",
+          "count": 100
+        },
+        {
+          "name": "feb",
+          "count": 220
+        },
+        {
+          "name": "mar",
+          "count": 120
+        },
+        {
+          "name": "apr",
+          "count": 50
+        },
+        {
+          "name": "May",
+          "count": 100
+        },
+        {
+          "name": "June",
+          "count": 250
+        },
+        {
+          "name": "Jul",
+          "count": 150
+        },
+        {
+          "name": "Aug",
+          "count": 200
+        },
+        {
+          "name": "Sep",
+          "count": 140
+        },
+        {
+          "name": "Oct",
+          "count": 170
+        },
+        {
+          "name": "Nov",
+          "count": 70
+        },
+        {
+          "name": "Dec",
+          "count": 90
+        }
+      ]
+    },
+    "noAgeUsers": {
+      "title": "Age of users",
+      "stats": [
+        {
+          "name": "<15",
+          "count": 10
+        },
+        {
+          "name": "15-20",
+          "count": 30
+        },
+        {
+          "name": "20-30",
+          "count": 20
+        },
+        {
+          "name": "30-40",
+          "count": 15
+        },
+        {
+          "name": "40-50",
+          "count": 25
+        }
+      ]
+    },
+    "noMostFollowed": {
+      "title": "Most followed users",
+      "stats": [
+        {"name": "mohamedAhmed", "count": 72},
+        {"name": "amrZayed", "count": 52},
+        {"name": "yasserGlal", "count": 32},
+        {"name": "trizeguit", "count": 102},
+        {"name": "maradona", "count": 230},
+        {"name": "joe biden", "count": 150}
+      ]
     }
-  ]
+  }
 }
