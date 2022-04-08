@@ -1,8 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/setPassword.dart';
-import 'package:whisper/models/TextField.dart';
+//import 'package:whisper/models/TextField.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({Key? key}) : super(key: key);
@@ -11,8 +11,10 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmail extends State<VerifyEmail> {
-  final TextEditingController _emailTextController = TextEditingController();
+  //final TextEditingController _emailTextController = TextEditingController();
   //final TextEditingController _passwordTextController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,21 +57,44 @@ class _VerifyEmail extends State<VerifyEmail> {
                   //   padding: const EdgeInsets.symmetric(horizontal: 40),
                   //   child: Column(
                   //     children: <Widget>[
-                  //       inputFile(label: "Enter Verification Code"),
+                  //       inputFile(label: "Verify Email"),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       reusableTextField(
+                  //         "Verification Code",
+                  //         Icons.lock_outline,
+                  //         false,
+                  //         _emailTextController,
+                  //       ),
                   //     ],
                   //   ),
                   // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: <Widget>[
-                        reusableTextField(
-                          "Verification Code",
-                          Icons.lock_outline,
-                          false,
-                          _emailTextController,
-                        ),
-                      ],
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: <Widget>[
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                                labelText: "Verification code"),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                return "Enter correct code";
+                              } else {
+                                return null;
+                              }
+                            }, //(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -88,10 +113,13 @@ class _VerifyEmail extends State<VerifyEmail> {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const setPassword()));
+                          if (formKey.currentState!.validate()) {
+                            print("Verification Successful");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const setPassword()));
+                          }
                         },
                         color: const Color(0xff0095FF),
                         elevation: 5,

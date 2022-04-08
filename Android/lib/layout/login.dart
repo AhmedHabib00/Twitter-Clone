@@ -1,11 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/signup.dart';
 import 'package:whisper/layout/FogotPassword.dart';
 import 'package:whisper/layout/HomePage.dart';
-import 'package:whisper/models/TextField.dart';
+//import 'package:whisper/models/TextField.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,10 +14,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
+  //final TextEditingController _emailTextController = TextEditingController();
+  //final TextEditingController _passwordTextController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  //final formKeyPassword = GlobalKey<FormState>();
+
+  String name = "";
   @override
   Widget build(BuildContext context) {
+    //final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -63,22 +68,60 @@ class _LoginPage extends State<LoginPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: reusableTextField(
-                      "Email",
-                      Icons.person_outline,
-                      false,
-                      _emailTextController,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: <Widget>[
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            decoration:
+                                const InputDecoration(labelText: "Email"),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                      .hasMatch(value)) {
+                                return "Enter correct email";
+                              } else {
+                                return null;
+                              }
+                            }, //(),
+                          ),
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration:
+                                const InputDecoration(labelText: "Password"),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'^[a-z A-Z 0-9]+$')
+                                      .hasMatch(value)) {
+                                return "Enter correct Password";
+                              } else {
+                                return null;
+                              }
+                            }, //(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: reusableTextField(
-                      "Password",
-                      Icons.lock_outline,
-                      false,
-                      _passwordTextController,
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: reusableTextField(
+                  //     "Email",
+                  //     Icons.person_outline,
+                  //     false,
+                  //     _emailTextController,
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: reusableTextField(
+                  //     "Password",
+                  //     Icons.lock_outline,
+                  //     false,
+                  //     _passwordTextController,
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Container(
@@ -95,21 +138,26 @@ class _LoginPage extends State<LoginPage> {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: _emailTextController.text,
-                                  password: _passwordTextController.text)
-                              .then((value) {
+                          // FirebaseAuth.instance
+                          //     .signInWithEmailAndPassword(
+                          //         email: _emailTextController.text,
+                          //         password: _passwordTextController.text)
+                          //     .then((value) {
+                          // ignore: avoid_print
+                          if (formKey.currentState!.validate()) {
                             // ignore: avoid_print
                             print("Logged In");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const HomePage()));
-                          }).onError((error, stackTrace) {
-                            // ignore: avoid_print
-                            print("Error ${error.toString()}");
-                          });
+                          }
+
+                          // }).onError((error, stackTrace) {
+                          //   // ignore: avoid_print
+                          //   print("Error ${error.toString()}");
+                          // }
+                          // );
                         },
                         color: const Color(0xff0095FF),
                         elevation: 5,
@@ -161,7 +209,7 @@ class _LoginPage extends State<LoginPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const ForgotPassPage();
+                                return ForgotPassPage();
                               },
                             ),
                           );

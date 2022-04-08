@@ -1,8 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/setUsername.dart';
-import 'package:whisper/models/TextField.dart';
+//import 'package:whisper/models/TextField.dart';
 
 // ignore: camel_case_types
 class setPassword extends StatefulWidget {
@@ -13,7 +13,8 @@ class setPassword extends StatefulWidget {
 
 // ignore: camel_case_types
 class _setPassword extends State<setPassword> {
-  final TextEditingController _passwordTextController = TextEditingController();
+  //final TextEditingController _passwordTextController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,17 +61,42 @@ class _setPassword extends State<setPassword> {
                   //     ],
                   //   ),
                   // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       reusableTextField(
+                  //         "Set Password",
+                  //         Icons.lock_outline,
+                  //         false,
+                  //         _passwordTextController,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: <Widget>[
-                        reusableTextField(
-                          "Set Password",
-                          Icons.lock_outline,
-                          false,
-                          _passwordTextController,
-                        ),
-                      ],
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: <Widget>[
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                                labelText: "Set password"),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'^[a-z A-Z 0-9]+$')
+                                      .hasMatch(value)) {
+                                return "Enter correct Password";
+                              } else {
+                                return null;
+                              }
+                            }, //(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -89,10 +115,13 @@ class _setPassword extends State<setPassword> {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const setUsername()));
+                          if (formKey.currentState!.validate()) {
+                            print("Password set");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => setUsername()));
+                          }
                         },
                         color: const Color(0xff0095FF),
                         elevation: 5,

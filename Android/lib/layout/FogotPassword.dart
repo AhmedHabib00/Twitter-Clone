@@ -1,9 +1,11 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:whisper/layout/HomePage.dart';
 
 class ForgotPassPage extends StatelessWidget {
-  const ForgotPassPage({Key? key}) : super(key: key);
+  ForgotPassPage({Key? key}) : super(key: key);
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +44,36 @@ class ForgotPassPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       inputFile(label: "Email"),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: <Widget>[
-                        inputFile(label: "Email"),
-                      ],
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: <Widget>[
+                          const SizedBox(height: 5),
+                          TextFormField(
+                            decoration:
+                                const InputDecoration(labelText: "Email"),
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                      .hasMatch(value)) {
+                                return "Enter correct email";
+                              } else {
+                                return null;
+                              }
+                            }, //(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -65,7 +91,15 @@ class ForgotPassPage extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 60,
-                        onPressed: () {},
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            print("Password Reset");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()));
+                          }
+                        },
                         color: const Color(0xff0095FF),
                         elevation: 5,
                         shape: RoundedRectangleBorder(

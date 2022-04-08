@@ -5,8 +5,8 @@ import 'package:whisper/layout/login.dart';
 import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/VerifyEmail.dart';
-import 'package:whisper/models/TextField.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:whisper/models/TextField.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -15,9 +15,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPage extends State<SignUpPage> {
-  DateTime date = DateTime.now();
-  final TextEditingController _nameTextController = TextEditingController();
-  final TextEditingController _emailTextController = TextEditingController();
+  DateTime ddateTime = DateTime.now();
+  //final TextEditingController _nameTextController = TextEditingController();
+  //final TextEditingController _emailTextController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   //TextEditingController _dateTextController = TextEditingController();
   get dateCtl => null;
 
@@ -77,15 +78,112 @@ class _SignUpPage extends State<SignUpPage> {
               //     ],
               //   ),
               // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 40),
+              //   child: reusableTextField(
+              //       "Name", Icons.person_outline, false, _nameTextController),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 40),
+              //   child: reusableTextField(
+              //       "Email", Icons.person_outline, false, _emailTextController),
+              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: reusableTextField(
-                    "Name", Icons.person_outline, false, _nameTextController),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: reusableTextField(
-                    "Email", Icons.person_outline, false, _emailTextController),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(height: 5),
+                      TextFormField(
+                        decoration: const InputDecoration(labelText: "Email"),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
+                                  .hasMatch(value)) {
+                            return "Enter correct email";
+                          } else {
+                            return null;
+                          }
+                        }, //(),
+                      ),
+                      const SizedBox(height: 15),
+                      TextFormField(
+                        decoration:
+                            const InputDecoration(labelText: "Password"),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'^[a-z A-Z 0-9]+$').hasMatch(value)) {
+                            return "Enter correct Password";
+                          } else {
+                            return null;
+                          }
+                        }, //(),
+                      ),
+                      const SizedBox(height: 10),
+                      // Text(ddateTime == null
+                      //     ? 'nothing has picked'
+                      //     : ddateTime.toString()),
+                      // ElevatedButton(
+                      //   // child: TextFormField(
+                      //   //   decoration:
+                      //   //       const InputDecoration(labelText: "Date of birth"),
+                      //   // ),
+                      //   child: const Text("Date of birth"),
+                      //   onPressed: () async {
+                      //     await showDatePicker(
+                      //       context: context,
+                      //       initialDate: DateTime.now(),
+                      //       firstDate: DateTime(1900),
+                      //       lastDate: DateTime(2022),
+                      //     ).then((date) {
+                      //       setState(() {
+                      //         ddateTime = date!;
+                      //       });
+                      //     });
+                      //   },
+                      // ),
+
+                      // TextFormField(
+                      //   readOnly: true,
+                      //   controller: dateCtl,
+                      //   decoration: const InputDecoration(
+                      //     labelText: 'Date of Birth',
+                      //   ),
+                      //   onTap: () async {
+                      //     await showDatePicker(
+                      //       context: context,
+                      //       initialDate: DateTime.now(),
+                      //       firstDate: DateTime(1900),
+                      //       lastDate: DateTime(2025),
+                      //     ).then((selectedDate) {
+                      //       if (selectedDate != null) {
+                      //         dateCtl.text =
+                      //             DateFormat('yyyy-MM-dd').format(selectedDate);
+                      //       }
+                      //     });
+                      //   },
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter date.';
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //     //return null;
+                      //   },
+                      //   // validator: (value) {
+                      //   //   if (value!.isEmpty ||
+                      //   //       !RegExp(r'^[0-9]+[\0-9\+[\0-9\]+$')
+                      //   //           .hasMatch(value)) {
+                      //   //     return "Pick a Date of birth";
+                      //   //   } else {
+                      //   //     return null;
+                      //   //   }
+                      //   // },
+                      // ),
+                    ],
+                  ),
+                ),
               ),
 
               Padding(
@@ -100,7 +198,7 @@ class _SignUpPage extends State<SignUpPage> {
                     await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2015),
+                      firstDate: DateTime(1900),
                       lastDate: DateTime(2025),
                     ).then((selectedDate) {
                       if (selectedDate != null) {
@@ -132,21 +230,33 @@ class _SignUpPage extends State<SignUpPage> {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: _emailTextController.text,
-                              password: _nameTextController.text) /////
-                          .then((value) {
+                      // FirebaseAuth.instance
+                      //     .createUserWithEmailAndPassword(
+                      //         email: _emailTextController.text,
+                      //         password: _nameTextController.text) /////
+                      //     .then((value) {
+                      // ignore: avoid_print
+                      if (formKey.currentState!.validate()) {
                         // ignore: avoid_print
                         print("Logged In");
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const VerifyEmail()));
-                      }).onError((error, stackTrace) {
-                        // ignore: avoid_print
-                        print("Error ${error.toString()}");
-                      });
+                        // }).onError((error, stackTrace) {
+                        //   // ignore: avoid_print
+                        //   print("Error ${error.toString()}");
+                        // });
+                      }
+                      // print("Logged In");
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const VerifyEmail()));
+                      // }).onError((error, stackTrace) {
+                      //   // ignore: avoid_print
+                      //   print("Error ${error.toString()}");
+                      // });
                     },
                     color: const Color(0xff0095FF),
                     elevation: 5,
