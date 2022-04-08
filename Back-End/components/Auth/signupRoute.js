@@ -34,8 +34,8 @@ router.post('/', async (req, res) => {
         otp: otp
     }); 
 
-    const result= await registerer.save();
     try{
+        const result= await registerer.save();
         await sendConfirmationEmail(registerer);
         return res.status(201).send({registererId: registerer._id, statusCode: 201 , message: "Verifaication email sent" });
     }
@@ -121,9 +121,8 @@ router.post('/setUsername', async (req, res) => {
         const token = user.generateJWT();
         const result = await user.save();
         const deleteRegisterer = await Registerer.deleteMany({email: req.body.email});
-        return res.status(201).send({
+        return res.status(201).header('x-auth-token',token).send({
             message:'User Registeration Successful!',
-            token: token,
             data: {userId: user._id}
         });
     }
