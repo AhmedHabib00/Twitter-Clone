@@ -30,7 +30,7 @@ function StepOne({
   return (
     <div data-testid="step-one">
       <div className="start-modals-header">
-        <div className={styles['close-signup']}>
+        <div>
           <IconButton onClick={() => {
             handleCloseSignup(false);
             document.body.style.overflow = 'unset';

@@ -3,6 +3,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
+import Login from './Login/Login';
 /**
  * This functions renders the start page from which
  * user can login or signup with google, facebook, or email.
@@ -10,6 +11,7 @@ import SignUp from './SignUp/SignUp';
  */
 function Start() {
   const [signup, setSignup] = useState(false);
+  const [login, setLogin] = useState(false);
 
   return (
     <div>
@@ -80,6 +82,12 @@ function Start() {
                 data-testid="signin-button"
                 variant="outlined"
                 className={styles['sign-in']}
+                onClick={() => {
+                  setLogin(true);
+                  document.body.scrollTop = 0;
+                  document.documentElement.scrollTop = 0;
+                  document.body.style.overflow = 'hidden';
+                }}
               >
                 Sign in
               </Button>
@@ -96,6 +104,11 @@ function Start() {
       <SignUp
         data-testid="signup-modal"
         closeSignup={setSignup}
+      />
+      )}
+      {login && (
+      <Login
+        closeLogin={setLogin}
       />
       )}
     </div>
