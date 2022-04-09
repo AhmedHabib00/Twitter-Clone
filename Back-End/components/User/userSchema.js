@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema ({
     email: { type :String ,required :true,trim: true, unique: true},
     password: { type: String},
     googleId:{ type:String},
+    facebookId:{ type:String},
     profilePic: {type: String}, // TODO:add default picture url
     coverPhoto: {type: String},
     birthdate:{type: Date},

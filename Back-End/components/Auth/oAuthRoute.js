@@ -8,6 +8,8 @@ const router = express.Router();
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 router.use(passport.initialize());
 
 
@@ -22,54 +24,76 @@ passport.deserializeUser(function(user,done){
 });
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: 'http://localhost:3000/auth/google/secrets'
   },
     function(accessToken, refreshToken, profile, done) {
-    
-    User.findOne({'googleId': profile.id }, function(err, user) {
-        if (err) {
-          return done(err);
-        }
-      //No user was found... so create a new user with values from google profile
-      if (!user) {
-          user = new User({
-              name: profile.displayName,
-              email: profile.emails[0].value,
-              googleId: profile.id,
-          });
-          user.save(function(err) {
-              if (err) console.log(err);
-              return done(err, user);
-          });
-      } else {
-          //found user. Return
-          return done(err, user);
-      }
-  });
+        return done(null, profile);  //ties profile to req.user object to be used in the callback
   }
   ));
 
-router.get('/google', 
-    passport.authenticate('google', { scope: ['profile','email'] })
-);
-
-router.get('/google/secrets', 
-  passport.authenticate('google', { failureMessage: true }),async function(req, res) {
-    // Successful authentication.
-
-    if (!req.user.username){
-        const uniqueUsername = await createUniqueUsername(req.user.email);
-        const result = await User.updateOne({_id:req.user._id},{$set:{username:uniqueUsername}});
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: 'http://localhost:3000/auth/facebook/secrets',
+    profileFields: ['id', 'displayName','email']
+    },
+    function(accessToken, refreshToken, profile, done) {
+        return done(null, profile); //ties profile to req.user object to be used in the callback
     }
+));
+
+
+router.get('/google', passport.authenticate('google', { scope: ['profile','email'] }));
+router.get('/google/secrets', passport.authenticate('google', { failureMessage: true }),async function(req, res) {
+    // Successful authentication.
     
-    const token = req.user.generateJWT();
-    return res.status(201).header('x-auth-token',token).send({
-      message:'User Registeration Successful!',
-      data: {userId: req.user._id}
-  });
-  });
+    var user = await User.findOne({$or:[{googleId: req.user.id },{ email:req.user.emails[0].value}]});
+
+    if (!user) {
+        const uniqueUsername = await createUniqueUsername(req.user.emails[0].value);
+        user = new User({
+            name: req.user.displayName,
+            email: req.user.emails[0].value,
+            googleId: req.user.id,
+            username:uniqueUsername
+        });
+        await user.save() ;   
+    } 
+        
+        const token = user.generateJWT();
+        return res.status(201).header('x-auth-token',token).send({
+          message:'User Registeration Successful!',
+          data: {userId: user._id}
+        }); 
+});
+
+
+
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+router.get('/facebook/secrets', passport.authenticate('facebook', { failureMessage: true }),async function(req, res) {
+    // Successful authentication.
+    var user = await User.findOne({$or:[{facebookId: req.user.id },{ email:req.user.emails[0].value}]});
+
+    if (!user) {
+        const uniqueUsername = await createUniqueUsername(req.user.emails[0].value);
+        user = new User({
+            name: req.user.displayName,
+            email: req.user.emails[0].value,
+            facebookId: req.user.id,
+            username:uniqueUsername
+        });
+        await user.save() ;   
+    } 
+        
+        const token = user.generateJWT();
+        return res.status(201).header('x-auth-token',token).send({
+          message:'User Registeration Successful!',
+          data: {userId: user._id}
+        }); 
+});
+
 
 /////////////////utilities functions///////////////
   const isUniqueUsername = async function isUnique(givenUsername) {
