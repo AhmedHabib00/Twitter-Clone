@@ -281,6 +281,35 @@ function Post({
         </div>
 
         <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
+          <div className={styles.postbody} key={id}>
+            <div className={styles.postheader}>
+              <div className={styles.postheadertext}>
+                <h3>
+                  <div data-testid="post-avatar-render-test" className={styles.postavatar}>
+                    <AccountCircleIcon />
+                    {displayname}
+                    {' '}
+                    <span className={styles.postheaderSpecial}>
+                      {true && <VerifiedIcon className={styles.postbadge} />}
+                      {' '}
+                      @
+                      {username}
+
+                    </span>
+                    <div data-testid="content-render-test" className={styles.postheaderdescription}>
+                      <p>{content}</p>
+                    </div>
+                    <div data-testid="images-render-test">
+                      <img src={img1} alt="pic1" />
+                      <img src={img2} alt="pic1" />
+                      <img src={img3} alt="pic1" />
+                      <img src={img4} alt="pic1" />
+                    </div>
+                  </div>
+                </h3>
+              </div>
+            </div>
+          </div>
           <TweetBox replyId={id} placeHolder="Tweet your reply" className={styles.retweet} />
         </PopupPage>
 

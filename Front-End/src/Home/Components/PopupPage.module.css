@@ -22,14 +22,13 @@
 }
 
 .close-btn {
-  border-radius: 25px;
-  padding: 10px;
-  top: 16px;
-  left: 50px;
+  border-radius: 50px;
+  margin: 5px;
+  padding: 5px;
 }
 
 .close-btn:hover {
   cursor: pointer;
   color: black;
-  background-color: gray;
+  background-color: rgb(198 195 195);
 }
