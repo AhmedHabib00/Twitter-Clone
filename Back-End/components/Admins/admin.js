@@ -6,14 +6,9 @@ const userSchema = require('../User/userSchema')
 const userObjectId = userSchema.ObjectId;
 
 const tweetSchema = require('../Tweets/tweetsSchema');
-const { ObjectId, Admin } = require('mongodb');
 const tweetObjectId = tweetSchema.ObjectId;
 
-// TODO: delete later
-// const adminSchema = require('./adminSchema')
-// const ObjectId = adminSchema.ObjectId;
-
-// Get admins
+//GET: admins/ -> Retrieve all admins
 router.get('/', async (req, res) => {
     try {
         let { page, size } = req.query;
@@ -41,7 +36,6 @@ router.get('/', async (req, res) => {
     catch (error) {
         res.sendStatus(500);
     }
-
 });
 
 
@@ -371,13 +365,19 @@ router.post('/:id/adding', function(req,res){
                         role:"Admin"
                     })
 
-                    newAdmin.save().then(result => {
-                        return res.status(201).send(result);
+                    newAdmin.save().then(function() {
+                        return res.status(201).send({"Add": true});
+                    }, function(err) {
+                        return res.status(500).send({
+                            "Add": false
+                        });
                     });
                 }
             }
             catch(err){
-                return res.status(500).send("Error");
+                return res.status(500).send({
+                    "Add": false
+                });
             }
         })
 });
@@ -385,19 +385,44 @@ router.post('/:id/adding', function(req,res){
 
 
 // DELETE: admins/:id/adding/ -> Delete user by admin
-router.delete('/:id/deleting/:target_user_id', function(req,res){
-
-    userSchema.findById(req.params.id).exec(function(err, adminData){
-        try {
-            if (adminData.role == "Admin") {
-                userSchema.deleteOne({"_id": req.params.target_user_id}).exec();
-                return res.status(200).send("User deleted by admin id = " + req.params.id);
+router.delete('/:id/deleting/:target_user_id', async (req, res) =>{
+    try {
+        adminData = await userSchema.findById(req.params.id).exec();
+        if (adminData.role == "Admin") {
+            foundUser = await userSchema.findById(req.params.target_user_id);
+            if(foundUser != null){
+                userSchema.deleteOne({"_id": req.params.target_user_id}).exec().then(function() {
+                    return res.status(200).send({
+                        "deleted": true,
+                        "user": req.params.target_user_id,
+                        "by": req.params.id
+                    });
+                }, function(err) {
+                    return res.status(500).send({
+                        "deleted": false,
+                    });
+                });
+            }else{
+                return res.status(500).send({
+                    "deleted": false,
+                });
             }
         }
-        catch(err){
-            return res.status(500).send("Error");
-        }
-    })
+    }
+    catch(err){
+        return res.status(500).send({
+            "deleted": false,
+        });
+    }
+
+
+
+
+
+
+
+
+
 });
 
 
