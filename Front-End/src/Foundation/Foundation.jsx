@@ -78,7 +78,7 @@ function Foundation() {
         </div>
 
         <PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
-          <TweetBox placeHolder="What's happening" />
+          <TweetBox placeHolder="What's happening" boxId="foundation" />
         </PopupPage>
 
         <div className={styles['foundation-widget']}>

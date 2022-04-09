@@ -260,8 +260,8 @@ function Post({
 
           </Carousel>
         </ImagePopUp>
-        <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
-          <TweetBox />
+        <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
+          <TweetBox boxId="Post" />
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>

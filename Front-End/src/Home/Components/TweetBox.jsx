@@ -17,7 +17,7 @@ import PostTweet from '../../Services/userServices';
  * (local images or gifs).
  * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
  */
-function TweetBox({ replyId, placeHolder }) {
+function TweetBox({ replyId, placeHolder, boxId }) {
   const inputFile = createRef();
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
@@ -108,9 +108,8 @@ function TweetBox({ replyId, placeHolder }) {
   };
 
   const handleSendData = () => {
-    const { value } = document.getElementById('twbox-text-area');
-    console.log(value);
-    document.getElementById('twbox-text-area').value = '';
+    const { value } = document.getElementById(`twbox-text-area-${boxId}`);
+    document.getElementById(`twbox-text-area-${boxId}`).value = '';
     setImages([]);
     setGifs([]);
     setImageCount(0);
@@ -149,7 +148,7 @@ function TweetBox({ replyId, placeHolder }) {
         <div className={styles['text-area']}>
           <div>
             <textarea
-              id="twbox-text-area"
+              id={`twbox-text-area-${boxId}`}
               placeholder={placeHolder}
               className={styles['tweet-input']}
               onInput={autoGrow}
@@ -196,6 +195,7 @@ function TweetBox({ replyId, placeHolder }) {
 TweetBox.propTypes = {
   replyId: PropTypes.string,
   placeHolder: PropTypes.string,
+  boxId: PropTypes.string.isRequired,
 };
 
 TweetBox.defaultProps = {
