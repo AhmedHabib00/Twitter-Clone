@@ -109,6 +109,7 @@ function TweetBox({ replyId, placeHolder }) {
 
   const handleSendData = () => {
     const { value } = document.getElementById('twbox-text-area');
+    console.log(value);
     document.getElementById('twbox-text-area').value = '';
     setImages([]);
     setGifs([]);
