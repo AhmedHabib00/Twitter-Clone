@@ -10,15 +10,17 @@ import styles from './PopupPage.module.css';
  * @param {Function} SetTrigger setter for trigger
  */
 function PopupPage({
-  trigger, children, SetTrigger, widthpercentage,
+  trigger, children, SetTrigger, widthpercentage, isCloseEnabled,
 }) {
   let toClose = true;
   const closePopup = () => {
-    if (toClose) {
-      SetTrigger(false);
-      document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+    if (isCloseEnabled) {
+      if (toClose) {
+        SetTrigger(false);
+        document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+      }
+      toClose = true;
     }
-    toClose = true;
   };
   const childClick = () => {
     document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
@@ -46,10 +48,12 @@ PopupPage.propTypes = {
   children: PropTypes.element.isRequired,
   SetTrigger: PropTypes.func.isRequired,
   widthpercentage: PropTypes.number,
+  isCloseEnabled: PropTypes.bool,
 };
 
 PopupPage.defaultProps = {
   widthpercentage: 50,
+  isCloseEnabled: true,
 };
 
 export default PopupPage;

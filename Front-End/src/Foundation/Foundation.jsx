@@ -7,6 +7,8 @@ import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
 import getUserPages from '../Home/NavItems';
 import SearchBar from '../Search/SearchBar/SearchBar';
+import PopupPage from '../Home/Components/PopupPage';
+import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
 import './Navbar/Navbar.css';
@@ -18,6 +20,7 @@ import './Navbar/Navbar.css';
 function Foundation() {
   const pages = getUserPages();
   const [openedPage, setOpenedPage] = useState('Home');
+  const [isPopupTweetOpen, setIsPopupTweetOpen] = useState(false);
   useEffect(() => {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
   }, [openedPage]);
@@ -30,6 +33,7 @@ function Foundation() {
     document.getElementById(id).style.setProperty('font-weight', 'bolder');
     setOpenedPage(id);
   };
+
   return (
     <div className={styles['found-margins']}>
       <div className={styles.foundation}>
@@ -50,8 +54,20 @@ function Foundation() {
                   </div>
                 </Link>
               ))}
-              <button type="button" className="tweet-button whisp-button-text">Whisp</button>
-              <button type="button" aria-label="save" className="tweet-button whisp-button-icon">
+              <button
+                type="button"
+                className="tweet-button whisp-button-text"
+                onClick={() => setIsPopupTweetOpen(true)}
+              >
+                Whisp
+
+              </button>
+              <button
+                type="button"
+                aria-label="save"
+                className="tweet-button whisp-button-icon"
+                onClick={() => setIsPopupTweetOpen(true)}
+              >
                 <HistoryEduIcon className="feather-icon" />
               </button>
             </div>
@@ -60,6 +76,10 @@ function Foundation() {
         <div className={styles.outlet}>
           <Outlet />
         </div>
+
+        <PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
+          <TweetBox placeHolder="What's happening" />
+        </PopupPage>
 
         <div className={styles['foundation-widget']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
