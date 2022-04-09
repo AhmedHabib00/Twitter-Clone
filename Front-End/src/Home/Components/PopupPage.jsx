@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import styles from './PopupPage.module.css';
 /**
  * A customizable component that has a white background where you can add your components.
@@ -28,7 +28,6 @@ function PopupPage({
   };
   return (trigger) ? (
     <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
-
       {document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden')}
       <div
         id="popup-page-children"
@@ -38,6 +37,7 @@ function PopupPage({
         onClick={childClick}
         style={{ width: `${widthpercentage}%` }}
       >
+        <CloseIcon className={styles['close-btn']} onClick={() => { SetTrigger(false); }} />
         {children}
       </div>
     </div>

@@ -258,7 +258,7 @@ function Post({
         </div>
         <div>
           <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-            <Carousel>
+            <Carousel showArrows={false}>
 
               <div>
                 <img className={styles.imgpopup} src={img1} alt="pic1" />
