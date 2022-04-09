@@ -5,16 +5,43 @@ var router = express.Router();
 const userSchema = require('../User/userSchema')
 const userObjectId = userSchema.ObjectId;
 
-const tweetSchema = require('../Tweets/tweetsSchema')
+const tweetSchema = require('../Tweets/tweetsSchema');
+const { ObjectId, Admin } = require('mongodb');
 const tweetObjectId = tweetSchema.ObjectId;
 
 // TODO: delete later
 // const adminSchema = require('./adminSchema')
 // const ObjectId = adminSchema.ObjectId;
 
-// Admin <|| Test ||>
+// Get admins
 router.get('/', async (req, res) => {
-    return res.send("Admin Api")
+    try {
+        let { page, size } = req.query;
+  
+        // If the page is not applied in query.
+        if (!page) {
+            // Make the Default value one.
+            page = 1;
+        }
+  
+        if (!size) {
+            size = 10;
+        }
+  
+        //  We have to make it integer because query parameter passed is string
+        const limit = parseInt(size);
+  
+        adminsData = await userSchema.find({"role":"Admin"},'_id name username email role').limit(limit).skip(size*(page-1)).sort('createdAt')
+        return res.status(200).send({
+            page,
+            size,
+            Info: adminsData
+        });
+    }
+    catch (error) {
+        res.sendStatus(500);
+    }
+
 });
 
 
@@ -293,9 +320,40 @@ async function rangeAgesCalculator(minRangeAge, maxRangeAge, Schema) {
 
 
 
-// POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
-router.post('/:id/banning/:target_user_id', async (req, res) =>{
-    return res.status(200).send("Ban a user id = " + req.params.target_user_id + " by admin id = " + req.params.id);
+// PUT: admins/:id/banning/:target_user_id/ -> Ban a user by admin
+router.patch('/:id/banning/:target_user_id', async (req, res) =>{
+    try {
+        // Get start_date and end_date
+        const start_date = new Date();
+        const end_date =  new Date(req.body.end_date);
+
+        if (end_date > start_date) {
+            const bannedUser = await userSchema.findById(req.params.target_user_id);
+            const bannedBy = await userSchema.findById(req.params.id);
+            if (bannedBy.role == "Admin") {
+                // banned user contents
+                bannedUser.banned = true;
+                bannedUser.bannedBy = ObjectId(req.params.id);
+                bannedUser.bannedStartDate = start_date;
+                bannedUser.bannedEndDate = end_date;
+                bannedUser.save();
+                return res.status(200).send({
+                    "Ban": true,
+                    "bannedUser": ObjectId(req.params.target_user_id),
+                    "bannedBy": ObjectId(req.params.id),
+                    "bannedStartDate": start_date,
+                    "bannedEndDate": end_date
+                });
+            }else{
+                throw err;
+            }
+        }else{
+            throw err;
+        }
+    }
+    catch(err){
+        return res.status(500).send({"Ban": false});
+    }
 });
 
 
@@ -314,7 +372,7 @@ router.post('/:id/adding', function(req,res){
                     })
 
                     newAdmin.save().then(result => {
-                        return res.status(200).send(result);
+                        return res.status(201).send(result);
                     });
                 }
             }

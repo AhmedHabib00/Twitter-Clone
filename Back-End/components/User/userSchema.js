@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema ({
     //add pinned tweets (refrences tweet schema)
     // banned boolean
     banned:{type: Boolean},
+    bannedBy:{type: mongoose.Schema.Types.ObjectId ,ref: 'User' },
+    bannedStartDate:{type: Date},
+    bannedEndDate:{type: Date},
     // ban startDate and endDate
     // banning adminID
     role: {type:String}   
