@@ -1,40 +1,45 @@
-const chai = require('chai');
+/*const chai = require('chai');
 const chaiHttp = require('chai-http');
 //Assertion style
-chai.should();
+chai.should();*/
 
+//const { async } = require('jshint/src/prod-params');
 const request = require('supertest');
-const app = require('../app');
-const userProfile = require('../routes/userProfile')
-
-chai.use(chaiHttp);
+const app = require('../../../app');
+const User = require('../../User/userSchema');
+const { name } = require('ejs');
 
 
 describe('profileSettings',() =>{
-    //Test post request
-    describe("post /users/profile_settings", () =>{
-        it("It should POST new user profile info", (done) => {
-            const testprofile = {
-                name:"Omar Abuelfadl",
-                bio:"Studying software engineering",
-                location:"Bedroom",
-                birthDate:"27/10/1999"
-            };
-            chai.request(userProfile)
-                .post("/users/profile_settings")
-                .send(testprofile)
-                .end((err,res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have,property('name').eq("Omar Abuelfadl");
-                    res.body.should.have,property('bio').eq("Studying software engineering");
-                    res.body.should.have,property('location').eq("Bedroom");
-                    res.body.should.have,property('birthDate').eq("27/10/1999");
+    //Test Get request
+    describe("Get /user/:userID/profile_settings", () =>{
+        it("It should GET new user profile info", async() => {
+            const response = await request(app).get('/user/6248a661b871949e56e40ee1/profile_settings' ).field("name","Omar")
+            // const profile = response.json(User)
+            // .expect(name).toEqual("Omar")
+            expect(response.statusCode).toEqual(200);
+        });
 
-                });
+        it("It should NOT GET new user profile info", async() => {
+            const response = await request(app).get('/user/fds4a8f1ds5a6/profile_settings' );
+            expect(response.statusCode).toEqual(400);
         });
     });
 
+    //Test Patch request
+
+    describe("Patch /user/:userID/profile_settings", () =>{
+        it("It should PATCH user profile info", async() => {
+            const response = await request(app).patch('/user/6248a661b871949e56e40ee1/profile_settings');
+            expect(response.statusCode).toEqual(200);
+        });
+
+        it("It should NOT PATCH new user profile info", async() => {
+            const response = await request(app).patch('/user/fds4a8f1ds5a6/profile_settings');
+            expect(response.statusCode).toEqual(400);
+        });
+    });
+/*
     //Test Get user Info request
     describe("Get /users/:userProfileId/profile_settings",() =>{
         it("Should get user info",(done)=> {
@@ -140,5 +145,5 @@ describe('profileSettings',() =>{
         });
 
 
-    })
+    })*/
 })

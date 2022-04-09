@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: User Profile
+  contact: {}
+  version: '1.0'
+servers:
+  - url: http://localhost:3000
+    variables: {}
+paths:
+  /users/{id}/liked_tweets:
+    get:
+      tags:
+        - Misc
+      summary: Get list of likes
+      operationId: Getlistoflikes
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: user id
+        - in: query
+          name: likedTweets
+          schema:
+            type: string
+          required: true
+          description: returns the liked tweets of the user
+      responses:
+        '200':
+          content:
+            application/json; charset=utf-8:
+              example:
+                data:
+                  - _id: 62301bb4ffe31bd269648ab6
+                    listOfTweetsID: [8561fdsa5648fsda,84fdsafdsa321,fdsaf4dsa5613]
+          description: 'Returns list of liked tweets or replies from the user'
+          headers: {}
+      deprecated: false
+  /user/{id}/tweets_with_replies:
+    get:
+      tags:
+        - Misc
+      summary: Get list of tweets & replies
+      operationId: Getlistoftweets&replies
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: user id
+      responses:
+        '200':
+          content:
+            application/json; charset=utf-8:
+              example:
+                data:
+                  - _id: 62301bb4ffe31bd269648ab6
+                    listOfTweetsID: [8561fdsa5648fsda,84fdsafdsa321,fdsaf4dsa5613]
+          description: 'Returns list of tweets & replies from the user'
+          headers: {}
+      deprecated: false
+  /user/{id}/profile_settings:
+    post:
+      tags:
+        - Misc
+      summary: Post profile data to DB
+      operationId: PostprofiledatatoDB
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: user id
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              type: object
+              properties:
+                birthDate:
+                  type: string
+                  description: User's birthdate
+                bio:
+                  type: string
+                  description: Brief description about user
+                location:
+                  type: string
+                  description: location of the user
+        required: false
+      responses:
+        '200':
+          description: 'The user added their information'
+          headers: {}
+      deprecated: false
+
+      
+    patch:
+      tags:
+        - Misc
+      summary: Edit profile info
+      operationId: Editprofileinfo
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: user id
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              type: object
+              properties:
+                changeBio:
+                  type: string
+                changeBirthDate:
+                  type: string
+                changeLocation:
+                  type: string
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /user/{id}/profile_settings_bool:
+    get:
+      tags:
+        - Misc
+      summary: Get profile info
+      operationId: Getprofileinfo
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: user id
+      responses:
+        '200':
+          content:
+              application/json; charset=utf-8:
+                example:
+                  data:
+                    - _id: 62301bb4ffe31bd269648ab6
+                      showBirthdateBoolean: false
+                      showBioBoolean: true
+                      showLocation: false
+          description: 'Retrives the information of the user to be placed in their profile'
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Misc
+      summary: Hide/show profile info
+      operationId: HsProfileInfo
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: user id
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              type: object
+              properties:
+                showBirthDate:
+                  type: boolean
+                  description: Show/Hide birthdate boolean
+                showBio:
+                  type: boolean
+                  description: Show/Hide bio boolean
+                showLocation:
+                  type: boolean
+                  description: Show/Hide location boolean
+        required: false
+      responses:
+        '200':
+          description: ""
+          headers: {}
+      deprecated: false
+      
+tags:
+  - name: Misc
+    description: ''
