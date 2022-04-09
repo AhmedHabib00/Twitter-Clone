@@ -1,0 +1,142 @@
+.body {
+  height: 93%;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-with-google {
+  background-color: #ffff !important;
+  border: none !important;
+  color: black !important;
+  border-color: rgb(207 217 222) !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  font-weight: 700 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+  margin-top: 20px !important;
+  line-height: 20px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  width: 300px !important;
+  max-width: 380px !important;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.login-with-google:hover {
+  background-color: #ebf1f5 !important;
+  transition: color 100ms ease-out;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.login-form label {
+  margin-bottom: 15px;
+  color: rgb(118 118 118);
+  position: relative;
+}
+
+.login-form input {
+  width: 95%;
+  padding: 10px;
+  margin-top: 20px;
+  min-width: 250px;
+  height: 35px;
+  outline-color: #1d9bf0;
+  border-color: rgb(207 217 222 / 70%);
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.login-form span {
+  position: absolute;
+  bottom: 75%;
+  left: 20px;
+  transform: translateY(40px);
+  transition-duration: 300ms;
+  font-size: 17px;
+}
+
+label:focus-within > span,
+input:not(:placeholder-shown) + span {
+  color: #1d9bf0;
+  transform: translateY(20px);
+  font-size: 0.825em;
+}
+
+.login-next-button {
+  background-color: black !important;
+  border: none !important;
+  color: #ffff !important;
+  border-color: rgb(207 217 222) !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  font-weight: 700 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+  margin-top: 20px !important;
+  line-height: 20px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  width: 300px !important;
+  max-width: 380px !important;
+}
+
+.login-next-button:hover {
+  background-color: rgb(53 53 53) !important;
+}
+
+.login-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dont-have-acount {
+  font-size: 14px;
+  font-weight: 400;
+  color: #536471;
+}
+
+.login-text {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.login-text-span {
+  color: #1d9bf0;
+}
+
+@media screen and  (max-width: 600px) {
+  .login-form input {
+    width: 100%;
+    margin-left: -5%;
+  }
+}
+
+@media screen and  (max-width: 560px) {
+  .login-form input {
+    width: 100%;
+    margin-left: -6%;
+  }
+}
+
+@media screen and  (max-width: 438px) {
+  .login-form input {
+    width: 100%;
+    margin-left: -16%;
+  }
+}
