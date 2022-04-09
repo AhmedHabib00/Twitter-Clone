@@ -9,7 +9,9 @@ import styles from './PopupPage.module.css';
  * @param {Element} children elements to render in the popup page
  * @param {Function} SetTrigger setter for trigger
  */
-function PopupPage({ trigger, children, SetTrigger }) {
+function PopupPage({
+  trigger, children, SetTrigger, widthpercentage,
+}) {
   let toClose = true;
   const closePopup = () => {
     if (toClose) {
@@ -19,11 +21,20 @@ function PopupPage({ trigger, children, SetTrigger }) {
     toClose = true;
   };
   const childClick = () => {
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     toClose = false;
   };
   return (trigger) ? (
     <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
-      <div id="popup-page-children" role="button" tabIndex={0} className={styles['popup-page-click-detect']} onClick={childClick}>
+      {document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden')}
+      <div
+        id="popup-page-children"
+        role="button"
+        tabIndex={0}
+        className={styles['popup-page-click-detect']}
+        onClick={childClick}
+        style={{ width: `${widthpercentage}%` }}
+      >
         {children}
       </div>
     </div>
@@ -34,6 +45,11 @@ PopupPage.propTypes = {
   trigger: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
   SetTrigger: PropTypes.func.isRequired,
+  widthpercentage: PropTypes.number,
+};
+
+PopupPage.defaultProps = {
+  widthpercentage: 50,
 };
 
 export default PopupPage;

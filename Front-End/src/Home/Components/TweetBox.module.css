@@ -44,9 +44,18 @@
 .media-icons {
   display: flex;
   align-self: center;
-  cursor: pointer;
   width: auto;
   justify-content: space-evenly;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.disabled-div {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 .media-icon {

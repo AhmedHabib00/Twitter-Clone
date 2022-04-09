@@ -1,20 +1,21 @@
 import axios from 'axios';
 
 export default async function PostTweet(props) {
-  const { images, value } = props;
-  const gifArray = [];
+  const { images, value, replyId } = props;
+  let gifArray = '';
   const imgArray = [];
   images.forEach((image) => {
     if (image.type === 'img') {
       imgArray.push(image.imgFile);
     } else {
-      gifArray.push(image.imageUrl);
+      gifArray = image.imageUrl;
     }
   });
   let response = '';
   try {
     response = await axios.post('http://localhost:8000/Tweet', {
       content: value,
+      replyId,
       media: imgArray,
       gifs: gifArray,
     });

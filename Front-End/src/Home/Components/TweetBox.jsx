@@ -1,4 +1,5 @@
 import React, { createRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
@@ -16,12 +17,15 @@ import PostTweet from '../../Services/userServices';
  * (local images or gifs).
  * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
  */
-function TweetBox() {
+function TweetBox({ replyId }) {
   const inputFile = createRef();
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [isGifOpen, setIsGifOpen] = useState(false);
   const [gifs, setGifs] = useState([]);
+  const [mediaDisabled, setMediaDisabled] = useState(false);
+  const [gifDisabled, setGifDisabled] = useState(false);
+  const [imageId, setImageId] = useState(0);
 
   const onSearchChange = (value) => {
     let url;
@@ -35,7 +39,15 @@ function TweetBox() {
     });
   };
   const deleteImage = (id) => {
+    if (images.find((image) => image.id === id).type === 'gif') {
+      setMediaDisabled(true);
+      setGifDisabled(true);
+    }
     const newImages = images.filter((image) => image.id !== id);
+    if (newImages.length === 0) {
+      setMediaDisabled(false);
+      setGifDisabled(false);
+    }
     setImages(newImages);
     setImageCount(imageCount - 1);
   };
@@ -54,7 +66,7 @@ function TweetBox() {
       return;
     }
     const tempImages = [...images];
-    let tempCounter = imageCount;
+    let tempCounter = imageId;
     if (event.target.files && event.target.files[0]) {
       Array.from(event.target.files).forEach((file) => {
         tempImages.push({
@@ -65,14 +77,16 @@ function TweetBox() {
         });
         tempCounter += 1;
       });
-      setImageCount(tempCounter);
+      setImageCount(event.target.files.length + imageCount);
+      setImageId(tempCounter);
       setImages(tempImages);
+      setGifDisabled(true);
+      document.getElementById('media-selection-from-pc').value = '';
     }
   };
 
   const onOpenGif = () => {
     if (imageCount - 1 < 4) {
-      document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden');
       setIsGifOpen(!isGifOpen);
       onSearchChange('');
     }
@@ -82,11 +96,13 @@ function TweetBox() {
     setImages([...images,
       {
         type: 'gif',
-        id: imageCount,
+        id: imageId,
         imageUrl: url,
       }]);
+    setMediaDisabled(true);
+    setGifDisabled(true);
+    setImageId(imageId + 1);
     setImageCount(imageCount + 1);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     setIsGifOpen(!isGifOpen);
     setGifs([]);
   };
@@ -97,7 +113,12 @@ function TweetBox() {
     setImages([]);
     setGifs([]);
     setImageCount(0);
-    PostTweet({ value, images });
+    setGifDisabled(false);
+    setMediaDisabled(false);
+
+    if (value !== '' || images.length !== 0) {
+      PostTweet({ value, images, replyId });
+    }
   };
   return (
     <div>
@@ -135,8 +156,10 @@ function TweetBox() {
           <ImageBox images={images} onDeleteImage={deleteImage} />
           <div className={styles['text-area-icons']}>
             <div className={styles['media-icons']}>
-              <div role="button" tabIndex="0" onClick={onSelectFIle}>
-                <PhotoOutlinedIcon className={styles['media-icon']} />
+              <div role="button" tabIndex="0" onClick={(mediaDisabled) ? undefined : onSelectFIle}>
+                <PhotoOutlinedIcon
+                  className={[(mediaDisabled) ? styles['disabled-div'] : styles.cursor, styles['media-icon']].join(' ')}
+                />
                 <input
                   id="media-selection-from-pc"
                   type="file"
@@ -147,8 +170,10 @@ function TweetBox() {
                   style={{ display: 'none' }}
                 />
               </div>
-              <div role="button" tabIndex="0" onClick={onOpenGif}>
-                <GifBoxOutlinedIcon className={styles['media-icon']} />
+              <div role="button" tabIndex="0" onClick={(gifDisabled) ? undefined : onOpenGif}>
+                <GifBoxOutlinedIcon
+                  className={[(gifDisabled) ? styles['disabled-div'] : styles.cursor, styles['media-icon']].join(' ')}
+                />
               </div>
             </div>
             <button
@@ -165,5 +190,13 @@ function TweetBox() {
     </div>
   );
 }
+
+TweetBox.propTypes = {
+  replyId: PropTypes.string,
+};
+
+TweetBox.defaultProps = {
+  replyId: '',
+};
 
 export default TweetBox;

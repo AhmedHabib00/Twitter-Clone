@@ -10,11 +10,11 @@
   background-position: center center;
   background-size: cover;
   margin: 5px;
+  flex-grow: 1;
 }
 
 .row-images {
   display: flex;
-  flex-direction: row;
 }
 
 .delete-image {
