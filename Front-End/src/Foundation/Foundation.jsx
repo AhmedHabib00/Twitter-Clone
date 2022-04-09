@@ -41,7 +41,7 @@ function Foundation() {
                   to={`/${page.name}`}
                   key={page.name}
                   onClick={() => onNavItemClick(page.name)}
-                  className="foundation-a-tag"
+                  className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
                 >
                   <div id={page.name}>
                     <NavItem title={page.name}>

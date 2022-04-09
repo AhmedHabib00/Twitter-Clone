@@ -4,6 +4,7 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import '../Foundation/Navbar/Navbar';
 
 const Pages = [{
@@ -13,7 +14,12 @@ const Pages = [{
 {
   name: 'Notifications',
   icon: <NotificationsNoneOutlinedIcon className="nav-bar-icons" />,
-}, {
+},
+{
+  name: 'Search',
+  icon: <SearchRoundedIcon className="nav-bar-icons" />,
+},
+{
   name: 'Bookmarks',
   icon: <BookmarkBorderIcon className="nav-bar-icons" />,
 }, {
