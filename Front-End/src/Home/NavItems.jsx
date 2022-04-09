@@ -3,7 +3,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import '../Foundation/Navbar/Navbar';
 
 const Pages = [{
@@ -20,8 +20,8 @@ const Pages = [{
   name: 'Profile',
   icon: <PermIdentityIcon className="nav-bar-icons" />,
 }, {
-  name: 'More',
-  icon: <MoreHorizIcon className="nav-bar-icons" />,
+  name: 'Settings',
+  icon: <SettingsOutlinedIcon className="nav-bar-icons" />,
 },
 ];
 
