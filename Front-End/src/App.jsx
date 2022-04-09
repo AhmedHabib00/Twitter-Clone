@@ -14,6 +14,7 @@ import AdminFoundation from './Admin/AdminFoundation';
 import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
+import Search from './Search/Search';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,6 +58,7 @@ function App() {
       <Route path="Notifications" element={<Notifications />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
       <Route path="Profile" element={<Profile />} />
+      <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
     </>
   );

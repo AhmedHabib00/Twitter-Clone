@@ -6,7 +6,7 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
 import getUserPages from '../Home/NavItems';
-import SearchBar from '../Home/Components/SearchBar';
+import SearchBar from '../Search/SearchBar/SearchBar';
 
 import styles from './Foundation.module.css';
 import './Navbar/Navbar.css';

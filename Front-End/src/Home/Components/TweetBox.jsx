@@ -7,7 +7,7 @@ import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 
 import ImageBox from './ImageBox';
 import PopupPage from './PopupPage';
-import SearchBar from './SearchBar';
+import SearchBar from '../../Search/SearchBar/SearchBar';
 
 import styles from './TweetBox.module.css';
 import PostTweet from '../../Services/userServices';
