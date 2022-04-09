@@ -125,3 +125,8 @@ img {
   max-width: 750px;
   max-height: 750px;
 }
+
+.retweet {
+  min-width: 750px;
+  min-height: 750px;
+}
