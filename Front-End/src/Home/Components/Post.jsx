@@ -8,6 +8,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 // import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
 import BlockSharpIcon from '@mui/icons-material/BlockSharp';
+import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined';
 import { Menu, MenuList } from '@mui/material';
 // import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
 // import LinkIcon from '@mui/icons-material/Link';
@@ -16,16 +17,16 @@ import { Menu, MenuList } from '@mui/material';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faComment, faShareFromSquare, faBookmark,
+  faComment, faBookmark,
 } from '@fortawesome/free-regular-svg-icons';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
 import 'font-awesome/css/font-awesome.min.css';
+// import axios from 'axios';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
-
 /**
  *
  * @param {Number} id     Post Id
@@ -113,6 +114,22 @@ function Post({
   const handelCloseRetweet = () => {
     setRetweetEl(null);
   };
+  // const trial = () => {
+  //   let response = '';
+  //   try {
+  //     response = axios.put('http://localhost:8000/posts', {
+  //       id,
+
+  //     });
+  //     return (response);
+  //   } catch (error) {
+  //     if (error.response) {
+  //       return (error.response);
+  //     }
+
+  //     return (response);
+  //   }
+  // };
 
   return (
     <div data-testid="post-render-test" className={styles.post}>
@@ -239,29 +256,32 @@ function Post({
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img3} alt="pic1" /></a>
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img4} alt="pic1" /></a>
         </div>
-        <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-          <Carousel>
+        <div>
+          <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+            <Carousel>
 
-            <div>
-              <img className={styles.imgpopup} src={img1} alt="pic1" />
-            </div>
+              <div>
+                <img className={styles.imgpopup} src={img1} alt="pic1" />
+              </div>
 
-            <div>
-              <img className={styles.imgpopup} src={img2} alt="pic1" />
-            </div>
+              <div>
+                <img className={styles.imgpopup} src={img2} alt="pic1" />
+              </div>
 
-            <div>
-              <img className={styles.imgpopup} src={img3} alt="pic1" />
-            </div>
+              <div>
+                <img className={styles.imgpopup} src={img3} alt="pic1" />
+              </div>
 
-            <div>
-              <img className={styles.imgpopup} src={img4} alt="pic1" />
-            </div>
+              <div>
+                <img className={styles.imgpopup} src={img4} alt="pic1" />
+              </div>
 
-          </Carousel>
-        </ImagePopUp>
-        <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
-          <TweetBox />
+            </Carousel>
+          </ImagePopUp>
+        </div>
+
+        <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
+          <TweetBox replyId={id} placeHolder="Tweet your reply" className={styles.retweet} />
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>
@@ -296,12 +316,11 @@ function Post({
             <p>{likeCount}</p>
           </div>
 
-          <FontAwesomeIcon
+          <IosShareOutlinedIcon
             className={styles.postblue}
-            fontSize="large"
+            fontSize="small"
             aria-controls="share"
             onClick={handelOpenShare}
-            icon={faShareFromSquare}
           />
 
         </div>
