@@ -7,10 +7,13 @@ import styles from './Login.module.css';
 import LoginStepOne from './LoginStepOne';
 import LoginPassword from './LoginPassword';
 
-function Login({ closeLogin }) {
+function Login({ closeLogin, handleLoginStatus }) {
   const [stepOne, setStepOne] = useState(true);
   const [stepLoginPassword, setLoginPassword] = useState(false);
   const [email, setEmail] = useState(' ');
+  const handleAfterSignin = (logged, admin) => {
+    handleLoginStatus(logged, admin);
+  };
   return (
     <div className={styles['login-background']}>
       <div id="signup-modals" className="start-modals-container">
@@ -40,6 +43,7 @@ function Login({ closeLogin }) {
         <LoginPassword
           email={email}
           setLoginPassword={setLoginPassword}
+          handleAfterSignin={handleAfterSignin}
         />
         )}
       </div>
@@ -50,4 +54,5 @@ function Login({ closeLogin }) {
 export default Login;
 Login.propTypes = {
   closeLogin: PropTypes.func.isRequired,
+  handleLoginStatus: PropTypes.func.isRequired,
 };

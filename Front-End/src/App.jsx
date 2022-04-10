@@ -18,13 +18,13 @@ import BlockedUsers from './Admin/AdminBlocked';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
-  localStorage.clear();
+  // localStorage.clear();
+  const logged = localStorage.getItem('logged');
+  const admin = localStorage.getItem('admin');
   useEffect(() => {
-    const logged = localStorage.getItem('logged');
-    const admin = localStorage.getItem('admin');
-    setIsLoggedIn(logged);
-    setisAdmin(!admin);
-  }, []);
+    setIsLoggedIn(JSON.parse(logged));
+    setisAdmin(JSON.parse(admin));
+  }, [logged, admin]);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
