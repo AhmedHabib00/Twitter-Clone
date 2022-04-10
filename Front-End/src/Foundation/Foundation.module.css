@@ -15,6 +15,13 @@ body {
   overflow-x: hidden;
 }
 
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
 .outlet {
   overflow-x: hidden;
   max-width: 600px;
@@ -28,8 +35,58 @@ body {
   max-width: 300px;
 }
 
+.user-menu {
+  display: flex;
+  border-radius: 30px;
+  justify-content: space-between;
+  height: 40px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.user-menu-info {
+  display: flex;
+}
+
+.user-menu:hover {
+  background-color: #e7e7e8;
+}
+
+.user-menu-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.user-menu-more {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.user-menu-text {
+  margin: 0;
+  font-size: 15px;
+}
+
+.user-menu-text-name {
+  margin: 0;
+  color: #767575;
+  font-weight: 400;
+}
+
 @media screen and (max-width: 910px) {
   .foundation-widget {
     display: none;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .user-menu-text-container {
+    display: none;
+  }
+
+  .user-menu-more {
+    display: none !important;
   }
 }

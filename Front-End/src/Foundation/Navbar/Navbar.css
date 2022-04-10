@@ -1,8 +1,9 @@
 .nav-bar-main {
   display: flex;
-  max-width: 300px;
+  width: 17em;
   flex-direction: column;
   position: sticky;
+  height: 43em;
   top: 0;
   margin-right: 8px;
   margin-left: 8px;
@@ -67,13 +68,21 @@
   background-color: #e7e7e8;
 }
 
+.nav-bar-profile {
+  font-size: 40px !important;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-right: 5px;
+}
+
 .tweet-button {
   background-color: rgb(29 155 240);
   font-size: 20px !important;
   font-weight: bold;
   border: none;
   border-radius: 65px;
-  height: 65px;
+  height: 55px;
   margin-top: 10px;
   color: #edf7fe;
   cursor: pointer;
@@ -88,7 +97,7 @@
 }
 
 .whisp-button-text {
-  width: 100%;
+  width: 90%;
 }
 
 @media screen and (max-width: 1100px) {
@@ -109,6 +118,10 @@
 
   .feather-icon {
     font-size: 31px !important;
+  }
+
+  .nav-bar-main {
+    width: 4em;
   }
 }
 
