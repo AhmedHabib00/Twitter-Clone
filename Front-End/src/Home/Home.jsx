@@ -21,7 +21,7 @@ function Home() {
       <div className={styles['home-header']}>
         <h2>Home</h2>
       </div>
-      <TweetBox placeHolder="What's happening" />
+      <TweetBox placeHolder="What's happening" boxId="home" />
       <hr className={styles['home-hor-hr']} />
       <Feed className={styles.feed} data={data} />
     </div>

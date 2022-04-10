@@ -4,6 +4,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
+  max-zoom: 0.6;
   background-color: rgb(6 64 112 / 90.4%);
   display: flex;
   justify-content: center;
