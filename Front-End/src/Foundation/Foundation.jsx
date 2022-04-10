@@ -2,6 +2,8 @@ import { React, useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
@@ -34,42 +36,62 @@ function Foundation() {
     setOpenedPage(id);
   };
 
+  const handleLogOut = () => {
+    console.log('logout mn hna yad');
+  };
+
   return (
     <div className={styles['found-margins']}>
       <div className={styles.foundation}>
         <div>
           <Navbar onTwIconClick={onNavItemClick} route="Home">
-            <div>
-              {pages.map((page) => (
-                <Link
-                  to={`/${page.name}`}
-                  key={page.name}
-                  onClick={() => onNavItemClick(page.name)}
-                  className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
+            <div className={styles['navbar-container']}>
+              <div>
+                {pages.map((page) => (
+                  <Link
+                    to={`/${page.name}`}
+                    key={page.name}
+                    onClick={() => onNavItemClick(page.name)}
+                    className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
+                  >
+                    <div id={page.name}>
+                      <NavItem title={page.name}>
+                        {page.icon}
+                      </NavItem>
+                    </div>
+                  </Link>
+                ))}
+                <button
+                  type="button"
+                  className="tweet-button whisp-button-text"
+                  onClick={() => setIsPopupTweetOpen(true)}
                 >
-                  <div id={page.name}>
-                    <NavItem title={page.name}>
-                      {page.icon}
-                    </NavItem>
-                  </div>
-                </Link>
-              ))}
-              <button
-                type="button"
-                className="tweet-button whisp-button-text"
-                onClick={() => setIsPopupTweetOpen(true)}
-              >
-                Whisp
+                  Whisp
 
-              </button>
-              <button
-                type="button"
-                aria-label="save"
-                className="tweet-button whisp-button-icon"
-                onClick={() => setIsPopupTweetOpen(true)}
-              >
-                <HistoryEduIcon className="feather-icon" />
-              </button>
+                </button>
+                <button
+                  type="button"
+                  aria-label="save"
+                  className="tweet-button whisp-button-icon"
+                  onClick={() => setIsPopupTweetOpen(true)}
+                >
+                  <HistoryEduIcon className="feather-icon" />
+                </button>
+              </div>
+              <div className={styles['user-menu']} role="button" tabIndex={0} onClick={handleLogOut}>
+                <div className={styles['user-menu-info']}>
+                  <AccountCircleIcon className="nav-bar-profile" />
+                  <div className={styles['user-menu-text-container']}>
+                    <h1 className={styles['user-menu-text']}>
+                      Amr Zayed
+                    </h1>
+                    <h2 className={[styles['user-menu-text'], styles['user-menu-text-name']].join(' ')}>
+                      @AmrZayed
+                    </h2>
+                  </div>
+                </div>
+                <MoreHorizIcon className={styles['user-menu-more']} />
+              </div>
             </div>
           </Navbar>
         </div>
@@ -78,7 +100,7 @@ function Foundation() {
         </div>
 
         <PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
-          <TweetBox placeHolder="What's happening" />
+          <TweetBox placeHolder="What's happening" boxId="foundation" />
         </PopupPage>
 
         <div className={styles['foundation-widget']}>
