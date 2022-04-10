@@ -8,6 +8,7 @@ const mongoose= require('./database');
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
 const oAuth = require('./components/Auth/OAuthRoute');
+const forgotPassword = require('./components/Auth/forgotPasswordRoute');
 
 
 const port = process.env.PORT || 3000;
@@ -21,6 +22,8 @@ app.use(express.json());
 app.use ('/signUp',signUp);
 app.use ('/login',login);
 app.use ('/auth',oAuth);
+app.use ('/forgotPassword',forgotPassword);
+
 
 
 const server =app.listen(port,()=>

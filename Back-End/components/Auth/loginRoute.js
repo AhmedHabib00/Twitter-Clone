@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../User/userSchema');
 const Joi = require('joi');
-
 const express = require('express');
 const router = express.Router();
 

@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema ({
     password: { type: String},
     googleId:{ type:String},
     facebookId:{ type:String},
+    passwordResetOTP:{type:String,minlength: 8,maxlength: 1024},
     profilePic: {type: String}, // TODO:add default picture url
     coverPhoto: {type: String},
     birthdate:{type: Date},
