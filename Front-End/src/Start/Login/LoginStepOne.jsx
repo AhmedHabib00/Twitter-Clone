@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import useLoginForm from './components/useLoginForm';
 import styles from './LoginStepOne.module.css';
 
-function LoginStepOne({ setStepOne }) {
+function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
   const {
     handleChange, values, handleSubmit,
-  } = useLoginForm(setStepOne);
+  } = useLoginForm(setStepOne, setEmail, setLoginPassword);
   return (
     <div>
       <div className={styles.body}>
@@ -88,4 +88,6 @@ function LoginStepOne({ setStepOne }) {
 export default LoginStepOne;
 LoginStepOne.propTypes = {
   setStepOne: PropTypes.func.isRequired,
+  setEmail: PropTypes.func.isRequired,
+  setLoginPassword: PropTypes.func.isRequired,
 };

@@ -7,7 +7,7 @@ import { useState } from 'react';
  * @param {function} setStepVerify Manages the verification step status
  * @returns handleChange, values, handleSubmit, errors,
  */
-const useLoginForm = (setStepOne) => {
+const useLoginForm = (setStepOne, setEmail, setLoginPassword) => {
   const [values, setValues] = useState({
     email: '',
   });
@@ -21,6 +21,8 @@ const useLoginForm = (setStepOne) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStepOne(false);
+    setLoginPassword(true);
+    setEmail(values.email);
   };
 
   return {

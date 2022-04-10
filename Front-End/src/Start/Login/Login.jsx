@@ -5,9 +5,12 @@ import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import styles from './Login.module.css';
 import LoginStepOne from './LoginStepOne';
+import LoginPassword from './LoginPassword';
 
 function Login({ closeLogin }) {
   const [stepOne, setStepOne] = useState(true);
+  const [stepLoginPassword, setLoginPassword] = useState(false);
+  const [email, setEmail] = useState(' ');
   return (
     <div className={styles['login-background']}>
       <div id="signup-modals" className="start-modals-container">
@@ -25,7 +28,20 @@ function Login({ closeLogin }) {
             <TwitterIcon className="start-modals-icon-size" />
           </div>
         </div>
-        {stepOne && <LoginStepOne setStepOne={setStepOne} />}
+        {stepOne
+        && (
+        <LoginStepOne
+          setStepOne={setStepOne}
+          setLoginPassword={setLoginPassword}
+          setEmail={setEmail}
+        />
+        )}
+        {stepLoginPassword && (
+        <LoginPassword
+          email={email}
+          setLoginPassword={setLoginPassword}
+        />
+        )}
       </div>
     </div>
   );
