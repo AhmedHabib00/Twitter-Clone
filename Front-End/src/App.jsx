@@ -31,7 +31,7 @@ function App() {
       if (isAdmin) {
         return <AdminFoundation />;
       }
-      return <Foundation />;
+      return <Foundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
     }
     return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
   };

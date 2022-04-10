@@ -1,5 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+
+import PropTypes from 'prop-types';
 
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -19,8 +21,9 @@ import './Navbar/Navbar.css';
  * It displays the navbar, opened page, widgets.
  * The navbar is not scrollable
  */
-function Foundation() {
+function Foundation({ setIsLoggedIn, setisAdmin }) {
   const pages = getUserPages();
+  const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
   const [isPopupTweetOpen, setIsPopupTweetOpen] = useState(false);
   useEffect(() => {
@@ -37,7 +40,13 @@ function Foundation() {
   };
 
   const handleLogOut = () => {
-    console.log('logout mn hna yad');
+    localStorage.setItem('logged', false);
+    localStorage.setItem('admin', false);
+    const logged = localStorage.getItem('logged');
+    const admin = localStorage.getItem('admin');
+    setIsLoggedIn(JSON.parse(logged));
+    setisAdmin(JSON.parse(admin));
+    navigate(-1);
   };
 
   return (
@@ -78,7 +87,12 @@ function Foundation() {
                   <HistoryEduIcon className="feather-icon" />
                 </button>
               </div>
-              <div className={styles['user-menu']} role="button" tabIndex={0} onClick={handleLogOut}>
+              <div
+                className={styles['user-menu']}
+                role="button"
+                tabIndex={0}
+                onClick={handleLogOut}
+              >
                 <div className={styles['user-menu-info']}>
                   <AccountCircleIcon className="nav-bar-profile" />
                   <div className={styles['user-menu-text-container']}>
@@ -113,3 +127,7 @@ function Foundation() {
 }
 
 export default Foundation;
+Foundation.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setisAdmin: PropTypes.func.isRequired,
+};
