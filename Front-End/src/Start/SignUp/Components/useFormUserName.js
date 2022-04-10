@@ -8,7 +8,7 @@ import { signUpUsername } from '../../../Services/accountServices';
  * @param {string} userEmail used to send with username to the backend
  * @returns handleChange, values, handleSubmit, errors
  */
-const useFormUserName = (userEmail) => {
+const useFormUserName = (userEmail, handleAfterSignup) => {
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -28,7 +28,11 @@ const useFormUserName = (userEmail) => {
     if (Object.keys(validateUsername(values)).length === 0) {
       signUpUsername(values).then((response) => {
         if (response.status === 201) {
-          // go to home page
+          localStorage.setItem('logged', 'true');
+          localStorage.setItem('admin', 'false');
+          const logged = localStorage.getItem('logged');
+          const admin = localStorage.getItem('admin');
+          handleAfterSignup(logged, admin);
         }
       });
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
@@ -18,9 +18,12 @@ import BlockedUsers from './Admin/AdminBlocked';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
+  localStorage.clear();
   useEffect(() => {
-    setIsLoggedIn(false);
-    setisAdmin(true);
+    const logged = localStorage.getItem('logged');
+    const admin = localStorage.getItem('admin');
+    setIsLoggedIn(logged);
+    setisAdmin(!admin);
   }, []);
   const mainPage = () => {
     if (isLoggedIn) {
@@ -29,7 +32,7 @@ function App() {
       }
       return <Foundation />;
     }
-    return <Start />;
+    return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
   };
 
   const mainPath = () => {

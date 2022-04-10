@@ -11,10 +11,10 @@ import useFormUserName from './Components/useFormUserName';
  * @returns Username form
  */
 
-function UserName({ email }) {
+function UserName({ email, handleAfterSignup }) {
   const {
     handleChange, values, handleSubmit, errors,
-  } = useFormUserName(email);
+  } = useFormUserName(email, handleAfterSignup);
   return (
     <div>
       <div className={styles.header}>
@@ -66,4 +66,5 @@ function UserName({ email }) {
 export default UserName;
 UserName.propTypes = {
   email: PropTypes.string.isRequired,
+  handleAfterSignup: PropTypes.func.isRequired,
 };

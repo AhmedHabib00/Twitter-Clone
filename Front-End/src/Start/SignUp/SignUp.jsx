@@ -11,7 +11,7 @@ import UserName from './UserName';
  * @param {boolean} closeSignup [boolen to close signup modal]
  * @returns SignUp modal
  */
-function SignUp({ closeSignup }) {
+function SignUp({ closeSignup, handleLoginStatus }) {
   const [stepOne, setStepOne] = useState(true);
   const [stepPassword, setStepPassword] = useState(false);
   const [stepVerify, setStepVerify] = useState(false);
@@ -25,6 +25,9 @@ function SignUp({ closeSignup }) {
     setStepVerify(false);
     setStepPassword(false);
     setStepUsername(false);
+  };
+  const handleAfterSignup = (logged, admin) => {
+    handleLoginStatus(logged, admin);
   };
   return (
     <div className={styles['signup-background']}>
@@ -56,6 +59,7 @@ function SignUp({ closeSignup }) {
         <UserName
           data-testid="username"
           email={email}
+          handleAfterSignup={handleAfterSignup}
         />
         )}
       </div>
@@ -67,4 +71,5 @@ function SignUp({ closeSignup }) {
 export default SignUp;
 SignUp.propTypes = {
   closeSignup: PropTypes.func.isRequired,
+  handleLoginStatus: PropTypes.func.isRequired,
 };

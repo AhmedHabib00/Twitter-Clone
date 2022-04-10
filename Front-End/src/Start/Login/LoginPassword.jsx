@@ -23,7 +23,7 @@ function LoginPassword({ email }) {
     event.preventDefault();
   };
   return (
-    <div>
+    <div className={styles['password-container']}>
       <form
         className={styles['signup-form']}
         onSubmit={handleSubmit}
@@ -80,12 +80,12 @@ function LoginPassword({ email }) {
           </div>
         </div>
       </form>
-      {/* <div className={styles['login-text']}>
+      <div className={styles['login-text']}>
         <p className={styles['dont-have-acount']}>
           Don&apos;t have an account?
           <span className={styles['login-text-span']}> Sign up</span>
         </p>
-      </div> */}
+      </div>
 
     </div>
   );

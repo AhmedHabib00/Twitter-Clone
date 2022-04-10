@@ -1,17 +1,23 @@
 import { React, useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
+
 /**
  * This functions renders the start page from which
  * user can login or signup with google, facebook, or email.
  * @returns Start page
  */
-function Start() {
+function Start({ setIsLoggedIn, setisAdmin }) {
   const [signup, setSignup] = useState(false);
   const [login, setLogin] = useState(false);
+  const handleLoginStatus = (logEvent, adminEvent) => {
+    setIsLoggedIn(logEvent);
+    setisAdmin(adminEvent);
+  };
 
   return (
     <div>
@@ -104,11 +110,13 @@ function Start() {
       <SignUp
         data-testid="signup-modal"
         closeSignup={setSignup}
+        handleLoginStatus={handleLoginStatus}
       />
       )}
       {login && (
       <Login
         closeLogin={setLogin}
+        handleLoginStatus={handleLoginStatus}
       />
       )}
     </div>
@@ -116,3 +124,8 @@ function Start() {
 }
 
 export default Start;
+
+Start.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setisAdmin: PropTypes.func.isRequired,
+};
