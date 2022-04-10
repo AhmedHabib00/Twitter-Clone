@@ -11,12 +11,10 @@
 }
 
 .popup-inner > img {
-  position: center;
+  justify-content: center;
   padding: 32px;
-  width: 100%;
-  height: 100%;
-
-  /* background-color: rgb(169 227 241 / 50%); */
+  width: 50%;
+  height: 50%;
 }
 
 .popup-inner .close-btn {

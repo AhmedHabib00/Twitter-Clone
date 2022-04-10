@@ -9,28 +9,42 @@ import styles from './ImageBox.module.css';
  * @param {Function} onDeleteImage takes an id as an input for the parent component
  * to has remove image of repective id
  */
-function ImageBox({ images, onDeleteImage }) {
-  let imageWidth = 100;
-  if (images.length > 1) {
-    imageWidth = 46;
-  }
-  return (
-    <div data-testid="image" className={styles.imagebox}>
-      {images.map((image) => (
-        <div
-          id="image-box-image-canvas"
-          className={styles.image}
-          key={image.id}
-          style={{
-            backgroundImage: `url(${image.imageUrl})`,
-            paddingBottom: `${imageWidth}%`,
-            width: `${imageWidth}%`,
-          }}
-        >
-          <div id="image-box-delete-button" className={styles['delete-image']} role="button" tabIndex={0} onClick={() => onDeleteImage(image.id)}>X</div>
 
-        </div>
-      ))}
+function ImageBox({ images, onDeleteImage }) {
+  let imageWidth = 65;
+  if (images.length > 1) {
+    imageWidth = 33;
+  }
+  const imageContainer = (image) => (
+    <div
+      id="image-box-image-canvas"
+      className={styles.image}
+      key={image.id}
+      style={{
+        backgroundImage: `url(${image.imageUrl})`,
+        paddingBottom: `${imageWidth}%`,
+        width: `${imageWidth}%`,
+      }}
+    >
+      <div
+        id="image-box-delete-button"
+        className={styles['delete-image']}
+        role="button"
+        tabIndex={0}
+        onClick={() => onDeleteImage(image.id)}
+      >
+        X
+      </div>
+    </div>
+  );
+  return (
+    <div data-testid="imagebox" className={styles.imagebox}>
+      <div className={styles['row-images']}>
+        {images.map((image, index) => ((index <= 1) ? imageContainer(image) : ''))}
+      </div>
+      <div className={styles['row-images']}>
+        {images.map((image, index) => ((index > 1) ? imageContainer(image) : ''))}
+      </div>
     </div>
   );
 }

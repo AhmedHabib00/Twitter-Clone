@@ -16,17 +16,24 @@ function Feed({ data }) {
 
       {
         data && data.map((post) => (
+
           <Post
             id={post.id}
-            displayname={post.displayname}
-            username={post.username}
+            displayname={post.displayName}
+            username={post.userName}
             content={post.content}
             img1={post.img1}
             img2={post.img2}
             img3={post.img3}
             img4={post.img4}
+            isLiked={post.isLiked}
+            noOfLike={post.noOfLike}
+            isRetweeted={post.isRetweeted}
+            noOfReplies={post.noOfReplies}
+            noOfRetweets={post.noOfRetweets}
           />
         ))
+
     }
 
     </div>
@@ -36,17 +43,18 @@ function Feed({ data }) {
 Feed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    displayname: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     img1: PropTypes.string.isRequired,
     img2: PropTypes.string.isRequired,
     img3: PropTypes.string.isRequired,
     img4: PropTypes.string.isRequired,
-
-    // images: PropTypes.arrayOf(PropTypes.shape({
-    //   id: PropTypes.number.isRequired, src: PropTypes.string.isRequired,
-    // })).isRequired,
+    isLiked: PropTypes.bool.isRequired,
+    noOfLike: PropTypes.number.isRequired,
+    isRetweeted: PropTypes.bool.isRequired,
+    noOfReplies: PropTypes.number.isRequired,
+    noOfRetweets: PropTypes.number.isRequired,
   })).isRequired,
 };
 export default Feed;

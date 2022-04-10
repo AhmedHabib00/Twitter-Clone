@@ -8,6 +8,10 @@
   margin-left: 8px;
 }
 
+.disable-nav-item {
+  display: none;
+}
+
 .nav-bar-tw-icon-link {
   width: fit-content;
 }
@@ -98,10 +102,18 @@
 
   .whisp-button-icon {
     display: inline;
-    width: auto;
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
   }
 
   .feather-icon {
     font-size: 31px !important;
+  }
+}
+
+@media screen and (max-width: 910px) {
+  .disable-nav-item {
+    display: inline;
   }
 }

@@ -1,14 +1,9 @@
 import axios from 'axios';
 
-export default async function getStats(props) {
-  const { setNoUsers, setNoBanned, setTweetsRatio } = props;
+export default async function getStats() {
   let response = '';
   try {
-    response = await axios.get('http://localhost:8000/statData').then((res) => {
-      setNoUsers(res.data[0].noUsers);
-      setTweetsRatio(res.data[0].ratioTweets);
-      setNoBanned(res.data[0].noBanned);
-    });
+    response = await axios.get('http://localhost:8000/statData').then((res) => res.data);
     return (response);
   } catch (error) {
     if (error.response) {

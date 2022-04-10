@@ -7,23 +7,29 @@ import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Profile from './Profile/Profile';
-import More from './More/More';
+import Settings from './Settings/Settings';
 import Home from './Home/Home';
 import Start from './Start/Start';
 import AdminFoundation from './Admin/AdminFoundation';
 import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
+import Search from './Search/Search';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
   localStorage.clear();
   useEffect(() => {
+<<<<<<< HEAD
     const logged = localStorage.getItem('logged');
     const admin = localStorage.getItem('admin');
     setIsLoggedIn(logged);
     setisAdmin(!admin);
+=======
+    setIsLoggedIn(true);
+    setisAdmin(false);
+>>>>>>> d576aba0a0d1f33f13c25a06a32bf6894085a430
   }, []);
   const mainPage = () => {
     if (isLoggedIn) {
@@ -60,7 +66,8 @@ function App() {
       <Route path="Notifications" element={<Notifications />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
       <Route path="Profile" element={<Profile />} />
-      <Route path="More" element={<More />} />
+      <Route path="Search" element={<Search />} />
+      <Route path="Settings" element={<Settings />} />
     </>
   );
   const selectingRoute = () => {
