@@ -15,12 +15,11 @@ const options = {
      }
 };
 
-const sendConfirmationEmail = async function sendEmail(
-    {email ,otp},
-    ){
+const sendConfirmationEmail = async function sendEmail(email ,otp)
+    {
         
     const transporter = nodemailer.createTransport(options);
-
+console.log("here");
     const mailOptions = {
         from: 'noreply@twitter',
         to: email,
