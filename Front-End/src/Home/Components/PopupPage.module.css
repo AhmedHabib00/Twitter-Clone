@@ -20,3 +20,15 @@
   top: 50%;
   overflow-y: scroll;
 }
+
+.close-btn {
+  border-radius: 50px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.close-btn:hover {
+  cursor: pointer;
+  color: black;
+  background-color: rgb(198 195 195);
+}

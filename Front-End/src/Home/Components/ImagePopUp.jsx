@@ -14,14 +14,15 @@ import styles from './ImagePopUp.module.css';
  */
 function ImagePopUp({ trigger, setTrigger, children }) {
   return (trigger) ? (
-    <view>
-      <div data-testid="image-render-test" className={styles.popup}>
-        <div className={styles['popup-inner']}>
-          <CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); }} />
-          {children}
-        </div>
+
+    <div data-testid="image-render-test" className={styles.popup}>
+
+      <div className={styles['popup-inner']}>
+        <CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); }} />
+        {children}
       </div>
-    </view>
+    </div>
+
   ) : '';
 }
 
