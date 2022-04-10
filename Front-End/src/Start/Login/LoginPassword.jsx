@@ -8,10 +8,10 @@ import { Button } from '@mui/material';
 import styles from './LoginPassword.module.css';
 import usePasswordForm from './components/usePasswordForm';
 
-function LoginPassword({ email }) {
+function LoginPassword({ email, handleAfterSignin }) {
   const {
     handleChange, values, handleSubmit,
-  } = usePasswordForm(email);
+  } = usePasswordForm(email, handleAfterSignin);
   const [fieldvalues, setfieldvalues] = useState({
     password: '',
     showPassword: false,
@@ -94,4 +94,5 @@ function LoginPassword({ email }) {
 export default LoginPassword;
 LoginPassword.propTypes = {
   email: PropTypes.string.isRequired,
+  handleAfterSignin: PropTypes.func.isRequired,
 };

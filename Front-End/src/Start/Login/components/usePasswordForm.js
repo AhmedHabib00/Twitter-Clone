@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { LoginPassword } from '../../../Services/accountServices';
 /**
  * This function is used to manage the Password step in the signup form and apply
  * validations on it.
@@ -8,7 +8,7 @@ import { useState } from 'react';
  * @param {string} userEmail used to send with password to the backend
  * @returns handleChange, values, handleSubmit, errors
  */
-const usePasswordForm = (userEmail) => {
+const usePasswordForm = (userEmail, handleAfterSignin) => {
   const [values, setValues] = useState({
     password: '',
     email: '',
@@ -23,15 +23,16 @@ const usePasswordForm = (userEmail) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setErrors(validatePassword(values));
-    // if (Object.keys(validatePassword(values)).length === 0) {
-    //   signUpPassword(values).then((response) => {
-    //     if (response.status === 201) {
-    //       setStepPassword(false);
-    //       setStepUsername(true);
-    //     }
-    //   });
-    // }
+
+    LoginPassword(values).then((response) => {
+      if (response.status === 201) {
+        localStorage.setItem('logged', true);
+        localStorage.setItem('admin', false);
+        const logged = localStorage.getItem('logged');
+        const admin = localStorage.getItem('admin');
+        handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
+      }
+    });
   };
 
   return {
