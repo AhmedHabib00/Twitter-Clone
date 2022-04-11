@@ -3,11 +3,110 @@ var router = express.Router();
 const bodyParser = require('body-parser');
 
 const userSchema = require('./userSchema')
+const tweetSchema = require('../Tweets/tweetsSchema')
 const ObjectId = userSchema.ObjectId;
 
 // users ||Test||
 router.get('/', function(req,res){
     res.status(200).send({"UserPage":true});
+});
+
+
+//"""Bookmark endpoints"""
+// List of bookmarked tweets of the user ID : GET /users/:id/bookmarks/
+router.get('/:id/bookmarks', async (req, res) =>{
+    // Get data by id
+    userSchema.findById(req.params.id).populate('bookmarks').exec(function(err, bookmarksData){
+        try {
+            // return followers data
+            res.status(200).send(bookmarksData.bookmarks);
+        }
+        catch(err){
+            res.sendStatus(500);
+        }
+    })
+});
+
+// Allows an user to bookmark tweet : POST /users/{id}/bookmarks/{tweet_id}
+router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{
+    // Get data of the user who want to bookmark by id
+    userSchema.findById(req.params.id).exec(async(err, userData)=>{
+        try {
+            // Get data of the tweet that will be bookmarked by id
+            tweetData = await tweetSchema.findById(req.params.tweet_id);
+            if (tweetData) {
+                // Check if the tweet_id not already bookmarked by the user id
+                bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
+    
+                if (!bookmarkExistPass) {
+                    // Add tweet_id to the bookamrks list of the user
+                    userData.bookmarks.push(req.params.tweet_id);
+                    userData.save();
+
+                    // Check if the tweet_id not already bookmarked by the user id
+                    bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
+                    
+                    if (bookmarkExistPass) {
+                        res.status(200).send({"data": {
+                            "bookmarked": true
+                        }});
+                    }else{
+                        throw err;
+                    }
+                    
+                }else{
+                    throw err;
+                }    
+            } else {
+                throw err;  
+            }
+        } catch(err) {
+            res.status(500).send({"data": {
+                "following": false
+            }});
+        }
+    })
+});
+
+// Allows an user to unbookmark tweet : DEL /users/{id}/bookmarks/{tweet_id}
+router.delete('/:id/bookmarks/:tweet_id', async (req, res) =>{
+    // Get data of the user who want to unbookmark by id
+    userSchema.findById(req.params.id).exec(async(err, userData)=>{
+        try {            
+            // Get tweet that will be bookmarked by id
+            tweetData = await tweetSchema.findById(req.params.tweet_id);
+
+            if (tweetData){
+                // Check if the tweet_id not already bookmarked by the user id
+                bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
+
+                if (bookmarkExistPass) {
+                    // Delete bookmarks
+                    userData.bookmarks = removeItem(userData.bookmarks, req.params.tweet_id);
+                    userData.save();
+                    
+                    // Check if the tweet_id not already bookmarked by the user id
+                    bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
+                    
+                    if (!bookmarkExistPass) {
+                        res.status(200).send({"data": {
+                            "bookmarked": false
+                        }}); 
+                    }else{
+                        throw err;
+                    }
+                }else{
+                    throw err;
+                }
+            }else{
+                throw err;
+            }
+        } catch(err) {
+            res.status(500).send({"data": {
+                "bookmarked": false
+            }});
+        }
+    })
 });
 
 
@@ -39,8 +138,8 @@ router.get('/:id/following', async (req, res) =>{
     })
 });
 
-// Allows a user ID to follow another user : PATCH /users/{source_user_id}/following/{target_user_id}
-router.patch('/:source_user_id/following/:target_user_id', async (req, res) =>{
+// Allows a user ID to follow another user : POST /users/{source_user_id}/following/{target_user_id}
+router.post('/:source_user_id/following/:target_user_id', async (req, res) =>{
     // Get data of the user who want to follow by id
     userSchema.findById(req.params.source_user_id).exec(function(err, followingData){
         try {
