@@ -39,7 +39,7 @@ router.get('/:id/following', async (req, res) =>{
     })
 });
 
-// Allows a user ID to follow another user : PATCH /users/{id}/following
+// Allows a user ID to follow another user : PATCH /users/{source_user_id}/following/{target_user_id}
 router.patch('/:source_user_id/following/:target_user_id', async (req, res) =>{
     // Get data of the user who want to follow by id
     userSchema.findById(req.params.source_user_id).exec(function(err, followingData){
@@ -105,9 +105,6 @@ router.delete('/:source_user_id/following/:target_user_id', async (req, res) =>{
                     
                     // Check if target_user is the same as source_user
                     selfPass = req.params.target_user_id == req.params.source_user_id;
-
-                    console.log(req.params.target_user_id)
-                    console.log(req.params.source_user_id)
 
                     if (followerExistPass && followingExistPass && !selfPass) {
                         // Delete following
