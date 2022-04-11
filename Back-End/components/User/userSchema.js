@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema ({
     googleId:{ type:String},
     facebookId:{ type:String},
     passwordResetOTP:{type:String,minlength: 8,maxlength: 1024},
+    role:{ type:String ,enum: ['User' , 'Admin'],default:'User',trim: true},
     profilePic: {type: String}, // TODO:add default picture url
     coverPhoto: {type: String},
     birthdate:{type: Date},
@@ -35,7 +36,8 @@ const userSchema = new mongoose.Schema ({
 userSchema.methods.generateJWT = function (){
     const token = jwt.sign({
         _id: this._id,
-        email: this.email
+        email: this.email,
+        role: this.role
     },process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
     return token;
 }

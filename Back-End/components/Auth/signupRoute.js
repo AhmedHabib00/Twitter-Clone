@@ -158,7 +158,7 @@ router.post('/setUsername', [validateEmail, validateUsername],auth, async (req, 
         const deleteRegisterer = await Registerer.deleteMany({email: req.body.email});
         return res.status(201).header('x-auth-token',token).send({
             message:'User Registeration Successful!',
-            data: {userId: user._id}
+            data: {userId: user._id,role:user.role}
         });
     }
     

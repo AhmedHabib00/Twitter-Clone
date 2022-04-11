@@ -65,7 +65,7 @@ router.get('/google/secrets', passport.authenticate('google', { failureMessage: 
         const token = user.generateJWT();
         return res.status(201).header('x-auth-token',token).send({
           message:'User Registeration Successful!',
-          data: {userId: user._id}
+          data: {userId: user._id,role:user.role}
         }); 
 });
 
@@ -90,7 +90,7 @@ router.get('/facebook/secrets', passport.authenticate('facebook', { failureMessa
         const token = user.generateJWT();
         return res.status(201).header('x-auth-token',token).send({
           message:'User Registeration Successful!',
-          data: {userId: user._id}
+          data: {userId: user._id,role:user.role}
         }); 
 });
 
