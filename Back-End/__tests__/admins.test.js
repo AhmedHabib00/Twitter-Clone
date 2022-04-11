@@ -210,23 +210,23 @@ describe('POST: admins/:id/adding/',()=>{
 // DELETE: admins/:id/adding/ -> Delete user by admin
 describe('DELETE: admins/:id/adding/',()=>{
 
-    // test('Delete an user: Should respond with a 202 status code', async ()=>{
-    //     // Get Admin id
-    //     let AdminId = await userSchema.find({"role":"Admin"},"_id").limit(1);
-    //     AdminId = AdminId[0]._id.toString();
+    test('Delete an user: Should respond with a 202 status code', async ()=>{
+        // Get Admin id
+        let AdminId = await userSchema.find({"role":"Admin"},"_id").limit(1);
+        AdminId = AdminId[0]._id.toString();
 
-    //     let testUserId = await userSchema.find({"role":"User"},"_id").limit(1);
-    //     testUserId = testUserId[0]._id.toString();
+        let testUserId = await userSchema.find({"role":"User"},"_id").limit(1);
+        testUserId = testUserId[0]._id.toString();
                 
-    //     const res = await request(server).delete('/admins/'+AdminId+'/deleting/'+testUserId);
+        const res = await request(server).delete('/admins/'+AdminId+'/deleting/'+testUserId);
 
-    //     expect(res.statusCode).toEqual(202);
-    //     expect.objectContaining({
-    //         "deleted": true,
-    //         "user": testUserId,
-    //         "by": AdminId
-    //     });
-    // });
+        expect(res.statusCode).toEqual(202);
+        expect.objectContaining({
+            "deleted": true,
+            "user": testUserId,
+            "by": AdminId
+        });
+    });
 
     test('Delete not found user: Should respond with a 500 status code', async ()=>{
         // Get Admin id
