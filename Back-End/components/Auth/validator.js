@@ -25,5 +25,10 @@ module.exports = {
     .withMessage('Invalid username- must be atleast 3 characters and atmost 50'),
 
     validatePassword:check('password')
-    .exists(),
+    .isStrongPassword()
+    .withMessage('Invalid password- criteria: minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1')
+    .exists()
+    
+
+    
 }

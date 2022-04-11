@@ -75,9 +75,7 @@ router.patch('/verifyEmail', [validateEmail,validateCode],async (req, res) => {
         if (result.matchedCount == 1) {
             const token = jwt.sign({_id: registerer._id, email: registerer.email},
                 process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
-            return res.status(200).header('x-auth-token',token).send({
-                message:'Email verified successfuly'
-            });
+            return res.status(200).header('x-auth-token',token).send('Email verified successfuly');
         }
     }
         
