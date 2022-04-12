@@ -2,8 +2,8 @@ const mongoose=require('mongoose');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: 'config.env'});
 
-const userSchema = new mongoose.Schema ({
 
+const userSchema = new mongoose.Schema ({
     name: {type :String ,required :true,trim: true},
     username: { type :String ,required :true,trim: true, unique: true},
     email: { type :String ,required :true,trim: true, unique: true},
@@ -18,14 +18,18 @@ const userSchema = new mongoose.Schema ({
     following: [ { type: mongoose.Schema.Types.ObjectId, ref:'User'} ],
     blocks: [ { type: mongoose.Schema.Types.ObjectId, ref:'User'} ],
     likes: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
-    bookmarks: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }]
+    bookmarks: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
     //TODO : add list of tweets (refrences tweet schema)
-    //add pinned tweets (refrences tweet schema)	
+    //add pinned tweets (refrences tweet schema)
     // banned boolean
+    banned:{type: Boolean},
+    bannedBy:{type: mongoose.Schema.Types.ObjectId ,ref: 'User' },
+    bannedStartDate:{type: Date},
+    bannedEndDate:{type: Date},
     // ban startDate and endDate
-    // banning adminID   
+    // banning adminID
+    role: {type:String}   
 },{timestamps: true});
-
 userSchema.methods.generateJWT = function (){
     const token = jwt.sign({
         _id: this._id,
