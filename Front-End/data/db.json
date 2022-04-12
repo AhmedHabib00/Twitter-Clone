@@ -55,6 +55,40 @@
       "noOfRetweets": 1
     }
   ],
+  "Notification":[
+    {
+      "id":1,
+      "displayname": "Asmaa",
+      "content1": "Liked your Tweet",
+      "content11":"Hello this is my first trial to create json file and request it.",
+      "notitype":"like"
+  },
+  {
+      "id":2,
+      "displayname": "Ahmed ",
+      "content2": "Retweeted your Tweet",
+      "content22":"Hello this is my first trial to create json file and request it.",
+      "notitype":"retweet"   
+   },
+  {
+      "id":3,
+      "displayname": "Esraa",
+      "content3": "Followed you",
+      "notitype":"followed"  
+       
+   },
+   {
+      "id":4,
+      "content4": "In case you missed Noha's Tweet",
+      "notitype":"missed"  
+   },
+   {
+      "id":5,
+      "content5": "There was a login to your account @yara from a new device on ",
+      "content55": "March 22,2022.Review it now.",
+      "notitype":"login"   
+   }
+  ],
   "signup": [
     {
       "name": "Abdulrehman Mahmoud Suliman",
