@@ -120,6 +120,14 @@ input:not(:placeholder-shown) + span {
   color: #1d9bf0;
 }
 
+.login-form-errors {
+  color: rgb(244 33 46);
+  font-weight: 400;
+  line-height: 16px;
+  font-size: 13px;
+  margin-top: -5%;
+}
+
 @media screen and  (max-width: 600px) {
   .login-form input {
     width: 100%;

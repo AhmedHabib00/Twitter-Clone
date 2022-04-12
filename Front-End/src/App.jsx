@@ -25,6 +25,7 @@ function App() {
   useEffect(() => {
     setIsLoggedIn(JSON.parse(logged));
     setisAdmin(JSON.parse(admin));
+    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   }, [logged, admin]);
   const mainPage = () => {
     if (isLoggedIn) {

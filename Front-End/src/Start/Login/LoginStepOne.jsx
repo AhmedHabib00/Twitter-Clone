@@ -6,7 +6,7 @@ import styles from './LoginStepOne.module.css';
 
 function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
   const {
-    handleChange, values, handleSubmit,
+    handleChange, values, handleSubmit, errors,
   } = useLoginForm(setStepOne, setEmail, setLoginPassword);
   return (
     <div>
@@ -54,6 +54,8 @@ function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
             />
             <span>Email</span>
           </label>
+          {errors.email
+             && <p className={styles['login-form-errors']}>{errors.email}</p>}
           <div className={styles['login-buttons-container']}>
             <Button
               id="next-button"
@@ -74,12 +76,7 @@ function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
         >
           Forgot password?
         </Button>
-        <div className={styles['login-text']}>
-          <p className={styles['dont-have-acount']}>
-            Don&apos;t have an account?
-            <span className={styles['login-text-span']}> Sign up</span>
-          </p>
-        </div>
+
       </div>
     </div>
   );

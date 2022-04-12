@@ -80,13 +80,6 @@ function LoginPassword({ email, handleAfterSignin }) {
           </div>
         </div>
       </form>
-      <div className={styles['login-text']}>
-        <p className={styles['dont-have-acount']}>
-          Don&apos;t have an account?
-          <span className={styles['login-text-span']}> Sign up</span>
-        </p>
-      </div>
-
     </div>
   );
 }

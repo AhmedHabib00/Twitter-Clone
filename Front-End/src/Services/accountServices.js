@@ -93,9 +93,7 @@ export async function signUpCode(props) {
     return (response);
   }
 }
-const bcrypt = require('bcryptjs');
 
-const salt = bcrypt.genSaltSync(10);
 /**
  * This function is used to post the password and email
  * to the backend after encryption
@@ -107,10 +105,9 @@ export async function signUpPassword(props) {
     password, email,
   } = props;
   let response = '';
-  const hash = bcrypt.hashSync(password, salt);
   try {
     response = await axios.post('http://localhost:8000/Password', {
-      password: hash,
+      password,
       email,
 
     });

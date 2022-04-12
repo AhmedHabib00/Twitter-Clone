@@ -33,6 +33,11 @@ const useFormUserName = (userEmail, handleAfterSignup) => {
           const logged = localStorage.getItem('logged');
           const admin = localStorage.getItem('admin');
           handleAfterSignup(JSON.parse(logged), JSON.parse(admin));
+        } else if (response.status === 400) {
+          setErrors({
+            ...errors,
+            username: 'username already in use',
+          });
         }
       });
     }

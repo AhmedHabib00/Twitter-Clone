@@ -32,6 +32,11 @@ const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
         if (response.status === 201) {
           setStepVerify(false);
           setStepPassword(true);
+        } else if (response.status === 400) {
+          setErrors({
+            ...errors,
+            code: 'Incorrect verification code - Registeration session expired',
+          });
         }
       });
     }
