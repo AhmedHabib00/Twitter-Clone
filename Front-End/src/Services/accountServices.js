@@ -1,7 +1,7 @@
 import axios from 'axios';
+import configData from '../config/production.json';
 
-// const { SERVER_URL } = 'http://localhost:8000';
-
+const { SERVER_URL } = configData;
 /**
  * This function is used to post the name email and birthdate
  * to the backend
@@ -14,7 +14,7 @@ export default async function signUpInfo(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/signup', {
+    response = await axios.post(`${SERVER_URL}/signup`, {
       name,
       email,
       birthdate,
@@ -60,7 +60,7 @@ export async function signUpCode(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/verification', {
+    response = await axios.post(`${SERVER_URL}/verification`, {
       code,
       email,
 
@@ -106,7 +106,7 @@ export async function signUpPassword(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/Password', {
+    response = await axios.post(`${SERVER_URL}/Password`, {
       password,
       email,
 
@@ -151,7 +151,7 @@ export async function signUpUsername(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/username', {
+    response = await axios.post(`${SERVER_URL}/username`, {
       username,
       email,
 
@@ -191,7 +191,7 @@ export async function Login(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/loginEmail', {
+    response = await axios.post(`${SERVER_URL}/loginEmail`, {
       email,
 
     });
@@ -230,7 +230,7 @@ export async function LoginPassword(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/LoginPassword', {
+    response = await axios.post(`${SERVER_URL}/LoginPassword`, {
       password,
       email,
 
