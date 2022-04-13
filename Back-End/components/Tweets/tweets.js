@@ -42,15 +42,15 @@ const upload=multer(objectMulter).array('images',4);
 //     content:"hi world"
 // })
 // t1.save()
-router.get("/",(req,res,next)=>{
-    let token=jwt.sign({
-        _id:"624e4262ebc21b56c4edc433"
-    },config.get('jwtPrivateKey')
-)
-  res.json({
-      token:token
-  })
-});
+// router.get("/",(req,res,next)=>{
+//     let token=jwt.sign({
+//         _id:"624e4262ebc21b56c4edc433"
+//     },config.get('jwtPrivateKey')
+// )
+//   res.json({
+//       token:token
+//   })
+// });
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
 router.post("/",auth, async function(req,res){
