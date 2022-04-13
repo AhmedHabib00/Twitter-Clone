@@ -70,7 +70,7 @@ export async function signUpCode(props) {
     });
     // Success
     // console.log(response);
-    const { token } = response.data;
+    const { token } = response.headers['x-auth-token'];
     localStorage.setItem('token', token);
     return (response);
   } catch (error) {
@@ -113,7 +113,7 @@ export async function signUpPassword(props) {
   try {
     response = await axios.post(`${SERVER_URL}/setPassword`, {
       headers: {
-        Authorization: `token ${localStorage.token}`,
+        Authorization: `x-auth-token ${localStorage.token}`,
       },
       password,
       email,
@@ -161,7 +161,7 @@ export async function signUpUsername(props) {
   try {
     response = await axios.post(`${SERVER_URL}/setUsername`, {
       headers: {
-        Authorization: `token ${localStorage.token}`,
+        Authorization: `x-auth-token ${localStorage.token}`,
       },
       username,
       email,
@@ -251,7 +251,7 @@ export async function LoginPassword(props) {
     });
     // Success
     // console.log(response);
-    const { token } = response.data;
+    const { token } = response.headers['x-auth-token'];
     localStorage.setItem('token', token);
     return (response);
   } catch (error) {
