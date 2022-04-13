@@ -16,7 +16,7 @@ const forgotPassword = require('./components/Auth/forgotPasswordRoute');
 
 
 // Users  
-var users = require('./routes/users');
+var users = require('./components/User/user');
 
 
 
