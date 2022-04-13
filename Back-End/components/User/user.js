@@ -60,9 +60,10 @@ router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{
                         }else{
                             throw err;
                         }
-                        
                     }else{
-                        throw err;
+                        res.status(200).send({"data": {
+                            "bookmarked": true
+                        }});
                     }    
                 } else {
                     throw err;  
@@ -72,7 +73,7 @@ router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{
             }
         } catch(err) {
             res.status(500).send({"data": {
-                "following": false
+                "bookmarked": false
             }});
         }
     })
@@ -107,7 +108,9 @@ router.delete('/:id/bookmarks/:tweet_id', async (req, res) =>{
                             throw err;
                         }
                     }else{
-                        throw err;
+                        res.status(200).send({"data": {
+                            "bookmarked": false
+                        }});
                     }
                 }else{
                     throw err;
@@ -180,29 +183,36 @@ router.post('/:source_user_id/following/:target_user_id', async (req, res) =>{
 
                         // Check if user is the same as target_user
                         selfPass = req.params.source_user_id == req.params.target_user_id
-            
-                        if (!followerExistPass && !followingExistPass && !selfPass) {
-                            // Add target_user_id to the following list of the user
-                            followingData.following.push(req.params.target_user_id);
-                            followingData.save();
-
-                            // Add user_id to the followers list of the target_user
-                            followerData.followers.push(req.params.source_user_id);
-                            followerData.save();
-                            
-                            followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
-                            followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
-                            
-                            if (followingExistPass && followerExistPass) {
+                        if (!selfPass) {
+                            if (!followerExistPass && !followingExistPass) {
+                                // Add target_user_id to the following list of the user
+                                followingData.following.push(req.params.target_user_id);
+                                followingData.save();
+    
+                                // Add user_id to the followers list of the target_user
+                                followerData.followers.push(req.params.source_user_id);
+                                followerData.save();
+                                
+                                followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
+                                followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
+                                
+                                if (followingExistPass && followerExistPass) {
+                                    res.status(200).send({"data": {
+                                        "following": true
+                                    }});
+                                }else{
+                                    throw err;
+                                }
+                                
+                            }else{
                                 res.status(200).send({"data": {
                                     "following": true
                                 }});
-                            }else{
-                                throw err;
                             }
-                            
                         }else{
-                            throw err;
+                            res.status(500).send({"data": {
+                                "following": false
+                            }});
                         }
                     }else{
                         throw err;
@@ -260,7 +270,9 @@ router.delete('/:source_user_id/following/:target_user_id', async (req, res) =>{
                                 throw err;
                             }
                         }else{
-                            throw err;
+                            res.status(200).send({"data": {
+                                "following": false
+                            }});
                         }
                     }else{
                         throw err;
