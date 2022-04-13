@@ -23,7 +23,7 @@ if(!config.get('jwtPrivateKey')){
     process.exit(1);
 }
 
-
+//set vidly_jwtPrivateKey=mySecureKey
 
 // const server =app.listen(port,()=>
 // console.log(`app is running on port ${port}`));

@@ -42,21 +42,21 @@ const upload=multer(objectMulter).array('images',4);
 //     content:"hi world"
 // })
 // t1.save()
-// router.get("/",(req,res,next)=>{
-//     let token=jwt.sign({
-//         _id:"624e4262ebc21b56c4edc483"
-//     },config.get('jwtPrivateKey')
-// )
-//   res.json({
-//       token:token
-//   })
-// });
+router.get("/",(req,res,next)=>{
+    let token=jwt.sign({
+        _id:"624e4262ebc21b56c4edc433"
+    },config.get('jwtPrivateKey')
+)
+  res.json({
+      token:token
+  })
+});
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
 router.post("/",auth, async function(req,res){
 
     //A tweet can have content or images or gifs, but it can not be empty 
-    //A tweet can have maximum 4 images/4 gifs.
+    //A tweet can have maximum 4 images/1 gif.
     //number of characters in a tweet is maximum: 
     //same goes for a reply
 
@@ -70,6 +70,21 @@ router.post("/",auth, async function(req,res){
     else{
 
     token=req.user._id
+    try
+    {
+        userInfo=await user.findById(req.user._id)
+    }
+    catch(error) //error with finding (invalid id)
+    {
+         return res.sendStatus(400);
+    }
+
+    if(!userInfo) //the id of the user is not found
+    {
+        return res.sendStatus(400);
+        
+    }
+    
     
     //initialising images,gifs,content,reply as empty
      mediaTemp=[]
@@ -205,6 +220,21 @@ router.post("/",auth, async function(req,res){
 
     try
     {
+        userInfo=await user.findById(req.user._id)
+    }
+    catch(error) //error with finding (invalid id)
+    {
+         return res.sendStatus(400);
+    }
+
+    if(!userInfo) //the id of the user is not found
+    {
+        return res.sendStatus(400);
+        
+    }
+
+    try
+    {
         deletedTweet=await tweet.findByIdAndDelete(req.params.id)
     }
     catch(error) //error with deleting
@@ -243,6 +273,20 @@ router.put("/:id/like",auth,async(req,res)=>{
     console.log(req.params.id); //post id
     var postId=req.params.id;
     token=req.user._id
+    try
+    {
+        userInfo=await user.findById(req.user._id)
+    }
+    catch(error) //error with finding (invalid id)
+    {
+         return res.sendStatus(400);
+    }
+
+    if(!userInfo) //the id of the user is not found
+    {
+        return res.sendStatus(400);
+        
+    }
     
     //checking if this tweet exists:
     try
@@ -300,6 +344,20 @@ router.post("/:id/retweet",auth,async(req,res)=>{
     console.log(req.params.id); //post id
     var postId=req.params.id; 
     token=req.user._id
+    try
+    {
+        userInfo=await user.findById(req.user._id)
+    }
+    catch(error) //error with finding (invalid id)
+    {
+         return res.sendStatus(400);
+    }
+
+    if(!userInfo) //the id of the user is not found
+    {
+        return res.sendStatus(400);
+        
+    }
     
     //checking if the tweet we want to retweet exists:
     try
@@ -382,9 +440,6 @@ router.post("/:id/retweet",auth,async(req,res)=>{
 
 })
 
-//should i check en el user id valid ? 3'er el token.
-//pagenation
-//QUOTE RETWEET!
 
 
 module.exports =router;
