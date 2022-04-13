@@ -5,7 +5,7 @@ const registererSchema = new mongoose.Schema({
     name: {
       type: String,
       required: true,
-      minlength: 5,
+      minlength: 3,
       maxlength: 50
     },
     email: {
@@ -20,10 +20,8 @@ const registererSchema = new mongoose.Schema({
       required: true
     },
     otp:{
-        type: Number,
-        required: true,
-        min: 100000,
-        max: 999999  
+        type: String,
+        required: true 
     },
     confirmedEmail:{
       type:Boolean,
@@ -31,7 +29,7 @@ const registererSchema = new mongoose.Schema({
     },
     password: { 
       type: String ,
-      minlength: 5,
+      minlength: 3,
       maxlength: 1024
     },
     passwordSet:{
@@ -40,9 +38,8 @@ const registererSchema = new mongoose.Schema({
     },
     username: {
       type: String,
-      minlength: 5,
+      minlength: 3,
       maxlength: 50
-      //unique: true
     },
   },{ timestamps:true });
   
@@ -53,7 +50,7 @@ const Registerer = mongoose.model('Registerer', registererSchema );
 
 function validateRegisterer(Registerer) {
     const schema = {
-      name: Joi.string().min(5).max(50).required(),
+      name: Joi.string().min(3).max(50).required(),
       email: Joi.string().min(5).max(255).required().email(),
       birthdate: Joi.date().required()  
     };

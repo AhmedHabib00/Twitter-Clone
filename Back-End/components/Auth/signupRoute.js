@@ -1,23 +1,29 @@
-const _= require('lodash');
 const bcrypt = require('bcrypt');
-const sendConfirmationEmail= require('./sendEmail.js');
+const {sendConfirmationEmail}= require('./sendEmail.js');
 const User = require('../User/userSchema');
 const {Registerer, validateRegisterer } = require('./registerersSchema');
+const otpGenerator = require('otp-generator');
+const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
+const {validationResult} = require('express-validator');
+const {validateDOB,validateEmail,validateName,validateCode ,validateUsername,validatePassword} = require('./validator');
+
 
 
 const express = require('express');
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', [validateDOB ,validateEmail, validateName],async (req, res) => {
 
     //request body is valid based on schema and joi validations
-    const { error } = validateRegisterer(req.body); 
-    if (error) return res.status(400).send(error.details[0].message);
-    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
 
    // checking if user already exists
     const user =  await User.findOne({ email: req.body.email});
-    let registerer =  await Registerer.findOne({ email: req.body.email});
+    var registerer =  await Registerer.findOne({ email: req.body.email});
     if (user || (registerer && registerer.confirmedEmail)) return res.status(400).send('User already registered.');
 
     if (registerer && !registerer.confirmedEmail) {
@@ -25,18 +31,22 @@ router.post('/', async (req, res) => {
     }
 
     //generate otp for the new user 
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    
+    const OTP =otpGenerator.generate(6, { digits: true ,lowerCaseAlphabets:false, upperCaseAlphabets: false, specialChars: false });
+    const salt = await bcrypt.genSalt(10);
+    const hashedOTP = await bcrypt.hash (OTP,salt);
+    console.log(typeof hashedOTP );
+
+        
     registerer = new Registerer({
         name: req.body.name,
         email:req.body.email,
         birthdate: req.body.birthdate,
-        otp: otp
+        otp: hashedOTP
     }); 
 
-    const result= await registerer.save();
     try{
-        await sendConfirmationEmail(registerer);
+        const result= await registerer.save();
+        await sendConfirmationEmail(req.body.email,OTP);
         return res.status(201).send({registererId: registerer._id, statusCode: 201 , message: "Verifaication email sent" });
     }
     catch (err){
@@ -46,26 +56,42 @@ router.post('/', async (req, res) => {
 
 });
 
-router.patch('/verifyEmail', async (req, res) => {
+router.patch('/verifyEmail', [validateEmail,validateCode],async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
    
     let registerer =  await Registerer.findOne({ email: req.body.email});
-    if (!registerer) return res.status(400).send('Error: you used an expired code - registerer not found');
+    if (!registerer) return res.status(400).send('Error: registerer not found');
 
-    if (req.body.code === registerer.otp && req.body.email === registerer.email){
+
+    const validCode = await bcrypt.compare(req.body.code.toString() ,registerer.otp);
+    if (validCode && req.body.email === registerer.email){
 
         const result =await Registerer.updateOne({email: req.body.email},{ $set:{confirmedEmail: true }});
 
-        if (result.matchedCount == 1) return res.status(200).send('Email verified successfuly');
+        if (result.matchedCount == 1) {
+            const token = jwt.sign({_id: registerer._id, email: registerer.email},
+                process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
+            return res.status(200).header('x-auth-token',token).send('Email verified successfuly');
+        }
     }
         
     else return res.status(400).send('Incorrect verification code - Registeration session expired');
     
 });
+//protected routes
+router.patch('/setPassword', [validateEmail,validatePassword],auth, async (req, res) => {
 
-router.patch('/setPassword', async (req, res) => {
-
-    if (!req.body.email || !req.body.password )
-        return res.status(400).send('Bad request provide email and password');
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
+   
+    if (req.user.email != req.body.email )
+        return res.status(403).send('Invalid token access denied');
 
    
     let registerer =  await Registerer.findOne({ email: req.body.email});
@@ -90,7 +116,14 @@ router.patch('/setPassword', async (req, res) => {
     else 
     return res.status(400).send('Registeration session expired..Try signing up again');
 });
-router.post('/setUsername', async (req, res) => {
+router.post('/setUsername', [validateEmail, validateUsername],auth, async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
+    if (req.user.email != req.body.email )
+        return res.status(403).send('Invalid token access denied');
    
     let registerer =  await Registerer.findOne({ email: req.body.email});
     if (!registerer) {
@@ -121,10 +154,9 @@ router.post('/setUsername', async (req, res) => {
         const token = user.generateJWT();
         const result = await user.save();
         const deleteRegisterer = await Registerer.deleteMany({email: req.body.email});
-        return res.status(201).send({
+        return res.status(201).header('x-auth-token',token).send({
             message:'User Registeration Successful!',
-            token: token,
-            data: {userId: user._id}
+            data: {userId: user._id,role:user.role}
         });
     }
     

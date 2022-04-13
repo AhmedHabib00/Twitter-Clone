@@ -5,9 +5,13 @@ require('dotenv').config({ path: 'config.env'});
 const userSchema = new mongoose.Schema ({
 
     name: {type :String ,required :true,trim: true},
-    username: { type :String ,required :true,trim: true, unique: true},
+    username: { type :String ,trim: true, unique: true},
     email: { type :String ,required :true,trim: true, unique: true},
-    password: { type: String ,required :true},
+    password: { type: String},
+    googleId:{ type:String},
+    facebookId:{ type:String},
+    passwordResetOTP:{type:String,minlength: 8,maxlength: 1024},
+    role:{ type:String ,enum: ['User' , 'Admin'],default:'User',trim: true},
     profilePic: {type: String}, // TODO:add default picture url
     coverPhoto: {type: String},
     birthdate:{type: Date},
@@ -29,7 +33,8 @@ const userSchema = new mongoose.Schema ({
 userSchema.methods.generateJWT = function (){
     const token = jwt.sign({
         _id: this._id,
-        email: this.email
+        email: this.email,
+        role: this.role
     },process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
     return token;
 }
