@@ -6,6 +6,7 @@ const databse = require('./database');
 const session = require('express-session');
 const mongoose= require('./database');
 
+
 // SignUp and Auth
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
@@ -13,13 +14,19 @@ const oAuth = require('./components/Auth/OAuthRoute');
 const forgotPassword = require('./components/Auth/forgotPasswordRoute');
 
 
+
 // Users  
 var users = require('./routes/users');
 
 
 
+
+app.use('/uploads',express.static('uploads'));
+
+
 //user profile 
 const userProfileRoute = require('./components/UserProfile/userProfile');
+
 
 
 
@@ -30,9 +37,11 @@ const postRoute = require('./components/Tweets/tweets');
 
 
 
+
+
 const port = process.env.PORT || 3000;
 
-app.use('/__test__',express.static('__test__'));
+
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({

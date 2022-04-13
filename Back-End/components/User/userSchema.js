@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const jwt = require('jsonwebtoken');
+const config=require('config')
 require('dotenv').config({ path: 'config.env'});
 
 const userSchema = new mongoose.Schema ({
@@ -22,8 +23,10 @@ const userSchema = new mongoose.Schema ({
     following: [ { type: mongoose.Schema.Types.ObjectId, ref:'User'} ],
     blocks: [ { type: mongoose.Schema.Types.ObjectId, ref:'User'} ],
     likes: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
-    bookmarks: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }]
+    bookmarks: [ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
     //TODO : add list of tweets (refrences tweet schema)
+    tweets:[ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }],
+    replies:[ {type: mongoose.Schema.Types.ObjectId ,ref: 'Tweet' }]
     //add pinned tweets (refrences tweet schema)	
     // banned boolean
     // ban startDate and endDate
