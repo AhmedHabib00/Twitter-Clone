@@ -312,16 +312,16 @@ async function rangeAgesCalculator(minRangeAge, maxRangeAge, Schema) {
 
 
 
-// PATCH: admins/:id/banning/:target_user_id/ -> Ban a user by admin
-router.patch('/:id/banning/:target_user_id', async (req, res) =>{
+// POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
+router.post('/:id/banning/:target_user_id', async (req, res) =>{
     try {
         // Get start_date and end_date
         const start_date = new Date();
         const end_date =  new Date(req.body.end_date);
-
         if (end_date > start_date) {
             const bannedUser = await userSchema.findById(req.params.target_user_id);
             const bannedBy = await userSchema.findById(req.params.id);
+            
             if (bannedUser.role == "Admin") {
                 throw err;
             }
