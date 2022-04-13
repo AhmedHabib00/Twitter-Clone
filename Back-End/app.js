@@ -6,46 +6,52 @@ const databse = require('./database');
 const session = require('express-session');
 const mongoose= require('./database');
 
-
+// SignUp and Auth
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
 const oAuth = require('./components/Auth/OAuthRoute');
 const forgotPassword = require('./components/Auth/forgotPasswordRoute');
 
 
+// Users  
+var users = require('./routes/users');
+
+
+
+//user profile 
+const userProfileRoute = require('./components/UserProfile/userProfile');
+
+
+
+//tweets 
+const postRoute = require('./components/Tweets/tweets');
+
+
+
+
+
 const port = process.env.PORT || 3000;
 
 app.use('/__test__',express.static('__test__'));
-
 app.use(bodyParser.json());
 app.use(express.json());
-
-
-// Users end points
-var users = require('./routes/users')
-app.use('/users', users)
-
-
-// const server =app.listen(port,()=>
-// console.log(`app is running on port ${port}`));
-
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+// Users endpoints
+app.use('/users', users);
 
 
-const userProfileRoute = require('./components/UserProfile/userProfile')
-
+//User Profile endpoints
 app.use('/user', userProfileRoute);
 
-const postRoute = require('./components/Tweets/tweets');
 
+//tweets endpoints
 app.use("/tweets", postRoute);
 
 
-
-// app.use(bodyParser.urlencoded({extended : true})) //for body-parser to return warning
+//signUp and auth endpoints
 app.use ('/signUp',signUp);
 app.use ('/login',login);
 app.use ('/auth',oAuth);

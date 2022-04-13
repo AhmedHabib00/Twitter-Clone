@@ -34,7 +34,6 @@ router.post('/', [validateDOB ,validateEmail, validateName],async (req, res) => 
     const OTP =otpGenerator.generate(6, { digits: true ,lowerCaseAlphabets:false, upperCaseAlphabets: false, specialChars: false });
     const salt = await bcrypt.genSalt(10);
     const hashedOTP = await bcrypt.hash (OTP,salt);
-    console.log(typeof hashedOTP );
 
         
     registerer = new Registerer({
