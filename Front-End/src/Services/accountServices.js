@@ -60,13 +60,18 @@ export async function signUpCode(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/verification`, {
+    response = await axios.post(`${SERVER_URL}/verifyEmail`, {
+      headers: {
+        'content-type': 'application/json',
+      },
       code,
       email,
 
     });
     // Success
     // console.log(response);
+    const { token } = response.data;
+    localStorage.setItem('token', token);
     return (response);
   } catch (error) {
     if (error.response) {
@@ -106,7 +111,10 @@ export async function signUpPassword(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/Password`, {
+    response = await axios.post(`${SERVER_URL}/setPassword`, {
+      headers: {
+        Authorization: `token ${localStorage.token}`,
+      },
       password,
       email,
 
@@ -151,7 +159,10 @@ export async function signUpUsername(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/username`, {
+    response = await axios.post(`${SERVER_URL}/setUsername`, {
+      headers: {
+        Authorization: `token ${localStorage.token}`,
+      },
       username,
       email,
 
@@ -231,12 +242,17 @@ export async function LoginPassword(props) {
   let response = '';
   try {
     response = await axios.post(`${SERVER_URL}/LoginPassword`, {
+      headers: {
+        'content-type': 'application/json',
+      },
       password,
       email,
 
     });
     // Success
     // console.log(response);
+    const { token } = response.data;
+    localStorage.setItem('token', token);
     return (response);
   } catch (error) {
     if (error.response) {

@@ -42,6 +42,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
   const handleLogOut = () => {
     localStorage.setItem('logged', false);
     localStorage.setItem('admin', false);
+    localStorage.removeItem('token');
     const logged = localStorage.getItem('logged');
     const admin = localStorage.getItem('admin');
     setIsLoggedIn(JSON.parse(logged));

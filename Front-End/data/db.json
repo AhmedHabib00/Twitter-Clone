@@ -196,6 +196,14 @@
       "password": "",
       "email": "",
       "id": 28
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "password": "DFDFDFDFS57857",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 29
     }
   ],
   "signup": [
@@ -703,9 +711,27 @@
       "email": "abdulrehmansuliman@gmail.com",
       "birthdate": "1899-12-31",
       "id": 85
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 86
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 87
+    },
+    {
+      "name": "Abdulrehman Mahmoud Suliman",
+      "email": "abdulrehmansuliman@gmail.com",
+      "birthdate": "1899-12-31",
+      "id": 88
     }
   ],
-  "verification": [
+  "verifyEmail": [
     {
       "code": "248542",
       "email": "abdulrehmansuliman@gmail.com",
@@ -1085,9 +1111,33 @@
       "code": "248542",
       "email": "abdulrehmansuliman@gmail.com",
       "id": 76
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 77
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 78
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "code": "248542",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 79
     }
   ],
-  "Password": [
+  "setPassword": [
     {
       "password": "123456456",
       "email": "abdulrehmansuliman@gmail.com",
@@ -1237,9 +1287,33 @@
       "password": "1234568941;,l;mkni_$A",
       "email": "abdulrehmansuliman@gmail.com",
       "id": 30
+    },
+    {
+      "headers": {
+        "Authorization": "token undefined"
+      },
+      "password": "123456lkhjbA@",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 31
+    },
+    {
+      "headers": {
+        "Authorization": "token undefined"
+      },
+      "password": "sadfgjhkjlhk;58@A",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 32
+    },
+    {
+      "headers": {
+        "Authorization": "token undefined"
+      },
+      "password": "dfshjdsa5757755645@#A",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 33
     }
   ],
-  "username": [
+  "setUsername": [
     {
       "username": "@abdo",
       "email": "abdulrehmansuliman@gmail.com",
@@ -1484,6 +1558,30 @@
       "username": "abdo",
       "email": "abdulrehmansuliman@gmail.com",
       "id": 49
+    },
+    {
+      "headers": {
+        "Authorization": "token undefined"
+      },
+      "username": "abdo",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 50
+    },
+    {
+      "headers": {
+        "Authorization": "token undefined"
+      },
+      "username": "abdo",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 51
+    },
+    {
+      "headers": {
+        "Authorization": "token undefined"
+      },
+      "username": "abdo",
+      "email": "abdulrehmansuliman@gmail.com",
+      "id": 52
     }
   ],
   "statData": {
