@@ -128,7 +128,7 @@ router.delete('/:id/bookmarks/:tweet_id', async (req, res) =>{
 // List of users who are followers of the user ID : GET /users/{id}/followers
 router.get('/:id/followers', async (req, res) =>{
     // Get data by id
-    userSchema.findById(req.params.id).populate('followers').exec(async (err, followersData)=>{
+    userSchema.findById(req.params.id).populate('followers', "_id name username email profilePic covorPhoto description").exec(async (err, followersData)=>{
         try {
             userData = await userSchema.findById(req.params.id);
             if (userData.role=="User") {
@@ -147,7 +147,7 @@ router.get('/:id/followers', async (req, res) =>{
 // List of users the specified user ID is following : GET /users/{id}/following
 router.get('/:id/following', async (req, res) =>{ 
     // Get data by id
-    userSchema.findById(req.params.id).populate('following').exec(async (err, followingData)=>{
+    userSchema.findById(req.params.id).populate('following', "_id name username email profilePic covorPhoto description").exec(async (err, followingData)=>{
         try {
             userData = await userSchema.findById(req.params.id);
             if (userData.role=="User") {
