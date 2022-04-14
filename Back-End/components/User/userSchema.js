@@ -11,10 +11,13 @@ const userSchema = new mongoose.Schema ({
     email: { type :String ,required :true,trim: true, unique: true},
     password: { type: String ,required :true},
     profilePic: {
-        data:Buffer,
-        contentType:String
+        type:String,
+        default:'../UserProfile/imgUploads/Default_Profile_Picture.png'
     }, // TODO:add default picture url
-    coverPhoto: {type: String},
+    coverPhoto: {
+        type: String,
+        default:'../UserProfile/imgUploads/Default_Cover_Photo.jpg'
+    },
     birthdate:{type: Date},
     description: {type: String},
     location:{type: String},

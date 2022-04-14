@@ -5,7 +5,9 @@ const ejs = require("ejs");
 const User = require('../User/userSchema');
 const Tweet = require('../Tweets/tweetsSchema');
 const jwt = require('jsonwebtoken')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
+const multer = require('multer');
+const path = require('path');
 
 // creats new data of the user profile .(profile picture soon to be added)
 /*router.post('/profile_settings',(req,res) => {
@@ -31,8 +33,31 @@ const auth = require('../middleware/auth')
     
 });*/
 
+const imgStorage=multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null,'./components/UserProfile/imgUploads')
+    },
+    filename:(req,file,cb) => {
+    cb (null,Date.now()+"_"+file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
+
+const upload = multer ({
+    storage:imgStorage,
+    fileFilter: fileFilter
+}).single('Picture')
+
 //gets data from the database about a single user
-router.get('/:userProfileId/profile_settings',auth, async(req,res) => {
+router.get('/:userProfileId/profile_settings', async(req,res) => {
 
 
 
@@ -43,13 +68,17 @@ router.get('/:userProfileId/profile_settings',auth, async(req,res) => {
         const location = user.location;
         const description = user.description;
         const birthDate = user.birthdate;
+        const profilePicture = user.profilePic;
+        const coverPhoto = user.coverPhoto;
         //console.log(name,location)
         //const token = jwt.sign({ _id: user.userProfileId})
         return res.status(200).send({
             "name":name,
             "location":location,
             "description":description,
-            "Birthdate":birthDate
+            "Birthdate":birthDate,
+            "Profile Picture":profilePicture,
+            "Cover Photo": coverPhoto
         });
     }
     catch (err){
@@ -60,18 +89,46 @@ router.get('/:userProfileId/profile_settings',auth, async(req,res) => {
 
 //edits the existing values of a specific user in the database
 
-router.patch('/:userProfileId/profile_settings',auth,async (req,res) => {
+router.patch('/:userProfileId/profile_settings',async (req,res) => {
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
             {$set:{name:req.body.name, description:req.body.description, location:req.body.location, birthdate:req.body.birthdate }});
-        res.json(updateUserProfile);
+        return res.status(200).send("Updated user profile successfully");
     }
     catch (err){
-        res.status(400).send("Couldnot find ID")
+        return res.status(400).send("Couldnot find ID")
     }
 
 });
+
+router.patch('/:userProfileId/profilePicture',upload,async (req,res) => {
+    try{
+        const updateUserProfile = await User.updateOne(
+            {_id: req.params.userProfileId},
+            {$set:{profilePic:req.file.path}});
+        return res.status(200).send("Updated profile picture successfully");
+    }
+    catch (err){
+        return res.status(400).send("Couldnot find ID")
+    }
+
+});
+
+
+router.patch('/:userProfileId/coverPhoto',upload,async (req,res) => {
+    try{
+        const updateUserProfile = await User.updateOne(
+            {_id: req.params.userProfileId},
+            {$set:{coverPhoto:req.file.path}});
+        return res.status(200).send("Updated cover photo successfully");
+    }
+    catch (err){
+        return res.status(400).send("Couldnot find ID")
+    }
+
+});
+
 
 //Deletes a specific user's data in case the profile is deleted
 /*router.delete('/:userProfileId/profile_settings', async (req,res) =>{
@@ -89,7 +146,7 @@ router.patch('/:userProfileId/profile_settings',auth,async (req,res) => {
 
 //-----------------------------------------------------phase 2----------------------------------------------------------
 //profile tweets, Replies and likes
-router.get('/:userProfileId',auth, async(req,res) => {//for pagination after route type:?page='number' example of route /user/:userProfileId?page=2
+router.get('/:userProfileId', async(req,res) => {//for pagination after route type:?page='number' example of route /user/:userProfileId?page=2
 
     try{
         
@@ -151,7 +208,7 @@ router.get('/:userProfileId',auth, async(req,res) => {//for pagination after rou
 });
 
 
-router.get('/:userProfileId/with_replies',auth, async(req,res) => {
+router.get('/:userProfileId/with_replies', async(req,res) => {
 
     try{
         const user = await User.findById(req.params.userProfileId);
@@ -241,7 +298,7 @@ router.get('/:userProfileId/with_replies',auth, async(req,res) => {
 });
 
 
-router.get('/:userProfileId/likes',auth, async(req,res) => {
+router.get('/:userProfileId/likes', async(req,res) => {
 
     
     try{
