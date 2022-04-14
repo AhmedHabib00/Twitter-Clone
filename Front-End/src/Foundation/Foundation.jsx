@@ -47,7 +47,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
     const admin = localStorage.getItem('admin');
     setIsLoggedIn(JSON.parse(logged));
     setisAdmin(JSON.parse(admin));
-    navigate(-1);
+    navigate('/');
   };
 
   return (
