@@ -1,0 +1,17 @@
+$ aws ecr create-repository --repository-name whisper-habib --region us-east-1
+{
+    "repository": {
+        "repositoryArn": "arn:aws:ecr:us-east-1:351893721699:repository/whisper-habib",
+        "registryId": "351893721699",
+        "repositoryName": "whisper-habib",
+        "repositoryUri": "351893721699.dkr.ecr.us-east-1.amazonaws.com/whisper-habib",
+        "createdAt": "2022-04-15T01:26:02+02:00",
+        "imageTagMutability": "MUTABLE",
+        "imageScanningConfiguration": {
+            "scanOnPush": false
+        },
+        "encryptionConfiguration": {
+            "encryptionType": "AES256"
+        }
+    }
+}
