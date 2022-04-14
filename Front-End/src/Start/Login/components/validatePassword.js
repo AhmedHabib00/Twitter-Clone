@@ -3,10 +3,10 @@
  * @param {object} values contains the email
  * @returns errors
  */
-export default function validateEmail(values) {
+export default function validatePassword(values) {
   const errors = {};
-  if (!values.emailOrUsername) {
-    errors.emailOrUsername = 'Email or username required';
+  if (!values.password) {
+    errors.password = 'password required';
   }
   return errors;
 }

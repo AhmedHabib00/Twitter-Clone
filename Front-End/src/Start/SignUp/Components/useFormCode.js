@@ -29,7 +29,7 @@ const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
     setErrors(validateCode(values));
     if (Object.keys(validateCode(values)).length === 0) {
       signUpCode(values).then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           setStepVerify(false);
           setStepPassword(true);
         } else if (response.status === 400) {

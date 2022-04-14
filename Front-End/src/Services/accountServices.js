@@ -60,7 +60,7 @@ export async function signUpCode(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/verifyEmail`, {
+    response = await axios.patch(`${SERVER_URL}/verifyEmail`, {
       headers: {
         'content-type': 'application/json',
       },
@@ -111,7 +111,7 @@ export async function signUpPassword(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/setPassword`, {
+    response = await axios.patch(`${SERVER_URL}/setPassword`, {
       headers: {
         Authorization: `x-auth-token ${localStorage.token}`,
       },
@@ -237,7 +237,7 @@ export async function Login(props) {
 
 export async function LoginPassword(props) {
   const {
-    password, email,
+    emailOrUsername, password,
   } = props;
   let response = '';
   try {
@@ -245,8 +245,8 @@ export async function LoginPassword(props) {
       headers: {
         'content-type': 'application/json',
       },
+      emailOrUsername,
       password,
-      email,
 
     });
     // Success
@@ -278,4 +278,45 @@ export async function LoginPassword(props) {
     // console.log(error);
     return (response);
   }
+}
+
+export async function authGoogle() {
+  let response = '';
+  try {
+    response = await axios.get(`${SERVER_URL}/auth/google`);
+    // Success
+    return (response);
+  } catch (error) {
+    // if (error.response) {
+    //   // console.log(error.response.data);
+    //   // console.log(error.response.status);
+    //   // console.log(error.response.headers);
+    // } else if (error.request) {
+    //   console.log(error.request);
+    // } else {
+    //   console.log('Error', error.message);
+    // }
+    // console.log(error);
+  }
+  return response;
+}
+export async function authFacebook() {
+  let response = '';
+  try {
+    response = await axios.get(`${SERVER_URL}/auth/facebook`);
+    // Success
+    return (response);
+  } catch (error) {
+    // if (error.response) {
+    //   // console.log(error.response.data);
+    //   // console.log(error.response.status);
+    //   // console.log(error.response.headers);
+    // } else if (error.request) {
+    //   console.log(error.request);
+    // } else {
+    //   console.log('Error', error.message);
+    // }
+    // console.log(error);
+  }
+  return response;
 }

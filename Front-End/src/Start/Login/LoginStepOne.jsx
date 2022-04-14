@@ -42,17 +42,17 @@ function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
           className={styles['login-form']}
           onSubmit={handleSubmit}
         >
-          <label className="start-modals-form-label" htmlFor="email">
+          <label className="start-modals-form-label" htmlFor="emailOrUsername">
             <input
               data-testid="login-email"
-              type="email"
+              type="text"
               id="login-email"
-              name="email"
-              value={values.email}
+              name="emailOrUsername"
+              value={values.emailOrUsername}
               placeholder=" "
               onChange={handleChange}
             />
-            <span>Email</span>
+            <span>Email or Username</span>
           </label>
           {errors.email
              && <p className={styles['login-form-errors']}>{errors.email}</p>}

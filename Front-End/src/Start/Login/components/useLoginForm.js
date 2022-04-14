@@ -9,7 +9,7 @@ import validateEmail from './validateEmail';
  */
 const useLoginForm = (setStepOne, setEmail, setLoginPassword) => {
   const [values, setValues] = useState({
-    email: '',
+    emailOrUsername: '',
   });
   const [errors, setErrors] = useState({});
   const handleChange = (e) => {
@@ -23,15 +23,9 @@ const useLoginForm = (setStepOne, setEmail, setLoginPassword) => {
     e.preventDefault();
     setErrors(validateEmail(values));
     if (Object.keys(validateEmail(values)).length === 0) {
-      // signUpInfo(values).then((response) => {
-      //   if (response.status === 201) {
-      //     setStepOne(false);
-      //     setStepVerify(true);
-      //   }
-      // });
       setStepOne(false);
       setLoginPassword(true);
-      setEmail(values.email);
+      setEmail(values.emailOrUsername);
     }
   };
 
