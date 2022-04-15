@@ -5,9 +5,24 @@ const userSchema = require('../User/userSchema')
 const User = require('../User/userSchema');
 const tweetSchema = require('../Tweets/tweetsSchema');
 const { ObjectId, Admin } = require('mongodb');
+const auth = require('../middleware/auth');
+const jwt = require('jsonwebtoken');
+
+// Test || Token || - TO-DELETE
+router.get('/gToken/:id',async(req,res)=>{
+    userInfo = await userSchema.findById(req.params.id);
+    const token = jwt.sign({
+        _id: req.params.id,
+        email: userInfo.email,
+        role: userInfo.role
+    },process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
+
+    res.send(token);
+});
 
 //GET: admins/ -> Retrieve all admins
 router.get('/', async (req, res) => {
+    
     try {
         let { page, size } = req.query;
   
@@ -15,16 +30,15 @@ router.get('/', async (req, res) => {
         if (!page) {
             // Make the Default value one.
             page = 1;
-        }
-  
+        }  
         if (!size) {
             size = 10;
         }
   
         //  We have to make it integer because query parameter passed is string
         const limit = parseInt(size);
-  
-        adminsData = await userSchema.find({"role":"Admin"},'_id name username email role').limit(limit).skip(size*(page-1)).sort('createdAt')
+        adminsData = await userSchema.find({"role":"Admin"},'_id name username email role').limit(limit).skip(size*(page-1)).sort('createdAt');
+        
         return res.status(200).send({
             page,
             size,
@@ -74,8 +88,7 @@ router.get('/users', async (req, res, next) =>{
 
 
 // GET: admins/statistics/ -> Retrive statistics data about users
-router.get('/statistics', async (req, res) =>{
-
+router.get('/statistics', auth, async (req, res) =>{
     // Get current date
     const month = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -312,9 +325,13 @@ async function rangeAgesCalculator(minRangeAge, maxRangeAge, Schema) {
 
 
 
-// PATCH: admins/:id/banning/:target_user_id/ -> Ban a user by admin
-router.patch('/:id/banning/:target_user_id', async (req, res) =>{
+// POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
+router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
     try {
+        if (req.user._id != req.params.id) {
+            return res.status(403).send("Access denied");
+        }
+
         // Get start_date and end_date
         const start_date = new Date();
         const end_date =  new Date(req.body.end_date);
@@ -353,9 +370,12 @@ router.patch('/:id/banning/:target_user_id', async (req, res) =>{
 
 
 // POST: admins/:id/adding/ -> Add a new admin
-router.post('/:id/adding', function(req,res){
+router.post('/:id/adding', auth, function(req,res){
     userSchema.findById(req.params.id).exec(function(err, adminData){
         try {
+            if (req.user._id != req.params.id) {
+                return res.status(403).send("Access denied");
+            }
             if (adminData.role == "Admin") {
                 var newAdmin = new User({
                     name: req.body.name, 
@@ -390,8 +410,11 @@ router.post('/:id/adding', function(req,res){
 
 
 // DELETE: admins/:id/adding/ -> Delete user by admin
-router.delete('/:id/deleting/:target_user_id', async (req, res) =>{
+router.delete('/:id/deleting/:target_user_id', auth, async (req, res) =>{
     try {
+        if (req.user._id != req.params.id) {
+            return res.status(403).send("Access denied");
+        }
         adminData = await userSchema.findById(req.params.id).exec();
         console.log(adminData.role)
         if (adminData.role == "Admin") {
