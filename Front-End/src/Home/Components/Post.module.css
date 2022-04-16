@@ -130,3 +130,9 @@ img {
   min-width: 750px;
   min-height: 750px;
 }
+
+/* .imagediv {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 10px;
+} */

@@ -270,15 +270,15 @@ function Post({
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img2} alt="pic1" />
+                <img className={styles.imgpopup} src={img2} alt="pic2" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img3} alt="pic1" />
+                <img className={styles.imgpopup} src={img3} alt="pic3" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img4} alt="pic1" />
+                <img className={styles.imgpopup} src={img4} alt="pic4" />
               </div>
 
             </Carousel>
