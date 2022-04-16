@@ -1,5 +1,5 @@
 const mongoose= require('mongoose');
-
+//mongoose.set('debug', true);
 class Database{
 
     constructor(){

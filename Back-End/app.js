@@ -20,8 +20,9 @@ const userProfileRoute = require('./components/UserProfile/userProfile');
 //tweets 
 const postRoute = require('./components/Tweets/tweets');
 //Admins
-const admins = require('./components/Admins/admin')
+const admins = require('./components/Admins/admin');
 
+var  multer = require('multer');
 
 
 const port = process.env.PORT || 3000;
@@ -58,13 +59,6 @@ app.use('/__test__',express.static('__test__'));
 // Admins end points
 app.use("/admins", admins)
 
-var  multer = require('multer')
-
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
-app.use(bodyParser.json());
 
 const server = app.listen(port,()=>
     console.log(`app is running on port ${port}`));
