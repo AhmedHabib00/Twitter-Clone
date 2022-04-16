@@ -33,7 +33,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use('/uploads',express.static('uploads'));
-app.use('./components/userProfile/imgUploads',express.static('imgUploads'));
+
+app.use('/imgUploads',express.static('imgUploads'));
 
 
 // Users endpoints

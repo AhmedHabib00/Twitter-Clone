@@ -35,7 +35,7 @@ const path = require('path');
 
 const imgStorage=multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null,'./components/UserProfile/imgUploads')
+        cb(null,'./imgUploads')
     },
     filename:(req,file,cb) => {
     cb (null,Date.now()+"_"+file.originalname);
