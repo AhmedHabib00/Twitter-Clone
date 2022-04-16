@@ -39,6 +39,69 @@ describe('profileSettings',() =>{
             expect(response.statusCode).toEqual(400);
         });
     });
+
+    describe("Get /user/:userID", () =>{
+        it("It should Get user tweets", async() => {
+            const response = await request(app).get('/user/6248a661b871949e56e40ee1');
+            expect(response.statusCode).toEqual(200);
+        });
+
+        it("It should NOT Get user tweets", async() => {
+            const response = await request(app).get('/user/fds4a8f1ds5a6');
+            expect(response.statusCode).toEqual(400);
+        });
+    });
+
+
+    describe("Get /user/:userID/likes", () =>{
+        it("It should PATCH user profile info", async() => {
+            const response = await request(app).get('/user/6251d6c2b871949e56e40f64/likes');
+            expect(response.statusCode).toEqual(200);
+        });
+
+        it("It should NOT Get user likes", async() => {
+            const response = await request(app).get('/user/fds4a8f1ds5a6/likes');
+            expect(response.statusCode).toEqual(400);
+        });
+    });
+
+
+    describe("Patch /user/:userID/with_replies", () =>{
+        it("It should Get user tweets with replies", async() => {
+            const response = await request(app).get('/user/6248a661b871949e56e40ee1/with_replies');
+            expect(response.statusCode).toEqual(200);
+        });
+
+        it("It should NOT Get user tweets with replies", async() => {
+            const response = await request(app).get('/user/fds4a8f1ds5a6/with_replies');
+            expect(response.statusCode).toEqual(400);
+        });
+    });
+
+
+    describe("Patch /user/:userID/profilePicture", () =>{
+        it("It should Change user profile Picture", async() => {
+            const response = await request(app).patch('/user/6251d6c2b871949e56e40f64/profilePicture');
+            expect(response.statusCode).toEqual(200);
+        });
+
+        it("It should NOT Change user profile picture", async() => {
+            const response = await request(app).patch('/user/fds4a8f1ds5a6/profilePicture');
+            expect(response.statusCode).toEqual(400);
+        });
+    });
+
+    describe("Patch /user/:userID/coverPhoto", () =>{
+        it("It should Change user Cover Photot", async() => {
+            const response = await request(app).patch('/user/6251d6c2b871949e56e40f64/coverPhoto');
+            expect(response.statusCode).toEqual(200);
+        });
+
+        it("It should NOT Change user cover photo", async() => {
+            const response = await request(app).patch('/user/fds4a8f1ds5a6/coverPhoto');
+            expect(response.statusCode).toEqual(400);
+        });
+    });
 /*
     //Test Get user Info request
     describe("Get /users/:userProfileId/profile_settings",() =>{
