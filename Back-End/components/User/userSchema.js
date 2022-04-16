@@ -1,7 +1,6 @@
 const mongoose=require('mongoose');
 const jwt = require('jsonwebtoken');
-const config=require('config')
-require('dotenv').config({ path: 'config.env'});
+const multer = require('multer')
 
 
 const userSchema = new mongoose.Schema ({
@@ -13,10 +12,17 @@ const userSchema = new mongoose.Schema ({
     facebookId:{ type:String},
     passwordResetOTP:{type:String,minlength: 8,maxlength: 1024},
     role:{ type:String ,enum: ['User' , 'Admin'],default:'User',trim: true},
-    profilePic: {type: String}, // TODO:add default picture url
-    coverPhoto: {type: String},
     birthdate:{type: Date},
     description: {type: String},
+    profilePic: {
+        type:String,
+        default:'../UserProfile/imgUploads/Default_Profile_Picture.png'
+    }, // TODO:add default picture url
+    coverPhoto: {
+        type: String,
+        default:'../UserProfile/imgUploads/Default_Cover_Photo.jpg'
+    },
+    location:{type: String},
     //location	
     //private: { type:Boolean ,default: false}, //whether account is private or public
     followers: [ { type: mongoose.Schema.Types.ObjectId, ref:'User'} ],

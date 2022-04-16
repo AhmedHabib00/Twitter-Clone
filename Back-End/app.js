@@ -7,6 +7,7 @@ const session = require('express-session');
 const mongoose= require('./database');
 
 
+
 // SignUp and Auth
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
@@ -33,6 +34,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use('/uploads',express.static('uploads'));
 
+app.use('/imgUploads',express.static('imgUploads'));
+
+
 // Users endpoints
 app.use('/users', users);
 
@@ -54,8 +58,13 @@ app.use('/__test__',express.static('__test__'));
 // Admins end points
 app.use("/admins", admins)
 
+var  multer = require('multer')
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
+app.use(bodyParser.json());
 
 const server = app.listen(port,()=>
     console.log(`app is running on port ${port}`));
