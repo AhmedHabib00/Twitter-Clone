@@ -27,6 +27,7 @@ import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
+// import DisplayPost from '../../Services/postServices';
 /**
  *
  * @param {Number} id     Post Id
@@ -149,11 +150,13 @@ function Post({
                 <AccountCircleIcon />
 
                 {displayname}
+
                 {' '}
                 <span className={styles.postheaderSpecial}>
                   {true && <VerifiedIcon className={styles.postbadge} />}
                   {' '}
                   @
+
                   {username}
 
                 </span>
@@ -168,6 +171,7 @@ function Post({
                       <p className={styles.label}>
                         {' '}
                         Mute @
+
                         {displayname}
                       </p>
                     </div>
@@ -179,6 +183,7 @@ function Post({
                       <p className={styles.label}>
                         {' '}
                         Block @
+
                         {displayname}
                       </p>
                     </div>
@@ -258,22 +263,22 @@ function Post({
         </div>
         <div>
           <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-            <Carousel showArrows={false}>
+            <Carousel>
 
               <div>
                 <img className={styles.imgpopup} src={img1} alt="pic1" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img2} alt="pic1" />
+                <img className={styles.imgpopup} src={img2} alt="pic2" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img3} alt="pic1" />
+                <img className={styles.imgpopup} src={img3} alt="pic3" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img4} alt="pic1" />
+                <img className={styles.imgpopup} src={img4} alt="pic4" />
               </div>
 
             </Carousel>
