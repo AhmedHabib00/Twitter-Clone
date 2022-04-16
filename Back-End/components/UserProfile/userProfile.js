@@ -57,7 +57,7 @@ const upload = multer ({
 }).single('Picture')
 
 //gets data from the database about a single user
-router.get('/:userProfileId/profile_settings',auth, async(req,res) => {
+router.get('/:userProfileId/profile_settings', async(req,res) => {
 
 
 
@@ -89,7 +89,7 @@ router.get('/:userProfileId/profile_settings',auth, async(req,res) => {
 
 //edits the existing values of a specific user in the database
 
-router.patch('/:userProfileId/profile_settings',auth, async (req,res) => {
+router.patch('/:userProfileId/profile_settings', async (req,res) => {
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
@@ -102,7 +102,7 @@ router.patch('/:userProfileId/profile_settings',auth, async (req,res) => {
 
 });
 
-router.patch('/:userProfileId/profilePicture',auth,upload,async (req,res) => {
+router.patch('/:userProfileId/profilePicture',upload,async (req,res) => {
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
@@ -116,7 +116,7 @@ router.patch('/:userProfileId/profilePicture',auth,upload,async (req,res) => {
 });
 
 
-router.patch('/:userProfileId/coverPhoto',auth,upload,async (req,res) => {
+router.patch('/:userProfileId/coverPhoto',upload,async (req,res) => {
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
@@ -146,7 +146,7 @@ router.patch('/:userProfileId/coverPhoto',auth,upload,async (req,res) => {
 
 //-----------------------------------------------------phase 2----------------------------------------------------------
 //profile tweets, Replies and likes
-router.get('/:userProfileId',auth, async(req,res) => {//for pagination after route type:?page='number' example of route /user/:userProfileId?page=2
+router.get('/:userProfileId', async(req,res) => {//for pagination after route type:?page='number' example of route /user/:userProfileId?page=2
 
     try{
         
@@ -208,7 +208,7 @@ router.get('/:userProfileId',auth, async(req,res) => {//for pagination after rou
 });
 
 
-router.get('/:userProfileId/with_replies',auth, async(req,res) => {
+router.get('/:userProfileId/with_replies', async(req,res) => {
 
     try{
         const user = await User.findById(req.params.userProfileId);
@@ -298,7 +298,7 @@ router.get('/:userProfileId/with_replies',auth, async(req,res) => {
 });
 
 
-router.get('/:userProfileId/likes',auth, async(req,res) => {
+router.get('/:userProfileId/likes', async(req,res) => {
 
     
     try{
