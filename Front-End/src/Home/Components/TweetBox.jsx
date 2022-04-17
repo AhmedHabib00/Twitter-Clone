@@ -26,7 +26,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [gifDisabled, setGifDisabled] = useState(false);
   const [imageId, setImageId] = useState(0);
   const [wordsCount, setWordsCount] = useState(0);
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(true);
 
   const onSearchChange = (value) => {
     let url;
