@@ -21,15 +21,10 @@ function App() {
   const [isAdmin, setisAdmin] = useState(false);
   localStorage.clear();
   useEffect(() => {
-<<<<<<< HEAD
     const logged = localStorage.getItem('logged');
     const admin = localStorage.getItem('admin');
     setIsLoggedIn(logged);
     setisAdmin(!admin);
-=======
-    setIsLoggedIn(true);
-    setisAdmin(false);
->>>>>>> d576aba0a0d1f33f13c25a06a32bf6894085a430
   }, []);
   const mainPage = () => {
     if (isLoggedIn) {
