@@ -28,11 +28,16 @@ const useFormUserName = (userEmail, handleAfterSignup) => {
     if (Object.keys(validateUsername(values)).length === 0) {
       signUpUsername(values).then((response) => {
         if (response.status === 201) {
-          localStorage.setItem('logged', 'true');
-          localStorage.setItem('admin', 'false');
+          localStorage.setItem('logged', true);
+          localStorage.setItem('admin', false);
           const logged = localStorage.getItem('logged');
           const admin = localStorage.getItem('admin');
-          handleAfterSignup(logged, admin);
+          handleAfterSignup(JSON.parse(logged), JSON.parse(admin));
+        } else if (response.status === 400) {
+          setErrors({
+            ...errors,
+            username: 'username already in use',
+          });
         }
       });
     }

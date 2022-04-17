@@ -14,6 +14,7 @@
 
 .popup-page-click-detect {
   padding: 2px;
+  padding-right: 2px;
   background-color: #fff;
   border-radius: 10px;
   max-height: 650px;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import { LoginPassword } from '../../../Services/accountServices';
+import validatePassword from './validatePassword';
 /**
  * This function is used to manage the Password step in the signup form and apply
  * validations on it.
@@ -8,34 +9,43 @@ import { useState } from 'react';
  * @param {string} userEmail used to send with password to the backend
  * @returns handleChange, values, handleSubmit, errors
  */
-const usePasswordForm = (userEmail) => {
+const usePasswordForm = (userEmail, handleAfterSignin) => {
   const [values, setValues] = useState({
+    emailOrUsername: '',
     password: '',
-    email: '',
   });
+  const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({
       ...values,
+      emailOrUsername: userEmail,
       [name]: value,
-      email: userEmail,
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setErrors(validatePassword(values));
-    // if (Object.keys(validatePassword(values)).length === 0) {
-    //   signUpPassword(values).then((response) => {
-    //     if (response.status === 201) {
-    //       setStepPassword(false);
-    //       setStepUsername(true);
-    //     }
-    //   });
-    // }
+    setErrors(validatePassword(values));
+    if (Object.keys(validatePassword(values)).length === 0) {
+      LoginPassword(values).then((response) => {
+        if (response.status === 200 || response.status === 201) {
+          localStorage.setItem('logged', true);
+          localStorage.setItem('admin', false);
+          const logged = localStorage.getItem('logged');
+          const admin = localStorage.getItem('admin');
+          handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
+        } else if (response.status === 400) {
+          setErrors({
+            ...errors,
+            password: 'Invalid password',
+          });
+        }
+      });
+    }
   };
 
   return {
-    handleChange, values, handleSubmit,
+    handleChange, values, handleSubmit, errors,
   };
 };
 

@@ -19,19 +19,20 @@ import Search from './Search/Search';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
-  localStorage.clear();
+  // localStorage.clear();
+  const logged = localStorage.getItem('logged');
+  const admin = localStorage.getItem('admin');
   useEffect(() => {
-    const logged = localStorage.getItem('logged');
-    const admin = localStorage.getItem('admin');
-    setIsLoggedIn(logged);
-    setisAdmin(!admin);
-  }, []);
+    setIsLoggedIn(JSON.parse(logged));
+    setisAdmin(JSON.parse(admin));
+    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
+  }, [logged, admin]);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
         return <AdminFoundation />;
       }
-      return <Foundation />;
+      return <Foundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
     }
     return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
   };

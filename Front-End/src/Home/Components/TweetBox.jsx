@@ -105,6 +105,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     setImageCount(imageCount + 1);
     setIsGifOpen(!isGifOpen);
     setGifs([]);
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
   };
 
   const handleSendData = () => {
@@ -123,7 +124,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   };
   return (
     <div>
-      <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen}>
+      <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         <div className={styles['inner-gif']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
           <div className={styles['popup-imgs-container']}>

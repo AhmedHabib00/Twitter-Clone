@@ -8,10 +8,10 @@ import { Button } from '@mui/material';
 import styles from './LoginPassword.module.css';
 import usePasswordForm from './components/usePasswordForm';
 
-function LoginPassword({ email }) {
+function LoginPassword({ email, handleAfterSignin }) {
   const {
-    handleChange, values, handleSubmit,
-  } = usePasswordForm(email);
+    handleChange, values, handleSubmit, errors,
+  } = usePasswordForm(email, handleAfterSignin);
   const [fieldvalues, setfieldvalues] = useState({
     password: '',
     showPassword: false,
@@ -30,19 +30,19 @@ function LoginPassword({ email }) {
       >
         <div className={styles.body}>
           <h1 className={styles.title}>Create your account</h1>
-          <label className="start-modals-form-label" htmlFor="email">
+          <label className="start-modals-form-label" htmlFor="emailOrUsername">
             <input
               data-testid="input-email"
               className="start-modals-form-input"
-              type="email"
+              type="text"
               id="email"
-              name="email"
+              name="emailOrUsername"
               placeholder=" "
               value={email}
               disabled="true"
               onChange={handleChange}
             />
-            <span>Email</span>
+            <span>Email or Username</span>
           </label>
           <label htmlFor="password">
             <input
@@ -67,6 +67,8 @@ function LoginPassword({ email }) {
             </div>
 
           </label>
+          {errors.password
+           && <p className="start-modals-form-errors">{errors.password}</p>}
           <div className="start-modals-button-container">
             <Button
               id="next-button"
@@ -80,13 +82,6 @@ function LoginPassword({ email }) {
           </div>
         </div>
       </form>
-      <div className={styles['login-text']}>
-        <p className={styles['dont-have-acount']}>
-          Don&apos;t have an account?
-          <span className={styles['login-text-span']}> Sign up</span>
-        </p>
-      </div>
-
     </div>
   );
 }
@@ -94,4 +89,5 @@ function LoginPassword({ email }) {
 export default LoginPassword;
 LoginPassword.propTypes = {
   email: PropTypes.string.isRequired,
+  handleAfterSignin: PropTypes.func.isRequired,
 };

@@ -5,12 +5,13 @@ import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
 
 function Home() {
-  const [data, setData] = useState();
+  const [postData, setPostData] = useState();
+  // const [notificationData, setNotificationData] = useState();
 
   useEffect(() => {
     axios.get('http://localhost:8000/posts')
       .then((resp) => {
-        setData(resp.data);
+        setPostData(resp.data);
       }).catch((error) => {
         console.log(error);
       });
@@ -23,7 +24,7 @@ function Home() {
       </div>
       <TweetBox placeHolder="What's happening" boxId="home" />
       <hr className={styles['home-hor-hr']} />
-      <Feed className={styles.feed} data={data} />
+      <Feed className={styles.feed} data={postData} />
     </div>
   );
 }

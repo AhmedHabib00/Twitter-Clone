@@ -33,6 +33,11 @@ const useForm = (date, setStepOne, setStepVerify) => {
         if (response.status === 201) {
           setStepOne(false);
           setStepVerify(true);
+        } else if (response.status === 400) {
+          setErrors({
+            ...errors,
+            password: 'User already registered',
+          });
         }
       });
     }
