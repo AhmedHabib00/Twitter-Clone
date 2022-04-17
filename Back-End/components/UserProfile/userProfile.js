@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const path = require('path');
+const {check ,validationResult} = require('express-validator');
 
 // creats new data of the user profile .(profile picture soon to be added)
 /*router.post('/profile_settings',(req,res) => {
@@ -89,7 +90,15 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
 
 //edits the existing values of a specific user in the database
 
-router.patch('/:userProfileId/profile_settings', async (req,res) => {
+router.patch('/:userProfileId/profile_settings', [
+    check('birthdate','birthdate must bein the form YYYY/MM/DD')
+    .isDate()
+],async (req,res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
