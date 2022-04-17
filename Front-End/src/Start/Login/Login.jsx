@@ -7,6 +7,13 @@ import styles from './Login.module.css';
 import LoginStepOne from './LoginStepOne';
 import LoginPassword from './LoginPassword';
 
+/**
+ * This Function manages Login and its states.
+ * @param {boolean} closeLogin boolen to close signup modal
+ * @param {function} handleLoginStatus function to manage authorization
+ * @returns Login modal
+ */
+
 function Login({ closeLogin, handleLoginStatus }) {
   const [stepOne, setStepOne] = useState(true);
   const [stepLoginPassword, setLoginPassword] = useState(false);

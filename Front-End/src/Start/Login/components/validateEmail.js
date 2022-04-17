@@ -1,6 +1,6 @@
 /**
  * This function is used to validate the email user input.
- * @param {object} values contains the email
+ * @param {object} values contains the email or username
  * @returns errors
  */
 export default function validateEmail(values) {

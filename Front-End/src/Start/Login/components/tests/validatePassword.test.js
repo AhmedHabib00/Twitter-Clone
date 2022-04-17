@@ -5,29 +5,41 @@ describe('validate the verification code', () => {
   it('validate the password', () => {
     expect(validatePassword({
       password: '',
-      email: 'mahmoudsuliman@gmail.com',
+      emailOrUsername: 'mahmoudsuliman@gmail.com',
     })).toEqual(
       {
-        password: 'Password is required',
+        password: 'password required',
       },
     );
   });
   it('validate the password', () => {
     expect(validatePassword({
-      password: '123456',
-      email: 'mahmoudsuliman@gmail.com',
+      password: '',
+      emailOrUsername: 'mahmoud',
     })).toEqual(
       {
-        password: 'Password needs to be 8 characters or more',
+        password: 'password required',
       },
     );
   });
   it('validate the password', () => {
     expect(validatePassword({
       password: 'Abdo#1gd',
-      email: 'mahmoudsuliman@gmail.com',
+      emailOrUsername: 'mahmoudsuliman@gmail.com',
     })).toEqual(
-      {},
+      {
+
+      },
+    );
+  });
+  it('validate the password', () => {
+    expect(validatePassword({
+      password: 'Abdo#1gd',
+      emailOrUsername: 'mahmoud',
+    })).toEqual(
+      {
+
+      },
     );
   });
 });
