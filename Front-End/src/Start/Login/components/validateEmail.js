@@ -1,5 +1,5 @@
 /**
- * This function is used to validate the email user input.
+ * This function is used to validate the email or username from user input.
  * @param {object} values contains the email or username
  * @returns errors
  */

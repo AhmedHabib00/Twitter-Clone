@@ -8,6 +8,13 @@ import { Button } from '@mui/material';
 import styles from './LoginPassword.module.css';
 import usePasswordForm from './components/usePasswordForm';
 
+/**
+ * In this function the user will type his password
+ * @param {function}  handleAfterSignin used to manage the username selection step status
+ * @param {string}  email used to be able to send the password to the backend with it
+ * @returns Password form
+ */
+
 function LoginPassword({ email, handleAfterSignin }) {
   const {
     handleChange, values, handleSubmit, errors,

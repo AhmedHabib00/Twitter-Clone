@@ -8,7 +8,8 @@ import UserName from './UserName';
 
 /**
  * This Function manages signup and its states.
- * @param {boolean} closeSignup [boolen to close signup modal]
+ * @param {boolean} closeSignup boolen to close signup modal
+ * @param {function} handleLoginStatus function to manage authorization
  * @returns SignUp modal
  */
 function SignUp({ closeSignup, handleLoginStatus }) {
