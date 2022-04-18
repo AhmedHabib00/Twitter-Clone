@@ -72,35 +72,11 @@ function Post({
       const likeCountFlag = likeCount - 1;
       handleLikes({ likeFlag, likeCountFlag });
       setLikeCount(likeCount - 1);
-      // axios.post(localurl, {
-      //   likes: (likeCount - 1),
-      //   isLiked: false,
-      //   id,
-      // })
-      //   .then((response) => {
-      //     setLikeCount(response.data[0].likes);
-      //     setLike(response.data[0].isLiked);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
     } else {
       const likeFlag = true;
       const likeCountFlag = likeCount + 1;
       handleLikes({ likeFlag, likeCountFlag });
       setLikeCount(likeCount + 1);
-      // axios.post(localurl, {
-      //   likes: (likeCount + 1),
-      //   isLiked: true,
-      // })
-      //   .then((response) => {
-      //     console.log(response);
-      //     setLikeCount(response.data[0].likes);
-      //     setLike(response.data[0].isLiked);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
     }
     setLike(!like);
   };
@@ -126,55 +102,25 @@ function Post({
     setRetweetEl(null);
   };
 
-  // const trial = () => {
-  //   let response = '';
-  //   try {
-  //     response = axios.put('http://localhost:8000/posts', {
-  //       id,
-
-  //     });
-  //     return (response);
-  //   } catch (error) {
-  //     if (error.response) {
-  //       return (error.response);
-  //     }
-
-  //     return (response);
-  //   }
-  // };
-
   return (
-    <div data-testid="post-render-test" className={styles.post}>
-      {/* <div>
-        <FontAwesomeIcon icon={faCoffee} />
-      </div> */}
-      {/* {
-        Data && Data.map((post) => ( */}
-      <div className={styles.postbody} key={id}>
-        <div className={styles.postheader} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
+    <div data-testid="post-render-test" className={styles.post} key={id}>
+      <div className={styles.postbody}>
+        <div className={styles.postheader}>
 
           <div className={styles.postheadertext}>
-
             <h3>
               <div data-testid="post-avatar-render-test" className={styles.postavatar}>
-
                 <AccountCircleIcon />
-
                 {displayname}
-
                 {' '}
                 <span className={styles.postheaderSpecial}>
                   {true && <VerifiedIcon className={styles.postbadge} />}
                   {' '}
                   @
-
                   {username}
-
                 </span>
                 <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
-
                 <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-
                   <MenuList className={styles['dropdown-content']}>
                     <div className={styles['label-out']}>
                       {'    '}
@@ -182,7 +128,6 @@ function Post({
                       <p className={styles.label}>
                         {' '}
                         Mute @
-
                         {displayname}
                       </p>
                     </div>
@@ -194,7 +139,6 @@ function Post({
                       <p className={styles.label}>
                         {' '}
                         Block @
-
                         {displayname}
                       </p>
                     </div>
@@ -257,15 +201,15 @@ function Post({
                   </MenuList>
 
                 </Menu>
-
               </div>
             </h3>
           </div>
 
-          <div data-testid="content-render-test" className={styles.postheaderdescription}>
+          <div data-testid="content-render-test" className={styles.postheaderdescription} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
             <p>{content}</p>
           </div>
         </div>
+
         <div data-testid="images-render-test">
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img1} alt="pic1" /></a>
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img2} alt="pic1" /></a>
@@ -375,6 +319,7 @@ function Post({
       </div>
 
     </div>
+
   );
 }
 
