@@ -79,6 +79,7 @@ img {
 
 .post:hover {
   cursor: pointer;
+  background-color: rgb(241 237 237);
 }
 
 .postblue {

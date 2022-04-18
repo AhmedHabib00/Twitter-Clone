@@ -27,6 +27,7 @@ import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
+import { handleLikes } from '../../Services/postServices';
 // import DisplayPost from '../../Services/postServices';
 /**
  *
@@ -64,6 +65,9 @@ function Post({
    */
   const handellikes = () => {
     if (like) {
+      const likeFlag = false;
+      const likeCountFlag = likeCount - 1;
+      handleLikes({ likeFlag, likeCountFlag });
       setLikeCount(likeCount - 1);
       // axios.post(localurl, {
       //   likes: (likeCount - 1),
@@ -78,6 +82,9 @@ function Post({
       //     console.log(error);
       //   });
     } else {
+      const likeFlag = true;
+      const likeCountFlag = likeCount + 1;
+      handleLikes({ likeFlag, likeCountFlag });
       setLikeCount(likeCount + 1);
       // axios.post(localurl, {
       //   likes: (likeCount + 1),

@@ -294,11 +294,6 @@
       "headers": {
         "content-type": "application/json"
       },
-<<<<<<< HEAD
-      "emailOrUsername": "noha",
-      "password": "0501577216",
-      "id": 42
-=======
       "emailOrUsername": "bfvcv",
       "password": "gbfc",
       "id": 42
@@ -326,7 +321,6 @@
       "emailOrUsername": "dvx cfdx c",
       "password": "fvdfwsd",
       "id": 45
->>>>>>> 7eda767112b1cf18dc8e9ead03c4d4d7132c0d45
     }
   ],
   "signup": [
