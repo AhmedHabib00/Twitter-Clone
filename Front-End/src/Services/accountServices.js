@@ -14,11 +14,14 @@ export default async function signUpInfo(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/signup`, {
+    response = await axios.post(`${SERVER_URL}/signUp`, {
       name,
       email,
       birthdate,
-
+    }, {
+      headers: {
+        'content-type': 'application/json',
+      },
     });
     // Success
     // console.log(response);
@@ -60,12 +63,13 @@ export async function signUpCode(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.patch(`${SERVER_URL}/verifyEmail`, {
+    response = await axios.patch(`${SERVER_URL}/signUp/verifyEmail`, {
+      code,
+      email,
+    }, {
       headers: {
         'content-type': 'application/json',
       },
-      code,
-      email,
 
     });
     // Success

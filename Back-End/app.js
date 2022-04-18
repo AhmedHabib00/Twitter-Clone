@@ -21,13 +21,16 @@ const userProfileRoute = require('./components/UserProfile/userProfile');
 const postRoute = require('./components/Tweets/tweets');
 //Admins
 const admins = require('./components/Admins/admin');
+var cors = require('cors');
 
 var  multer = require('multer');
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 
+// use it before all route definitions
+app.use(cors({origin: 'http://localhost:3000'}));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({
