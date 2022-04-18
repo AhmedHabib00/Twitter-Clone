@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
+import ViewTweet from './Notifications/ViewTweet';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Profile from './Profile/Profile';
 import More from './More/More';
@@ -55,6 +56,7 @@ function App() {
     <>
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
+      <Route path="ViewTweet" element={<ViewTweet />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
       <Route path="Profile" element={<Profile />} />
       <Route path="More" element={<More />} />

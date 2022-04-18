@@ -8,32 +8,38 @@ import NotiContent from './NotiContent';
  * to display the notifications in the feed component.
  */
 function NotiFeed({ data }) {
+
+ 
   return (
     <div data-testid="notifeed-render-test" className={styles.notifeed}>
 
+      <div data-testid="noticontent-render-test" className={styles.parent} >
+
       {
         data && data.map((content) => (
-          <section className={styles.feedbox1}>
-            <button className={styles.feedbox2} type="button">
+          // <section className={styles.feedbox1}>
+          //   <button className={styles.feedbox2} type="button">
               <NotiContent
                 id={content.id}
+                post_id={content.post_id}
+                profile_id={content.profile_id}
                 displayname={content.displayname}
-                content1={content.content1}
-                content11={content.content11}
-                content2={content.content2}
-                content22={content.content22}
-                content3={content.content3}
-                content4={content.content4}
-                content5={content.content5}
-                content55={content.content55}
-                content6={content.content6}
+                content = {content.content}
                 notitype={content.notitype}
+                date={content.date} 
               />
-            </button>
-          </section>
+          //   </button>
+          // </section>
         ))
     }
+      <div className={styles.emptyspace}>
+
+      </div>
+
+
     </div>
+    </div>
+
   );
 }
 NotiFeed.propTypes = {
