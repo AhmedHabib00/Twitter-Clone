@@ -23,7 +23,6 @@ function PopupPage({
     }
   };
   const childClick = () => {
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     toClose = false;
   };
   return (trigger) ? (

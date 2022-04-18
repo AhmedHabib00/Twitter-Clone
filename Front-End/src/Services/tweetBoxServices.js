@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function PostTweet(props) {
+export async function PostTweet(props) {
   const { images, value, replyId } = props;
   let gifArray = '';
   const imgArray = [];
@@ -41,4 +41,21 @@ export default async function PostTweet(props) {
     }
     return (response);
   }
+}
+
+export async function GetGifs(url) {
+  let response = '';
+  try {
+    response = await axios.get(url).then((res) => res.data);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+      return (error.response);
+    }
+  }
+  return (response);
 }

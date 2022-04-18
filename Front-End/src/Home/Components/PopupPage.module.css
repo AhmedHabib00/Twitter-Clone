@@ -14,6 +14,7 @@
 
 .popup-page-click-detect {
   padding: 2px;
+  padding-right: 2px;
   background-color: #fff;
   border-radius: 10px;
   max-height: 650px;
@@ -31,4 +32,16 @@
   cursor: pointer;
   color: black;
   background-color: rgb(198 195 195);
+}
+
+@media screen and (max-width: 768px) {
+  .popup-page-click-detect {
+    width: 80% !important;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .popup-page-click-detect {
+    width: 100% !important;
+  }
 }

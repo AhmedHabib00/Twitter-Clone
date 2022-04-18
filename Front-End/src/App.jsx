@@ -6,7 +6,6 @@ import {
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
 import Bookmarks from './Bookmarks/Bookmarks';
-import Profile from './Profile/Profile';
 import Settings from './Settings/Settings';
 import Home from './Home/Home';
 import Start from './Start/Start';
@@ -61,7 +60,6 @@ function App() {
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
-      <Route path="Profile" element={<Profile />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
     </>
