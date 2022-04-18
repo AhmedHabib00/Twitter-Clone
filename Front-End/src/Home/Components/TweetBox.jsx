@@ -216,7 +216,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.string,
+  replyId: PropTypes.number,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
 };

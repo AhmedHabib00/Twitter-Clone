@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+
+import { useNavigate } from 'react-router-dom';
+
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import RepeatIcon from '@mui/icons-material/Repeat';
@@ -56,7 +59,7 @@ function Post({
   // const [retweetCount, setRetweetCount] = useState(noOfRetweets);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
-
+  const navigate = useNavigate();
   // const handleRetweets = () => {
 
   // };
@@ -122,6 +125,7 @@ function Post({
   const handelCloseRetweet = () => {
     setRetweetEl(null);
   };
+
   // const trial = () => {
   //   let response = '';
   //   try {
@@ -145,9 +149,9 @@ function Post({
         <FontAwesomeIcon icon={faCoffee} />
       </div> */}
       {/* {
-         Data && Data.map((post) => ( */}
+        Data && Data.map((post) => ( */}
       <div className={styles.postbody} key={id}>
-        <div className={styles.postheader}>
+        <div className={styles.postheader} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
 
           <div className={styles.postheadertext}>
 
@@ -293,36 +297,38 @@ function Post({
         </div>
 
         <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
-          <div className={styles.postbody} key={id}>
-            <div className={styles.postheader}>
-              <div className={styles.postheadertext}>
-                <h3>
-                  <div data-testid="post-avatar-render-test" className={styles.postavatar}>
-                    <AccountCircleIcon />
-                    {displayname}
-                    {' '}
-                    <span className={styles.postheaderSpecial}>
-                      {true && <VerifiedIcon className={styles.postbadge} />}
+          <div>
+            <div className={styles.postbody} key={id}>
+              <div className={styles.postheader}>
+                <div className={styles.postheadertext}>
+                  <h3>
+                    <div data-testid="post-avatar-render-test" className={styles.postavatar}>
+                      <AccountCircleIcon />
+                      {displayname}
                       {' '}
-                      @
-                      {username}
+                      <span className={styles.postheaderSpecial}>
+                        {true && <VerifiedIcon className={styles.postbadge} />}
+                        {' '}
+                        @
+                        {username}
 
-                    </span>
-                    <div data-testid="content-render-test" className={styles.postheaderdescription}>
-                      <p>{content}</p>
+                      </span>
+                      <div data-testid="content-render-test" className={styles.postheaderdescription}>
+                        <p>{content}</p>
+                      </div>
+                      <div data-testid="images-render-test">
+                        <img src={img1} alt="pic1" />
+                        <img src={img2} alt="pic1" />
+                        <img src={img3} alt="pic1" />
+                        <img src={img4} alt="pic1" />
+                      </div>
                     </div>
-                    <div data-testid="images-render-test">
-                      <img src={img1} alt="pic1" />
-                      <img src={img2} alt="pic1" />
-                      <img src={img3} alt="pic1" />
-                      <img src={img4} alt="pic1" />
-                    </div>
-                  </div>
-                </h3>
+                  </h3>
+                </div>
               </div>
             </div>
+            <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
           </div>
-          <TweetBox replyId={id} placeHolder="Tweet your reply" className={styles.retweet} />
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>
