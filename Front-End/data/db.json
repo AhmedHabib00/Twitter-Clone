@@ -1,12 +1,5 @@
 {
   "Tweet": [
-    {
-      "content": "fwersesrfdfd",
-      "replyId": 1,
-      "media": [],
-      "gifs": "",
-      "id": 1
-    }
   ],
   "posts": [
     {
@@ -301,9 +294,39 @@
       "headers": {
         "content-type": "application/json"
       },
+<<<<<<< HEAD
       "emailOrUsername": "noha",
       "password": "0501577216",
       "id": 42
+=======
+      "emailOrUsername": "bfvcv",
+      "password": "gbfc",
+      "id": 42
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "emailOrUsername": "sdvcdz",
+      "password": "wrdscsd",
+      "id": 43
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "emailOrUsername": "bfvbfsvds",
+      "password": "bfvsvfsv",
+      "id": 44
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "emailOrUsername": "dvx cfdx c",
+      "password": "fvdfwsd",
+      "id": 45
+>>>>>>> 7eda767112b1cf18dc8e9ead03c4d4d7132c0d45
     }
   ],
   "signup": [

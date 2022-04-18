@@ -80,9 +80,13 @@
   cursor: pointer;
 }
 
+.tweet-icons-button:disabled {
+  cursor: initial;
+  opacity: 0.4;
+}
+
 .inner-gif {
   position: relative;
-  width: 640px;
 
   /* max-width: 640px; */
   background-color: #fff;
@@ -91,6 +95,7 @@
 .popup-imgs-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .popup-img {
@@ -99,4 +104,14 @@
 
   /* max-height: 50px; */
   object-fit: cover;
+}
+
+.whisp-button-container {
+  display: flex;
+}
+
+.words-count {
+  padding: 0 10px;
+  font-size: 20px;
+  margin-top: 6px;
 }
