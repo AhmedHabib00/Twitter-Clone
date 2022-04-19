@@ -21,8 +21,8 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   const handleGoogleAuth = () => {
     (async () => {
       const response = await authGoogle();
-      if (response.status === 200) {
-        const { token } = response.headers['x-auth-token'];
+      if (response.status === 201) {
+        const token = response.data['x-auth-token'];
         localStorage.setItem('token', token);
         localStorage.setItem('logged', true);
         localStorage.setItem('admin', false);
@@ -35,8 +35,8 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   const handleFacebookAuth = () => {
     (async () => {
       const response = await authFacebook();
-      if (response.status === 200) {
-        const { token } = response.headers['x-auth-token'];
+      if (response.status === 201) {
+        const token = response.data['x-auth-token'];
         localStorage.setItem('token', token);
         localStorage.setItem('logged', true);
         localStorage.setItem('admin', false);

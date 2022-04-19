@@ -18,6 +18,8 @@ import Search from './Search/Search';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
+  console.log(localStorage);
+  console.log('app tokennn');
   // localStorage.clear();
   const logged = localStorage.getItem('logged');
   const admin = localStorage.getItem('admin');

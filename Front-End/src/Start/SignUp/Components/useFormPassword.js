@@ -29,7 +29,7 @@ const useFormPassword = (setStepPassword, setStepUsername, userEmail) => {
     setErrors(validatePassword(values));
     if (Object.keys(validatePassword(values)).length === 0) {
       signUpPassword(values).then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           setStepPassword(false);
           setStepUsername(true);
         }

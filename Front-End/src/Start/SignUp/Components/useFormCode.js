@@ -30,6 +30,8 @@ const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
     if (Object.keys(validateCode(values)).length === 0) {
       signUpCode(values).then((response) => {
         if (response.status === 200) {
+          const token = response.data['x-auth-token'];
+          localStorage.setItem('token', token);
           setStepVerify(false);
           setStepPassword(true);
         } else if (response.status === 400) {

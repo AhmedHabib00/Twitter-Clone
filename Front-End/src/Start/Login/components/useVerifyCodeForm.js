@@ -29,6 +29,9 @@ const useVerifyCodeForm = (userEmailOrUsername, setStepVerify, setSettingPasswor
     if (Object.keys(validateCode(values)).length === 0) {
       verifyForgotPassword(values).then((response) => {
         if (response.status === 200 || response.status === 201) {
+          const token = response.data['x-auth-token'];
+          localStorage.setItem('token', token);
+          console.log(`token1${token}`);
           setStepVerify(false);
           setSettingPassword(true);
         } else if (response.status === 400) {
