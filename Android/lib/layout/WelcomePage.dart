@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout//login.dart';
-import 'package:whisper/layout/signup.dart';
+import 'package:whisper/layout/Login/login.dart';
+import 'package:whisper/layout/SignUp/signup.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);

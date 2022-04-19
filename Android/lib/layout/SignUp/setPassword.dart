@@ -1,20 +1,20 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/setPassword.dart';
+import 'package:whisper/layout/SignUp/setUsername.dart';
 //import 'package:whisper/models/TextField.dart';
 
-class VerifyEmail extends StatefulWidget {
-  const VerifyEmail({Key? key}) : super(key: key);
+// ignore: camel_case_types
+class setPassword extends StatefulWidget {
+  const setPassword({Key? key}) : super(key: key);
   @override
-  _VerifyEmail createState() => _VerifyEmail();
+  _setPassword createState() => _setPassword();
 }
 
-class _VerifyEmail extends State<VerifyEmail> {
-  //final TextEditingController _emailTextController = TextEditingController();
+// ignore: camel_case_types
+class _setPassword extends State<setPassword> {
   //final TextEditingController _passwordTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,9 +47,9 @@ class _VerifyEmail extends State<VerifyEmail> {
                   Column(
                     children: const <Widget>[
                       Text(
-                        " Email Verification",
+                        " Enter a password",
                         style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                            fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -57,7 +57,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                   //   padding: const EdgeInsets.symmetric(horizontal: 40),
                   //   child: Column(
                   //     children: <Widget>[
-                  //       inputFile(label: "Verify Email"),
+                  //       inputFile(label: "Password"),
                   //     ],
                   //   ),
                   // ),
@@ -66,14 +66,15 @@ class _VerifyEmail extends State<VerifyEmail> {
                   //   child: Column(
                   //     children: <Widget>[
                   //       reusableTextField(
-                  //         "Verification Code",
+                  //         "Set Password",
                   //         Icons.lock_outline,
                   //         false,
-                  //         _emailTextController,
+                  //         _passwordTextController,
                   //       ),
                   //     ],
                   //   ),
                   // ),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
@@ -83,11 +84,12 @@ class _VerifyEmail extends State<VerifyEmail> {
                           const SizedBox(height: 5),
                           TextFormField(
                             decoration: const InputDecoration(
-                                labelText: "Verification code"),
+                                labelText: "Set password"),
                             validator: (value) {
                               if (value!.isEmpty ||
-                                  !RegExp(r'^[0-9]+$').hasMatch(value)) {
-                                return "Enter correct code";
+                                  !RegExp(r'^[a-z A-Z 0-9]+$')
+                                      .hasMatch(value)) {
+                                return "Enter correct Password";
                               } else {
                                 return null;
                               }
@@ -114,11 +116,11 @@ class _VerifyEmail extends State<VerifyEmail> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Verification Successful");
+                            print("Password set");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const setPassword()));
+                                    builder: (context) => setUsername()));
                           }
                         },
                         color: const Color(0xff0095FF),

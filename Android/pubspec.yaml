@@ -44,6 +44,11 @@ dependencies:
   intl: ^0.17.0
   firebase_auth: ^3.3.13 #13
   firebase_core: ^1.14.0
+  sqflite: ^2.0.2+1
+  flutter_staggered_grid_view: ^0.6.1
+  datetime_picker_formfield: ^2.0.0
+  charts_flutter: ^0.12.0
+  tab_container: ^1.2.2
 
 dev_dependencies:
   flutter_test:

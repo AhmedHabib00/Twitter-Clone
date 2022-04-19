@@ -1,19 +1,10 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/setUsername.dart';
-//import 'package:whisper/models/TextField.dart';
+import 'package:whisper/layout/HomePage.dart';
 
-// ignore: camel_case_types
-class setPassword extends StatefulWidget {
-  const setPassword({Key? key}) : super(key: key);
-  @override
-  _setPassword createState() => _setPassword();
-}
-
-// ignore: camel_case_types
-class _setPassword extends State<setPassword> {
-  //final TextEditingController _passwordTextController = TextEditingController();
+class ForgotPassPage extends StatelessWidget {
+  ForgotPassPage({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -47,7 +38,7 @@ class _setPassword extends State<setPassword> {
                   Column(
                     children: const <Widget>[
                       Text(
-                        " Enter a password",
+                        "Forgot Password",
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
@@ -57,24 +48,10 @@ class _setPassword extends State<setPassword> {
                   //   padding: const EdgeInsets.symmetric(horizontal: 40),
                   //   child: Column(
                   //     children: <Widget>[
-                  //       inputFile(label: "Password"),
+                  //       inputFile(label: "Email"),
                   //     ],
                   //   ),
                   // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       reusableTextField(
-                  //         "Set Password",
-                  //         Icons.lock_outline,
-                  //         false,
-                  //         _passwordTextController,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
@@ -83,17 +60,32 @@ class _setPassword extends State<setPassword> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: "Set password"),
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.email,
+                                color: Color.fromARGB(179, 0, 110, 255),
+                              ),
+                              filled: true,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              fillColor:
+                                  const Color.fromARGB(255, 179, 177, 177)
+                                      .withOpacity(0.3),
+                              labelText: "Email",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: const BorderSide(
+                                      width: 0, style: BorderStyle.none)),
+                            ),
                             validator: (value) {
                               if (value!.isEmpty ||
-                                  !RegExp(r'^[a-z A-Z 0-9]+$')
+                                  !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
                                       .hasMatch(value)) {
-                                return "Enter correct Password";
+                                return "Enter correct email";
                               } else {
                                 return null;
                               }
-                            }, //(),
+                            },
                           ),
                         ],
                       ),
@@ -116,11 +108,11 @@ class _setPassword extends State<setPassword> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Password set");
+                            print("Password Reset");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => setUsername()));
+                                    builder: (context) => const HomePage()));
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -129,7 +121,7 @@ class _setPassword extends State<setPassword> {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: const Text(
-                          "Next",
+                          "Reset Password",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,

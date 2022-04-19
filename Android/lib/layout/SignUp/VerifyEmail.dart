@@ -1,11 +1,20 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/HomePage.dart';
+import 'package:whisper/layout/SignUp/setPassword.dart';
+//import 'package:whisper/models/TextField.dart';
 
-class ForgotPassPage extends StatelessWidget {
-  ForgotPassPage({Key? key}) : super(key: key);
+class VerifyEmail extends StatefulWidget {
+  const VerifyEmail({Key? key}) : super(key: key);
+  @override
+  _VerifyEmail createState() => _VerifyEmail();
+}
+
+class _VerifyEmail extends State<VerifyEmail> {
+  //final TextEditingController _emailTextController = TextEditingController();
+  //final TextEditingController _passwordTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +47,9 @@ class ForgotPassPage extends StatelessWidget {
                   Column(
                     children: const <Widget>[
                       Text(
-                        "Forgot Password",
+                        " Email Verification",
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -48,7 +57,20 @@ class ForgotPassPage extends StatelessWidget {
                   //   padding: const EdgeInsets.symmetric(horizontal: 40),
                   //   child: Column(
                   //     children: <Widget>[
-                  //       inputFile(label: "Email"),
+                  //       inputFile(label: "Verify Email"),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       reusableTextField(
+                  //         "Verification Code",
+                  //         Icons.lock_outline,
+                  //         false,
+                  //         _emailTextController,
+                  //       ),
                   //     ],
                   //   ),
                   // ),
@@ -60,13 +82,12 @@ class ForgotPassPage extends StatelessWidget {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
-                            decoration:
-                                const InputDecoration(labelText: "Email"),
+                            decoration: const InputDecoration(
+                                labelText: "Verification code"),
                             validator: (value) {
                               if (value!.isEmpty ||
-                                  !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
-                                      .hasMatch(value)) {
-                                return "Enter correct email";
+                                  !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                return "Enter correct code";
                               } else {
                                 return null;
                               }
@@ -93,11 +114,11 @@ class ForgotPassPage extends StatelessWidget {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Password Reset");
+                            print("Verification Successful");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) => const setPassword()));
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -106,7 +127,7 @@ class ForgotPassPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: const Text(
-                          "Reset Password",
+                          "Next",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
