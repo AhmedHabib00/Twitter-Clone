@@ -59,6 +59,7 @@ function App() {
     <>
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
+      <Route path="Notifications" element={<Notifications />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
       <Route path="Profile" element={<Profile />} />
       <Route path="Search" element={<Search />} />
