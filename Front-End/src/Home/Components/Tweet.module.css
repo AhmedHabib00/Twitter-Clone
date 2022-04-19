@@ -1,14 +1,25 @@
-@media screen & (min-width: 900px) {
+@media screen & (max-width: 900px) {
   .tweet {
     display: flex;
-    flex-direction: column;
-    width: 100%;
+    align-items: flex-start;
+    padding-bottom: 10px;
   }
 }
 
 .tweet-header {
   background-color: white;
-  align-self: flex-start;
-  width: 100%;
-  margin-left: 5px;
+  width: 100vh;
+  justify-content: space-between;
+}
+
+.back-btn {
+  border-radius: 50px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.back-btn:hover {
+  cursor: pointer;
+  color: black;
+  background-color: rgb(198 195 195);
 }
