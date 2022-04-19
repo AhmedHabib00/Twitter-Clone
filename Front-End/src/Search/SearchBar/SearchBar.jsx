@@ -65,7 +65,7 @@ function SearchBar({ placeHolder, searchValue }) {
   const formatResult = (item) => {
     return (
       <>
-        <span style={{ display: 'flexbox', textAlign: 'left' }}>id: {item.id}</span>
+        {/* <span style={{ display: 'flexbox', textAlign: 'left' }}>id: {item.id}</span> */}
         <span style={{ display: 'block', textAlign: 'left' }}>
           {item.name}
         </span>
@@ -79,6 +79,7 @@ function SearchBar({ placeHolder, searchValue }) {
         <div style={{ width: 350 }}>
           <ReactSearchAutocomplete
             items={items}
+            placeholder='Search Twitter'           
             onSearch={handleOnSearch}
             onHover={handleOnHover}
             onSelect={handleOnSelect}
@@ -90,7 +91,7 @@ function SearchBar({ placeHolder, searchValue }) {
             //       padding: '0 0 15 15px'
             //     }
             //   }
-            showIcon= {false}
+            showIcon= {true}
           />
         </div>
       </header>
