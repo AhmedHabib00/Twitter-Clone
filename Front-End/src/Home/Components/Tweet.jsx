@@ -4,6 +4,10 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import styles from './Tweet.module.css';
 import Post from './Post';
 
+/**
+ *
+ * @returns Tweet Page initial layout
+ */
 function Tweet() {
   // const { id } = useParams();
   return (

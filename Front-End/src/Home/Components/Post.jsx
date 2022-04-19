@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-
 import { useNavigate } from 'react-router-dom';
-
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import RepeatIcon from '@mui/icons-material/Repeat';
@@ -25,13 +23,12 @@ import {
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
 import 'font-awesome/css/font-awesome.min.css';
-// import axios from 'axios';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
 import { handleLikes } from '../../Services/postServices';
-// import DisplayPost from '../../Services/postServices';
+
 /**
  *
  * @param {Number} id     Post Id
@@ -42,6 +39,11 @@ import { handleLikes } from '../../Services/postServices';
  * @param {String} img2     uploaded image-2 url.
  * @param {String} img3     uploaded image-3 url.
  * @param {String} img4     uploaded image-4 url.
+ * @param {Bool} isLiked     flag to know if post was initially liked.
+ * @param {Number} noOfLike     number of likes for this post.
+ * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
+ * @param {Number} noOfRetweets     number of retweets for this post.
+ * @param {Number} noOfReplies     number of replies for this post.
  *
  * @returns div element containing the whole whispered tweet
  */
@@ -63,6 +65,7 @@ function Post({
   // const handleRetweets = () => {
 
   // };
+
   /**
    *@returns get the number of the post likes.
    */

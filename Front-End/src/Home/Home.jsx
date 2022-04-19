@@ -7,7 +7,6 @@ import GetPostsArray from '../Services/postServices';
 
 function Home() {
   const [postData, setPostData] = useState();
-  // const [notificationData, setNotificationData] = useState();
 
   useEffect(() => {
     (async () => {
@@ -17,15 +16,6 @@ function Home() {
       }
     })();
   }, []);
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:8000/posts')
-  //     .then((resp) => {
-  //       setPostData(resp.data);
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   return (
     <div className={styles.home}>
