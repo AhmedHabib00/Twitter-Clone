@@ -7,25 +7,25 @@
         "notitype":"like"
     },
     {
-        "id":2,
+      "id":2,
+      "post_id":3,
+      "displayname": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "notitype":"missed"  
+   },
+    {
+        "id":3,
         "post_id":2,
         "displayname": "Ahmed ",
         "content":"Hello this is my first trial to create json file and request it.",
         "notitype":"retweet"   
      },
     {
-        "id":3,
+        "id":4,
         "profile_id":1,
         "displayname": "Esraa",
         "notitype":"followed"  
          
-     },
-     {
-        "id":4,
-        "post_id":3,
-        "displayname": "Noha",
-        "content": "Happy birthday Melissa! Much love as always. Enjoy!",
-        "notitype":"missed"  
      },
      {
         "id":5,

@@ -4,6 +4,8 @@ import styles from '../Home/Components/Feed.module.css';
 import Notistyles from './Notifications.module.css';
 import data from '../Home/Components/PostData.json';
 import Post from '../Home/Components/Post.jsx';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 /**
  *
  * @returns shows everything in the notifications component
@@ -13,7 +15,10 @@ function ViewTweet({
     post_id,
   }) {
 
-    console.log(props.location.state.post_id)
+    const navigate = useNavigate();
+    const location = useLocation();
+    post_id = location.state.post_id
+    console.log(location.state.post_id)
     const selectedId = ['1', '2'];
 
 

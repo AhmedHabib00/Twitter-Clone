@@ -10,7 +10,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PropTypes from 'prop-types';
 import styles from './NotiContent.module.css';
 import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 
 /**
@@ -28,7 +28,7 @@ import { useNavigate } from "react-router-dom";
 function NotiContent({
   id, post_id, profile_id, displayname, content, notitype, date,
 }) {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   let icon = null;
   let statement1 = null;
   let statement2 = null;
@@ -64,9 +64,15 @@ function NotiContent({
     console.log(profile_id)
     return navigate("/ViewTweet",{
       state: {
-        post_id: post_id,
+        post_id: post_id
       }
      });
+  //   navigate(
+  //     '/ViewTweet',
+  // {
+  //     post_id: post_id,
+  //   }
+  // );
     // props.history.push("/ViewTweet");
     // history.push('/ViewTweet')
     // return  (<Redirect to='/Home'  />);
