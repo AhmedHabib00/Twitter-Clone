@@ -1,6 +1,38 @@
 .dashboard {
   display: flex;
   flex-grow: 1;
-  justify-content: space-evenly;
+  height: auto;
   flex-wrap: wrap;
+}
+
+.graph-container {
+  padding: 10px;
+  width: 46%;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%), 0 3px 5px 0 rgb(0 0 0 / 19%) !important;
+  margin: 8px 2px;
+  border-radius: 5px;
+}
+
+.graph-title {
+  text-align: center;
+  font-size: 20px;
+  color: rgb(55 58 65);
+  margin: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .graph-container {
+    width: 93%;
+  }
+}
+
+@media screen and (max-width: 486px) {
+  .graph-container {
+    width: 90%;
+  }
 }

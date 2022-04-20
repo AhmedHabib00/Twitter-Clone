@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './stats.module.css';
 
-function NumberStat({ type, description, value }) {
+function NumberStat({
+  type, description, value,
+}) {
   return (
     <div className={styles['number-stat']}>
       <h1 className={styles['number-stat-type']}>{type}</h1>

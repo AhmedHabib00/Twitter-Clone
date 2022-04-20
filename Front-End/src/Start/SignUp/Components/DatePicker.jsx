@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
 import PropTypes from 'prop-types';
 import styles from './DatePicker.module.css';
@@ -26,7 +26,9 @@ function DatePicker({ setDate }) {
   const endYear = today.getFullYear();
   const startYear = endYear - 120;
   const newDate = formatDate(dateOfBirth);
-  setDate(newDate);
+  useEffect(() => {
+    setDate(newDate);
+  });
   return (
     <div data-testid="date-picker">
       <div className={styles.date}>

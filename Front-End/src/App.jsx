@@ -21,17 +21,18 @@ function App() {
   console.log(localStorage);
   console.log('app tokennn');
   // localStorage.clear();
-  const logged = localStorage.getItem('logged');
-  const admin = localStorage.getItem('admin');
   useEffect(() => {
+    const logged = localStorage.getItem('logged');
+    const admin = localStorage.getItem('admin');
+    console.log(localStorage);
     setIsLoggedIn(JSON.parse(logged));
     setisAdmin(JSON.parse(admin));
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  }, [logged, admin]);
+  }, [localStorage.getItem('logged'), localStorage.getItem('admin')]);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation />;
+        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
       }
       return <Foundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
     }
