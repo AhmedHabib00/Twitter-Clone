@@ -23,7 +23,8 @@ const postRoute = require('./components/Tweets/tweets');
 const admins = require('./components/Admins/admin');
 
 var  multer = require('multer');
-
+var cors = require('cors');
+app.use(cors({origin: '*'}));
 
 const port = process.env.PORT || 3000;
 
