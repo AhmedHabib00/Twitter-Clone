@@ -22,11 +22,12 @@ function StepOne({
   handleCloseSignup, setEmail, setStepOne,
   setStepVerify,
 }) {
-  const [date, setDate] = useState();
+  const [date, setDate] = useState('');
   const {
     handleChange, values, handleSubmit, errors,
   } = useForm(date, setStepOne, setStepVerify);
   useEffect(() => {
+    console.log(`new date= ${date}`);
     setEmail(values.email);
   });
   return (

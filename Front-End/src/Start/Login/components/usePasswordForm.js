@@ -38,7 +38,7 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
             const logged = localStorage.getItem('logged');
             const admin = localStorage.getItem('admin');
             handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
-          } else if (response.role === 'admin') {
+          } else if (response.data.data.role === 'Admin') {
             localStorage.setItem('logged', true);
             localStorage.setItem('admin', true);
             const logged = localStorage.getItem('logged');

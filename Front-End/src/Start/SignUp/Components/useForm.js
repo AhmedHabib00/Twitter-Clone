@@ -22,11 +22,14 @@ const useForm = (date, setStepOne, setStepVerify) => {
     setValues({
       ...values,
       [name]: value,
-      birthdate: date,
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setValues({
+      ...values,
+      birthdate: date,
+    });
     setErrors(validateInfo(values));
     if (Object.keys(validateInfo(values)).length === 0) {
       signUpInfo(values).then((response) => {

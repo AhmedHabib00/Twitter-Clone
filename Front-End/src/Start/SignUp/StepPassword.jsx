@@ -58,7 +58,9 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
             />
             <span>Password</span>
             <div className={styles['password-adornment']}>
-              <InputAdornment>
+              <InputAdornment
+                position="end"
+              >
                 <IconButton
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
@@ -90,6 +92,6 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
 export default StepPassword;
 StepPassword.propTypes = {
   email: PropTypes.string.isRequired,
-  setStepPassword: PropTypes.string.isRequired,
-  setStepUsername: PropTypes.string.isRequired,
+  setStepPassword: PropTypes.func.isRequired,
+  setStepUsername: PropTypes.func.isRequired,
 };

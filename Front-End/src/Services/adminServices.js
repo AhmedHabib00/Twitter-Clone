@@ -1,9 +1,12 @@
 import axios from 'axios';
+import configData from '../config/production.json';
+
+const { SERVER_URL } = configData;
 
 export default async function getStats() {
   let response = '';
   try {
-    response = await axios.get('http://localhost:8000/statData').then((res) => res.data);
+    response = await axios.get(`${SERVER_URL}/admins/statistics`).then((res) => res.data);
     return (response);
   } catch (error) {
     if (error.response) {

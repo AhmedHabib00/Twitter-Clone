@@ -31,13 +31,14 @@ function Dashboard() {
   useEffect(() => {
     (async () => {
       const resp = await getStats();
-      setNoUsers(resp.noUsers);
-      setNoBanned(resp.noBanned);
-      setTweetsRatio(resp.ratioTweets);
-      setNoMostFollowed(resp.noMostFollowed);
-      setNoTweets(resp.noTweets);
-      setNoJoinedUsers(resp.noJoined);
-      setAgeRanges(resp.noAgeUsers);
+      console.log(resp);
+      setNoUsers(resp.statData.noUsers);
+      setNoBanned(resp.statData.noBanned);
+      setTweetsRatio(resp.statData.ratioTweets);
+      setNoMostFollowed(resp.statData.noMostFollowed);
+      setNoTweets(resp.statData.noTweets);
+      setNoJoinedUsers(resp.statData.noJoined);
+      setAgeRanges(resp.statData.noAgeUsers);
     })();
   }, []);
 
@@ -69,7 +70,7 @@ function Dashboard() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" />
               <YAxis
-                dataKey="name"
+                dataKey="username"
                 type="category"
                 style={{
                   fontSize: '10px',
