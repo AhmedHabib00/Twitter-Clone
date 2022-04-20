@@ -74,8 +74,6 @@ export async function signUpCode(props) {
     });
     // Success
     // console.log(response);
-    const { token } = response.headers['x-auth-token'];
-    localStorage.setItem('token', token);
     return (response);
   } catch (error) {
     if (error.response) {
@@ -115,15 +113,15 @@ export async function signUpPassword(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.patch(`${SERVER_URL}/setPassword`, {
-      headers: {
-        Authorization: `x-auth-token ${localStorage.token}`,
-      },
+    response = await axios.patch(`${SERVER_URL}/signUp/setPassword`, {
       password,
       email,
-
+    }, {
+      headers: {
+        'x-auth-token': localStorage.token,
+      },
     });
-    // Success
+
     // console.log(response);
     return (response);
   } catch (error) {
@@ -163,12 +161,13 @@ export async function signUpUsername(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/setUsername`, {
-      headers: {
-        Authorization: `x-auth-token ${localStorage.token}`,
-      },
+    response = await axios.post(`${SERVER_URL}/signUp/setUsername`, {
       username,
       email,
+    }, {
+      headers: {
+        'x-auth-token': localStorage.token,
+      },
 
     });
     // Success
@@ -245,18 +244,17 @@ export async function LoginPassword(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/LoginPassword`, {
+    response = await axios.post(`${SERVER_URL}/login`, {
+      emailOrUsername,
+      password,
+    }, {
       headers: {
         'content-type': 'application/json',
       },
-      emailOrUsername,
-      password,
 
     });
     // Success
     // console.log(response);
-    const { token } = response.headers['x-auth-token'];
-    localStorage.setItem('token', token);
     return (response);
   } catch (error) {
     if (error.response) {
@@ -408,16 +406,14 @@ export async function verifyForgotPassword(props) {
   }
 }
 export async function setNewPassword(props) {
-  const {
-    password,
-  } = props;
   let response = '';
   try {
     response = await axios.post(`${SERVER_URL}/forgotPassword/newPassword`, {
+      password: props,
+    }, {
       headers: {
-        Authorization: `x-auth-token ${localStorage.token}`,
+        'x-auth-token': localStorage.token,
       },
-      password,
     });
     // Success
     // console.log(response);

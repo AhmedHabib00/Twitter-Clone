@@ -53,7 +53,7 @@ router.post('/codeVerification', async (req, res) => {
 
         //2.generate token to send in response header
         const token = user.generateJWT();
-        return res.status(200).header('x-auth-token',token).send('Correct Code');
+        return res.status(200).header('x-auth-token',token).send({'massege':'Correct Code', 'x-auth-token':token});
     }
     else{
         return res.status(400).send('Invalid code');

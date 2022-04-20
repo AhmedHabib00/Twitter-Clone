@@ -46,7 +46,7 @@ function LoginPassword({ email, handleAfterSignin }) {
               name="emailOrUsername"
               placeholder=" "
               value={email}
-              disabled="true"
+              disabled
               onChange={handleChange}
             />
             <span>Email or Username</span>
@@ -63,7 +63,9 @@ function LoginPassword({ email, handleAfterSignin }) {
             />
             <span>Password</span>
             <div className={styles['password-adornment']}>
-              <InputAdornment>
+              <InputAdornment
+                position="end"
+              >
                 <IconButton
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}

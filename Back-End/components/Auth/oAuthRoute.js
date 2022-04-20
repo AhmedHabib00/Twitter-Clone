@@ -68,7 +68,7 @@ router.get('/google/secrets', passport.authenticate('google', { failureMessage: 
         return res.status(201).header('x-auth-token',token).send({
           message:'User Registeration Successful!',
           data: {userId: user._id,role:user.role},
-          "x-auth-token":token
+          'x-auth-token':token
         }); 
 });
 
@@ -94,7 +94,7 @@ router.get('/facebook/secrets', passport.authenticate('facebook', { failureMessa
         return res.status(201).header('x-auth-token',token).send({
           message:'User Registeration Successful!',
           data: {userId: user._id,role:user.role},
-          "x-auth-token":token
+          'x-auth-token':token
         }); 
 });
 

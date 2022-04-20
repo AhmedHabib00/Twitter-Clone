@@ -40,6 +40,7 @@ function Dashboard() {
       setAgeRanges(resp.noAgeUsers);
     })();
   }, []);
+
   return (
     <div className={styles.dashboard}>
       <NumberStat
@@ -58,80 +59,103 @@ function Dashboard() {
         value={tweetsRatio.count}
       />
       { (noMostFollowed) ? (
-        <ResponsiveContainer width="50%" height={350}>
-          <BarChart
-            data={noMostFollowed.stats}
-            layout="vertical"
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" />
-            <YAxis dataKey="name" type="category" />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="count" fill="#8884d8" />
-          </BarChart>
-        </ResponsiveContainer>
+        <div className={styles['graph-container']}>
+          <div className={styles['graph-title']}>Users with the most number of followers</div>
+          <ResponsiveContainer width="95%" height={350}>
+            <BarChart
+              data={noMostFollowed.stats}
+              layout="vertical"
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" />
+              <YAxis
+                dataKey="name"
+                type="category"
+                style={{
+                  fontSize: '10px',
+                }}
+              />
+              <Tooltip />
+              <Legend />
+              <Bar name="Number of followers" dataKey="count" barSize="90%" fill="#0099FF" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       ) : ''}
       { (noTweets) ? (
-        <ResponsiveContainer width="80%" height={350}>
-          <LineChart
-            width={730}
-            height={250}
-            data={noTweets.stats}
-            margin={{
-              top: 5, right: 30, left: 20, bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="count" stroke="#8884d8" />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className={styles['graph-container']}>
+          <div className={styles['graph-title']}>Number of tweets tweeted in the past month</div>
+          <ResponsiveContainer width="95%" height={350}>
+            <LineChart
+              width={730}
+              height={250}
+              data={noTweets.stats}
+              margin={{
+                top: 5, right: 30, left: 20, bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                name="Number of tweets"
+                type="monotone"
+                dataKey="count"
+                stroke="#0099FF"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       ) : ''}
       { (noJoinedUsers) ? (
-        <ResponsiveContainer width="80%" height={350}>
-          <LineChart
-            data={noJoinedUsers.stats}
-            margin={{
-              top: 5, right: 30, left: 20, bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="count" stroke="#82ca9d" />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className={styles['graph-container']}>
+          <div className={styles['graph-title']}>Number of accounts created in the past month</div>
+          <ResponsiveContainer width="95%" height={350}>
+            <LineChart
+              data={noJoinedUsers.stats}
+              margin={{
+                top: 5, right: 30, left: 20, bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                name="Number of accounts"
+                type="monotone"
+                dataKey="count"
+                stroke="#0099FF"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       ) : ''}
+
       { (ageRanges) ? (
-        <ResponsiveContainer width="80%" height={350}>
-          <LineChart
-            data={noJoinedUsers.stats}
-            margin={{
-              top: 5, right: 30, left: 20, bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="count" stroke="#82ca9d" />
-          </LineChart>
-        </ResponsiveContainer>
-      ) : ''}
-      { (ageRanges) ? (
-        <ResponsiveContainer width="80%" height={350}>
-          <PieChart>
-            <Tooltip />
-            <Pie data={ageRanges.stats} dataKey="count" nameKey="name" cx="50%" cy="50%" fill="#8884d8" label />
-          </PieChart>
-        </ResponsiveContainer>
+        <div className={styles['graph-container']}>
+          <div className={styles['graph-title']}>Number of users within age ranges</div>
+          <ResponsiveContainer width="95%" height={350}>
+            <PieChart>
+              <Tooltip />
+              <Pie
+                data={ageRanges.stats}
+                dataKey="count"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                fill="#0099FF"
+                label
+              />
+            </PieChart>
+          </ResponsiveContainer>
+
+        </div>
       ) : ''}
     </div>
   );

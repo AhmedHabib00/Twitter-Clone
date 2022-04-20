@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -26,7 +26,9 @@ function StepOne({
   const {
     handleChange, values, handleSubmit, errors,
   } = useForm(date, setStepOne, setStepVerify);
-  setEmail(values.email);
+  useEffect(() => {
+    setEmail(values.email);
+  });
   return (
     <div data-testid="step-one">
       <div className="start-modals-header">

@@ -29,27 +29,30 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
     if (Object.keys(validatePassword(values)).length === 0) {
       LoginPassword(values).then((response) => {
         if (response.status === 200 || response.status === 201) {
-          if (response.role === 'User') {
+          const token = response.data['x-auth-token'];
+          localStorage.setItem('token', token);
+          console.log(response.data.data);
+          if (response.data.data.role === 'User') {
             localStorage.setItem('logged', true);
             localStorage.setItem('admin', false);
             const logged = localStorage.getItem('logged');
             const admin = localStorage.getItem('admin');
             handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
-          } else {
+          } else if (response.role === 'admin') {
             localStorage.setItem('logged', true);
             localStorage.setItem('admin', true);
             const logged = localStorage.getItem('logged');
             const admin = localStorage.getItem('admin');
             handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
           }
-          // remove the following lines after integration
-          /// /////////////////////////////////////////////////////////////////////////
-          localStorage.setItem('logged', true);
-          localStorage.setItem('admin', false);
-          const logged = localStorage.getItem('logged');
-          const admin = localStorage.getItem('admin');
-          handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
-          /// ////////////////////////////////////////////////////////////////////////////
+          // // remove the following lines after integration
+          // /// /////////////////////////////////////////////////////////////////////////
+          // localStorage.setItem('logged', true);
+          // localStorage.setItem('admin', false);
+          // const logged = localStorage.getItem('logged');
+          // const admin = localStorage.getItem('admin');
+          // handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
+          // /// ////////////////////////////////////////////////////////////////////////////
         } else if (response.status === 400) {
           setErrors({
             ...errors,
