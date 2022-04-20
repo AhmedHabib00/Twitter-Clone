@@ -19,13 +19,14 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
   // localStorage.clear();
-  const logged = localStorage.getItem('logged');
-  const admin = localStorage.getItem('admin');
   useEffect(() => {
+    const logged = localStorage.getItem('logged');
+    const admin = localStorage.getItem('admin');
+    console.log(localStorage);
     setIsLoggedIn(JSON.parse(logged));
     setisAdmin(JSON.parse(admin));
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  }, [logged, admin]);
+  }, [localStorage.getItem('logged'), localStorage.getItem('admin')]);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
