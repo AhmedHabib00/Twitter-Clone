@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../User/userSchema');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
+
 
 
 const express = require('express');
@@ -26,7 +28,7 @@ passport.deserializeUser(function(user,done){
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:8000/auth/google/secrets'
+    callbackURL: `http://${process.env.DOMAIN}:${process.env.PORT}/auth/google/secrets`
   },
     function(accessToken, refreshToken, profile, done) {
         return done(null, profile);  //ties profile to req.user object to be used in the callback
@@ -36,7 +38,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: 'http://localhost:8000/auth/facebook/secrets',
+    callbackURL: `http://${process.env.DOMAIN}:${process.env.PORT}/auth/facebook/secrets`,
     profileFields: ['id', 'displayName','email']
     },
     function(accessToken, refreshToken, profile, done) {
@@ -96,7 +98,14 @@ router.get('/facebook/secrets', passport.authenticate('facebook', { failureMessa
         }); 
 });
 
+router.get('/getRole',auth, async (req, res) => {
+  const user =  await User.findOne({ _id: req.user._id});
+  if (user){
+    return res.status(200).send({"role":user.role });
+  }
+    return res.status(400).send( "user not found");
 
+});
 /////////////////utilities functions///////////////
   const isUniqueUsername = async function isUnique(givenUsername) {
     // checks whether or not username is unique

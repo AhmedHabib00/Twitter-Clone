@@ -24,7 +24,8 @@ const admins = require('./components/Admins/admin');
 var cors = require('cors');
 
 var  multer = require('multer');
-
+var cors = require('cors');
+app.use(cors({origin: '*'}));
 
 const port = process.env.PORT || 8000;
 

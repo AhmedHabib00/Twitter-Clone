@@ -26,7 +26,11 @@ router.post('/', async (req, res) => {
       return res.status(200).header('x-auth-token',token).send({
         message:'User Login Successful!',
         data: {userId: user._id, role:user.role},
+<<<<<<< HEAD
+        "x-auth-token":token
+=======
         'x-auth-token':token
+>>>>>>> 35dfe878633d880acfd8c16fd4ffaa2ecd7c0e2a
     });    
 });
 
