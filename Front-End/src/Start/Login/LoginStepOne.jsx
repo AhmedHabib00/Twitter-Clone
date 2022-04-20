@@ -4,7 +4,20 @@ import PropTypes from 'prop-types';
 import useLoginForm from './components/useLoginForm';
 import styles from './LoginStepOne.module.css';
 
-function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
+/**
+ * This is the first state in the Login form in which the user will
+ * type the username or email.
+ * @param {function} setEmail sets the email of the user to be able to use
+ * it in the up comming steps
+ * @param {function} setStepOne used to manage the first step status
+ * @param {function} setLoginPassword used to manage the password step
+ * @param {function} setForgotPassword used to manage the forgot password step
+ * @returns Email or username form
+ */
+
+function LoginStepOne({
+  setStepOne, setLoginPassword, setEmail, setForgotPassword,
+}) {
   const {
     handleChange, values, handleSubmit, errors,
   } = useLoginForm(setStepOne, setEmail, setLoginPassword);
@@ -54,8 +67,8 @@ function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
             />
             <span>Email or Username</span>
           </label>
-          {errors.email
-             && <p className={styles['login-form-errors']}>{errors.email}</p>}
+          {errors.emailOrUsername
+             && <p className={styles['login-form-errors']}>{errors.emailOrUsername}</p>}
           <div className={styles['login-buttons-container']}>
             <Button
               id="next-button"
@@ -73,6 +86,10 @@ function LoginStepOne({ setStepOne, setLoginPassword, setEmail }) {
           data-testid="facebook-button"
           variant="outlined"
           className={styles['login-with-google']}
+          onClick={() => {
+            setStepOne(false);
+            setForgotPassword(true);
+          }}
         >
           Forgot password?
         </Button>
@@ -87,4 +104,5 @@ LoginStepOne.propTypes = {
   setStepOne: PropTypes.func.isRequired,
   setEmail: PropTypes.func.isRequired,
   setLoginPassword: PropTypes.func.isRequired,
+  setForgotPassword: PropTypes.func.isRequired,
 };

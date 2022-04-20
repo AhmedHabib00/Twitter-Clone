@@ -4,7 +4,8 @@ import validateEmail from './validateEmail';
  * This function is used to manage the first step in the signup form and apply
  * validations.
  * @param {function} setStepOne Manages the status of the first step
- * @param {function} setStepVerify Manages the verification step status
+ * @param {function} setEmail Sets the user email or username
+ * @param {function} setLoginPassword handles authorization
  * @returns handleChange, values, handleSubmit, errors,
  */
 const useLoginForm = (setStepOne, setEmail, setLoginPassword) => {

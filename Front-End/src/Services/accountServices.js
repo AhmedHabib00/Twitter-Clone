@@ -320,3 +320,126 @@ export async function authFacebook() {
   }
   return response;
 }
+
+export async function searchEmail(props) {
+  const {
+    emailOrUsername,
+  } = props;
+  let response = '';
+  try {
+    response = await axios.post(`${SERVER_URL}/forgotPassword`, {
+      emailOrUsername,
+
+    });
+    // Success
+    // console.log(response);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+          * The request was made and the server responded with a
+          * status code that falls out of the range of 2xx
+          */
+      //   console.log(error.response.data);
+      //   console.log(error.response.status);
+      //   console.log(error.response.headers);
+      return (error.response);
+    } if (error.request) {
+      /*
+          * The request was made but no response was received, `error.request`
+          * is an instance of XMLHttpRequest in the browser and an instance
+          * of http.ClientRequest in Node.js
+          */
+    //   console.log(error.request);
+    } else {
+      // Something happened in setting up the request and triggered an Error
+    //   console.log('Error', error.message);
+    }
+    // console.log(error);
+    return (response);
+  }
+}
+export async function verifyForgotPassword(props) {
+  const {
+    emailOrUsername, code,
+  } = props;
+  let response = '';
+  try {
+    response = await axios.post(`${SERVER_URL}/forgotPassword/codeVerification`, {
+      headers: {
+        'content-type': 'application/json',
+      },
+      emailOrUsername,
+      code,
+
+    });
+    // Success
+    // console.log(response);
+    const { token } = response.headers['x-auth-token'];
+    localStorage.setItem('token', token);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+          * The request was made and the server responded with a
+          * status code that falls out of the range of 2xx
+          */
+      //   console.log(error.response.data);
+      //   console.log(error.response.status);
+      //   console.log(error.response.headers);
+      return (error.response);
+    } if (error.request) {
+      /*
+          * The request was made but no response was received, `error.request`
+          * is an instance of XMLHttpRequest in the browser and an instance
+          * of http.ClientRequest in Node.js
+          */
+    //   console.log(error.request);
+    } else {
+      // Something happened in setting up the request and triggered an Error
+    //   console.log('Error', error.message);
+    }
+    // console.log(error);
+    return (response);
+  }
+}
+export async function setNewPassword(props) {
+  const {
+    password,
+  } = props;
+  let response = '';
+  try {
+    response = await axios.post(`${SERVER_URL}/forgotPassword/newPassword`, {
+      headers: {
+        Authorization: `x-auth-token ${localStorage.token}`,
+      },
+      password,
+    });
+    // Success
+    // console.log(response);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+          * The request was made and the server responded with a
+          * status code that falls out of the range of 2xx
+          */
+      //   console.log(error.response.data);
+      //   console.log(error.response.status);
+      //   console.log(error.response.headers);
+      return (error.response);
+    } if (error.request) {
+      /*
+          * The request was made but no response was received, `error.request`
+          * is an instance of XMLHttpRequest in the browser and an instance
+          * of http.ClientRequest in Node.js
+          */
+    //   console.log(error.request);
+    } else {
+      // Something happened in setting up the request and triggered an Error
+    //   console.log('Error', error.message);
+    }
+    // console.log(error);
+    return (response);
+  }
+}

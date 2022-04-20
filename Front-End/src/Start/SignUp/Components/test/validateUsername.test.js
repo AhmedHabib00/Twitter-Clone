@@ -18,16 +18,6 @@ describe('validate the username', () => {
       email: 'mahmoudsuliman@gmail.com',
     })).toEqual(
       {
-        username: 'Please start your username with @',
-      },
-    );
-  });
-  it('validate the username', () => {
-    expect(validateUsername({
-      username: '@mahmoud',
-      email: 'mahmoudsuliman@gmail.com',
-    })).toEqual(
-      {
 
       },
     );
