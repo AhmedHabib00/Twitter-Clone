@@ -1,10 +1,14 @@
-import React from 'react';
+import {useState,React} from 'react';
 import PropTypes from 'prop-types';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 // import Downshift from 'downshift';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import styles from './SearchBar.module.css';
+import data from '../../Home/Components/UsersData.json';
+import SearchUserDropDown from '../SearchComponents/SearchUserDropDown';
 import { AutoComplete } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
 /**
  * a text input cmponent that enables user to type a search value
  * @param {string} placeHolder placeholder for searchbox
@@ -12,6 +16,11 @@ import { AutoComplete } from 'antd';
  * value on value change
  */
 function SearchBar({ placeHolder, searchValue }) {
+  const navigate = useNavigate();
+  const [dataFiltered, setdataFiltered] = useState(data);
+
+
+
   const updateGifs = () => {
     const { value } = document.getElementsByClassName(styles['searchbar-input'])[0];
     searchValue(value);
@@ -40,11 +49,16 @@ function SearchBar({ placeHolder, searchValue }) {
     }
   ]
 
+
+
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
     console.log(string, results)
+    setdataFiltered(results)
+    // searchValue(string);
     console.log('hereeee')
+  
 
   }
 
@@ -55,44 +69,115 @@ function SearchBar({ placeHolder, searchValue }) {
 
   const handleOnSelect = (item) => {
     // the item selected
-    console.log(item)
+    console.log("ssssss")
+    return navigate("/Search",{
+      state: {
+        dataFiltered: dataFiltered
+      }
+     });
   }
 
   const handleOnFocus = () => {
     console.log('Focused')
   }
 
+  function getUrlVars() {
+    var vars = [], hashes;
+    var hash = window.location.href;
+
+    hashes = hash.split('/');
+    vars = hashes[hashes.length - 1];
+
+    return vars;
+  }
+
+  var myVal = null;
+
+  window.onload = function () {
+    myVal = getUrlVars();
+
+    console.log(myVal)
+
+    if (myVal == "Search") {
+      //   document.getElementById('SearchBar').style.visibility = "hidden";
+      //   console.log("hereee")
+      // } else {
+      //   document.getElementById('SearchBar').style.visibility = "visible";
+      // }
+    }
+
+  }
+
+  console.log(myVal)
+
+
   const formatResult = (item) => {
+
     return (
-      <>
-        {/* <span style={{ display: 'flexbox', textAlign: 'left' }}>id: {item.id}</span> */}
-        <span style={{ display: 'block', textAlign: 'left' }}>
-          {item.name}
-        </span>
-      </>
-    )
+      <div data-testid="notifeed-render-test" className={styles.notifeed}>
+          <div data-testid="noticontent-render-test" className={styles.parent} >
+              {
+                      <SearchUserDropDown
+                          profile_id={item.id}
+                          displayname={item.displayName}
+                          username={item.userName}
+                          description={item.description}
+                          url={item.url}
+                      />
+              }
+              <div className={styles.emptyspace}>
+              </div>
+          </div>
+      </div>
+  );
+
+    // return (
+    //   <>
+    //     {/* <span style={{ display: 'flexbox', textAlign: 'left' }}>id: {item.id}</span> */}
+    //     <span style={{ display: 'block', textAlign: 'left' }}>
+    //       {item.displayName}
+    //     </span>
+    //   </>
+    // )
   }
 
   return (
     <div className="App">
       <header className="App-header">
         <div style={{ width: 350 }}>
-          <ReactSearchAutocomplete
-            items={items}
-            placeholder='Search Twitter'           
+          <ReactSearchAutocomplete className={styles['searchbarTop']}
+            items={data}
+            placeholder='Search Twitter'
             onSearch={handleOnSearch}
+            showClear={true}
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
-            autoFocus
+            autoFocus={false}
             formatResult={formatResult}
+            fuseOptions=
+            {
+              {
+          //     shouldSort: true,
+          // threshold: 0.6,
+          // location: 0,
+          // distance: 100,
+          // maxPatternLength: 32,
+          // minMatchCharLength: 1,
+          keys: [
+          "displayName", "userName"
+          ]
+         
+        }
+          }
+          resultStringKeyName="displayName"
             // styling={
             //     {
-            //       padding: '0 0 15 15px'
+            //       backgroundColor: "black"
             //     }
             //   }
-            showIcon= {true}
-          />
+            showIcon = {false}
+            />
         </div>
       </header>
     </div>
@@ -107,14 +192,14 @@ function SearchBar({ placeHolder, searchValue }) {
   //               <section className={styles.flex1}>
   //               <button className={styles['flex-container']}></button>
   //     </section>
-              
+
   //               </div>
   // );
 
 }
 
-SearchBar.propTypes = {
-  placeHolder: PropTypes.string.isRequired,
-  searchValue: PropTypes.func.isRequired,
-};
+// SearchBar.propTypes = {
+//   placeHolder: PropTypes.string.isRequired,
+//   searchValue: PropTypes.func.isRequired,
+// };
 export default SearchBar;

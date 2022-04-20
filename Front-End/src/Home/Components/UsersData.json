@@ -2,31 +2,39 @@
     {
         "id": 1,
         "displayName": "Mohamed Ahmed",
-        "userName": "mohdFarag",
-        "description": "Photographer Filmmaker Artist"
+        "userName": "mohdFarag5",
+        "description": "Photographer Filmmaker Artist",
+        "url": "https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg"
     },
     {
         "id": 2,
-        "displayName": "Asmaa Lotfy Awad",
-        "userName": "Asmaalotfy",
-        "description": "Painter , Dreamer and illustration Artist "
+        "displayName": "Ali Official",
+        "userName": "ALI_MUSIC_DANCE",
+        "description": "Band 💥 It is a musicality that crosses over funk and jazz and soul and latin music with hip hop.",
+        "url": "https://pbs.twimg.com/profile_images/1461273013064978433/sHQoxJSy_400x400.jpg"
+
     },
     {
         "id": 3,
-        "displayName": "Ali Official",
-        "userName": "ALI_MUSIC_DANCE",
-        "description": "Band 💥 It is a musicality that crosses over funk and jazz and soul and latin music with hip hop."
+        "displayName": "Asmaa Lotfy",
+        "userName": "Asmaalotfy90",
+        "description": "Painter , Dreamer and illustration Artist ",
+        "url": "https://pbs.twimg.com/profile_images/591841817768910849/ztHfOcXj_400x400.jpg"
+
     },
     {
         "id": 4,
         "displayName": "Sarah",
         "userName": "sarahhabel",
-        "description": "maybe she's born with it. maybe it's Habelline."
+        "description": "maybe she's born with it. maybe it's Habelline.",
+        "url": "https://pbs.twimg.com/profile_images/1385349738/web_400x400.jpg"
     },
     {
         "id": 5,
         "displayName": "Mohamed Salah",
         "userName": "MoSalah",
-        "description": "Footballer for Liverpool FC."
+        "description": "Footballer for Liverpool FC.",
+        "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg"
+
     }
 ]

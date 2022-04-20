@@ -10,16 +10,19 @@
   position: relative;
   float: left;
   text-align: center;
-  min-height: 100px;
+  min-height: 150px;
   width: 278px;
+  display: 'inline-block'
 }
 
-.display-name {
-  font-size: 15px;
+
+.retweet-icon {
+  color: rgb(0 186 124);
+  font-size: 30px !important;
   line-height: normal;
-  position: absolute;
-  top: 50px;
-  left: -70px;
+  position: relative;
+  top: 5px;
+  left: 5px;
   width: 100%;
   height: auto;
 }
@@ -27,20 +30,122 @@
 .postavatar {
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position:relative; 
   top: 15px;
-  left: -75px;
+  left: 20px;
   width: 100%;
   height: auto;
 }
 
-.content1 {
+
+.display-name {
   font-size: 15px;
   font-weight: 400;
   line-height: normal;
-  position: absolute;
-  top: 50px;
+  position: relative;
+  text-align: left;
+  /* top: 50px; */
+  left: 55px;
+  /* width: 70px; */
+  height: auto;
+  padding-top:20px;
+}
+
+.login-news {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  /* top: 50px; */
   left: 20px;
+  /* width: 70px; */
+  height: auto;
+  padding-top:20px;
+}
+
+.content2 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  /* top: 80px; */
+  left: 55px;
+  width: 450px;
+  height: auto;
+  padding-bottom: 10px;
+  /* white-space: nowrap; */
+  /* display: inline-block; */
+  /* background-color: lightblue; */
+}
+
+.wrapper2 {
+  flex: auto;
+  height: max-content !important;
+  width: 100%;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+
+  display: flex;
+  flex-flow: auto;
+  font-weight: bold;
+  align-items: flex-start;
+  
+  /* text-align: left; */
+  /* overflow: auto;  */
+}
+
+
+
+.wrapper {
+  /* flex: auto; */
+  background-color: white;
+  height: max-content !important;
+  width: 100%;
+  margin: 0%;
+  cursor: pointer;
+  border: none ;
+  border-top: 1px solid rgb(225 225 225 / 40%);
+  /* border-bottom: 1px solid rgb(225 225 225 / 40%); */
+ 
+  font-weight: bold;
+  /* border-width:thin; */
+  /* border-color: rgb(230, 230, 230); */
+
+  display: flex;
+  flex-flow: row wrap; 
+  font-weight: bold;
+  text-align: left;
+  /* overflow: auto;  */
+}
+
+.wrapper>* {
+  /* padding: 10px; */
+  flex: 1 100%;
+}
+
+.wrapper:hover {
+  background-color: #e9ebec;
+
+  /* border-radius: 21px; */
+  height: max-content !important;
+  width: 100%;
+  border-width: thin;
+  border-color: rgb(230, 230, 230);;
+}
+
+
+
+/*      deleteee content      */
+.content1111 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  /* position: absolute; */
+  top: 40px;
+  left: 10px;
   width: 100%;
   height: auto;
 }
@@ -50,23 +155,14 @@
   font-weight: 400;
   line-height: normal;
   position: absolute;
-  top: 80px;
-  left: 43px;
+  top: 60px;
+  left: 10px;
   width: 100%;
   height: auto;
   white-space: nowrap;
 }
 
-.content2 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 50px;
-  left: 40px;
-  width: 100%;
-  height: auto;
-}
+
 
 .content22 {
   font-size: 15px;
@@ -142,13 +238,13 @@
   color: rgb(249 24 128);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
   height: auto;
 
-  /* position: absolute;
+  /* position: relative;
   text-align: left;
   bottom: 0;
   height: auto; */
@@ -160,7 +256,7 @@
   color: rgb(0 186 124);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -171,7 +267,7 @@
   color: rgb(121 75 196);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -182,7 +278,7 @@
   color: rgb(29 155 240);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -193,7 +289,7 @@
   color: rgb(29 155 240);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -204,7 +300,7 @@
   color: rgb(29 155 240);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;

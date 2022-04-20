@@ -1,4 +1,14 @@
 @import '~antd/dist/antd.css';
+
+.searchbarTop {
+  background-color: "#E2F1F1";
+  display:block;
+  position:relative;
+  z-index:10;
+
+}
+
+
 .searchbar {
   display: flex;
   margin: 5px;

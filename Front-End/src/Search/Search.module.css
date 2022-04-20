@@ -3,6 +3,13 @@
   /* display:flexbox */
 }
 
+.searchbarTop {
+  background-color: "#E2F1F1";
+  display:block;
+  position:relative;
+  /* z-index:10; */
+
+}
 
 
 .header1 {
@@ -11,6 +18,8 @@
   padding-left: 20%;
   padding-top: 5px;
   padding-bottom: 13px;
+  position: relative;
+  z-index: 10;
 }
 
 .flex1 {
