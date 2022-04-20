@@ -106,7 +106,7 @@ function Post({
   };
 
   return (
-    <div data-testid="post-render-test" className={styles.post} key={id}>
+    <div data-testid="post-render-test" className={styles.post}>
       <div className={styles.postbody}>
         <div className={styles.postheader}>
 

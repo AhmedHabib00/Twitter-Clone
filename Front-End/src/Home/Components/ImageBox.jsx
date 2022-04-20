@@ -17,6 +17,7 @@ function ImageBox({ images, onDeleteImage }) {
   }
   const imageContainer = (image) => (
     <div
+      data-testid="image-box-render-test"
       id="image-box-image-canvas"
       className={styles.image}
       key={image.id}
