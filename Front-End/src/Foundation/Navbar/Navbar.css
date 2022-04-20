@@ -1,9 +1,9 @@
 .nav-bar-main {
   display: flex;
-  width: 17em;
+  max-width: 300px;
+  height: 100vh;
   flex-direction: column;
   position: sticky;
-  height: 43em;
   top: 0;
   margin-right: 8px;
   margin-left: 8px;

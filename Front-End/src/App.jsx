@@ -29,7 +29,7 @@ function App() {
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation />;
+        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
       }
       return <Foundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
     }

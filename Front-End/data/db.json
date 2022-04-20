@@ -1,6 +1,5 @@
 {
-  "Tweet": [
-  ],
+  "Tweet": [],
   "posts": [
     {
       "id": 1,
@@ -321,6 +320,14 @@
       "emailOrUsername": "dvx cfdx c",
       "password": "fvdfwsd",
       "id": 45
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "emailOrUsername": "vsdcscd",
+      "password": "wdwdccd",
+      "id": 46
     }
   ],
   "signup": [
