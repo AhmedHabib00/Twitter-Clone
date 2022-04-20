@@ -20,12 +20,12 @@ function App() {
   const [isAdmin, setisAdmin] = useState(false);
   useEffect(() => {
     setIsLoggedIn(true);
-    setisAdmin(true);
+    setisAdmin(false);
   }, []);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation />;
+        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
       }
       return <Foundation />;
     }

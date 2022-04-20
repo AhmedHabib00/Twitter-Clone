@@ -1,6 +1,7 @@
 .nav-bar-main {
   display: flex;
   max-width: 300px;
+  height: 100vh;
   flex-direction: column;
   position: sticky;
   top: 0;
