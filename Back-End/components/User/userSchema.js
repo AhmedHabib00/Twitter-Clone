@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema ({
     password: { type: String},
     googleId:{ type:String},
     facebookId:{ type:String},
-    passwordResetOTP:{type:String,minlength: 8,maxlength: 1024},
+    passwordResetOTP:{type:String,minlength: 6,maxlength: 1024},
     role:{ type:String ,enum: ['User' , 'Admin'],default:'User',trim: true},
     birthdate:{type: Date},
     description: {type: String},

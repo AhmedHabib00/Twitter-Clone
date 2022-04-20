@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
       const token = user.generateJWT();
       return res.status(200).header('x-auth-token',token).send({
         message:'User Login Successful!',
-        data: {userId: user._id, role:user.role}
+        data: {userId: user._id, role:user.role},
+        "x-auth-token":token
     });    
 });
 
