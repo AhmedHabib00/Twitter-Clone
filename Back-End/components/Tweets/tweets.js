@@ -449,7 +449,6 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
         var results2 = await user.findById(theId,projection2)
         .catch(error => {
-            console.log(error);
             return res.status(400).send("error: problem with finding current user");;
         }) 
         
@@ -500,9 +499,12 @@ router.post("/",auth, async function(req,res){
     //If there is an error with uploading the images, send a 400 status
     //an error is not the same as not uploading images
     upload(req,res,async function(err){
-    if(err)
-            return res.sendStatus(400)
-        
+        console.log(req.files);
+        console.log(req.body);
+    if(err){
+        console.log(err);
+        return res.sendStatus(400)
+    } 
     else{
 
     token=req.user._id
@@ -512,6 +514,7 @@ router.post("/",auth, async function(req,res){
     }
     catch(error) //error with finding (invalid id)
     {
+        console.log(err);
          return res.sendStatus(400);
     }
 
@@ -541,7 +544,6 @@ router.post("/",auth, async function(req,res){
     //if the tweet has images
      if(req.files)
      {
-         console.log(req.files)
          m=req.files
          
          for(i=0;i<m.length;i++)
