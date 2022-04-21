@@ -56,11 +56,10 @@ const upload=multer(objectMulter).array('images',4);
 router.get("/repliesArray/:id",auth,async (req,res)=>{
 
     // theUser="62573e66714ba7d93e0ca531";
-    theUser=req.user._id;
+    const theUser=req.user._id;
     // theTweet="62604a81aa118abd39b12886";
-    TheTweet=req.params.id;
+    const theTweet=req.params.id;
     finalArray=[]
-    
     // theUser=req.user._id;
 
     const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
@@ -128,25 +127,25 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         }
         else{
             
-            for(i=0;i<tempMedia.length;i++)
+            for(j=0;j<tempMedia.length;j++)
             {
-               img[i]=tempMedia[i]
+               img[j]=tempMedia[j]
             }
 
-            if(i==1) //1 image
+            if(j==1) //1 image
             {
                 img[1]=""
                 img[2]=""
                 img[3]=""
             }
 
-            else if(i==2) //2 images
+            else if(j==2) //2 images
             {
                 img[2]=""
                 img[3]=""
             }
 
-            else if(i==3) //3 images
+            else if(j==3) //3 images
             {
                 img[3]=""
             }
@@ -173,8 +172,13 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
               
         }
    
- 
-        res.status(200).send(finalArray);  
+        if (finalArray){
+            res.status(200).send(finalArray);  
+
+        }
+        else{
+            res.status(200).send("tweet has no replies");  
+        }
     
 })
 
@@ -252,25 +256,25 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
     }
     else{
         
-        for(i=0;i<tempMedia.length;i++)
+        for(j=0;j<tempMedia.length;j++)
         {
-           img[i]=tempMedia[i]
+           img[j]=tempMedia[j]
         }
 
-        if(i==1) //1 image
+        if(j==1) //1 image
         {
             img[1]=""
             img[2]=""
             img[3]=""
         }
 
-        else if(i==2) //2 images
+        else if(j==2) //2 images
         {
             img[2]=""
             img[3]=""
         }
 
-        else if(i==3) //3 images
+        else if(j==3) //3 images
         {
             img[3]=""
         }
@@ -301,10 +305,10 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
 
 ///////////////////////////////////////////////////////////////////////////////////Getting timeline tweets endpoint:
-router.get("/TimelineTweets",async (req,res)=>{
+router.get("/TimelineTweets",auth,async (req,res)=>{
 
-        theUser="62608baaaa118abd39b1288f";
-        // theUser=req.user._id;
+        //theUser="6257129df18fcd7147c6c825";
+        const theUser=req.user._id;
         finalArray=[]
         const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
         const projection2 ={"_id":0,"name":1,"username":1};
@@ -319,7 +323,8 @@ router.get("/TimelineTweets",async (req,res)=>{
         console.log(results)
     for(i=0;i<results.length;i++)
        {
-           console.log(results.length)
+           //console.log(results.length)
+           //console.log(i);
 
        //Getting number of replies for the tweet:
        findReplies=await tweet.find({replyTo:results[i]["_id"]},{new:true});  
@@ -359,25 +364,25 @@ router.get("/TimelineTweets",async (req,res)=>{
         }
         else{
             
-            for(i=0;i<tempMedia.length;i++)
+            for(j=0;j<tempMedia.length;j++)
             {
-               img[i]=tempMedia[i]
+               img[j]=tempMedia[j]
             }
 
-            if(i==1) //1 image
+            if(j==1) //1 image
             {
                 img[1]=""
                 img[2]=""
                 img[3]=""
             }
 
-            else if(i==2) //2 images
+            else if(j==2) //2 images
             {
                 img[2]=""
                 img[3]=""
             }
 
-            else if(i==3) //3 images
+            else if(j==3) //3 images
             {
                 img[3]=""
             }
@@ -385,7 +390,6 @@ router.get("/TimelineTweets",async (req,res)=>{
         }
 
         var results2 = await user.findById(theId,projection2)
-        // console.log(results2)
         const Obj= ({
             id:results[i]["_id"],
             userName: results2["username"],
