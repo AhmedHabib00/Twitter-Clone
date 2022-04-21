@@ -15,6 +15,7 @@ import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
 import { getClientRole } from './Services/accountServices';
+import Tweet from './Home/Components/Tweet';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -72,6 +73,7 @@ function App() {
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
+      <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
     </>

@@ -36,7 +36,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PropTypes from 'prop-types';
-import styles from './NotiContent.css';
+import styles from './NotiContent.module.css';
 /**
  * @param {Number} id      Id
  * @param {String} displayname      User display name (user first name).
@@ -60,17 +60,17 @@ function NotiContent({
   let icon = null;
   // console.log(content);
   if (notitype === 'like') {
-    icon = &lt;FavoriteRoundedIcon className="like-icon" />;
+    icon = &lt;FavoriteRoundedIcon className={styles['like-icon']} />;
   } else if (notitype === 'retweet') {
-    icon = &lt;RepeatRoundedIcon className="retweet-icon" />;
+    icon = &lt;RepeatRoundedIcon className={styles['retweet-icon']} />;
   } else if (notitype === 'missed') {
-    icon = &lt;AutoAwesomeIcon className="missed-icon" />;
+    icon = &lt;AutoAwesomeIcon className={styles['missed-icon']} />;
   } else if (notitype === 'followed') {
-    icon = &lt;PersonRoundedIcon className="followed-icon" />;
+    icon = &lt;PersonRoundedIcon className={styles['followed-icon']} />;
   } else if (notitype === 'login') {
-    icon = &lt;TwitterIcon className="login-icon" />;
+    icon = &lt;TwitterIcon className={styles['login-icon']} />;
   } else if (notitype === 'news') {
-    icon = &lt;FlashOnRoundedIcon className="news-icon" />;
+    icon = &lt;FlashOnRoundedIcon className={styles['news-icon']} />;
   } else {
     icon = null;
   }
@@ -82,46 +82,46 @@ function NotiContent({
   console.log(id);
   console.log(styles);
   return (
-    &lt;div data-testid="post-render-test" className="parent">
+    &lt;div data-testid="noticontent-render-test" className={styles.parent}>
       {/* {
          Data &amp;&amp; Data.map((post) => ( */}
-      &lt;div>
+      &lt;div data-testid="notitype-render-test">
         {icon}
       &lt;/div>
       {/* &lt;AccountCircleIcon /> */}
-      &lt;div className="postavatar">
+      &lt;div data-testid="noticontent-avatar-render-test" className={styles.postavatar}>
         {pp}
       &lt;/div>
-      &lt;div className="display-name">
+      &lt;div className={styles['display-name']}>
         {displayname}
       &lt;/div>
       {' '}
       &lt;div data-testid="content-render-test">
-        &lt;div className="content1">
+        &lt;div className={styles.content1}>
           {content1}
         &lt;/div>
-        &lt;div className="content11">
+        &lt;div className={styles.content11}>
           {content11}
         &lt;/div>
-        &lt;div className="content2">
+        &lt;div className={styles.content2}>
           {content2}
         &lt;/div>
-        &lt;div className="content22">
+        &lt;div className={styles.content22}>
           {content22}
         &lt;/div>
-        &lt;div className="content3">
+        &lt;div className={styles.content3}>
           {content3}
         &lt;/div>
-        &lt;div className="content4">
+        &lt;div className={styles.content4}>
           {content4}
         &lt;/div>
-        &lt;div className="content5">
+        &lt;div className={styles.content5}>
           {content5}
         &lt;/div>
-        &lt;div className="content55">
+        &lt;div className={styles.content55}>
           {content55}
         &lt;/div>
-        &lt;div className="content6">
+        &lt;div className={styles.content6}>
           {content6}
         &lt;/div>
       &lt;/div>
@@ -155,13 +155,13 @@ export default NotiContent;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Apr 02 2022 14:29:15 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
