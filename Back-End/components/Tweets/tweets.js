@@ -205,9 +205,9 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
         {
             return res.sendStatus(400);
         }
-        if(!results)
+        if(!results.length)
         {
-            return res.sendStatus(400);
+            return res.status(400).send("tweet not found");
         }
     // console.loh
     // console.log(results[0])
