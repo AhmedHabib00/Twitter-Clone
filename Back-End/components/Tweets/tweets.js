@@ -337,29 +337,14 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
     // console.log(req.query)
    
-    try {
-        let { page, size } = req.query;
-  
-        //default value is 1 if page parameter is not given.
-        if (!page) {
-            page = 1;
-        }
-        //default value is 10 if page parameter is not given.
-        if (!size) {
-            size = 10;
-        }
-
-        //Casting the size string to integer.
-        const limit = parseInt(size);
-
-
+      console.log("fcdfcd")
         // theUser="62615984578b341248402d89";
         const theUser=req.user._id;
         finalArray=[]
         const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
         const projection2 ={"_id":0,"name":1,"username":1};
 
-        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1))
+        var results = await tweet.find({},projection)
         .catch(error => {
             console.log(error);
             return res.status(400).send("error: problem with finding the tweets");;
@@ -424,7 +409,8 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             
             for(j=0;j<tempMedia.length;j++)
             {
-               img[j]=tempMedia[j]
+                console.log(process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j])
+               img[j]='http://'+process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j]
             }
 
             if(j==1) //1 image
@@ -476,15 +462,9 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
         if(finalArray.length==0)
         {
-            return res.status(200).send("no tweets found"); 
+            return res.status(200).send([]); 
         }
         return res.status(200).send(finalArray);    
-    }
-    catch (error) {
-        return res.status(400).send("problem with page parameters size/number");
-    }
-
-        
 })
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
