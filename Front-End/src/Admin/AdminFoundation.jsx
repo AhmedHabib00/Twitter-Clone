@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './AdminFoundation.module.css';
 
@@ -11,7 +12,7 @@ import NavItem from '../Foundation/Navbar/NavItem';
  * The main layout for a user logged in as admin.
  * It displays the navbar and opened page.
  */
-function AdminFoundation() {
+function AdminFoundation({ setIsLoggedIn }) {
   const pages = getAdminPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('users');
@@ -27,6 +28,7 @@ function AdminFoundation() {
   };
 
   const handleLogOut = () => {
+    setIsLoggedIn(false);
     localStorage.removeItem('token');
     navigate('/');
   };
@@ -60,5 +62,9 @@ function AdminFoundation() {
     </div>
   );
 }
+
+AdminFoundation.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+};
 
 export default AdminFoundation;

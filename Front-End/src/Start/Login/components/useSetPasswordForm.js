@@ -37,7 +37,6 @@ const useSetPasswordForm = (setSettingPassword, handleAfterSignin) => {
           (async () => {
             if (localStorage.token) {
               const resp = await getClientRole();
-              console.log(resp);
               if (resp.role === 'Admin') {
                 handleAfterSignin(true, true);
               } else {

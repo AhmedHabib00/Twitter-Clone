@@ -18,23 +18,20 @@ import { getClientRole } from './Services/accountServices';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setisAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  console.log(isLoggedIn);
+  console.log(isAdmin);
   // const [Role, setRole] = useState('');
   // localStorage.clear();
   useEffect(() => {
-    // const logged = localStorage.getItem('logged');
-    // const admin = localStorage.getItem('admin');
-    // setIsLoggedIn(JSON.parse(logged));
-    // setisAdmin(JSON.parse(admin));
     (async () => {
       if (localStorage.token) {
         setIsLoggedIn(true);
         const resp = await getClientRole();
-        console.log(resp);
         if (resp.role === 'Admin') {
-          setisAdmin(true);
+          setIsAdmin(true);
         } else {
-          setisAdmin(false);
+          setIsAdmin(false);
         }
       }
     })();
@@ -43,11 +40,11 @@ function App() {
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation />;
+        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} />;
       }
-      return <Foundation />;
+      return <Foundation setIsLoggedIn={setIsLoggedIn} />;
     }
-    return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
+    return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setIsAdmin} />;
   };
 
   const mainPath = () => {

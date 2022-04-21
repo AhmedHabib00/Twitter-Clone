@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
@@ -14,9 +15,15 @@ import { authGoogle, authFacebook } from '../Services/accountServices';
 function Start({ setIsLoggedIn, setisAdmin }) {
   const [signup, setSignup] = useState(false);
   const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
   const handleLoginStatus = (logEvent, adminEvent) => {
+    console.log('start routing');
+    console.log(logEvent);
+    console.log(adminEvent);
+    console.log('start routing finish');
     setIsLoggedIn(logEvent);
     setisAdmin(adminEvent);
+    navigate('/');
   };
   const handleGoogleAuth = () => {
     (async () => {
