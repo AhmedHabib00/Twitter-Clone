@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './SearchFeed.module.css';
 import SearchUser from './SearchUser';
-import data from '../../Home/Components/PostData.json';
-import Post from '../../Home/Components/Post.jsx';
+// import data from '../../Home/Components/PostData.json';
+import Post from '../../Home/Components/Post';
 
 /**
  * @param {array} data array containing our notifications.
@@ -12,38 +12,34 @@ import Post from '../../Home/Components/Post.jsx';
  * to display the notifications in the feed component.
  */
 function SearchFeed({ data, dataType }) {
+  console.log(dataType);
 
-    console.log(dataType);
-
-    if (dataType) {
-        return (
-            <div data-testid="notifeed-render-test" className={styles.notifeed}>
-                <div data-testid="noticontent-render-test" className={styles.parent} >
-                    {
+  if (dataType) {
+    return (
+      <div data-testid="notifeed-render-test" className={styles.notifeed}>
+        <div data-testid="noticontent-render-test" className={styles.parent}>
+          {
+            data && data.map((content) => (
+              <SearchUser
+                profileid={content.id}
+                displayname={content.displayName}
+                username={content.userName}
+                description={content.description}
+                url={content.url}
+              />
+            ))
+            }
+          <div className={styles.emptyspace} />
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div data-testid="notifeed-render-test" className={styles.notifeed}>
+      <div data-testid="noticontent-render-test" className={styles.parent} id="FeedContainer">
+        {
                         data && data.map((content) => (
-                            <SearchUser
-                                profile_id={content.id}
-                                displayname={content.displayName}
-                                username={content.userName}
-                                description={content.description}
-                                url={content.url}
-                            />
-                        ))
-                    }
-                    <div className={styles.emptyspace}>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    else {
-        return (
-            <div data-testid="notifeed-render-test" className={styles.notifeed}>
-                <div data-testid="noticontent-render-test" className={styles.parent} id="FeedContainer">
-                    {
-                        data && data.map((content) => (
-                            <Post
+                          <Post
                             id={content.id}
                             displayname={content.displayName}
                             username={content.userName}
@@ -57,26 +53,23 @@ function SearchFeed({ data, dataType }) {
                             isRetweeted={content.isRetweeted}
                             noOfReplies={content.noOfReplies}
                             noOfRetweets={content.noOfRetweets}
-                            />
+                          />
                         ))
                     }
-                    <div className={styles.emptyspace}>
-                    </div>
-                </div>
-            </div>
+        <div className={styles.emptyspace} />
+      </div>
+    </div>
 
-        );
-    }
-
+  );
 }
 SearchFeed.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape({
-        profile_id: PropTypes.number.isRequired,
-        displayname: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-    })).isRequired,
-    dataType: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    profileid: PropTypes.number.isRequired,
+    displayname: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  })).isRequired,
+  dataType: PropTypes.string.isRequired,
 };
 export default SearchFeed;

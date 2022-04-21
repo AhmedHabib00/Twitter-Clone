@@ -1,16 +1,12 @@
 .search {
   text-align: center;
-  /* display:flexbox */
 }
 
-.searchbarTop {
+.searchbartop {
   background-color: "#E2F1F1";
-  display:block;
-  position:relative;
-  /* z-index:10; */
-
+  display: block;
+  position: relative;
 }
-
 
 .header1 {
   font-size: 20px;
@@ -46,8 +42,6 @@
 
 .flex-container:hover {
   background-color: #e9ebec;
-
-  /* border-radius: 21px; */
   height: 53px;
   width: 278px;
 }

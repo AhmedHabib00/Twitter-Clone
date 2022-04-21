@@ -29,8 +29,6 @@
 // }
 
 // export default Home;
-
-
 import React from 'react';
 import Feed from './Components/Feed';
 import styles from './Home.module.css';
