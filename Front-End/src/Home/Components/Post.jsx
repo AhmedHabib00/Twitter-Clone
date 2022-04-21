@@ -216,7 +216,7 @@ function Post({
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img4} alt="pic1" /></a>
         </div>
         <div>
-          <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+          <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
             <Carousel>
 
               <div>
