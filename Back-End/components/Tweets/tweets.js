@@ -54,7 +54,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
     finalArray=[]
     // theUser=req.user._id;
 
-    const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"createdAt":1};
+    const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};
     const projection2 ={"_id":0,"name":1,"username":1};
 
     try{
@@ -80,6 +80,15 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         const the_id= results[i]["_id"]
         //the user who posted this reply.
         var theId=results[i]["postedBy"]
+        var contentTemp="";
+        var gifTemp="";
+        
+    
+        if(results[i]["content"])
+                 contentTemp=results[i]["content"];
+      
+        if(results[i]["gifs"])         
+                 gifTemp=results[i]["gifs"];
         var results2 = await user.findById(theId,projection2)
         .catch(error => {
             console.log(error);
@@ -161,11 +170,12 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
             id:the_id,
             userName: results2["username"],
             displayName: results2["name"],
-            content: results[i]["content"],
+            content: contentTemp,
             img1:img[0],
             img2:img[1],
             img3:img[2],
             img4:img[3],
+            gifs:gifTemp,
             isLiked:Liked,
             isRetweeted:Retweeted,
             noOfLike:numLikes,
@@ -197,7 +207,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
 //////////////////////////////////////////////////////////////////////////////////Getting single tweet endpoint
 router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
-    theUser=req.user._id;
+    // theUser=req.user._id;
     TheTweet=req.params.id;
     // theUser="62608baaaa118abd39b1288f";
 
@@ -205,7 +215,7 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
   
     // finalArray=[]
-    const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
+    const projection ={ "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};;
     const projection2 ={"_id":0,"name":1,"username":1};
 
     try{
@@ -305,6 +315,16 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
     }
 
+    var contentTemp="";
+    var gifTemp="";
+    
+
+    if(results[0]["content"])
+             contentTemp=results[i]["content"];
+  
+    if(results[0]["gifs"])         
+             gifTemp=results[i]["gifs"];
+
     var results2 = await user.findById(theId,projection2)
     .catch(error => {
         console.log(error);
@@ -315,11 +335,12 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
         id:results[0]["_id"],
         userName: results2["username"],
         displayName: results2["name"],
-        content: results[0]["content"],
+        content: contentTemp,
         img1:img[0],
         img2:img[1],
         img3:img[2],
         img4:img[3],
+        gifs:gifTemp,
         isLiked:Liked,
         isRetweeted:Retweeted,
         noOfLike:numLikes,
@@ -335,31 +356,31 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
 ///////////////////////////////////////////////////////////////////////////////////Getting timeline tweets endpoint:
 router.get("/TimelineTweets",auth,async (req,res)=>{
 
-    // console.log(req.query)
-   
-    try {
-        let { page, size } = req.query;
+    // try {
+    //     let { page, size } = req.query;
   
-        //default value is 1 if page parameter is not given.
-        if (!page) {
-            page = 1;
-        }
-        //default value is 10 if page parameter is not given.
-        if (!size) {
-            size = 10;
-        }
+    //     //default value is 1 if page parameter is not given.
+    //     if (!page) {
+    //         page = 1;
+    //     }
+    //     //default value is 10 if page parameter is not given.
+    //     if (!size) {
+    //         size = 10;
+    //     }
 
-        //Casting the size string to integer.
-        const limit = parseInt(size);
+    //     //Casting the size string to integer.
+    //     const limit = parseInt(size);
 
 
         // theUser="62615984578b341248402d89";
         const theUser=req.user._id;
         finalArray=[]
-        const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
+        const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};
         const projection2 ={"_id":0,"name":1,"username":1};
 
-        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1))
+
+        // .limit(limit).skip(size*(page-1))
+        var results = await tweet.find({},projection)
         .catch(error => {
             console.log(error);
             return res.status(400).send("error: problem with finding the tweets");;
@@ -371,7 +392,10 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
        {
            //console.log(results.length)
            //console.log(i);
-
+  
+        //do not view reply as a tweet.go to next iteration.   
+        if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length=="") 
+       {
        //Getting number of replies for the tweet:
        findReplies=await tweet.find({replyTo:results[i]["_id"]},{new:true}) 
        .catch(error => {
@@ -420,11 +444,11 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
                img[2]="";
                img[3]="";
         }
-        else{
-            
+        else{            
             for(j=0;j<tempMedia.length;j++)
             {
-               img[j]=tempMedia[j]
+                console.log(process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j])
+               img[j]='http://'+process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j]
             }
 
             if(j==1) //1 image
@@ -447,9 +471,19 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
         }
 
+
+        var contentTemp="";
+        var gifTemp="";
+        
+
+        if(results[i]["content"])
+                 contentTemp=results[i]["content"];
+      
+        if(results[i]["gifs"])         
+                 gifTemp=results[i]["gifs"];
+
         var results2 = await user.findById(theId,projection2)
         .catch(error => {
-            console.log(error);
             return res.status(400).send("error: problem with finding current user");;
         }) 
         
@@ -457,11 +491,12 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             id:results[i]["_id"],
             userName: results2["username"],
             displayName: results2["name"],
-            content: results[i]["content"],
+            content: contentTemp,
             img1:img[0],
             img2:img[1],
             img3:img[2],
             img4:img[3],
+            gifs:gifTemp,
             isLiked:Liked,
             isRetweeted:Retweeted,
             noOfLike:numLikes,
@@ -474,18 +509,17 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
               
         }
+    }
+// }
+// catch (error) {
+//     return res.status(400).send("problem with page parameters size/number");
+// }
 
         if(finalArray.length==0)
         {
-            return res.status(200).send("no tweets found"); 
+            return res.status(200).send([]); 
         }
         return res.status(200).send(finalArray);    
-    }
-    catch (error) {
-        return res.status(400).send("problem with page parameters size/number");
-    }
-
-        
 })
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
@@ -500,24 +534,29 @@ router.post("/",auth, async function(req,res){
     //If there is an error with uploading the images, send a 400 status
     //an error is not the same as not uploading images
     upload(req,res,async function(err){
-    if(err)
-            return res.sendStatus(400)
-        
+        // console.log(req.files);
+        // console.log(req.body);
+    if(err){
+        console.log(err);
+        return res.sendStatus(400)
+    } 
     else{
 
     token=req.user._id
     try
     {
-        userInfo=await user.findById(req.user._id)
+        userInfo=await user.findById(req.user._id)     
     }
     catch(error) //error with finding (invalid id)
     {
+        console.log(err);
          return res.sendStatus(400);
     }
 
-    if(!userInfo) //the id of the user is not found
+    // console.log(req.body.content)
+    if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
     {
-        return res.sendStatus(400);
+        return res.status(400).send("1 of the body parameters could not be read.");
         
     }
     
@@ -527,7 +566,7 @@ router.post("/",auth, async function(req,res){
      contentTemp=""
      replyTemp=undefined //represents an empty object
      gifTemp=""
-        
+     console.log("here")   
      
      //if the tweet has content 
      if(req.body.content!="")
@@ -535,13 +574,12 @@ router.post("/",auth, async function(req,res){
          contentTemp=req.body.content
          //checking that the tweet is maximum 280 charcters
          if(contentTemp.length>280)
-            return res.sendStatus(400)
+            return res.status(400).send("the tweet is longer than 280 characters")
      }
  
     //if the tweet has images
      if(req.files)
      {
-         console.log(req.files)
          m=req.files
          
          for(i=0;i<m.length;i++)
@@ -608,6 +646,7 @@ router.post("/",auth, async function(req,res){
              replyTo:replyTemp,
              gifs:gifTemp
             });
+            
 
              userTweet.save(async function(err,theTweet){
              if(err)
@@ -631,7 +670,7 @@ router.post("/",auth, async function(req,res){
                  else 
                  {
                    //add the tweet to the user's replies
-                   await user.findByIdAndUpdate(token,{$addToSet:{replies: replyTemp}},{new:true})
+                   await user.findByIdAndUpdate(token,{$addToSet:{replies: userTweet["_id"]}},{new:true})
                    .catch(error => {
                       console.log(error);
                       return res.sendStatus(400);
