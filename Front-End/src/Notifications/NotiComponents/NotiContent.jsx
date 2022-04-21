@@ -8,25 +8,24 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PropTypes from 'prop-types';
-import styles from './NotiContent.module.css';
-import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
+// import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-
+import styles from './NotiContent.module.css';
 
 /**
  * @param {Number} id      Id
- * @param {Number} post_id
- * @param {Number} profile_id
+ * @param {Number} postid
+ * @param {Number} profileid
  * @param {String} displayname      User display name (user first name).
  * @param {String} content       text.
  * @param {String} notitype     different notifications icons.
- * @param {String} date  
+ * @param {String} date
  /**
  return notifications content inside feed insidd notifications component
  */
 
 function NotiContent({
-  id, post_id, profile_id, displayname, content, notitype, date,
+  id, postid, profileid, displayname, content, notitype, date,
 }) {
   const navigate = useNavigate();
   let icon = null;
@@ -43,15 +42,15 @@ function NotiContent({
   } else if (notitype === 'missed') {
     icon = <AutoAwesomeIcon className={styles['missed-icon']} />;
     statement1 = 'In case you missed ';
-    statement2 = '\'s tweet'
+    statement2 = '\'s tweet';
   } else if (notitype === 'followed') {
     icon = <PersonRoundedIcon className={styles['followed-icon']} />;
     statement2 = ' followed you';
   } else if (notitype === 'login') {
     icon = <TwitterIcon className={styles['login-icon']} />;
     statement1 = 'There was a login to your account @';
-    statement2 = ' from a new device on'
-    statement3 = '. Review it now.'
+    statement2 = ' from a new device on';
+    statement3 = '. Review it now.';
   } else if (notitype === 'news') {
     icon = <FlashOnRoundedIcon className={styles['news-icon']} />;
     // statement = ' Liked your Tweet';
@@ -59,57 +58,52 @@ function NotiContent({
     icon = null;
   }
 
-  const handleOpenNoti = (e) => {
-    console.log(post_id)
-    console.log(profile_id)
-    return navigate("/ViewTweet",{
+  const handleOpenNoti = () => {
+    // console.log(postid);
+    console.log(profileid);
+    return navigate('/ViewTweet', {
       state: {
-        post_id: post_id
-      }
-     });
-  //   navigate(
-  //     '/ViewTweet',
-  // {
-  //     post_id: post_id,
-  //   }
-  // );
-    // props.history.push("/ViewTweet");
-    // history.push('/ViewTweet')
-    // return  (<Redirect to='/Home'  />);
-    setShareEl(e.currentTarget);
+        postid,
+      },
+    });
+    // setShareEl(e.currentTarget);
   };
-
 
   let pp = <AccountCircleIcon />;
   if (notitype === 'login' || notitype === 'news') {
-    console.log('pppppppppp');
+    // console.log('pppppppppp');
     if (notitype === 'news') {
-      statement1 = content
+      statement1 = content;
     }
     pp = null;
     return (
-      <button className={styles.wrapper} onClick={handleOpenNoti}>
+      <button className={styles.wrapper} type="button" onClick={handleOpenNoti}>
         <div className={styles.wrapper2}>
           <div data-testid="notitype-render-test">
             {icon}
           </div>
           {/* <AccountCircleIcon /> */}
           <div className={styles['login-news']}>
-            {statement1} <b>{displayname}</b> {statement2} <br></br>{date} {statement3}
+            {statement1}
+            <b>{displayname}</b>
+            {statement2}
+            <br />
+            {date}
+            {statement3}
           </div>
         </div>
 
         {' '}
         <div data-testid="content-render-test">
-          <br></br>
+          <br />
         </div>
       </button>
     );
   }
   console.log(id);
-  console.log(styles);
+  // console.log(styles);
   return (
-    <button className={styles.wrapper} onClick={handleOpenNoti}>
+    <button className={styles.wrapper} type="button" onClick={handleOpenNoti}>
       <div className={styles.wrapper2}>
         <div data-testid="notitype-render-test">
           {icon}
@@ -120,11 +114,13 @@ function NotiContent({
         </div>
       </div>
       <div className={styles['display-name']}>
-        {statement1} <b>{displayname}</b> {statement2}
+        {statement1}
+        <b>{displayname}</b>
+        {statement2}
       </div>
       {' '}
       <div data-testid="content-render-test">
-        <br></br>
+        <br />
         <div className={styles.content2}>
           {content}
         </div>
@@ -135,8 +131,8 @@ function NotiContent({
 
 NotiContent.propTypes = {
   id: PropTypes.number.isRequired,
-  post_id: PropTypes.number.isRequired,
-  profile_id: PropTypes.number.isRequired,
+  postid: PropTypes.number.isRequired,
+  profileid: PropTypes.number.isRequired,
   displayname: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   notitype: PropTypes.string.isRequired,

@@ -1,4 +1,4 @@
-import { useState,React} from 'react';
+import { useState, React } from 'react';
 import NotiFeed from './NotiComponents/NotiFeed';
 import styles from './Notifications.module.css';
 import AllData from './NotiComponents/NotiData.json';
@@ -8,21 +8,14 @@ import MentionData from './NotiComponents/MentionData.json';
  * @returns shows everything in the notifications component
  */
 function Notifications() {
-
   const [passedData, setpassedData] = useState(AllData);
+  const handleAll = () => {
+    setpassedData(AllData);
+  };
 
-
-  const handleAll = (e) => {
-     setpassedData(AllData)
-    // forceUpdate();
-     }
-
-     const handleMention = (e) => {
-      setpassedData(MentionData)
-      // forceUpdate();
-       }  
-
-
+  const handleMention = () => {
+    setpassedData(MentionData);
+  };
   return (
     <div className={styles.notifications}>
       <section className={styles.header1}>
