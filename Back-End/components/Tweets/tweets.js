@@ -52,6 +52,372 @@ const upload=multer(objectMulter).array('images',4);
 //   })
 // });
 
+////////////////////////////////////////////////////////////////////Getting array of replies for a single tweet.
+router.get("/repliesArray/:id",auth,async (req,res)=>{
+
+    // theUser="62573e66714ba7d93e0ca531";
+    const theUser=req.user._id;
+    // theTweet="62604a81aa118abd39b12886";
+    const theTweet=req.params.id;
+    finalArray=[]
+    // theUser=req.user._id;
+
+    const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
+    const projection2 ={"_id":0,"name":1,"username":1};
+
+    try{
+    var results=await tweet.find({replyTo:theTweet},projection,{new:true});
+    }
+    catch(error)
+    {
+        return res.sendStatus(400);
+    }
+    if(!results)
+    {
+        return res.sendStatus(400);
+    }
+    
+    
+    
+    for(i=0;i<results.length;i++)
+    {
+        var numLikes=results[i]["likes"].length
+        var numRetweets=results[i]["retweeters"].length
+        var tempMedia=results[i]["media"]
+
+        const the_id= results[i]["_id"]
+        //the user who posted this reply.
+        var theId=results[i]["postedBy"]
+        var results2 = await user.findById(theId,projection2)
+
+       //Getting number of replies for the tweet:
+       results22=await tweet.find({replyTo:the_id},{new:true});  
+       countReplies=results22.length;
+
+
+        
+        //Checking if the tweet is retweeted by the current user.
+        
+        var Retweeted=false   
+        findRetweet=await user.find({_id:theUser,tweets:{ $all:theId}},{new:true})         
+        if(findRetweet.length!=0)
+            Retweeted=true
+
+        
+        //Checking if the tweet is liked by current user.  
+        var Liked=false     
+        var foundLike= await user.find({_id:theUser,likes:{ $all:theId}},{new:true})
+        if(foundLike.length!=0)
+            Liked=true
+
+  
+        // console.log(results[i]["likes"])
+        // const numLikes1=results[i]['likes'].length
+        
+        // numLikes=numLikes1.length
+        
+
+        var img=[]
+        if (tempMedia.length==0)
+        {
+               img[0]="";
+               img[1]="";
+               img[2]="";
+               img[3]="";
+        }
+        else{
+            
+            for(j=0;j<tempMedia.length;j++)
+            {
+               img[j]=tempMedia[j]
+            }
+
+            if(j==1) //1 image
+            {
+                img[1]=""
+                img[2]=""
+                img[3]=""
+            }
+
+            else if(j==2) //2 images
+            {
+                img[2]=""
+                img[3]=""
+            }
+
+            else if(j==3) //3 images
+            {
+                img[3]=""
+            }
+        }        
+
+        const Obj= ({
+            id:theTweet,
+            userName: results2["username"],
+            displayName: results2["name"],
+            content: results[i]["content"],
+            img1:img[0],
+            img2:img[1],
+            img3:img[2],
+            img4:img[3],
+            isLiked:Liked,
+            isRetweeted:Retweeted,
+            noOfLike:numLikes,
+            noOfReplies:countReplies,
+            noOfRetweets:numRetweets,
+           });
+
+           finalArray.push(Obj)
+
+              
+        }
+   
+        if (finalArray.length){
+            res.status(200).send(finalArray);  
+
+        }
+        else{
+            res.status(200).send("tweet has no replies");  
+        }
+    
+})
+
+
+
+//////////////////////////////////////////////////////////////////////////////////Getting single tweet endpoint
+router.get("/SingleTweet/:id",auth,async (req,res)=>{
+
+    theUser=req.user._id;
+    TheTweet=req.params.id;
+    // theUser="62608befaa118abd39b12890";
+
+    
+
+  
+    // finalArray=[]
+    const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
+    const projection2 ={"_id":0,"name":1,"username":1};
+
+    try{
+        var results= await tweet.find({_id:TheTweet},projection)
+        }
+        catch(error)
+        {
+            return res.sendStatus(400);
+        }
+        if(!results.length)
+        {
+            return res.status(400).send("tweet not found");
+        }
+    // console.loh
+    // console.log(results[0])
+    // .catch(error => console.log(error))
+
+
+  
+    // console.log(results)
+
+
+   //Getting number of replies for the tweet:
+   findReplies=await tweet.find({replyTo:TheTweet},{new:true});  
+   countReplies=findReplies.length;
+
+
+    
+    //Checking if the tweet is retweeted by the current user.
+    var Retweeted=false   
+    findRetweet=await user.find({_id:theUser,tweets:{ $all:results["_id"]}},{new:true})         
+    if(findRetweet.length!=0)
+        Retweeted=true
+
+    
+    //Checking if the tweet is liked by current user.  
+    var Liked=false     
+    var foundLike= await user.find({_id:theUser,likes:{ $all:results["_id"]}},{new:true})
+    if(foundLike.length!=0)
+        Liked=true
+
+
+    // console.log(results[0]["likes"])
+    var numLikes=results[0]["likes"].length
+    var numRetweets=results[0]["retweeters"].length
+    // console.log("likesNum: ")
+    // console.log(numLikes)
+    var theId=results[0]["postedBy"]
+    // console.log(results[i]["media"])
+    var tempMedia=results[0]["media"]
+    var img=[]
+    if (tempMedia.length==0)
+    {
+           img[0]="";
+           img[1]="";
+           img[2]="";
+           img[3]="";
+    }
+    else{
+        
+        for(j=0;j<tempMedia.length;j++)
+        {
+           img[j]=tempMedia[j]
+        }
+
+        if(j==1) //1 image
+        {
+            img[1]=""
+            img[2]=""
+            img[3]=""
+        }
+
+        else if(j==2) //2 images
+        {
+            img[2]=""
+            img[3]=""
+        }
+
+        else if(j==3) //3 images
+        {
+            img[3]=""
+        }
+
+    }
+
+    var results2 = await user.findById(theId,projection2)
+    // console.log(results2)
+    const Obj= ({
+        id:results[0]["_id"],
+        userName: results2["username"],
+        displayName: results2["name"],
+        content: results[0]["content"],
+        img1:img[0],
+        img2:img[1],
+        img3:img[2],
+        img4:img[3],
+        isLiked:Liked,
+        isRetweeted:Retweeted,
+        noOfLike:numLikes,
+        noOfReplies:countReplies,
+        noOfRetweets:numRetweets,
+       });
+    res.status(200).send(Obj);     
+
+
+})
+
+
+///////////////////////////////////////////////////////////////////////////////////Getting timeline tweets endpoint:
+router.get("/TimelineTweets",auth,async (req,res)=>{
+
+        //theUser="6257129df18fcd7147c6c825";
+        const theUser=req.user._id;
+        finalArray=[]
+        const projection = { "_id": 1,"media":1,"content":1,"postedBy":1,"likes":1,"retweeters":1};
+        const projection2 ={"_id":0,"name":1,"username":1};
+
+        var r2=[];
+        var results = await tweet.find({},projection)
+        .sort({ "createdAt": -1 })
+        .catch(error => console.log(error))
+
+
+      
+        console.log(results)
+    for(i=0;i<results.length;i++)
+       {
+           //console.log(results.length)
+           //console.log(i);
+
+       //Getting number of replies for the tweet:
+       findReplies=await tweet.find({replyTo:results[i]["_id"]},{new:true});  
+       countReplies=findReplies.length;
+
+
+        
+        //Checking if the tweet is retweeted by the current user.
+        var Retweeted=false   
+        findRetweet=await user.find({_id:theUser,tweets:{ $all:results[i]["_id"]}},{new:true})         
+        if(findRetweet.length!=0)
+            Retweeted=true
+
+        
+        //Checking if the tweet is liked by current user.  
+        var Liked=false     
+        var foundLike= await user.find({_id:theUser,likes:{ $all:results[i]["_id"]}},{new:true})
+        if(foundLike.length!=0)
+            Liked=true
+
+  
+
+        var numLikes=results[i]["likes"].length
+        var numRetweets=results[i]["retweeters"].length
+        // console.log("likesNum: ")
+        // console.log(numLikes)
+        var theId=results[i]["postedBy"]
+        // console.log(results[i]["media"])
+        var tempMedia=results[i]["media"]
+        var img=[]
+        if (tempMedia.length==0)
+        {
+               img[0]="";
+               img[1]="";
+               img[2]="";
+               img[3]="";
+        }
+        else{
+            
+            for(j=0;j<tempMedia.length;j++)
+            {
+               img[j]=tempMedia[j]
+            }
+
+            if(j==1) //1 image
+            {
+                img[1]=""
+                img[2]=""
+                img[3]=""
+            }
+
+            else if(j==2) //2 images
+            {
+                img[2]=""
+                img[3]=""
+            }
+
+            else if(j==3) //3 images
+            {
+                img[3]=""
+            }
+
+        }
+
+        var results2 = await user.findById(theId,projection2)
+        const Obj= ({
+            id:results[i]["_id"],
+            userName: results2["username"],
+            displayName: results2["name"],
+            content: results[i]["content"],
+            img1:img[0],
+            img2:img[1],
+            img3:img[2],
+            img4:img[3],
+            isLiked:Liked,
+            isRetweeted:Retweeted,
+            noOfLike:numLikes,
+            noOfReplies:countReplies,
+            noOfRetweets:numRetweets,
+           });
+
+
+        finalArray.push(Obj)
+
+              
+        }
+   
+ 
+        return res.status(200).send(finalArray);     
+
+        
+})
+
 //////////////////////////////////////////////////////////////////////////////Posting and replying
 router.post("/",auth, async function(req,res){
 
