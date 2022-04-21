@@ -27,7 +27,6 @@ function StepOne({
     handleChange, values, handleSubmit, errors,
   } = useForm(date, setStepOne, setStepVerify);
   useEffect(() => {
-    console.log(`new date= ${date}`);
     setEmail(values.email);
   });
   return (

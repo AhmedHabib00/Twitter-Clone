@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import validateSetPassword from './validateSetPassword';
-import { setNewPassword } from '../../../Services/accountServices';
+import { setNewPassword, getClientRole } from '../../../Services/accountServices';
 /**
  * This function is used to manage the set new password step in the signup form and apply
  * validations on the code.
@@ -30,12 +30,21 @@ const useSetPasswordForm = (setSettingPassword, handleAfterSignin) => {
      && Object.keys(validateSetPassword(values).errors2).length === 0) {
       setNewPassword(values.password1).then((response) => {
         if (response.status === 200 || response.status === 201) {
-          localStorage.setItem('logged', true);
-          localStorage.setItem('admin', false);
-          const logged = localStorage.getItem('logged');
-          const admin = localStorage.getItem('admin');
           setSettingPassword(false);
-          handleAfterSignin(JSON.parse(logged), JSON.parse(admin));
+          const token = localStorage.getItem('temp-token');
+          localStorage.setItem('token', token);
+          localStorage.removeItem('temp-token');
+          (async () => {
+            if (localStorage.token) {
+              const resp = await getClientRole();
+              console.log(resp);
+              if (resp.role === 'Admin') {
+                handleAfterSignin(true, true);
+              } else {
+                handleAfterSignin(true, false);
+              }
+            }
+          })();
         }
       });
     }

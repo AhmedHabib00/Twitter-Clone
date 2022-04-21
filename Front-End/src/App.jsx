@@ -14,27 +14,38 @@ import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
+import { getClientRole } from './Services/accountServices';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
-  console.log(localStorage);
-  console.log('app tokennn');
+  // const [Role, setRole] = useState('');
   // localStorage.clear();
   useEffect(() => {
-    const logged = localStorage.getItem('logged');
-    const admin = localStorage.getItem('admin');
-    console.log(localStorage);
-    setIsLoggedIn(JSON.parse(logged));
-    setisAdmin(JSON.parse(admin));
+    // const logged = localStorage.getItem('logged');
+    // const admin = localStorage.getItem('admin');
+    // setIsLoggedIn(JSON.parse(logged));
+    // setisAdmin(JSON.parse(admin));
+    (async () => {
+      if (localStorage.token) {
+        setIsLoggedIn(true);
+        const resp = await getClientRole();
+        console.log(resp);
+        if (resp.role === 'Admin') {
+          setisAdmin(true);
+        } else {
+          setisAdmin(false);
+        }
+      }
+    })();
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  }, [localStorage.getItem('logged'), localStorage.getItem('admin')]);
+  });
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
+        return <AdminFoundation />;
       }
-      return <Foundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
+      return <Foundation />;
     }
     return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
   };

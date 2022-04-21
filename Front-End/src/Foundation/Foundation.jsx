@@ -1,8 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
-import PropTypes from 'prop-types';
-
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -21,7 +19,7 @@ import './Navbar/Navbar.css';
  * It displays the navbar, opened page, widgets.
  * The navbar is not scrollable
  */
-function Foundation({ setIsLoggedIn, setisAdmin }) {
+function Foundation() {
   const pages = getUserPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
@@ -40,13 +38,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
   };
 
   const handleLogOut = () => {
-    localStorage.setItem('logged', false);
-    localStorage.setItem('admin', false);
     localStorage.removeItem('token');
-    const logged = localStorage.getItem('logged');
-    const admin = localStorage.getItem('admin');
-    setIsLoggedIn(JSON.parse(logged));
-    setisAdmin(JSON.parse(admin));
     navigate('/');
   };
 
@@ -128,7 +120,3 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
 }
 
 export default Foundation;
-Foundation.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-  setisAdmin: PropTypes.func.isRequired,
-};

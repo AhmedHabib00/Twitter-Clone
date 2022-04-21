@@ -106,5 +106,4 @@ export default DatePicker;
 
 DatePicker.propTypes = {
   setDate: PropTypes.func.isRequired,
-  // handleChange: PropTypes.func.isRequired,
 };

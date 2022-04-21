@@ -26,13 +26,12 @@ const useForm = (date, setStepOne, setStepVerify) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setValues({
-      ...values,
-      birthdate: date,
-    });
     setErrors(validateInfo(values));
     if (Object.keys(validateInfo(values)).length === 0) {
-      signUpInfo(values).then((response) => {
+      signUpInfo({
+        ...values,
+        birthdate: date,
+      }).then((response) => {
         if (response.status === 201) {
           setStepOne(false);
           setStepVerify(true);

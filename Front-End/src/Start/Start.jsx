@@ -24,11 +24,11 @@ function Start({ setIsLoggedIn, setisAdmin }) {
       if (response.status === 201) {
         const token = response.data['x-auth-token'];
         localStorage.setItem('token', token);
-        localStorage.setItem('logged', true);
-        localStorage.setItem('admin', false);
-        const logged = localStorage.getItem('logged');
-        const admin = localStorage.getItem('admin');
-        handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+        // localStorage.setItem('logged', true);
+        // localStorage.setItem('admin', false);
+        // const logged = localStorage.getItem('logged');
+        // const admin = localStorage.getItem('admin');
+        // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
       }
     })();
   };
@@ -38,11 +38,11 @@ function Start({ setIsLoggedIn, setisAdmin }) {
       if (response.status === 201) {
         const token = response.data['x-auth-token'];
         localStorage.setItem('token', token);
-        localStorage.setItem('logged', true);
-        localStorage.setItem('admin', false);
-        const logged = localStorage.getItem('logged');
-        const admin = localStorage.getItem('admin');
-        handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+        // localStorage.setItem('logged', true);
+        // localStorage.setItem('admin', false);
+        // const logged = localStorage.getItem('logged');
+        // const admin = localStorage.getItem('admin');
+        // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
       }
     })();
   };

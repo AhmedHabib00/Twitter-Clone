@@ -118,7 +118,7 @@ export async function signUpPassword(props) {
       email,
     }, {
       headers: {
-        'x-auth-token': localStorage.token,
+        'x-auth-token': localStorage['temp-token'],
       },
     });
 
@@ -166,7 +166,7 @@ export async function signUpUsername(props) {
       email,
     }, {
       headers: {
-        'x-auth-token': localStorage.token,
+        'x-auth-token': localStorage['temp-token'],
       },
 
     });
@@ -412,7 +412,7 @@ export async function setNewPassword(props) {
       password: props,
     }, {
       headers: {
-        'x-auth-token': localStorage.token,
+        'x-auth-token': localStorage['temp-token'],
       },
     });
     // Success
@@ -442,4 +442,25 @@ export async function setNewPassword(props) {
     // console.log(error);
     return (response);
   }
+}
+
+export async function getClientRole() {
+  let response = '';
+  try {
+    response = await axios.get(`${SERVER_URL}/auth/getRole`, {
+      headers: {
+        'x-auth-token': localStorage.token,
+      },
+    }).then((res) => res.data);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+      return (error.response);
+    }
+  }
+  return (response);
 }
