@@ -11,6 +11,7 @@ import Post from './Post';
  * to display the posts in the feed component.
  */
 function Feed({ data }) {
+  console.log(data);
   return (
     <div data-testid="feed-render-test" className={styles.feed}>
 

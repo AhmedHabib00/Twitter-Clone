@@ -71,14 +71,10 @@ function Post({
    */
   const handellikes = () => {
     if (like) {
-      const likeFlag = false;
-      const likeCountFlag = likeCount - 1;
-      handleLikes({ likeFlag, likeCountFlag });
+      handleLikes(id);
       setLikeCount(likeCount - 1);
     } else {
-      const likeFlag = true;
-      const likeCountFlag = likeCount + 1;
-      handleLikes({ likeFlag, likeCountFlag });
+      handleLikes(id);
       setLikeCount(likeCount + 1);
     }
     setLike(!like);

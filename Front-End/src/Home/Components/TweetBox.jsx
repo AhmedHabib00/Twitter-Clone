@@ -222,7 +222,7 @@ TweetBox.propTypes = {
 };
 
 TweetBox.defaultProps = {
-  replyId: null,
+  replyId: '',
   placeHolder: '',
 };
 

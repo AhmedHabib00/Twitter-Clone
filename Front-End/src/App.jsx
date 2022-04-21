@@ -20,12 +20,7 @@ import Tweet from './Home/Components/Tweet';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  console.log(isLoggedIn);
-  console.log(isAdmin);
-  // const [Role, setRole] = useState('');
-  // localStorage.clear();
   useEffect(() => {
-    console.log(localStorage.token);
     (async () => {
       if (localStorage.token) {
         setIsLoggedIn(true);

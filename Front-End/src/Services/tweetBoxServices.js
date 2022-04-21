@@ -8,6 +8,8 @@ export async function PostTweet(props) {
   const formData = new FormData();
   formData.append('content', value);
   formData.append('replyId', replyId);
+  formData.append('gifs', '');
+  // if (images && images[0].type !== 'gifs') formData.append('gifs', '');
   images.forEach((image) => {
     if (image.type === 'img') {
       formData.append('images', image.imgFile);

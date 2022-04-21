@@ -6,9 +6,9 @@ const { SERVER_URL } = configData;
 export default async function GetPostsArray() {
   let response = '';
   try {
-    response = await axios.get(`${SERVER_URL}/posts`, {
+    response = await axios.get(`${SERVER_URL}/tweets/TimelineTweets`, {
       headers: {
-        Authorization: `x-auth-token ${localStorage.token}`,
+        'x-auth-token': `${localStorage.token}`,
       },
     });
     // Success
@@ -29,20 +29,15 @@ export default async function GetPostsArray() {
 }
 
 export async function handleLikes(props) {
-  const {
-    isLiked,
-    noOfLike,
-  } = props;
+  console.log(props);
   let response = '';
   try {
-    response = await axios.patch(`${SERVER_URL}/posts`, {
+    response = await axios.put(`${SERVER_URL}/tweets/${props}/like`, {}, {
       headers: {
-        'content-type': 'application/json',
+        'x-auth-token': localStorage.token,
       },
-      isLiked,
-      noOfLike,
-
     });
+    console.log(localStorage.token);
     // Success
     // console.log(response);
     return (response);
