@@ -24,6 +24,7 @@ function App() {
   // const [Role, setRole] = useState('');
   // localStorage.clear();
   useEffect(() => {
+    console.log(localStorage.token);
     (async () => {
       if (localStorage.token) {
         setIsLoggedIn(true);

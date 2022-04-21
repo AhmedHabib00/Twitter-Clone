@@ -41,6 +41,7 @@ function Foundation({ setIsLoggedIn }) {
   const handleLogOut = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
+    localStorage.clear();
     navigate('/');
   };
 

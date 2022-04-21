@@ -1,24 +1,34 @@
 import axios from 'axios';
+import configData from '../config/production.json';
+
+const { SERVER_URL } = configData;
 
 export async function PostTweet(props) {
   const { images, value, replyId } = props;
-  let gifArray = '';
-  const imgArray = [];
+  const formData = new FormData();
+  formData.append('content', value);
+  formData.append('replyId', replyId);
   images.forEach((image) => {
     if (image.type === 'img') {
-      imgArray.push(image.imgFile);
+      formData.append('images', image.imgFile);
     } else {
-      gifArray = image.imageUrl;
+      formData.append('gifs', image.imageUrl);
     }
   });
+  console.log(formData);
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/Tweet', {
-      content: value,
-      replyId,
-      media: imgArray,
-      gifs: gifArray,
-    });
+    response = await axios.post(
+      `${SERVER_URL}/tweets`,
+      formData,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+          'Content-Type': 'multipart/form-data',
+          // Accept: '*/*',
+        },
+      },
+    );
     // Success
     return (response);
   } catch (error) {

@@ -70,12 +70,12 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     const tempImages = [...images];
     let tempCounter = imageId;
     if (event.target.files && event.target.files[0]) {
-      Array.from(event.target.files).forEach((file) => {
+      Array.from(event.target.files).forEach((file, index) => {
         tempImages.push({
           type: 'img',
           id: tempCounter,
           imageUrl: URL.createObjectURL(file),
-          imgFile: file,
+          imgFile: document.getElementById(`media-selection-from-pc-${boxId}`).files[index],
         });
         tempCounter += 1;
       });
@@ -175,7 +175,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
                   className={[(mediaDisabled) ? styles['disabled-div'] : styles.cursor, styles['media-icon']].join(' ')}
                 />
                 <input
-                  id="media-selection-from-pc"
+                  id={`media-selection-from-pc-${boxId}`}
                   type="file"
                   multiple="multiple"
                   accept=".jpg, .png"
