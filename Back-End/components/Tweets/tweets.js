@@ -172,7 +172,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
               
         }
    
-        if (finalArray){
+        if (finalArray.length){
             res.status(200).send(finalArray);  
 
         }
