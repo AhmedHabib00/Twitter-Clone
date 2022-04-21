@@ -60,12 +60,20 @@ function NotiContent({
 
   const handleOpenNoti = () => {
     // console.log(postid);
-    console.log(profileid);
+    // console.log(profileid);
+    if (notitype === 'like' || notitype === 'retweet' || notitype === 'missed') {
     return navigate('/ViewTweet', {
       state: {
         postid,
       },
     });
+  } else if (notitype === 'followed') {
+    return navigate('/Profile', {
+      state: {
+        profileid,
+      },
+    });
+  }
     // setShareEl(e.currentTarget);
   };
 
