@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/SignUp/setPassword.dart';
+import 'package:whisper/models/Validation.dart';
 //import 'package:whisper/models/TextField.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -12,6 +13,7 @@ class VerifyEmail extends StatefulWidget {
 
 class _VerifyEmail extends State<VerifyEmail> {
   final formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -51,27 +53,6 @@ class _VerifyEmail extends State<VerifyEmail> {
                       ),
                     ],
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       inputFile(label: "Verify Email"),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       reusableTextField(
-                  //         "Verification Code",
-                  //         Icons.lock_outline,
-                  //         false,
-                  //         _emailTextController,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
@@ -80,16 +61,38 @@ class _VerifyEmail extends State<VerifyEmail> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: "Verification code"),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'^[0-9]+$').hasMatch(value)) {
-                                return "Enter correct code";
-                              } else {
-                                return null;
-                              }
-                            }, //(),
+                            obscureText: _isObscure,
+                            obscuringCharacter: "*",
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.password,
+                                color: Color.fromARGB(179, 255, 0, 0),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(_isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                              ),
+                              filled: true,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              fillColor:
+                                  const Color.fromARGB(255, 179, 177, 177)
+                                      .withOpacity(0.3),
+                              labelText: "Verification Code",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: const BorderSide(
+                                      width: 0, style: BorderStyle.none)),
+                            ),
+                            validator: (value) =>
+                                VerifyEmailFieldValidator.validate(value!),
                           ),
                         ],
                       ),

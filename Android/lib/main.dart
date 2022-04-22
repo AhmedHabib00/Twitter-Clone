@@ -14,10 +14,9 @@ void main() async {
   runApp(
     const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: //GraphPie(),
-          //WelcomePage(),
-          //ProfilePage(),
-          AdminPage(),
+      home: WelcomePage(),
+      //ProfilePage(),
+      //AdminPage(),
     ),
   );
 }

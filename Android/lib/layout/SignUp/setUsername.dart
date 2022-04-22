@@ -1,7 +1,8 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/HomePage.dart';
+import 'package:whisper/layout/profile_layout.dart';
+import 'package:whisper/models/Validation.dart';
 
 // ignore: camel_case_types
 class setUsername extends StatelessWidget {
@@ -46,14 +47,6 @@ class setUsername extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       inputFile(label: "UserName"),
-                  //     ],
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
@@ -62,17 +55,25 @@ class setUsername extends StatelessWidget {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: "Set Username"),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'^[a-z A-Z 0-9]').hasMatch(value)) {
-                                return "Enter correct Username";
-                              } else {
-                                return null;
-                              }
-                            }, //(),
-                          ),
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(
+                                  Icons.person,
+                                  color: Color.fromARGB(179, 0, 110, 255),
+                                ),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor:
+                                    const Color.fromARGB(255, 179, 177, 177)
+                                        .withOpacity(0.3),
+                                labelText: "Set Username",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        width: 0, style: BorderStyle.none)),
+                              ),
+                              validator: (value) =>
+                                  SetUsernameFieldValidator.validate(value!)),
                         ],
                       ),
                     ),
@@ -98,7 +99,7 @@ class setUsername extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) => const ProfilePage()));
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -126,31 +127,3 @@ class setUsername extends StatelessWidget {
     );
   }
 }
-
-// we will be creating a widget for text field
-// Widget inputFile({label, obscureText = false}) {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: <Widget>[
-//       Text(
-//         label,
-//         style: const TextStyle(
-//             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-//       ),
-//       const SizedBox(
-//         height: 5,
-//       ),
-//       TextField(
-//         obscureText: obscureText,
-//         decoration: const InputDecoration(
-//             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-//             enabledBorder: OutlineInputBorder(
-//               borderSide: BorderSide(color: Color.fromARGB(255, 126, 126, 126)),
-//             ),
-//             border: OutlineInputBorder(
-//                 borderSide:
-//                     BorderSide(color: Color.fromARGB(255, 139, 139, 139)))),
-//       ),
-//     ],
-//   );
-// }

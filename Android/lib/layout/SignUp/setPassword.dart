@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/SignUp/setUsername.dart';
-//import 'package:whisper/models/TextField.dart';
+import 'package:whisper/models/Validation.dart';
 
 // ignore: camel_case_types
 class setPassword extends StatefulWidget {
@@ -13,8 +13,8 @@ class setPassword extends StatefulWidget {
 
 // ignore: camel_case_types
 class _setPassword extends State<setPassword> {
-  //final TextEditingController _passwordTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,28 +53,6 @@ class _setPassword extends State<setPassword> {
                       ),
                     ],
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       inputFile(label: "Password"),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       reusableTextField(
-                  //         "Set Password",
-                  //         Icons.lock_outline,
-                  //         false,
-                  //         _passwordTextController,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
@@ -83,18 +61,38 @@ class _setPassword extends State<setPassword> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: "Set password"),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'^[a-z A-Z 0-9]+$')
-                                      .hasMatch(value)) {
-                                return "Enter correct Password";
-                              } else {
-                                return null;
-                              }
-                            }, //(),
-                          ),
+                              obscureText: _isObscure,
+                              obscuringCharacter: "*",
+                              //keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(
+                                  Icons.password,
+                                  color: Color.fromARGB(179, 255, 0, 0),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(_isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                ),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor:
+                                    const Color.fromARGB(255, 179, 177, 177)
+                                        .withOpacity(0.3),
+                                labelText: "Set Password",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        width: 0, style: BorderStyle.none)),
+                              ),
+                              validator: (value) =>
+                                  SetPassFieldValidator.validate(value!)),
                         ],
                       ),
                     ),

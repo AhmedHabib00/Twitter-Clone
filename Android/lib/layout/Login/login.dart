@@ -1,11 +1,12 @@
-//import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/SignUp/signup.dart';
 import 'package:whisper/layout/Login/FogotPassword.dart';
-import 'package:whisper/layout/HomePage.dart';
-//import 'package:whisper/models/TextField.dart';
+import 'package:whisper/layout/profile_layout.dart';
+import 'package:whisper/models/Validation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,17 +15,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-  //final TextEditingController _emailTextController = TextEditingController();
-  //final TextEditingController _passwordTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  //final formKeyPassword = GlobalKey<FormState>();
   bool _isObscure = true;
   IconData? get icon => null;
+  late String _email;
 
   String name = "";
   @override
   Widget build(BuildContext context) {
-    //final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -93,79 +91,47 @@ class _LoginPage extends State<LoginPage> {
                                   borderSide: const BorderSide(
                                       width: 0, style: BorderStyle.none)),
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
-                                      .hasMatch(value)) {
-                                return "Enter correct email";
-                              } else {
-                                return null;
-                              }
-                            },
+                            validator: (value) =>
+                                EmailFieldValidator.validate(value!),
+                            onSaved: (value) => _email = value!,
                           ),
                           const SizedBox(height: 15),
                           TextFormField(
-                            obscureText: _isObscure,
-                            obscuringCharacter: "*",
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.password,
-                                color: Color.fromARGB(179, 255, 0, 0),
+                              obscureText: _isObscure,
+                              obscuringCharacter: "*",
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(
+                                  Icons.password,
+                                  color: Color.fromARGB(179, 255, 0, 0),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(_isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                ),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor:
+                                    const Color.fromARGB(255, 179, 177, 177)
+                                        .withOpacity(0.3),
+                                labelText: "Password",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        width: 0, style: BorderStyle.none)),
                               ),
-                              suffixIcon: IconButton(
-                                icon: Icon(_isObscure
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                },
-                              ),
-                              filled: true,
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              fillColor:
-                                  const Color.fromARGB(255, 179, 177, 177)
-                                      .withOpacity(0.3),
-                              labelText: "Password",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: const BorderSide(
-                                      width: 0, style: BorderStyle.none)),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'^[a-z A-Z 0-9]+$')
-                                      .hasMatch(value)) {
-                                return "Enter correct Password";
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
+                              validator: (value) =>
+                                  PassFieldValidator.validate(value!)),
                         ],
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: reusableTextField(
-                  //     "Email",
-                  //     Icons.person_outline,
-                  //     false,
-                  //     _emailTextController,
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: reusableTextField(
-                  //     "Password",
-                  //     Icons.lock_outline,
-                  //     false,
-                  //     _passwordTextController,
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Container(
@@ -182,26 +148,14 @@ class _LoginPage extends State<LoginPage> {
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
-                          // FirebaseAuth.instance
-                          //     .signInWithEmailAndPassword(
-                          //         email: _emailTextController.text,
-                          //         password: _passwordTextController.text)
-                          //     .then((value) {
-                          // ignore: avoid_print
                           if (formKey.currentState!.validate()) {
                             // ignore: avoid_print
-                            print("Logged In");
+                            print('Logged In');
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) => const ProfilePage()));
                           }
-
-                          // }).onError((error, stackTrace) {
-                          //   // ignore: avoid_print
-                          //   print("Error ${error.toString()}");
-                          // }
-                          // );
                         },
                         color: const Color(0xff0095FF),
                         elevation: 5,

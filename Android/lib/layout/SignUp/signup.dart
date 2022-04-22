@@ -6,6 +6,7 @@ import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/SignUp/VerifyEmail.dart';
+import 'package:whisper/models/Validation.dart';
 //import 'package:whisper/models/TextField.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
@@ -98,15 +99,8 @@ class _SignUpPage extends State<SignUpPage> {
                               borderSide: const BorderSide(
                                   width: 0, style: BorderStyle.none)),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
-                                  .hasMatch(value)) {
-                            return "Enter correct email";
-                          } else {
-                            return null;
-                          }
-                        },
+                        validator: (value) =>
+                            EmailFieldValidator.validate(value!),
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
@@ -137,14 +131,8 @@ class _SignUpPage extends State<SignUpPage> {
                               borderSide: const BorderSide(
                                   width: 0, style: BorderStyle.none)),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty ||
-                              !RegExp(r'^[a-z A-Z 0-9]+$').hasMatch(value)) {
-                            return "Enter correct Password";
-                          } else {
-                            return null;
-                          }
-                        },
+                        validator: (value) =>
+                            PassFieldValidator.validate(value!),
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
@@ -166,13 +154,8 @@ class _SignUpPage extends State<SignUpPage> {
                                 borderSide: const BorderSide(
                                     width: 0, style: BorderStyle.none)),
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter date.';
-                            } else {
-                              return null;
-                            }
-                          },
+                          validator: (value) =>
+                              DateOfBirthFieldValidator.validate(value!),
                           readOnly:
                               true, //set it true, so that user will not able to edit text
                           onTap: () async {
@@ -184,7 +167,6 @@ class _SignUpPage extends State<SignUpPage> {
                                 lastDate: DateTime(2101));
 
                             if (pickedDate != null) {
-                              // print(
                               //     pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                               String formattedDate =
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -219,11 +201,6 @@ class _SignUpPage extends State<SignUpPage> {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      // FirebaseAuth.instance
-                      //     .createUserWithEmailAndPassword(
-                      //         email: _emailTextController.text,
-                      //         password: _nameTextController.text) /////
-                      //     .then((value) {
                       // ignore: avoid_print
                       if (formKey.currentState!.validate()) {
                         // ignore: avoid_print
@@ -232,20 +209,7 @@ class _SignUpPage extends State<SignUpPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const VerifyEmail()));
-                        // }).onError((error, stackTrace) {
-                        //   // ignore: avoid_print
-                        //   print("Error ${error.toString()}");
-                        // });
                       }
-                      // print("Logged In");
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const VerifyEmail()));
-                      // }).onError((error, stackTrace) {
-                      //   // ignore: avoid_print
-                      //   print("Error ${error.toString()}");
-                      // });
                     },
                     color: const Color(0xff0095FF),
                     elevation: 5,
@@ -323,33 +287,3 @@ class _SignUpPage extends State<SignUpPage> {
     await GoogleSignInApi.login();
   }
 }
-
-// we will be creating a widget for text field
-// Widget inputFile({label, obscureText = false}) {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: <Widget>[
-//       Text(
-//         label,
-//         style: const TextStyle(
-//             fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-//       ),
-//       const SizedBox(
-//         height: 5,
-//       ),
-//       TextField(
-//         obscureText: obscureText,
-//         decoration: const InputDecoration(
-//           contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-//           enabledBorder: OutlineInputBorder(
-//             borderSide: BorderSide(color: Color.fromARGB(255, 126, 126, 126)),
-//           ),
-//           border: OutlineInputBorder(
-//             borderSide: BorderSide(color: Color.fromARGB(255, 139, 139, 139)),
-//           ),
-//           //hintText: 'looool'
-//         ),
-//       ),
-//     ],
-//   );
-// }

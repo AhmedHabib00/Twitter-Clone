@@ -1,7 +1,8 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/HomePage.dart';
+import 'package:whisper/layout/Login/login.dart';
+import 'package:whisper/models/Validation.dart';
 
 class ForgotPassPage extends StatelessWidget {
   ForgotPassPage({Key? key}) : super(key: key);
@@ -44,14 +45,6 @@ class ForgotPassPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       inputFile(label: "Email"),
-                  //     ],
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Form(
@@ -77,15 +70,8 @@ class ForgotPassPage extends StatelessWidget {
                                   borderSide: const BorderSide(
                                       width: 0, style: BorderStyle.none)),
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty ||
-                                  !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}')
-                                      .hasMatch(value)) {
-                                return "Enter correct email";
-                              } else {
-                                return null;
-                              }
-                            },
+                            validator: (value) =>
+                                ForgetPassFieldValidator.validate(value!),
                           ),
                         ],
                       ),
@@ -112,7 +98,7 @@ class ForgotPassPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
+                                    builder: (context) => const LoginPage()));
                           }
                         },
                         color: const Color(0xff0095FF),
