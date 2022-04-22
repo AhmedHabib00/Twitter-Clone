@@ -554,11 +554,11 @@ router.post("/",auth, async function(req,res){
     }
 
     // console.log(req.body.content)
-    if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
-    {
-        return res.status(400).send("1 of the body parameters could not be read.");
+//     if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
+//     {
+//         return res.status(400).send("1 of the body parameters could not be read.");
         
-    }
+//     }
     
     
     //initialising images,gifs,content,reply as empty
