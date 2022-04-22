@@ -5,7 +5,7 @@ import ImageBox from './ImageBox';
 describe('ImageBox Component', () => {
   it('render ImageBox', () => {
     const { getByTestId } = render(<ImageBox />);
-    const imageBoxDiv = getByTestId('image-box-render-test');
+    const imageBoxDiv = getByTestId('imageBox');
     expect(imageBoxDiv).toBeTruthy();
   });
 });

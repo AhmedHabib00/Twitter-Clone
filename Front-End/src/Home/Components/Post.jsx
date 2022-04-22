@@ -109,7 +109,6 @@ function Post({
     <div data-testid="post-render-test" className={styles.post}>
       <div className={styles.postbody}>
         <div className={styles.postheader}>
-
           <div className={styles.postheadertext}>
             <h3>
               <div data-testid="post-avatar-render-test" className={styles.postavatar}>
@@ -219,8 +218,12 @@ function Post({
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img3} alt="pic1" /></a>
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img4} alt="pic1" /></a>
         </div>
-        <div>
-          <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
+
+        <div id="mydiv">
+          {imagePopUp
+              && document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
+          <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+
             <Carousel>
 
               <div>
@@ -241,9 +244,10 @@ function Post({
 
             </Carousel>
           </ImagePopUp>
+
         </div>
 
-        <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
+        <PopupPage name="imagebody" trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
           <div>
             <div className={styles.postbody} key={id}>
               <div className={styles.postheader}>

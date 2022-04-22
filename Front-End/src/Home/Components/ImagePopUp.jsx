@@ -18,7 +18,7 @@ function ImagePopUp({ trigger, setTrigger, children }) {
     <div data-testid="image-render-test" className={styles.popup}>
 
       <div className={styles['popup-inner']}>
-        <CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); }} />
+        <CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll'); }} />
         {children}
       </div>
     </div>
