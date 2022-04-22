@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  email_auth:
+    dependency: "direct main"
+    description:
+      name: email_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -448,13 +455,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0+2"
-  tab_container:
-    dependency: "direct main"
-    description:
-      name: tab_container
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.2"
   term_glyph:
     dependency: transitive
     description:

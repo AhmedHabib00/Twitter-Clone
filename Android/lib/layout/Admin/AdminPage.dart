@@ -1,8 +1,9 @@
 // ignore_for_file: file_names, avoid_unnecessary_containers, non_constant_identifier_names, unnecessary_new
 
 //import 'package:whisper/layout/DataBase/task.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:whisper/layout/Admin/GraphBar.dart';
+import 'package:whisper/layout/Admin/GraphPie.dart';
 //import 'package:whisper/layout/Admin/GraphPie.dart';
 
 class AdminPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class Task {
 }
 
 class _AdminPage extends State<AdminPage> {
-  late List<charts.Series<Task, String>> _seriesPieData;
+  //late List<charts.Series<Task, String>> _seriesPieData;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -64,179 +65,99 @@ class _AdminPage extends State<AdminPage> {
         body: TabBarView(
           children: [
             Container(
-              //padding: const EdgeInsets.all(2.0),
-              //child: Row(
-              //children: [
-              //Padding(
-              //padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: // Container(
-                  GridView.count(
+              child: GridView.count(
+                crossAxisSpacing: 0,
+                mainAxisSpacing: 0,
                 crossAxisCount: 1,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 100, vertical: 100),
+                    padding: const EdgeInsets.only(
+                        left: 50, right: 50, top: 0, bottom: 50),
                     child: _AdminCard(
                       context: context,
                       count: 20,
                       icon: Icons.person,
-                      name: "User Count",
+                      name: " User Count",
                       text2: "",
                     ),
                   ),
-                  _AdminCard(
-                    context: context,
-                    count: 5,
-                    icon: Icons.block,
-                    name: "Users Blocked",
-                    text2: "",
-                  ),
-                  _AdminCard(
-                    context: context,
-                    count: 100,
-                    text2: "%",
-                    icon: Icons.percent_sharp,
-                    name: " Tweets Increase\n Decreased ratio",
-                  ),
-                  charts.PieChart<String>(
-                    _seriesPieData,
-                    animate: true,
-                    animationDuration: const Duration(seconds: 3),
-                    behaviors: [
-                      charts.DatumLegend(
-                        outsideJustification:
-                            charts.OutsideJustification.endDrawArea,
-                        horizontalFirst: false,
-                        desiredMaxRows: 2,
-                        cellPadding:
-                            const EdgeInsets.only(right: 4.0, bottom: 4.0),
-                        entryTextStyle: charts.TextStyleSpec(
-                          color: charts.MaterialPalette.purple.shadeDefault,
-                          fontFamily: 'Georgia',
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
-                    defaultRenderer: new charts.ArcRendererConfig(
-                      arcWidth: 100,
-                      arcRendererDecorators: [
-                        new charts.ArcLabelDecorator(
-                            labelPosition: charts.ArcLabelPosition.inside),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 50, right: 50, top: 0, bottom: 50),
+                    child: _AdminCard(
+                      context: context,
+                      count: 5,
+                      icon: Icons.block,
+                      name: " Users Blocked",
+                      text2: "",
                     ),
                   ),
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 50, right: 50, top: 0, bottom: 50),
+                    child: _AdminCard(
+                      context: context,
+                      count: 100,
+                      text2: "%",
+                      icon: Icons.percent_sharp,
+                      name: " Tweets Increase\n Decreased ratio",
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 50, right: 50, top: 0, bottom: 50),
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Twitter accounts age range",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        const Expanded(child: GraphPie())
+                      ],
+                    )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 50, right: 50, bottom: 100, top: 0),
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Most followed",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                        const Expanded(child: GraphBar())
+                      ],
+                    )),
+                  ),
                 ],
               ),
-              // Expanded(
-              //         child: charts.PieChart<String>(
-              //           _seriesPieData,
-              //           animate: true,
-              //           animationDuration: const Duration(seconds: 3),
-              //           behaviors: [
-              //             charts.DatumLegend(
-              //               outsideJustification:
-              //                   charts.OutsideJustification.endDrawArea,
-              //               horizontalFirst: false,
-              //               desiredMaxRows: 2,
-              //               cellPadding: const EdgeInsets.only(
-              //                   right: 4.0, bottom: 4.0),
-              //               entryTextStyle: charts.TextStyleSpec(
-              //                 color: charts
-              //                     .MaterialPalette.purple.shadeDefault,
-              //                 fontFamily: 'Georgia',
-              //                 fontSize: 11,
-              //               ),
-              //             ),
-              //           ],
-              //           defaultRenderer: new charts.ArcRendererConfig(
-              //             arcWidth: 100,
-              //             arcRendererDecorators: [
-              //               new charts.ArcLabelDecorator(
-              //                   labelPosition:
-              //                       charts.ArcLabelPosition.inside),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //),
-              //),
-              //],
-              //),
             ),
             Container(
               child: const Center(
-                child: Text("Users lool"),
+                child: Text("Users "),
               ),
             ),
             Container(
               child: const Center(
-                child: Text("Blocked Users lool"),
+                child: Text("Blocked Users "),
               ),
             ),
           ],
-          //),
         ),
-        // body: Container(
-        //   child: TabBarView(children: <Widget>[
-        //     Container(
-        //       child: Center(
-
-        //         child: Container(
-        //           child: Padding(
-        //             padding: const EdgeInsets.all(100.0),
-        //             child: charts.PieChart<String>(
-        //               _seriesPieData,
-        //               animate: true,
-        //               animationDuration: const Duration(seconds: 3),
-        //               behaviors: [
-        //                 charts.DatumLegend(
-        //                   outsideJustification:
-        //                       charts.OutsideJustification.endDrawArea,
-        //                   horizontalFirst: false,
-        //                   desiredMaxRows: 2,
-        //                   cellPadding:
-        //                       const EdgeInsets.only(right: 4.0, bottom: 4.0),
-        //                   entryTextStyle: charts.TextStyleSpec(
-        //                     color: charts.MaterialPalette.purple.shadeDefault,
-        //                     fontFamily: 'Georgia',
-        //                     fontSize: 11,
-        //                   ),
-        //                 ),
-        //               ],
-        //               defaultRenderer: new charts.ArcRendererConfig(
-        //                 arcWidth: 100,
-        //                 arcRendererDecorators: [
-        //                   new charts.ArcLabelDecorator(
-        //                       labelPosition: charts.ArcLabelPosition.inside),
-        //                 ],
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        // Container(
-        //   child: const Center(
-        //     child: Text("Users"),
-        //   ),
-        // ),
-        // Container(
-        //   child: const Center(
-        //     child: Text("Blocked Users"),
-        //   ),
-        // )
-        //]),
-        //),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _seriesPieData = <charts.Series<Task, String>>[];
-    _generateData();
   }
 
   Widget _AdminCard(
@@ -250,58 +171,45 @@ class _AdminPage extends State<AdminPage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.only(
+                  left: 12, right: 12, top: 25, bottom: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     icon,
-                    size: 20,
+                    size: 50,
+                    color: Colors.blue,
                   ),
                   Text(
                     name,
                     style: const TextStyle(
-                      fontSize: 12,
-                    ),
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(top: 20, left: 20),
-              child: Row(
-                children: [
-                  Text(
-                    count.toString(),
-                    style: const TextStyle(
-                        fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  Text(text2, style: const TextStyle(fontSize: 30)),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 50, right: 0, top: 50, bottom: 25),
+                child: Row(
+                  children: [
+                    Text(
+                      count.toString(),
+                      style: const TextStyle(
+                          fontSize: 100, fontWeight: FontWeight.bold),
+                    ),
+                    Text(text2, style: const TextStyle(fontSize: 35)),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  _generateData() {
-    var pieData = [
-      Task('work', 35.8, Colors.purple),
-      Task('play', 35, Colors.green),
-      Task('Tv', 15.2, Colors.blue),
-      Task('sing', 15, Colors.red),
-    ];
-    _seriesPieData.add(
-      charts.Series(
-          data: pieData,
-          domainFn: (Task task, _) => task.task,
-          measureFn: (Task task, _) => task.taskvalue,
-          colorFn: (Task task, _) =>
-              charts.ColorUtil.fromDartColor(task.colorval),
-          id: 'Daily Task',
-          labelAccessorFn: (Task row, _) => '${row.taskvalue}'),
     );
   }
 }

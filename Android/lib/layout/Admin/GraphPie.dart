@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GraphPie extends StatefulWidget {
   const GraphPie({Key? key}) : super(key: key);
@@ -13,116 +12,68 @@ class GraphPie extends StatefulWidget {
 class _GraphPie extends State<GraphPie> {
 // ignore: unused_field
 
-  late List<charts.Series<Task, String>> _seriesPieData;
+  late List<charts.Series<TaskPie, String>> _seriesPieData;
   _generateData() {
     var pieData = [
-      Task('work', 35.8, Colors.purple),
-      Task('play', 35, Colors.green),
-      Task('Tv', 15.2, Colors.blue),
-      Task('sing', 15, Colors.red),
+      TaskPie('10-15', 10, Colors.purple),
+      TaskPie('15-20', 18, Colors.green),
+      TaskPie('20-30', 37, Colors.blue),
+      TaskPie('30-40', 25, Colors.red),
+      TaskPie('40-50', 15, const Color.fromARGB(255, 255, 0, 221)),
     ];
     _seriesPieData.add(
       charts.Series(
           data: pieData,
-          domainFn: (Task task, _) => task.task,
-          measureFn: (Task task, _) => task.taskvalue,
-          colorFn: (Task task, _) =>
+          domainFn: (TaskPie task, _) => task.task,
+          measureFn: (TaskPie task, _) => task.taskvalue,
+          colorFn: (TaskPie task, _) =>
               charts.ColorUtil.fromDartColor(task.colorval),
-          id: 'Daily Task',
-          labelAccessorFn: (Task row, _) => '${row.taskvalue}'),
+          id: 'Daily TaskPie',
+          labelAccessorFn: (TaskPie row, _) => '${row.taskvalue}'),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    _seriesPieData = <charts.Series<Task, String>>[];
+    _seriesPieData = <charts.Series<TaskPie, String>>[];
     _generateData();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 1,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.blue,
-            bottom: const TabBar(
-              indicatorColor: Colors.deepOrange,
-              tabs: [
-                Tab(
-                  icon: Icon(FontAwesomeIcons.chartPie),
-                ),
-              ],
+  Widget build(BuildContext context) => charts.PieChart<String>(
+        _seriesPieData,
+        animate: true,
+        animationDuration: const Duration(seconds: 3),
+        behaviors: [
+          charts.DatumLegend(
+            outsideJustification: charts.OutsideJustification.endDrawArea,
+            horizontalFirst: false,
+            desiredMaxRows: 2,
+            desiredMaxColumns: 4,
+            cellPadding: const EdgeInsets.only(right: 4.0, bottom: 4.0),
+            entryTextStyle: charts.TextStyleSpec(
+              color: charts.MaterialPalette.purple.shadeDefault,
+              fontFamily: 'Georgia',
+              fontSize: 11,
             ),
-            title: const Text('Flutter charts'),
           ),
-          body: TabBarView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        const Text(
-                          'Time spent on daily tasks',
-                          style: TextStyle(
-                              fontSize: 24.0, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        Expanded(
-                          child: charts.PieChart<String>(
-                            _seriesPieData,
-                            animate: true,
-                            animationDuration: const Duration(seconds: 3),
-                            behaviors: [
-                              charts.DatumLegend(
-                                outsideJustification:
-                                    charts.OutsideJustification.endDrawArea,
-                                horizontalFirst: false,
-                                desiredMaxRows: 2,
-                                cellPadding: const EdgeInsets.only(
-                                    right: 4.0, bottom: 4.0),
-                                entryTextStyle: charts.TextStyleSpec(
-                                  color: charts
-                                      .MaterialPalette.purple.shadeDefault,
-                                  fontFamily: 'Georgia',
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ],
-                            defaultRenderer: new charts.ArcRendererConfig(
-                              arcWidth: 100,
-                              arcRendererDecorators: [
-                                new charts.ArcLabelDecorator(
-                                    labelPosition:
-                                        charts.ArcLabelPosition.inside),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        ],
+        defaultRenderer: new charts.ArcRendererConfig(
+          arcWidth: 100,
+          arcRendererDecorators: [
+            new charts.ArcLabelDecorator(
+                labelPosition: charts.ArcLabelPosition.inside),
+          ],
         ),
-      ),
-    );
-  }
+      );
 }
 
-class Task {
+class TaskPie {
   String task;
   double taskvalue;
   Color colorval;
   //Color colorval;
 
-  Task(this.task, this.taskvalue, this.colorval);
+  TaskPie(this.task, this.taskvalue, this.colorval);
 }

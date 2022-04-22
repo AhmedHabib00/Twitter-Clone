@@ -11,8 +11,6 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmail extends State<VerifyEmail> {
-  //final TextEditingController _emailTextController = TextEditingController();
-  //final TextEditingController _passwordTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
