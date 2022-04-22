@@ -64,13 +64,30 @@ router.get('/google/secrets', passport.authenticate('google', { failureMessage: 
         await user.save() ;   
     } 
         
-        const token = user.generateJWT();
-        return res.status(201).header('x-auth-token',token).send({
-          message:'User Registeration Successful!',
-          data: {userId: user._id,role:user.role},
-          'x-auth-token':token
-        }); 
-});
+        return res.redirect('http://localhost:3000/')
+  }); 
+
+// router.get('/successAuth', async (req, res) => {
+//   console.log(req.session)
+//   const user = await User.findOne({googleId:req.user.id});
+//   if (user){
+//     const token = user.generateJWT();
+//         return res.status(201).header('x-auth-token',token).send({
+//           message:'User Registeration Successful!',
+//           data: {userId: user._id,role:user.role},
+//           'x-auth-token':token
+//         }); 
+//   }
+//   else
+//   {
+//     res.status(400).send("User not found");
+//   }
+  
+
+// });
+
+  
+
 
 
 

@@ -31,7 +31,10 @@ const port = process.env.PORT || 8000;
 
 
 // use it before all route definitions
-app.use(cors({origin: '*'}));
+app.use(cors({origin: '*',
+methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({

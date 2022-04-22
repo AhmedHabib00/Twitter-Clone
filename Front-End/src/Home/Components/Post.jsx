@@ -216,9 +216,13 @@ function Post({
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img4} alt="pic1" /></a>
         </div>
         <div>
+<<<<<<< HEAD
           {imagePopUp
               && document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
           <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
+=======
+          <ImagePopUp name="post-body" trigger={imagePopUp} setTrigger={setImagePopUp}>
+>>>>>>> 40dfe711c814d6be3fd02b4e7c7bafa151c3e492
             <Carousel>
 
               <div>

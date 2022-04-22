@@ -27,6 +27,20 @@ const useForm = (date, setStepOne, setStepVerify) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(validateInfo(values));
+    const today = new Date();
+    const birthdate = new Date(date);
+    if (today <= new Date(
+      birthdate.getFullYear() + 16,
+      birthdate.getMonth(),
+
+      birthdate.getDate(),
+    )) {
+      setErrors({
+        ...errors,
+        birthdate: 'User must be over 16 years old.',
+      });
+    }
+    console.log(errors);
     if (Object.keys(validateInfo(values)).length === 0) {
       signUpInfo({
         ...values,
@@ -38,7 +52,7 @@ const useForm = (date, setStepOne, setStepVerify) => {
         } else if (response.status === 400) {
           setErrors({
             ...errors,
-            password: 'User already registered',
+            email: 'User already registered',
           });
         }
       });
