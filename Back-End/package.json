@@ -26,6 +26,7 @@
     "passport": "^0.5.2",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-google-token": "^0.1.2",
     "supertest": "^6.2.2"
   }
 }
