@@ -32,9 +32,13 @@
     "passport": "^0.5.2",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+<<<<<<< HEAD
     "path": "^0.12.7",
     "request": "^2.88.2",
     "session": "^0.1.0",
+=======
+    "passport-google-token": "^0.1.2",
+>>>>>>> BE_signUp
     "supertest": "^6.2.2"
   },
   "keywords": []
