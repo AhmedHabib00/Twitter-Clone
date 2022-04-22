@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
-import { authGoogle, authFacebook } from '../Services/accountServices';
+// import { authGoogle, authFacebook } from '../Services/accountServices';
 /**
  * This functions renders the start page from which
  * user can login or signup with google, facebook, or email.
@@ -26,32 +26,32 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     navigate('/');
   };
   const handleGoogleAuth = () => {
-    (async () => {
-      const response = await authGoogle();
-      if (response.status === 201) {
-        const token = response.data['x-auth-token'];
-        localStorage.setItem('token', token);
-        // localStorage.setItem('logged', true);
-        // localStorage.setItem('admin', false);
-        // const logged = localStorage.getItem('logged');
-        // const admin = localStorage.getItem('admin');
-        // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
-      }
-    })();
+    // (async () => {
+    //   const response = await authGoogle();
+    //   if (response.status === 201) {
+    //     const token = response.data['x-auth-token'];
+    //     localStorage.setItem('token', token);
+    //     // localStorage.setItem('logged', true);
+    //     // localStorage.setItem('admin', false);
+    //     // const logged = localStorage.getItem('logged');
+    //     // const admin = localStorage.getItem('admin');
+    //     // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+    //   }
+    // })();
   };
   const handleFacebookAuth = () => {
-    (async () => {
-      const response = await authFacebook();
-      if (response.status === 201) {
-        const token = response.data['x-auth-token'];
-        localStorage.setItem('token', token);
-        // localStorage.setItem('logged', true);
-        // localStorage.setItem('admin', false);
-        // const logged = localStorage.getItem('logged');
-        // const admin = localStorage.getItem('admin');
-        // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
-      }
-    })();
+    // (async () => {
+    //   const response = await authFacebook();
+    //   if (response.status === 201) {
+    //     const token = response.data['x-auth-token'];
+    //     localStorage.setItem('token', token);
+    //     // localStorage.setItem('logged', true);
+    //     // localStorage.setItem('admin', false);
+    //     // const logged = localStorage.getItem('logged');
+    //     // const admin = localStorage.getItem('admin');
+    //     // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+    //   }
+    // })();
   };
 
   return (
