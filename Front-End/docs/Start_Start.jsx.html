@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Start/Start.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Start/Start.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { React, useState } from 'react';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
+import styles from './Start.module.css';
+import SignUp from './SignUp/SignUp';
+import Login from './Login/Login';
+import { authGoogle, authFacebook } from '../Services/accountServices';
+/**
+ * This functions renders the start page from which
+ * user can login or signup with google, facebook, or email.
+ * @returns Start page
+ */
+function Start({ setIsLoggedIn, setisAdmin }) {
+  const [signup, setSignup] = useState(false);
+  const [login, setLogin] = useState(false);
+  const handleLoginStatus = (logEvent, adminEvent) => {
+    setIsLoggedIn(logEvent);
+    setisAdmin(adminEvent);
+  };
+  const handleGoogleAuth = () => {
+    (async () => {
+      const response = await authGoogle();
+      if (response.status === 200) {
+        const { token } = response.headers['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('logged', true);
+        localStorage.setItem('admin', false);
+        const logged = localStorage.getItem('logged');
+        const admin = localStorage.getItem('admin');
+        handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+      }
+    })();
+  };
+  const handleFacebookAuth = () => {
+    (async () => {
+      const response = await authFacebook();
+      if (response.status === 200) {
+        const { token } = response.headers['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('logged', true);
+        localStorage.setItem('admin', false);
+        const logged = localStorage.getItem('logged');
+        const admin = localStorage.getItem('admin');
+        handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+      }
+    })();
+  };
+
+  return (
+    &lt;div>
+      &lt;div className={styles.container}>
+        &lt;div className={styles['right-column-container']}>
+          &lt;div className={styles['right-group']}>
+            &lt;TwitterIcon className={styles['right-logo']} />
+            &lt;h1>Happening now&lt;/h1>
+            &lt;h2>Join Whisper today.&lt;/h2>
+            &lt;div className={styles['buttons-group']}>
+              &lt;Button
+                id="signup-google-button"
+                data-testid="google-button"
+                variant="outlined"
+                className={styles['signup-tweet-google']}
+                onClick={handleGoogleAuth}
+              >
+                &lt;img
+                  className={styles['google-logo']}
+                  src="https://img.icons8.com/color/48/000000/google-logo.png"
+                  alt="google logo"
+                />
+                Sign up with Google
+              &lt;/Button>
+              &lt;Button
+                id="signup-facebook-button"
+                data-testid="facebook-button"
+                variant="outlined"
+                className={styles['signup-tweet-google']}
+                onClick={handleFacebookAuth}
+              >
+                &lt;img
+                  className={styles['google-logo']}
+                  src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
+                  alt="google logo"
+                />
+                Sign up with Facebook
+              &lt;/Button>
+              &lt;Button
+                id="signup-email-button"
+                data-testid="signup-button"
+                variant="outlined"
+                className={styles['signup-tweet']}
+                onClick={() => {
+                  setSignup(true);
+                  document.body.scrollTop = 0;
+                  document.documentElement.scrollTop = 0;
+                  document.body.style.overflow = 'hidden';
+                }}
+              >
+                Sign up with email
+              &lt;/Button>
+              &lt;p>
+                By signing up, you agree to the
+                {' '}
+                &lt;span>Terms of Service&lt;/span>
+                {' '}
+                and
+                {' '}
+                &lt;span>Privacy Policy&lt;/span>
+                ,
+                including
+                {' '}
+                &lt;span>Cookie Use&lt;/span>
+                .
+              &lt;/p>
+              &lt;h3>Already have an acount?&lt;/h3>
+              &lt;Button
+                id="signin-button"
+                data-testid="signin-button"
+                variant="outlined"
+                className={styles['sign-in']}
+                onClick={() => {
+                  setLogin(true);
+                  document.body.scrollTop = 0;
+                  document.documentElement.scrollTop = 0;
+                  document.body.style.overflow = 'hidden';
+                }}
+              >
+                Sign in
+              &lt;/Button>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+        &lt;div className={styles['left-column-container']}>
+          &lt;div className={styles.logo}>
+            &lt;TwitterIcon className={styles['logo-size']} />
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+      {signup &amp;&amp; (
+      &lt;SignUp
+        data-testid="signup-modal"
+        closeSignup={setSignup}
+        handleLoginStatus={handleLoginStatus}
+      />
+      )}
+      {login &amp;&amp; (
+      &lt;Login
+        closeLogin={setLogin}
+        handleLoginStatus={handleLoginStatus}
+      />
+      )}
+    &lt;/div>
+  );
+}
+
+export default Start;
+
+Start.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setisAdmin: PropTypes.func.isRequired,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

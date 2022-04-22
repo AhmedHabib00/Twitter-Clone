@@ -1,0 +1,103 @@
+{
+  "name": "sw-test",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-regular-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
+    "@material-ui/core": "^4.12.3",
+    "@mui/icons-material": "^5.4.4",
+    "@mui/material": "^5.5.3",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.26.1",
+    "axos": "^0.0.1",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "better-docs": "^2.7.2",
+    "bootstrap": "^5.1.3",
+    "core-js": "^3.21.1",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "font-awesome": "^4.7.0",
+    "http-proxy-middleware": "^2.0.6",
+    "jest-css-modules-transform": "^4.3.0",
+    "js-cookie": "^3.0.1",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-dropdown-date": "^2.2.7",
+    "react-easy-swipe": "^0.0.22",
+    "react-google-login": "^5.2.2",
+    "react-hook-form": "^7.28.1",
+    "react-icons": "^4.3.1",
+    "react-responsive-carousel": "^3.2.23",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "5.0.0",
+    "react-test-renderer": "^18.0.0",
+    "recharts": "^2.1.9",
+    "regenerator-runtime": "^0.13.9",
+    "superagent": "^7.1.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "jest",
+    "eject": "react-scripts eject",
+    "lint": "eslint src",
+    "docs": "jsdoc -c jsdoc.json"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(module.css|css|less)$": "<rootDir>/styleMock.js",
+      "\\/(carousel.min.css)$": "<rootDir>/styleMock.js"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "enzyme": "^3.11.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jsdoc": "^3.6.10",
+    "stylelint": "^14.5.3",
+    "stylelint-config-standard": "^25.0.0"
+  }
+}

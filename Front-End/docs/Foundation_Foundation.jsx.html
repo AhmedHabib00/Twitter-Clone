@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Foundation/Foundation.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Foundation/Foundation.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { React, useState, useEffect } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+
+import PropTypes from 'prop-types';
+
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+import Navbar from './Navbar/Navbar';
+import NavItem from './Navbar/NavItem';
+import getUserPages from '../Home/NavItems';
+import SearchBar from '../Search/SearchBar/SearchBar';
+import PopupPage from '../Home/Components/PopupPage';
+import TweetBox from '../Home/Components/TweetBox';
+
+import styles from './Foundation.module.css';
+import './Navbar/Navbar.css';
+/**
+ * The main layout for a normal user that logs in.
+ * It displays the navbar, opened page, widgets.
+ * The navbar is not scrollable
+ */
+function Foundation({ setIsLoggedIn, setisAdmin }) {
+  const pages = getUserPages();
+  const navigate = useNavigate();
+  const [openedPage, setOpenedPage] = useState('Home');
+  const [isPopupTweetOpen, setIsPopupTweetOpen] = useState(false);
+  useEffect(() => {
+    document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+  }, [openedPage]);
+  const onSearchChange = (value) => {
+    console.log(value);
+  };
+
+  const onNavItemClick = (id) => {
+    document.getElementById(openedPage).style.setProperty('font-weight', '400');
+    document.getElementById(id).style.setProperty('font-weight', 'bolder');
+    setOpenedPage(id);
+  };
+
+  const handleLogOut = () => {
+    localStorage.setItem('logged', false);
+    localStorage.setItem('admin', false);
+    localStorage.removeItem('token');
+    const logged = localStorage.getItem('logged');
+    const admin = localStorage.getItem('admin');
+    setIsLoggedIn(JSON.parse(logged));
+    setisAdmin(JSON.parse(admin));
+    navigate('/');
+  };
+
+  return (
+    &lt;div className={styles['found-margins']}>
+      &lt;div className={styles.foundation}>
+        &lt;div>
+          &lt;Navbar onTwIconClick={onNavItemClick} route="Home">
+            &lt;div className={styles['navbar-container']}>
+              &lt;div>
+                {pages.map((page) => (
+                  &lt;Link
+                    to={`/${page.name}`}
+                    key={page.name}
+                    onClick={() => onNavItemClick(page.name)}
+                    className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
+                  >
+                    &lt;div id={page.name}>
+                      &lt;NavItem title={page.name}>
+                        {page.icon}
+                      &lt;/NavItem>
+                    &lt;/div>
+                  &lt;/Link>
+                ))}
+                &lt;button
+                  type="button"
+                  className="tweet-button whisp-button-text"
+                  onClick={() => setIsPopupTweetOpen(true)}
+                >
+                  Whisp
+
+                &lt;/button>
+                &lt;button
+                  type="button"
+                  aria-label="save"
+                  className="tweet-button whisp-button-icon"
+                  onClick={() => setIsPopupTweetOpen(true)}
+                >
+                  &lt;HistoryEduIcon className="feather-icon" />
+                &lt;/button>
+              &lt;/div>
+              &lt;div
+                className={styles['user-menu']}
+                role="button"
+                tabIndex={0}
+                onClick={handleLogOut}
+              >
+                &lt;div className={styles['user-menu-info']}>
+                  &lt;AccountCircleIcon className="nav-bar-profile" />
+                  &lt;div className={styles['user-menu-text-container']}>
+                    &lt;h1 className={styles['user-menu-text']}>
+                      Amr Zayed
+                    &lt;/h1>
+                    &lt;h2 className={[styles['user-menu-text'], styles['user-menu-text-name']].join(' ')}>
+                      @AmrZayed
+                    &lt;/h2>
+                  &lt;/div>
+                &lt;/div>
+                &lt;MoreHorizIcon className={styles['user-menu-more']} />
+              &lt;/div>
+            &lt;/div>
+          &lt;/Navbar>
+        &lt;/div>
+        &lt;div className={styles.outlet}>
+          &lt;Outlet />
+        &lt;/div>
+
+        &lt;PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
+          &lt;TweetBox placeHolder="What's happening" boxId="foundation" />
+        &lt;/PopupPage>
+
+        &lt;div className={styles['foundation-widget']}>
+          &lt;SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
+        &lt;/div>
+
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+export default Foundation;
+Foundation.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setisAdmin: PropTypes.func.isRequired,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+/* body {
+  height: 100%;
+  overflow-y: hidden;
+} */
+
+.container {
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 100%;
+}
+
+.left-column-container {
+  width: 70%;
+  min-width: 425px;
+  height: 800px;
+  background-image: url("https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+}
+
+.logo {
+  display: flex;
+  padding: auto;
+  margin: auto;
+  margin-top: 150px;
+  color: #ffff;
+}
+
+.logo-size {
+  font-size: 400px !important;
+}
+
+.right-column-container {
+  min-width: 45vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  /* margin: 40px auto; */
+}
+
+.right-logo {
+  color: #1d9bf0;
+  font-size: 50px !important;
+  margin-top: 27px;
+}
+
+.right-group {
+  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-group h1 {
+  font-size: 64px;
+  margin-top: 35px;
+  color: rgb(15 20 25);
+  letter-spacing: -1.2px;
+  font-weight: 700;
+  font-family:
+    TwitterChirpExtendedHeavy,
+    Verdana,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.right-group h2 {
+  font-size: 31px;
+  margin-top: 40px;
+  color: rgb(15 20 25);
+  line-height: 36px;
+  font-weight: 700;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.buttons-group {
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-tweet {
+  background-color: #1d9bf0 !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 700 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+  margin-top: 20px !important;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+  line-height: 20px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  width: 300px !important;
+  max-width: 380px !important;
+}
+
+.sign-in {
+  background-color: white !important;
+  border: none !important;
+  color: #1d9bf0 !important;
+  font-weight: 700 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+  margin-top: 10px !important;
+  font-size: 15 !important;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+  line-height: 20px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  width: 300px !important;
+  max-width: 380px !important;
+  border-color: rgb(207 217 222) !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+}
+
+.signup-tweet-google {
+  background-color: #ffff !important;
+  border: none !important;
+  color: black !important;
+  border-color: rgb(207 217 222) !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  font-weight: 700 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  height: 50px !important;
+  margin-top: 20px !important;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif !important;
+  line-height: 20px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  width: 300px !important;
+  max-width: 380px !important;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.signup-tweet:hover {
+  background-color: #027dd4 !important;
+  transition: color 100ms ease-out;
+}
+
+.signup-tweet-google:hover {
+  background-color: #ebf1f5 !important;
+  transition: color 100ms ease-out;
+}
+
+.sign-in:hover {
+  background-color: #ebf1f5 !important;
+  transition: color 100ms ease-out;
+}
+
+.buttons-group p {
+  color: rgb(83 100 113);
+  line-height: 12px;
+  font-size: 11px;
+  font-weight: 400;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+.buttons-group h3 {
+  margin-top: 50px;
+  font-size: 17px;
+  color: rgb(15 20 25);
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.buttons-group span {
+  color: #1d9bf0;
+}
+
+@media screen and (max-width: 1024px) {
+  .right-column-container {
+    min-width: 55%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .logo {
+    margin: auto;
+  }
+
+  .logo-size {
+    font-size: 200px !important;
+  }
+
+  .left-column-container {
+    width: 100%;
+    height: 50%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .logo-size {
+    font-size: 200px !important;
+  }
+}
+
+@media screen and (max-width: 535px) {
+  .logo-size {
+    font-size: 200px !important;
+  }
+
+  .right-group h1 {
+    font-size: 50px;
+  }
+
+  .right-column-container {
+    min-width: 100px;
+  }
+}

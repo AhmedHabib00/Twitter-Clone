@@ -1,0 +1,132 @@
+.nav-bar-main {
+  display: flex;
+  max-width: 300px;
+  height: 100vh;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.disable-nav-item {
+  display: none;
+}
+
+.nav-bar-tw-icon-link {
+  width: fit-content;
+}
+
+.nav-bar-icons {
+  font-size: 31px !important;
+}
+
+.tw-icon {
+  color: rgb(29 155 240);
+  font-size: 32px !important;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.tw-icon:hover {
+  background-color: #e8f5fd;
+  border-radius: 30px;
+}
+
+.nav-item {
+  display: flex;
+  padding: 15px;
+
+  /* padding-left: 5px;
+  padding-right: 25px;
+  padding-top: 20px; */
+  font-size: 25px;
+  margin: 0;
+  margin-top: 10px;
+  height: 39px;
+  width: fit-content;
+}
+
+.nav-item-dimensions {
+  max-width: 200px;
+  border-radius: 45px;
+}
+
+.nav-item-text {
+  font-size: 20px;
+  margin-left: 15px;
+  margin-top: 0;
+}
+
+.foundation-a-tag {
+  max-width: 200px;
+  text-decoration: none;
+  color: #0f1419 !important;
+}
+
+.foundation-a-tag:hover .nav-item-dimensions {
+  background-color: #e7e7e8;
+}
+
+.nav-bar-profile {
+  font-size: 40px !important;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-right: 5px;
+}
+
+.tweet-button {
+  background-color: rgb(29 155 240);
+  font-size: 20px !important;
+  font-weight: bold;
+  border: none;
+  border-radius: 65px;
+  height: 55px;
+  margin-top: 10px;
+  color: #edf7fe;
+  cursor: pointer;
+}
+
+.tweet-button:hover {
+  background-color: #1a8cd8;
+}
+
+.whisp-button-icon {
+  display: none;
+}
+
+.whisp-button-text {
+  width: 90%;
+}
+
+@media screen and (max-width: 1100px) {
+  .nav-item-text {
+    display: none;
+  }
+
+  .whisp-button-text {
+    display: none;
+  }
+
+  .whisp-button-icon {
+    display: inline;
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
+  }
+
+  .feather-icon {
+    font-size: 31px !important;
+  }
+
+  .nav-bar-main {
+    width: 4em;
+  }
+}
+
+@media screen and (max-width: 910px) {
+  .disable-nav-item {
+    display: inline;
+  }
+}
