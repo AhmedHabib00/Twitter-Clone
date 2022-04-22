@@ -36,6 +36,7 @@
     "path": "^0.12.7",
     "request": "^2.88.2",
     "session": "^0.1.0",
+    "passport-google-token": "^0.1.2",
     "supertest": "^6.2.2"
   },
   "keywords": []

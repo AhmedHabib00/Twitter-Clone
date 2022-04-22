@@ -11,6 +11,7 @@ const router = express.Router();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleTokenStrategy = require('passport-google-token').Strategy;
 
 router.use(passport.initialize());
 
@@ -25,13 +26,32 @@ passport.deserializeUser(function(user,done){
   })
 });
 
-passport.use(new GoogleStrategy({
+passport.use(new GoogleTokenStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `http://${process.env.DOMAIN}:${process.env.PORT}/auth/google/secrets`
+    //callbackURL: 'http://localhost:3000/auth/google/secrets'
   },
-    function(accessToken, refreshToken, profile, done) {
-        return done(null, profile);  //ties profile to req.user object to be used in the callback
+    async (accessToken, refreshToken, profile, done)=> {
+      const user = await User.findOne({$or:[{googleId: req.user.id },{ email:profile.emails[0].value}]});
+        //No user was found... so create a new user with values from Facebook (all the profile. stuff)
+        if (!user) {
+          const uniqueUsername = await createUniqueUsername(profile.emails[0].value);
+            user = new User({
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              googleId: profile.user.id,
+              username:uniqueUsername
+            });
+            user.save(function(err) {
+                if (err) console.log(err);
+                return done(err, user);
+            });
+        } else {
+            //found user. Return
+            return done(err, user);
+        }
+   
+        //return done(null, profile);  //ties profile to req.user object to be used in the callback
   }
   ));
 
@@ -46,48 +66,39 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-
-router.get('/google', passport.authenticate('google', { scope: ['profile','email'] }));
-router.get('/google/secrets', passport.authenticate('google', { failureMessage: true }),async function(req, res) {
-    // Successful authentication.
+router.post('/google', passport.authenticate(
+  'google-token', { session: false }), async function(req, res) {
+    if (!req.user) {
+      return res.status(400).send('Authentication failed!');
+    }
+    const user = await User.findOne({ email:req.user.email });
+    const token = user.generateJWT();
+    return res.status(200).send({ token, user });
+  }
+);
+// router.get('/google', passport.authenticate('google', { scope: ['profile','email'] }));
+// router.get('/google/secrets', passport.authenticate('google', { failureMessage: true }),async function(req, res) {
+//     // Successful authentication.
     
-    var user = await User.findOne({$or:[{googleId: req.user.id },{ email:req.user.emails[0].value}]});
+//     var user = await User.findOne({$or:[{googleId: req.user.id },{ email:req.user.emails[0].value}]});
 
-    if (!user) {
-        const uniqueUsername = await createUniqueUsername(req.user.emails[0].value);
-        user = new User({
-            name: req.user.displayName,
-            email: req.user.emails[0].value,
-            googleId: req.user.id,
-            username:uniqueUsername
-        });
-        await user.save() ;   
-    } 
+//     if (!user) {
+//         const uniqueUsername = await createUniqueUsername(req.user.emails[0].value);
+//         user = new User({
+//             name: req.user.displayName,
+//             email: req.user.emails[0].value,
+//             googleId: req.user.id,
+//             username:uniqueUsername
+//         });
+//         await user.save() ;   
+//     } 
         
-        return res.redirect('http://localhost:3000/')
-  }); 
-
-// router.get('/successAuth', async (req, res) => {
-//   console.log(req.session)
-//   const user = await User.findOne({googleId:req.user.id});
-//   if (user){
-//     const token = user.generateJWT();
+//         const token = user.generateJWT();
 //         return res.status(201).header('x-auth-token',token).send({
 //           message:'User Registeration Successful!',
-//           data: {userId: user._id,role:user.role},
-//           'x-auth-token':token
+//           data: {userId: user._id,role:user.role}
 //         }); 
-//   }
-//   else
-//   {
-//     res.status(400).send("User not found");
-//   }
-  
-
 // });
-
-  
-
 
 
 
