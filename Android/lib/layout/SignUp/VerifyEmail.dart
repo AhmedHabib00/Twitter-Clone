@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/SignUp/setPassword.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 //import 'package:whisper/models/TextField.dart';
 
 class VerifyEmail extends StatefulWidget {

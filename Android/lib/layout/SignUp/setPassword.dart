@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/SignUp/setUsername.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 
 // ignore: camel_case_types
 class setPassword extends StatefulWidget {

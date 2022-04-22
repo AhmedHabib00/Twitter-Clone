@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/profile_layout.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/layout/UserProfile/profile_layout.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 
 // ignore: camel_case_types
 class setUsername extends StatelessWidget {

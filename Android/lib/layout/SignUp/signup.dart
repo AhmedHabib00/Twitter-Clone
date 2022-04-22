@@ -6,7 +6,7 @@ import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/SignUp/VerifyEmail.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 //import 'package:whisper/models/TextField.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 

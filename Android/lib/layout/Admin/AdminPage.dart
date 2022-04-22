@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, avoid_unnecessary_containers, non_constant_identifier_names, unnecessary_new
 
-//import 'package:whisper/layout/DataBase/task.dart';
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Admin/GraphBar.dart';
 import 'package:whisper/layout/Admin/GraphPie.dart';
-//import 'package:whisper/layout/Admin/GraphPie.dart';
+import 'package:whisper/modules/AdminTweetBoxWidget.dart';
+import 'package:whisper/models/tweet_model.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -20,6 +20,36 @@ class Task {
 
   Task(this.task, this.taskvalue, this.colorval);
 }
+
+final List<AdminTweetModel> Tweets = [
+  AdminTweetModel(
+    username: " Kareem",
+    //tweet: "Lorem ipsum dolor sit amet",
+    //time: "7h",
+    twitterHandle: "@Kareem1",
+  ),
+  AdminTweetModel(
+      username: "Ahmed",
+      //tweet: "Lorem ipsum dolor sit amet",
+      //time: "3m",
+      twitterHandle: "@Ahmed28"),
+  AdminTweetModel(
+    username: " Kareem",
+    //tweet: "Lorem ipsum dolor sit amet",
+    //time: "7h",
+    twitterHandle: "@Kareem1",
+  ),
+  AdminTweetModel(
+      username: "Ahmed",
+      //tweet: "Lorem ipsum dolor sit amet",
+      //time: "3m",
+      twitterHandle: "@Ahmed28"),
+  AdminTweetModel(
+      username: "Hassan",
+      //tweet: "Lorem ipsum dolor sit amet",
+      //time: "3m",
+      twitterHandle: "@Hassan212"),
+];
 
 class _AdminPage extends State<AdminPage> {
   //late List<charts.Series<Task, String>> _seriesPieData;
@@ -144,14 +174,20 @@ class _AdminPage extends State<AdminPage> {
                 ],
               ),
             ),
-            Container(
-              child: const Center(
-                child: Text("Users "),
+            SingleChildScrollView(
+              child: Container(
+                // child: const Center(
+                //   child: Text("Users "),
+                // ),
+                child: AdminTweetBoxWidget(Tweets, false, () {}),
               ),
             ),
-            Container(
-              child: const Center(
-                child: Text("Blocked Users "),
+            SingleChildScrollView(
+              child: Container(
+                // child: const Center(
+                //   child: Text("Users "),
+                // ),
+                child: AdminTweetBoxWidget(Tweets, false, () {}),
               ),
             ),
           ],

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:whisper/modules/tweetBoxWidget.dart';
 
-import '../models/tweet_model.dart';
+import 'package:whisper/models/tweet_model.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

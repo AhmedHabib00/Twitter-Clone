@@ -22,3 +22,10 @@ class TweetModel {
     return isLiked;
   }
 }
+
+class AdminTweetModel {
+  late String username;
+  late String twitterHandle;
+
+  AdminTweetModel({required this.username, required this.twitterHandle});
+}

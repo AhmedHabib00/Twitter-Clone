@@ -5,8 +5,8 @@ import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/SignUp/signup.dart';
 import 'package:whisper/layout/Login/FogotPassword.dart';
-import 'package:whisper/layout/profile_layout.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/layout/UserProfile/profile_layout.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

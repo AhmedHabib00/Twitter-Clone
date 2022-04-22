@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:test/test.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 
 void main() {
   test('Email -Empty- return error string', () {

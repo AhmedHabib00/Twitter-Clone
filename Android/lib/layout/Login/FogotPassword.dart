@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Login/login.dart';
-import 'package:whisper/models/Validation.dart';
+import 'package:whisper/models/TextFieldValidation.dart';
 
 class ForgotPassPage extends StatelessWidget {
   ForgotPassPage({Key? key}) : super(key: key);
