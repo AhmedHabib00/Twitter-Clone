@@ -1,0 +1,14 @@
+
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "${{ secrets.DOCKERHUB_USERNAME }}/Whisper:latest",
+        "Update": "true"
+    },
+    "Ports": [
+        {
+            "ContainerPort": "80"
+        }
+    ],
+    "Logging": "/var/log/nginx"
+}
