@@ -12,9 +12,9 @@
         {
             "name": "backend",
             "image": "mado7abib007/swbackend",
-            "hostname": "localhost",
+            "hostname": "backend",
             "essential": true,
-            "memory":10
+            "memory":500
         },
         {
             "name": "router",
