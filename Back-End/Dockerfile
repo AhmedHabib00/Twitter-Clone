@@ -8,6 +8,10 @@ WORKDIR /usr/src/app/backend
 
 COPY package*.json ./
 
+RUN ls
+
+RUN ls /usr/src/app/backend
+
 RUN npm install
 
 COPY . .
