@@ -3,8 +3,22 @@
     "AWSEBDockerrunVersion": "2",
     "containerDefinitions": [
         {
-            "name": "frontend-docker",
+            "name": "frontend",
             "image": "mado7abib007/swfront",
+            "hostname": "nginx",
+            "essential": true,
+            "memory":10
+        },
+        {
+            "name": "backend",
+            "image": "mado7abib007/swbackend",
+            "hostname": "localhost",
+            "essential": true,
+            "memory":10
+        },
+        {
+            "name": "router",
+            "image": "mado7abib007/router",
             "hostname": "nginx",
             "essential": true,
             "portMappings":[
@@ -13,35 +27,8 @@
                     "containerPort":80
                 }
             ],
-            "links":["backend-docker"],
-            "memory":10
-        },
-        {
-            "name": "backend-docker",
-            "image": "mado7abib007/swbackend",
-            "hostname": "localhost",
-            "essential": true,
-            "portMappings":[
-                {
-                    "hostPort": 8080,
-                    "containerPort":8080
-                }
-            ],
 
-            "memory":10
-        },
-        {
-            "name": "backend-docker2",
-            "image": "mado7abib007/swbackend",
-            "hostname": "localhost22",
-            "essential": true,
-            "portMappings":[
-                {
-                    "hostPort": 2307,
-                    "containerPort":2307
-                }
-            ],
-
+            "links":["backend", "frontend"],
             "memory":10
         }
        
