@@ -6,15 +6,10 @@ RUN mkdir -p /usr/src/app/backend
 
 WORKDIR /usr/src/app/backend
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN pwd
+COPY package-lock.json ./
 
-RUN ls
-
-RUN ls /usr/src/app/backend
-
-RUN ls ~
 
 COPY . .
 
