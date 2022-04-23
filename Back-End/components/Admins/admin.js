@@ -20,9 +20,15 @@ router.get('/gToken/:id',async(req,res)=>{
     res.send(token);
 });
 
+
+
 //GET: admins/ -> Retrieve all admins
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     
+    if (req.user.role != "Admin") {
+        return res.status(403).send("Access denied");
+    }
+
     try {
         let { page, size } = req.query;
   
@@ -53,35 +59,73 @@ router.get('/', async (req, res) => {
 
 
 // GET: admins/users/ -> Retrieve all users
-router.get('/users', async (req, res, next) =>{
+router.get('/users', auth, async (req, res, next) =>{
+    
+    if (req.user.role != "Admin") {
+        return res.status(403).send("Access denied");
+    }
+
     try {
-        let { page, size } = req.query;
+        let { page, size, search, options } = req.query;
   
-        // If the page is not applied in query.
+        // If the page is not entered in query.
         if (!page) {
-            // Make the Default value one.
+            // Make the Default value 1.
             page = 1;
         }
-  
+        // If the size is not entered in query.
         if (!size) {
             size = 10;
         }
-  
-        //  We have to make it integer because
-        // query parameter passed is string
+        //  Make it integer because query parameter -> string
         const limit = parseInt(size);
-  
-        // We pass 1 for sorting data in 
-        // ascending order using ids
-        usersData = await userSchema.find({"role":"User"},'_id name username email birthdate role').limit(limit).skip(size*(page-1)).sort( 'createdAt' )
+
+        // If the search is not entered in query. 
+        if(!search){
+            search = "";
+        }
+
+        switch (options) {
+            case "Banned":
+                usersData = await userSchema.find({
+                    "role":"User",
+                    "banned":true,
+                    "username": {$regex:  ".*"+search+".*", $options:"si"} 
+                },
+                    '_id name username description profilePic role',
+                ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
+                
+                length = await userSchema.count({
+                    "role":"User",
+                    "banned":true, 
+                    "username": {$regex:  ".*"+search+".*", $options:"i"}
+                });
+                break;
+
+            default:
+                usersData = await userSchema.find({
+                    "role":"User",
+                    "username": {$regex:  ".*"+search+".*", $options:"si"} 
+                },
+                    '_id name username description profilePic role',
+                ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
+                
+                length = await userSchema.count({
+                    "role":"User",
+                    "username": {$regex:  ".*"+search+".*", $options:"i"}
+                });
+                break;
+        }
+        
+        noOfpages = parseInt(Math.ceil(length/size));
+
         return res.status(200).send({
-            page,
-            size,
+            "length": noOfpages,
             Info: usersData
         });
     }
     catch (error) {
-        res.sendStatus(500);
+        res.sendStatus(500).send("Error");
     }
 });
 
@@ -89,6 +133,11 @@ router.get('/users', async (req, res, next) =>{
 
 // GET: admins/statistics/ -> Retrive statistics data about users
 router.get('/statistics', auth, async (req, res) =>{
+    
+    if (req.user.role != "Admin") {
+        return res.status(403).send("Access denied");
+    }
+
     // Get current date
     const month = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -97,17 +146,22 @@ router.get('/statistics', auth, async (req, res) =>{
     let thisYear = currDate.getFullYear();
 
     // Parameters:
+
     // noUsers
-    let noUsers = await userSchema.count({});
+    let noUsers = await userSchema.count({"role":"User"});
     
     // noBanned
-    let noBanned = await userSchema.count({"banned": true});
+    let noBanned = await userSchema.count({"role":"User", "banned": true});
 
     // ratioTweets
     let thisMonthTweets = await tweetSchema.count({ "createdAt" : {$gte : new Date(thisYear, thisMonth, 1)} });
     let prevMonthTweets = await tweetSchema.count({ "createdAt" : {$gte : new Date(thisYear, thisMonth-1, 1) , $lte : new Date(thisYear, thisMonth, 1)} });
-    // Corner Case : if prevMonthtweets = 0, then ratio = inf !
-    let ratio = Number((thisMonthTweets - prevMonthTweets) / prevMonthTweets * 100)
+    // Corner Case : if prevMonthtweets = 0, then ratio = infinity !!
+    let ratio = 0;
+    if (prevMonthTweets != 0) {
+        ratio = Number((thisMonthTweets - prevMonthTweets) / prevMonthTweets * 100);
+    }
+
     let TweetsStatus = String()
     if (ratio >= 0) {
         TweetsStatus="increased";
@@ -126,33 +180,42 @@ router.get('/statistics', auth, async (req, res) =>{
     // noJoined
     let noJoined = Array()
     for (let index = 0; index < 12; index++) {
-        let monthUsers = await userSchema.count({ "createdAt" : {$gte : new Date(thisYear, index, 1) , $lte : new Date(thisYear, index+1, 1)} });
-        noJoined.push(monthUsers)
+        let monthUsers = await userSchema.count({"role":"User", "createdAt" : {$gte : new Date(thisYear, index, 1) , $lte : new Date(thisYear, index+1, 1)}});
+        noJoined.push(monthUsers);
     }
 
     // noAgeUsers
-    noAgeUsers = Array()
-    noAgeUsers.push(await rangeAgesCalculator(0, 15,  userSchema))
-    noAgeUsers.push(await rangeAgesCalculator(15, 20, userSchema))
-    noAgeUsers.push(await rangeAgesCalculator(20, 30, userSchema))
-    noAgeUsers.push(await rangeAgesCalculator(30, 40, userSchema))
-    noAgeUsers.push(await rangeAgesCalculator(40, 50, userSchema))
-    noAgeUsers.push(await rangeAgesCalculator(50, 100,userSchema))
+    noAgeUsers = Array();
+    noAgeUsers.push(await rangeAgesCalculator(0, 15,  userSchema));
+    noAgeUsers.push(await rangeAgesCalculator(15, 20, userSchema));
+    noAgeUsers.push(await rangeAgesCalculator(20, 30, userSchema));
+    noAgeUsers.push(await rangeAgesCalculator(30, 40, userSchema));
+    noAgeUsers.push(await rangeAgesCalculator(40, 50, userSchema));
+    noAgeUsers.push(await rangeAgesCalculator(50, 99999,userSchema));
+
+    let All = await rangeAgesCalculator(0, 0, userSchema);
+    let sumOfAll = noAgeUsers.reduce((a, b) => a + b, 0);
+    let left = All - sumOfAll;
+    noAgeUsers.push(left);
 
     // noMostFollowed
     let noMostFollowed = await userSchema.aggregate([
-        {$unwind:"$followers"},
+        {$match: {"role":"User"}},
         {$group: {_id:'$username', "count": {$sum: 1}}},
-        { $project: {_id:0, "username":'$_id', "count":'$count',} }
-    ]).sort({ "count" : -1}).limit(5);
-            
+        {$unwind:"$followers"},
+        {$project: {_id: 0, "username":'$_id', "count":'$count'}}
+    ]).sort({"count" : -1}).limit(5);
+
+    //let noMostFollowed = await userSchema.count({"role":"User"}).sort({"count" : -1}).limit(5);
+
+
     // Get statistics data
-    statistics = getStatisticsDate(noUsers, noBanned, ratioTweets, noTweets, noJoined, noAgeUsers, noMostFollowed);
+    statistics = await getStatisticsDate(noUsers, noBanned, ratioTweets, noTweets, noJoined, noAgeUsers, noMostFollowed);
     return res.status(200).send(statistics);
 });
 
 // Function to get all statistics data
-function getStatisticsDate(noUsers=0, noBanned=0, ratioTweets=["all time","20%"], noTweets=[0,0,0,0,0,0,0,0,0,0,0,0], noJoined=[0,0,0,0,0,0,0,0,0,0,0,0], noAgeUsers=[0,0,0,0,0,0], noMostFollowed=[{"name":"undifinedUser","count":0}]) {   
+async function getStatisticsDate(noUsers=0, noBanned=0, ratioTweets=["all time","20%"], noTweets=[0,0,0,0,0,0,0,0,0,0,0,0], noJoined=[0,0,0,0,0,0,0,0,0,0,0,0], noAgeUsers=[0,0,0,0,0,0], noMostFollowed=[{"name":"undifinedUser","count":0}]) {   
     let statisticsData = {
         "statData":
         {
@@ -303,6 +366,10 @@ function getStatisticsDate(noUsers=0, noBanned=0, ratioTweets=["all time","20%"]
                     {
                     "name": "50>",
                     "count": noAgeUsers[5]
+                    },
+                    {
+                    "name": "Unkown",
+                    "count": noAgeUsers[6]
                     }
                 ]
             },
@@ -315,11 +382,17 @@ function getStatisticsDate(noUsers=0, noBanned=0, ratioTweets=["all time","20%"]
     return statisticsData
 }
 // Calculate age given date
-async function rangeAgesCalculator(minRangeAge, maxRangeAge, Schema) {    
+async function rangeAgesCalculator(minRangeAge=0, maxRangeAge=0, Schema) {    
     const currDate = new Date();
-    var minbirthDateYear = currDate.getFullYear() - minRangeAge;
-    var maxbirthDateYear = currDate.getFullYear() - maxRangeAge; 
-    let noRangeAge = await Schema.count({ "birthdate" : {$gte : new Date(maxbirthDateYear, 1, 1) , $lte : new Date(minbirthDateYear, 1, 1)} });
+    let noRangeAge = 0; 
+    if (minRangeAge==0 && maxRangeAge==0) {
+        noRangeAge = await Schema.count({"role":"User"});
+    }else{
+        var minbirthDateYear = currDate.getFullYear() - minRangeAge;
+        var maxbirthDateYear = currDate.getFullYear() - maxRangeAge;
+        noRangeAge = await Schema.count({"role":"User" ,"birthdate" : {$gte : new Date(maxbirthDateYear, 1, 1) , $lte : new Date(minbirthDateYear, 1, 1)} });
+    }
+
     return noRangeAge;
 }  
 
@@ -340,10 +413,10 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
             const bannedUser = await userSchema.findById(req.params.target_user_id);
             const bannedBy = await userSchema.findById(req.params.id);
             if (bannedUser.role == "Admin") {
-                throw err;
+                return res.status(500).send("Not Authorized.");
             }
             if (bannedBy.role == "User") {
-                throw err;
+                return res.status(500).send("Not Authorized.");
             }
             // banned user contents
             bannedUser.banned = true;
@@ -359,7 +432,7 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
                 "bannedEndDate": end_date
             });
         }else{
-            throw err;
+            return res.status(500).send("Invalid Date");
         }
     }
     catch(err){
@@ -369,13 +442,46 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
 
 
 
+// DELETE: admins/:id/banning/:target_user_id/ -> unBan a user by admin
+router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
+    try {
+        if (req.user._id != req.params.id) {
+            return res.status(403).send("Access denied");
+        }
+
+        const bannedUser = await userSchema.findById(req.params.target_user_id);
+        const bannedBy = await userSchema.findById(req.params.id);
+        if (bannedUser.role == "Admin") {
+            throw err;
+        }
+
+        if (bannedBy.role == "User") {
+            throw err;
+        }
+        // banned user contents
+        bannedUser.banned = false;
+        bannedUser.bannedEndDate = new Date();
+        bannedUser.save();
+        return res.status(200).send({
+            "Ban": false,
+        });
+    }
+    catch(err){
+        return res.status(500).send({"Ban": true});
+    }
+});
+
+
+
 // POST: admins/:id/adding/ -> Add a new admin
 router.post('/:id/adding', auth, function(req,res){
+    
+    if (req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     userSchema.findById(req.params.id).exec(function(err, adminData){
         try {
-            if (req.user._id != req.params.id) {
-                return res.status(403).send("Access denied");
-            }
             if (adminData.role == "Admin") {
                 var newAdmin = new User({
                     name: req.body.name, 
@@ -416,10 +522,12 @@ router.delete('/:id/deleting/:target_user_id', auth, async (req, res) =>{
             return res.status(403).send("Access denied");
         }
         adminData = await userSchema.findById(req.params.id).exec();
-        console.log(adminData.role)
         if (adminData.role == "Admin") {
             foundUser = await userSchema.findById(req.params.target_user_id);
             if(foundUser != null){
+                // Delete all tweets by target_user_id
+                await userSchema.deleteMany({"postedBy":req.params.target_user_id});
+                // Delete target_user_id from users
                 userSchema.deleteOne({"_id": req.params.target_user_id}).exec().then(function() {
                     return res.status(202).send({
                         "deleted": true,
