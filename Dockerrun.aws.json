@@ -4,7 +4,7 @@
     "containerDefinitions": [
         {
             "name": "frontend-docker",
-            "image": "${{ secrets.DOCKERHUB_USERNAME }}/swfront",
+            "image": "mado7abib007/swfront",
             "hostname": "nginx",
             "essential": true,
             "portMappings":[
@@ -18,7 +18,7 @@
         },
         {
             "name": "backend-docker",
-            "image": "${{ secrets.DOCKERHUB_USERNAME }}/swbackend",
+            "image": "mado7abib007/swbackend",
             "hostname": "client",
             "essential": true,
             "portMappings":[
