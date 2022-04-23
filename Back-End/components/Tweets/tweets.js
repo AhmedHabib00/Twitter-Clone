@@ -371,9 +371,8 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
     //     //Casting the size string to integer.
     //     const limit = parseInt(size);
 
-
-        // theUser="62615984578b341248402d89";
         const theUser=req.user._id;
+        
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};
         const projection2 ={"_id":0,"name":1,"username":1};
@@ -387,11 +386,16 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         })
 
 
-
     for(i=0;i<results.length;i++)
        {
-           //console.log(results.length)
-           //console.log(i);
+           console.log(results[i]["media"])
+           console.log(results[i]["gifs"]==null)
+           console.log("ehhh")
+
+        // if(results[i]["_id"]==null || results[i]["media"]==null || results[i]["gifs"]==null || results[i]["content"]==null || results[i]["postedBy"]==null || results[i]["likes"]==null || results[i]["retweeters"]==null)
+        // {
+        //     return res.status(400).send("error: problem with reading tweet parameters.");
+        // }
   
         //do not view reply as a tweet.go to next iteration.   
         if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length=="") 
@@ -408,14 +412,15 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         
         //Checking if the tweet is retweeted by the current user.
         var Retweeted=false       
-        findRetweet=await tweet.find({retweetInfo:results[i]["_id"],postedBy:theUser}).select("_id") 
-        .catch(error => {
+
+            findRetweet=await tweet.find({retweetInfo:results[i]["_id"],postedBy:theUser}).select("_id") 
+            .catch(error => {
             console.log(error);
             return res.sendStatus(400).send("error: problem with checking if the tweet is retweeted by the current user ");
-        })       
-        if(findRetweet.length!=0)
-            Retweeted=true
-
+            })       
+            if(findRetweet.length!=0)
+             Retweeted=true
+     
         
         //Checking if the tweet is liked by current user.  
         var Liked=false     
@@ -484,8 +489,14 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
         var results2 = await user.findById(theId,projection2)
         .catch(error => {
-            return res.status(400).send("error: problem with finding current user");;
-        }) 
+            console.log(error);
+            return res.status(400).send("error: can not find user.");
+        })  
+
+        if(results2==null)
+        {
+            return res.status(400).send("error: can not find the user who posted one of the tweets");
+        }
         
         const Obj= ({
             id:results[i]["_id"],
@@ -531,6 +542,7 @@ router.post("/",auth, async function(req,res){
     //same goes for a reply
 
 
+
     //If there is an error with uploading the images, send a 400 status
     //an error is not the same as not uploading images
     upload(req,res,async function(err){
@@ -538,9 +550,19 @@ router.post("/",auth, async function(req,res){
         // console.log(req.body);
     if(err){
         console.log(err);
-        return res.sendStatus(400)
+        return res.status(400).send("error with image uploading")
     } 
     else{
+
+    // console.log(req.body.gifs.length)
+    // console.log(req.body.replyId)
+    // console.log(req.body.replyId == null )
+
+    if(req.body.content==null || req.files==null|| req.body.gifs==null || req.body.replyId==null) 
+    {
+        return res.status(400).send("1 of the body parameters could not be read.");
+        
+    }  
 
     token=req.user._id
     try
@@ -550,15 +572,11 @@ router.post("/",auth, async function(req,res){
     catch(error) //error with finding (invalid id)
     {
         console.log(err);
-         return res.sendStatus(400);
+         return res.status(400).send("user not found.");
     }
 
     // console.log(req.body.content)
-//     if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
-//     {
-//         return res.status(400).send("1 of the body parameters could not be read.");
-        
-//     }
+
     
     
     //initialising images,gifs,content,reply as empty
@@ -587,6 +605,7 @@ router.post("/",auth, async function(req,res){
                  mediaTemp.push(req.files[i].path.replace("\\","/"))
           }
      }
+    //  console.log(req.body.gifs.length)
 
      //if the tweet has a gif:
      if(req.body.gifs.length!=0)
@@ -598,13 +617,13 @@ router.post("/",auth, async function(req,res){
 
         else
             {
-                return res.sendStatus(400)  //can not have more than 1 gif    
+                return res.status(400).send("can not have more than 1 gif")  //can not have more than 1 gif    
             } 
 
         
         if(mediaTemp.length!=0) //can not have images and a gif
             {
-                 return res.sendStatus(400)
+                 return res.status(400).send("can not have images and a gif")
             }
               
 
@@ -623,12 +642,12 @@ router.post("/",auth, async function(req,res){
         }
         catch(error) //error with finding (invalid id)
         {
-             return res.sendStatus(400);
+             return res.status(400).send("invalid reply tweet id");
         }
     
         if(!originalTweet) //the id of the tweet is not found
         {
-            return res.sendStatus(400);
+            return res.status(400).send("reply tweet id not found");
             
         }
 
@@ -644,14 +663,18 @@ router.post("/",auth, async function(req,res){
              postedBy: token,
              media: mediaTemp,
              replyTo:replyTemp,
-             gifs:gifTemp
+             gifs:gifTemp,
+             pinned:false,
+             likes:[],
+             retweeters:[],
+             retweetInfo:[]
             });
             
 
              userTweet.save(async function(err,theTweet){
              if(err)
              {
-                return res.sendStatus(400);
+                return res.status(400).send("error with saving the tweet.");
              }
              else
              {
@@ -662,7 +685,7 @@ router.post("/",auth, async function(req,res){
                     await user.findByIdAndUpdate(token,{$addToSet:{tweets: theTweet.id}},{new:true})
                     .catch(error => {
                      console.log(error);
-                     return res.sendStatus(400);
+                     return res.status(400).send("error with adding the tweet to the user's tweets.");
                     })  
                  }
 
@@ -673,7 +696,7 @@ router.post("/",auth, async function(req,res){
                    await user.findByIdAndUpdate(token,{$addToSet:{replies: userTweet["_id"]}},{new:true})
                    .catch(error => {
                       console.log(error);
-                      return res.sendStatus(400);
+                      return res.status(400).send("error with adding the tweet to the user's replies.");
                 }) 
                  }
                  return res.sendStatus(200);
@@ -682,7 +705,7 @@ router.post("/",auth, async function(req,res){
      }
      else{
         
-         return res.sendStatus(400);
+         return res.status(400).send("error can not post an empty tweet.");
      }  
         }
   });
@@ -745,6 +768,11 @@ router.post("/",auth, async function(req,res){
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
 router.put("/:id/like",auth,async(req,res)=>{
     console.log("aywa")
+    if(!req.params.id)
+    {
+        return res.status(400).send("The tweet id could not be read.");
+        
+    }  
     console.log(req.params.id); //post id
     var postId=req.params.id;
     token=req.user._id
@@ -819,13 +847,18 @@ router.post("/:id/retweet",auth,async(req,res)=>{
     console.log(req.params.id); //post id
     var postId=req.params.id; 
     token=req.user._id
+
     try
     {
         userInfo=await user.findById(req.user._id)
+     
     }
     catch(error) //error with finding (invalid id)
     {
+        console.log("hena")
          return res.sendStatus(400);
+         
+         
     }
 
     if(!userInfo) //the id of the user is not found
