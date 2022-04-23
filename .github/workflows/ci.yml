@@ -46,7 +46,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/Whisper:latest
+          tags: habibsw/whisperhabib:latest
       
       - name: Get Timestamp
         uses: gerred/actions/current-time@master
