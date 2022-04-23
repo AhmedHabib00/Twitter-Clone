@@ -12,10 +12,11 @@ RUN ls
 
 RUN ls /usr/src/app/backend
 
-RUN npm install
-
 COPY . .
 
-EXPOSE 8080
+RUN npm install
+
+
+EXPOSE 8000
 
 CMD ["npm", "start"]
