@@ -7,9 +7,13 @@ WORKDIR /app
 COPY Front-End/package.json ./
 COPY Front-End/package-lock.json ./
 
-RUN npm ci --production
+RUN npm ci
 
 COPY . . ./
+
+RUN ls
+
+WORKDIR /Front-end
 
 RUN npm run build
 
