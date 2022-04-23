@@ -18,7 +18,9 @@
 
 .popup-inner > img {
   justify-content: center;
-  padding: 32px;
+
+  /* padding: 32px; */
+  padding-top: 10px;
   width: 50%;
   height: 50%;
 }
@@ -26,10 +28,10 @@
 .popup-inner .close-btn {
   /* position: absolute; */
   border-radius: 25px;
-  margin-top: 250px;
+  margin-top: 180px;
   margin-left: 250px;
   padding: 10px;
-  top: 16px;
+  top: 5px;
   left: 50px;
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import validateUsername from './validateUsername';
-import { signUpUsername, getClientRole } from '../../../Services/accountServices';
+import { signUpUsername } from '../../../Services/accountServices';
 
 /**
  * This function is used to manage the username step in the signup form and apply
@@ -31,17 +31,7 @@ const useFormUserName = (userEmail, handleAfterSignup) => {
           const token = localStorage.getItem('temp-token');
           localStorage.setItem('token', token);
           localStorage.removeItem('temp-token');
-          (async () => {
-            if (localStorage.token) {
-              const resp = await getClientRole();
-              console.log(resp);
-              if (resp.role === 'Admin') {
-                handleAfterSignup(true, true);
-              } else {
-                handleAfterSignup(true, false);
-              }
-            }
-          })();
+          handleAfterSignup(true, false);
         } else if (response.status === 400) {
           setErrors({
             ...errors,

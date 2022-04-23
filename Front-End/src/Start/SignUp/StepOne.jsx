@@ -90,6 +90,8 @@ function StepOne({
             </p>
             <DatePicker setDate={setDate} />
           </div>
+          {errors.birthdate
+           && <p className="start-modals-form-errors">{errors.birthdate}</p>}
         </div>
         <div className="start-modals-button-container">
           <Button

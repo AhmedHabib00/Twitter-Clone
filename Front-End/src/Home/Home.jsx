@@ -13,6 +13,7 @@ function Home() {
       const resp = await GetPostsArray();
       if (resp.status === 200) {
         setPostData(resp.data);
+        document.getElementsByTagName('post-body')[0].style.setProperty('overflow-y', 'hidden');
       }
     })();
   }, []);
