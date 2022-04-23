@@ -1,6 +1,6 @@
 
 {
-    "AWSEBDockerrunVersion": "3",
+    "AWSEBDockerrunVersion": "2",
     "containerDefinitions": [
         {
             "name": "frontend-docker",
@@ -13,7 +13,7 @@
                     "containerPort":80
                 }
             ],
-            "links":["backend", "database"],
+            "links":["backend"],
             "memory":10
         },
         {
@@ -27,21 +27,9 @@
                     "containerPort":8080
                 }
             ],
-            "links":["database"],
+
             "memory":10
-        },
-        {
-            "name": "database-docker",
-            "image": "${{ secrets.DOCKERHUB_USERNAME }}/swdb",
-            "hostname": "mongoose",
-            "essential": true,
-            "portMappings":[
-                {
-                    "hostPort": 8000,
-                    "containerPort":8000
-                }
-            ],
-            "memory":100
         }
+       
     ]
 }
