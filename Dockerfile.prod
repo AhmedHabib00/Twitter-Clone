@@ -1,15 +1,13 @@
 # build environment
+
 FROM node:16-alpine3.14
+
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
 
 COPY Front-End/package.json ./
 COPY Front-End/package-lock.json ./
 
-
 RUN npm ci --production
-
-npm run install
 
 COPY . . ./
 
