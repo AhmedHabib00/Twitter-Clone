@@ -6,6 +6,6 @@ COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY Testing/code/. . ./
+COPY Testing/. . ./
 
 CMD python test_main.py
