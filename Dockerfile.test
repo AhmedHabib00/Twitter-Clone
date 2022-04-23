@@ -6,11 +6,7 @@ COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY Testing/. . ./
+COPY Testing/ ./
 
 
-RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
-
-USER docker
-
-CMD python code/test_main.py
+CMD python Testing/code/test_main.py
