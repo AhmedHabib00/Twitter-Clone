@@ -323,7 +323,7 @@ function Post({
 }
 
 Post.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   displayname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,

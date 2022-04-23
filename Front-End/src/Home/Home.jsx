@@ -24,7 +24,7 @@ function Home() {
       </div>
       <TweetBox placeHolder="What's happening" boxId="home" />
       <hr className={styles['home-hor-hr']} />
-      <Feed className={styles.feed} data={postData} />
+      {postData && <Feed className={styles.feed} data={postData} />}
     </div>
   );
 }

@@ -37,7 +37,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     }
     (async () => {
       const resp = await GetGifs(url);
-      setGifs(resp.data.data);
+      setGifs(resp.data);
     })();
   };
   const deleteImage = (id) => {
@@ -83,7 +83,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
       setImageId(tempCounter);
       setImages(tempImages);
       setGifDisabled(true);
-      document.getElementById('media-selection-from-pc').value = '';
+      document.getElementById(`media-selection-from-pc-${boxId}`).value = '';
     }
   };
 
@@ -216,7 +216,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.number,
+  replyId: PropTypes.string,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
 };
