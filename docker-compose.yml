@@ -5,7 +5,7 @@ services:
     build: ./frontend
     ports:
       - "80:80"
-    container_name: frontend-docker
+    container_name: frontend
     restart: always
     links:
       - backend
@@ -14,14 +14,5 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
-    container_name: backend-docker
+    container_name: backend
     restart: always
-    links:
-      - db
-
-  db:
-    image: mongo:5.0
-    ports:
-      - 27017:27017
-    restart: unless-stopped
-    container_name: database-docker
