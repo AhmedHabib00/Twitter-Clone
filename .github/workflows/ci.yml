@@ -40,7 +40,7 @@ jobs:
 
 
       - name: Build Database Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swdb -f ./Back-End/Dockerfile .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swdb -f ./Back-End/Dockerfile ./Back-End
 
       - name: Tag Database Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swdb ${{ secrets.DOCKERHUB_USERNAME }}/swdb:latest
@@ -50,7 +50,7 @@ jobs:
 
 
       - name: Build Backend Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  ./Back-End
 
       - name: Tag Backend Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swbackend ${{ secrets.DOCKERHUB_USERNAME }}/swbackend:latest
@@ -60,7 +60,7 @@ jobs:
 
 
       - name: Build FrontEnd Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Front-End/Dockerfile .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Front-End/Dockerfile ./Front-End
 
       - name: Tag FrontEnd Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swfront ${{ secrets.DOCKERHUB_USERNAME }}/swfront:latest
