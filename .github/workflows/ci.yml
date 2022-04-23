@@ -50,7 +50,7 @@ jobs:
 
 
       - name: Build Backend Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  ./usr/src/app/backend
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  ./Back-End
 
       - name: Tag Backend Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swbackend ${{ secrets.DOCKERHUB_USERNAME }}/swbackend:latest
@@ -60,7 +60,7 @@ jobs:
 
 
       - name: Build FrontEnd Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Fack-End/Dockerfile ./usr/src/app/frontend 
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Front-End/Dockerfile ./Front-End
 
       - name: Tag FrontEnd Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swfront ${{ secrets.DOCKERHUB_USERNAME }}/swfront:latest
