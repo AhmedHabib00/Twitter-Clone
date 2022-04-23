@@ -1,6 +1,6 @@
 # build environment
 
-FROM node:16-alpine3.14
+FROM node:16-alpine3.14 as build
 
 WORKDIR /app
 
