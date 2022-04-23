@@ -40,7 +40,7 @@ jobs:
 
 
       - name: Build Database Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swdb -f ./Back-End/Dockerfile ./Back-End
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swdb -f ./Back-End/Dockerfile .
 
       - name: Tag Database Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swdb ${{ secrets.DOCKERHUB_USERNAME }}/swdb:latest
@@ -50,7 +50,7 @@ jobs:
 
 
       - name: Build Backend Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  ./Back-End
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  .
 
       - name: Tag Backend Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swbackend ${{ secrets.DOCKERHUB_USERNAME }}/swbackend:latest
@@ -60,7 +60,7 @@ jobs:
 
 
       - name: Build FrontEnd Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Front-End/Dockerfile ./Front-End
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Front-End/Dockerfile .
 
       - name: Tag FrontEnd Image
         run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swfront ${{ secrets.DOCKERHUB_USERNAME }}/swfront:latest
@@ -85,7 +85,7 @@ jobs:
         run: zip -r deploy.zip * -x "**node_modules**"
 
       - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v14
+        uses: einaregilsson/beanstalk-deploy@v16
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -93,3 +93,4 @@ jobs:
           environment_name: Habibsw-env-1
           version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
           region: us-east-1
+          deployment_package: deploy.zip
