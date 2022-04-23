@@ -1,5 +1,5 @@
 # build environment
-FROM node:16-alpine3.14 as build
+FROM node:16-alpine3.14
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
@@ -8,8 +8,12 @@ COPY Front-End/package-lock.json ./
 
 
 RUN npm ci --production
+
+npm run install
+
 COPY . . ./
-RUN npm run start
+
+RUN npm run build
 
 # production environment
 FROM nginx:stable-alpine
