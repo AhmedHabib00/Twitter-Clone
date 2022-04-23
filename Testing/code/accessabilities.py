@@ -9,4 +9,4 @@ signup_close_button = '#signup-modals > div > div > div:nth-child(1) > button'
 signup_name_error = '#signup-modals > div > form > div.StepOne_body__qklkQ > p'
 signup_email_error = '#signup-modals > div > form > div.StepOne_body__qklkQ > label:nth-child(3) > p'
 
-chrome_driver = '../drivers/chromedriver.exe'
+chrome_driver = 'drivers/chromedriver.exe'
