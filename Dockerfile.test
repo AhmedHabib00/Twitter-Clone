@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY Testing/. . ./
 
-CMD python test_main.py
+CMD python code/test_main.py
