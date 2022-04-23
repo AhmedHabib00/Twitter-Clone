@@ -1,5 +1,5 @@
 {
-    "SERVER_URL": "http://localhost:8000",
+    "SERVER_URL": "http://localhost:8080",
     "NODE_ENV": "production",
     "REACT_APP_GOOGLE_CLIENT_ID": "508981250586-5vrqquhhgimntmj4rosvpfq0npcbmdrb.apps.googleusercontent.com"
 }
