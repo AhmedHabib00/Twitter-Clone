@@ -19,7 +19,7 @@
         {
             "name": "backend-docker",
             "image": "mado7abib007/swbackend",
-            "hostname": "client",
+            "hostname": "localhost",
             "essential": true,
             "portMappings":[
                 {
