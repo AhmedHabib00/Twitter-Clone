@@ -1,14 +1,47 @@
 
 {
-    "AWSEBDockerrunVersion": "1",
-    "Image": {
-        "Name": "${{ secrets.DOCKERHUB_USERNAME }}/Whisper:latest",
-        "Update": "true"
-    },
-    "Ports": [
+    "AWSEBDockerrunVersion": "3",
+    "containerDefinitions": [
         {
-            "ContainerPort": "80"
+            "name": "frontend-docker",
+            "image": "${{ secrets.DOCKERHUB_USERNAME }}/swfront",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings":[
+                {
+                    "hostPort": 80,
+                    "containerPort":80
+                }
+            ],
+            "links":["backend", "database"],
+            "memory":10
+        },
+        {
+            "name": "backend-docker",
+            "image": "${{ secrets.DOCKERHUB_USERNAME }}/swbackend",
+            "hostname": "client",
+            "essential": true,
+            "portMappings":[
+                {
+                    "hostPort": 8080,
+                    "containerPort":8080
+                }
+            ],
+            "links":["database"],
+            "memory":10
+        },
+        {
+            "name": "database-docker",
+            "image": "${{ secrets.DOCKERHUB_USERNAME }}/swdb",
+            "hostname": "mongoose",
+            "essential": true,
+            "portMappings":[
+                {
+                    "hostPort": 8000,
+                    "containerPort":8000
+                }
+            ],
+            "memory":100
         }
-    ],
-    "Logging": "/var/log/nginx"
+    ]
 }

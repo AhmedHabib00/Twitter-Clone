@@ -31,8 +31,6 @@ jobs:
       - name: Checkout Latest Repo
         uses: actions/checkout@master
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -40,14 +38,36 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile.prod
-          push: true
-          tags: habibsw/whisperhabib:latest
-      
+
+      - name: Build Database Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swdb -f ./Back-End/Dockerfile ./database-docker
+
+      - name: Tag Database Image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swdb ${{ secrets.DOCKERHUB_USERNAME }}/swdb:latest
+
+      - name: Push DB to DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/swdb
+
+
+      - name: Build Backend Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile ./backend-docker
+
+      - name: Tag Backend Image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swbackend ${{ secrets.DOCKERHUB_USERNAME }}/swbackend:latest
+
+      - name: Push Backend to DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/swbackend
+
+
+      - name: Build FrontEnd Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Fack-End/Dockerfile ./backend-docker
+
+      - name: Tag FrontEnd Image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swfront ${{ secrets.DOCKERHUB_USERNAME }}/swfront:latest
+
+      - name: Push FrontEnd to DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/swfront
+    
       - name: Get Timestamp
         uses: gerred/actions/current-time@master
         id: current-time

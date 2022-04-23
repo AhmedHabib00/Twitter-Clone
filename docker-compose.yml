@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    container_name: frontend-docker
+    restart: always
+    links:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    container_name: backend-docker
+    restart: always
+    links:
+      - db
+
+  db:
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    container_name: database-docker
