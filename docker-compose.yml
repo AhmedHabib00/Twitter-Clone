@@ -5,7 +5,7 @@ services:
     build: ./frontend
     ports:
       - "80:80"
-    container_name: frontend
+    container_name: frontend-docker
     restart: always
     links:
       - backend
@@ -14,5 +14,5 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
-    container_name: backend
+    container_name: backend-docker
     restart: always

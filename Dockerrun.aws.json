@@ -3,7 +3,7 @@
     "AWSEBDockerrunVersion": "2",
     "containerDefinitions": [
         {
-            "name": "frontend",
+            "name": "frontend-docker",
             "image": "mado7abib007/swfront",
             "hostname": "nginx",
             "essential": true,
@@ -13,18 +13,18 @@
                     "containerPort":80
                 }
             ],
-            "links":["backend"],
+            "links":["backend-docker"],
             "memory":10
         },
         {
-            "name": "backend",
+            "name": "backend-docker",
             "image": "mado7abib007/swbackend",
             "hostname": "client",
             "essential": true,
             "portMappings":[
                 {
-                    "hostPort": 8000,
-                    "containerPort":8000
+                    "hostPort": 8080,
+                    "containerPort":8080
                 }
             ],
 
