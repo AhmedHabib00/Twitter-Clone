@@ -29,6 +29,20 @@
             ],
 
             "memory":10
+        },
+        {
+            "name": "backend-docker2",
+            "image": "mado7abib007/swbackend",
+            "hostname": "localhost",
+            "essential": true,
+            "portMappings":[
+                {
+                    "hostPort": 8080,
+                    "containerPort":8080
+                }
+            ],
+
+            "memory":10
         }
        
     ]
