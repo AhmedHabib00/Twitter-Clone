@@ -2,8 +2,14 @@
 FROM node:17-alpine3.14 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json ./
-COPY package-lock.json ./
+
+COPY Front-End/package.json ./
+COPY Front-End/package-lock.json ./
+
+COPY Back-End/package.json ./
+COPY Back-End/package-lock.json ./
+
+
 RUN npm ci
 COPY . ./
 RUN npm run build
