@@ -8,9 +8,13 @@ WORKDIR /usr/src/app/backend
 
 COPY package*.json ./
 
+RUN pwd
+
 RUN ls
 
 RUN ls /usr/src/app/backend
+
+RUN ls ~
 
 COPY . .
 
