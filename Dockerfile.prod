@@ -9,7 +9,7 @@ COPY Front-End/package-lock.json ./
 
 RUN npm ci --production
 COPY . . ./
-RUN npm run build
+RUN npm run start
 
 # production environment
 FROM nginx:stable-alpine
