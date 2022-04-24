@@ -23,7 +23,7 @@ router.get('/gToken/:id',async(req,res)=>{
         role: userInfo.role
     },process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
 
-    res.send(token);
+    res.sendStatus(200).send(token);
 });
 
 //"""Bookmark endpoints"""
@@ -38,7 +38,6 @@ router.get('/:id/bookmarks', auth, async (req, res) =>{
     userSchema.findById(req.params.id).populate('bookmarks').exec(async (err, bookmarksData) =>{
         try {
             userData = await userSchema.findById(req.params.id);
-            console.log(userData.role);
             if (userData.role=="User") {
                 // return followers data
                 res.status(200).send(bookmarksData.bookmarks);
@@ -87,7 +86,9 @@ router.post('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
                         }
                         
                     }else{
-                        throw err;
+                        res.status(200).send({"data": {
+                            "bookmarked": true
+                        }});
                     }    
                 } else {
                     throw err;  
@@ -97,7 +98,7 @@ router.post('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
             }
         } catch(err) {
             res.status(500).send({"data": {
-                "following": false
+                "bookmarked": false
             }});
         }
     })
@@ -138,7 +139,9 @@ router.delete('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
                             throw err;
                         }
                     }else{
-                        throw err;
+                        res.status(200).send({"data": {
+                            "bookmarked": false
+                        }});
                     }
                 }else{
                     throw err;
@@ -152,6 +155,155 @@ router.delete('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
             }});
         }
     })
+});
+
+//"""Block endpoints"""
+// List of blocked users of the user ID : GET /users/:id/blocking/
+router.get('/:id/blocking', auth, async (req, res) =>{
+
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
+    // Get data by id
+    userSchema.findById(req.params.id).populate('blocks','_id name username email profilePic covorPhoto description').exec(async (err, bookmarksData) =>{
+        try {
+            userData = await userSchema.findById(req.params.id);
+            if (userData.role=="User") {
+                // return followers data
+                res.status(200).send(bookmarksData.blocks);
+            }else{
+                throw err;
+            }
+        }
+        catch(err){
+            res.sendStatus(500);
+        }
+    })
+});
+
+// Allows an user to block another user : POST /users/{source_user_id}/blocking/{target_user_id}
+router.post('/:source_user_id/blocking/:target_user_id', auth, async (req, res) =>{
+
+    // Authrization
+    if (req.user.role != "User" && req.user._id != req.params.source_user_id) {
+        return res.status(403).send("Access denied");
+    }
+
+    // Get data of the user who want to block by id
+    userSchema.findById(req.params.source_user_id).exec(async (err, blockData)=>{
+        try {
+            // Get data of the user that will be followed from body request by target_user_id
+            sourceUserData = await userSchema.findById(req.params.source_user_id);
+            targetUserData = await userSchema.findById(req.params.target_user_id);
+            
+            if (sourceUserData.role == "User" && targetUserData.role == "User") {
+                // Check if the source_user_id not already blocking the target_user_id
+                blockExistPass = blockData.block.find(block => block == req.params.target_user_id)
+
+                // Check if user is the same as target_user
+                selfPass = req.params.source_user_id == req.params.target_user_id
+
+                if (!selfPass) {
+                    if (!blockExistPass) {
+                        // Add target_user_id to the block list of the user
+                        blockData.block.push(req.params.target_user_id);
+                        blockData.save();
+                        
+                        blockExistPass = blockData.block.find(block => block == req.params.target_user_id)
+                        
+                        if (blockExistPass) {
+                            res.status(200).send({"data": {
+                                "blocking": true
+                            }});
+                        }else{
+                            throw err;
+                        }   
+                    }else{
+                        res.status(200).send({"data": {
+                            "blocking": true
+                        }});
+                    }
+                }else{
+                    throw err;
+                }
+            }else{
+                throw err;
+            }            
+        } catch(err) {
+            res.status(500).send({"data": {
+                "blocking": false
+            }});
+        }
+    })
+});
+// Allows an user to unblock user : DEL /users/{source_user_id}/blocking/{target_user_id}
+router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res) =>{
+    // Authrization
+    if (req.user.role != "User" && req.user._id != req.params.source_user_id) {
+        return res.status(403).send("Access denied");
+    }
+
+    // Get data of the user who want to unfollow by source_user_id
+    userSchema.findById(req.params.source_user_id).exec(async(err, followingData)=>{
+        try {
+            // Get data of the target_user_id
+            userSchema.findById(req.params.target_user_id).exec(async(err, followerData)=>{
+                try {
+                    sourceUserData = await userSchema.findById(req.params.source_user_id);
+                    targetUserData = await userSchema.findById(req.params.target_user_id);
+
+                    if (sourceUserData.role == "User" && targetUserData.role == "User") {
+                        // Check if source_user already followed target_user
+                        followingExistPass = followingData.following.find(following => following == req.params.target_user_id);
+                        followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id);
+
+                        // Check if target_user is the same as source_user
+                        selfPass = req.params.target_user_id == req.params.source_user_id;
+
+                        if (!selfPass) {
+                            if (followerExistPass && followingExistPass) {
+                                // Delete following
+                                followingData.following = removeItem(followingData.following, req.params.target_user_id);
+                                followingData.save();
+
+                                // Delete follower
+                                followerData.followers = removeItem(followerData.followers, req.params.source_user_id);
+                                followerData.save();
+                                
+                                followingExistPass = followingData.following.find(following => following == req.params.target_user_id);
+                                followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id);
+                                
+                                if(!followingExistPass && !followerExistPass){
+                                    res.status(200).send({"data": {
+                                        "following": false
+                                    }}); 
+                                }else{
+                                    throw err;
+                                }
+                            }else{
+                                res.status(200).send({"data": {
+                                    "following": false
+                                }}); 
+                            }
+                        }else{
+                            throw err;
+                        }
+                    }else{
+                        throw err;
+                    }
+                } catch(err) {
+                    res.status(500).send({"data": {
+                        "following": true
+                    }});
+                }
+            });
+        } catch(err) {
+            res.status(500).send({"data": {
+                "following": true
+            }});
+        }
+    })    
 });
 
 
@@ -211,7 +363,6 @@ router.post('/:source_user_id/following/:target_user_id', auth, async (req, res)
                 try {
                     sourceUserData = await userSchema.findById(req.params.source_user_id);
                     targetUserData = await userSchema.findById(req.params.target_user_id);
-
                     if (sourceUserData.role == "User" && targetUserData.role == "User") {
                         // Check if the source_user_id not already follow the target_user_id
                         followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
@@ -219,27 +370,32 @@ router.post('/:source_user_id/following/:target_user_id', auth, async (req, res)
 
                         // Check if user is the same as target_user
                         selfPass = req.params.source_user_id == req.params.target_user_id
-            
-                        if (!followerExistPass && !followingExistPass && !selfPass) {
-                            // Add target_user_id to the following list of the user
-                            followingData.following.push(req.params.target_user_id);
-                            followingData.save();
 
-                            // Add user_id to the followers list of the target_user
-                            followerData.followers.push(req.params.source_user_id);
-                            followerData.save();
-                            
-                            followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
-                            followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
-                            
-                            if (followingExistPass && followerExistPass) {
+                        if (!selfPass) {
+                            if (!followerExistPass && !followingExistPass) {
+                                // Add target_user_id to the following list of the user
+                                followingData.following.push(req.params.target_user_id);
+                                followingData.save();
+
+                                // Add user_id to the followers list of the target_user
+                                followerData.followers.push(req.params.source_user_id);
+                                followerData.save();
+                                
+                                followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
+                                followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
+                                
+                                if (followingExistPass && followerExistPass) {
+                                    res.status(200).send({"data": {
+                                        "following": true
+                                    }});
+                                }else{
+                                    throw err;
+                                }   
+                            }else{
                                 res.status(200).send({"data": {
                                     "following": true
                                 }});
-                            }else{
-                                throw err;
                             }
-                            
                         }else{
                             throw err;
                         }
@@ -285,24 +441,30 @@ router.delete('/:source_user_id/following/:target_user_id', auth, async (req, re
                         // Check if target_user is the same as source_user
                         selfPass = req.params.target_user_id == req.params.source_user_id;
 
-                        if (followerExistPass && followingExistPass && !selfPass) {
-                            // Delete following
-                            followingData.following = removeItem(followingData.following, req.params.target_user_id);
-                            followingData.save();
+                        if (!selfPass) {
+                            if (followerExistPass && followingExistPass) {
+                                // Delete following
+                                followingData.following = removeItem(followingData.following, req.params.target_user_id);
+                                followingData.save();
 
-                            // Delete follower
-                            followerData.followers = removeItem(followerData.followers, req.params.source_user_id);
-                            followerData.save();
-                            
-                            followingExistPass = followingData.following.find(following => following == req.params.target_user_id);
-                            followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id);
-                            
-                            if(!followingExistPass && !followerExistPass){
+                                // Delete follower
+                                followerData.followers = removeItem(followerData.followers, req.params.source_user_id);
+                                followerData.save();
+                                
+                                followingExistPass = followingData.following.find(following => following == req.params.target_user_id);
+                                followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id);
+                                
+                                if(!followingExistPass && !followerExistPass){
+                                    res.status(200).send({"data": {
+                                        "following": false
+                                    }}); 
+                                }else{
+                                    throw err;
+                                }
+                            }else{
                                 res.status(200).send({"data": {
                                     "following": false
                                 }}); 
-                            }else{
-                                throw err;
                             }
                         }else{
                             throw err;
