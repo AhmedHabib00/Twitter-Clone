@@ -9,6 +9,9 @@ const ObjectId = userSchema.ObjectId;
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 
+const request = require('request');
+
+
 // users ||Test||
 router.get('/', function(req,res){
     res.status(200).send({"UserPage":true});
@@ -191,26 +194,36 @@ router.post('/:source_user_id/blocking/:target_user_id', auth, async (req, res) 
     }
 
     // Get data of the user who want to block by id
-    userSchema.findById(req.params.source_user_id).exec(async (err, blockData)=>{
+    userSchema.findById(req.params.source_user_id).exec(async (err, userData)=>{
         try {
             // Get data of the user that will be followed from body request by target_user_id
             sourceUserData = await userSchema.findById(req.params.source_user_id);
             targetUserData = await userSchema.findById(req.params.target_user_id);
-            
+
             if (sourceUserData.role == "User" && targetUserData.role == "User") {
                 // Check if the source_user_id not already blocking the target_user_id
-                blockExistPass = blockData.block.find(block => block == req.params.target_user_id)
+
+                blockExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id)
 
                 // Check if user is the same as target_user
                 selfPass = req.params.source_user_id == req.params.target_user_id
-
+                
                 if (!selfPass) {
                     if (!blockExistPass) {
-                        // Add target_user_id to the block list of the user
-                        blockData.block.push(req.params.target_user_id);
-                        blockData.save();
+                        // Delete follow relation between source_user_id and target_user_id
+                        // Delete following
+                        userData.following = removeItem(userData.following, req.params.target_user_id);
+                        userData.following = removeItem(userData.following, req.params.source_user_id);
+
+                        // Delete follower
+                        userData.followers = removeItem(userData.followers, req.params.source_user_id);
+                        userData.followers = removeItem(userData.followers, req.params.target_user_id);
                         
-                        blockExistPass = blockData.block.find(block => block == req.params.target_user_id)
+                        // Add target_user_id to the block list of the user
+                        userData.blocks.push(req.params.target_user_id);
+                        userData.save();
+                        
+                        blockExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id)
                         
                         if (blockExistPass) {
                             res.status(200).send({"data": {
@@ -225,18 +238,26 @@ router.post('/:source_user_id/blocking/:target_user_id', auth, async (req, res) 
                         }});
                     }
                 }else{
-                    throw err;
+                    res.status(500).send({"data": {
+                        "blocking": false,
+                        "reason": "Same target_user_id and source_user_id"
+                    }});
                 }
             }else{
-                throw err;
+                res.status(500).send({"data": {
+                    "blocking": false,
+                    "reason": "Not auth. user"
+                }});
             }            
         } catch(err) {
+            console.log(err);
             res.status(500).send({"data": {
-                "blocking": false
+                "blocking": false,
             }});
         }
     })
 });
+
 // Allows an user to unblock user : DEL /users/{source_user_id}/blocking/{target_user_id}
 router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res) =>{
     // Authrization
@@ -244,63 +265,49 @@ router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res
         return res.status(403).send("Access denied");
     }
 
-    // Get data of the user who want to unfollow by source_user_id
-    userSchema.findById(req.params.source_user_id).exec(async(err, followingData)=>{
+    // Get data of the user who want to unblock by source_user_id
+    userSchema.findById(req.params.source_user_id).exec(async(err, userData)=>{
         try {
             // Get data of the target_user_id
-            userSchema.findById(req.params.target_user_id).exec(async(err, followerData)=>{
-                try {
-                    sourceUserData = await userSchema.findById(req.params.source_user_id);
-                    targetUserData = await userSchema.findById(req.params.target_user_id);
+            sourceUserData = await userSchema.findById(req.params.source_user_id);
+            targetUserData = await userSchema.findById(req.params.target_user_id);
 
-                    if (sourceUserData.role == "User" && targetUserData.role == "User") {
-                        // Check if source_user already followed target_user
-                        followingExistPass = followingData.following.find(following => following == req.params.target_user_id);
-                        followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id);
+            if (sourceUserData.role == "User" && targetUserData.role == "User") {
+                // Check if source_user already followed target_user
+                blockingExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id);
 
-                        // Check if target_user is the same as source_user
-                        selfPass = req.params.target_user_id == req.params.source_user_id;
+                // Check if target_user is the same as source_user
+                selfPass = req.params.target_user_id == req.params.source_user_id;
 
-                        if (!selfPass) {
-                            if (followerExistPass && followingExistPass) {
-                                // Delete following
-                                followingData.following = removeItem(followingData.following, req.params.target_user_id);
-                                followingData.save();
-
-                                // Delete follower
-                                followerData.followers = removeItem(followerData.followers, req.params.source_user_id);
-                                followerData.save();
-                                
-                                followingExistPass = followingData.following.find(following => following == req.params.target_user_id);
-                                followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id);
-                                
-                                if(!followingExistPass && !followerExistPass){
-                                    res.status(200).send({"data": {
-                                        "following": false
-                                    }}); 
-                                }else{
-                                    throw err;
-                                }
-                            }else{
-                                res.status(200).send({"data": {
-                                    "following": false
-                                }}); 
-                            }
+                if (!selfPass) {
+                    if (blockingExistPass) {
+                        // Delete following
+                        userData.blocks = removeItem(userData.blocks, req.params.target_user_id);
+                        userData.save();
+                        
+                        blockingExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id);
+                        
+                        if(!blockingExistPass){
+                            res.status(200).send({"data": {
+                                "blocking": false
+                            }}); 
                         }else{
                             throw err;
                         }
                     }else{
-                        throw err;
+                        res.status(200).send({"data": {
+                            "blocking": false
+                        }}); 
                     }
-                } catch(err) {
-                    res.status(500).send({"data": {
-                        "following": true
-                    }});
+                }else{
+                    throw err;
                 }
-            });
+            }else{
+                throw err;
+            }                
         } catch(err) {
             res.status(500).send({"data": {
-                "following": true
+                "blocking": true
             }});
         }
     })    

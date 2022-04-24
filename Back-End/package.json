@@ -18,6 +18,7 @@
     "mongoose": "^6.2.7",
     "mongose": "^0.0.2-security",
     "nodemon": "^2.0.15",
+    "request": "^2.88.2",
     "supertest": "^6.2.2"
   },
   "devDependencies": {
