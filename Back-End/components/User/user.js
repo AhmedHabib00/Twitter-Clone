@@ -26,7 +26,7 @@ router.get('/gToken/:id',async(req,res)=>{
         role: userInfo.role
     },process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
 
-    res.sendStatus(200).send(token);
+    res.send(token);
 });
 
 //"""Bookmark endpoints"""
@@ -273,7 +273,7 @@ router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res
             targetUserData = await userSchema.findById(req.params.target_user_id);
 
             if (sourceUserData.role == "User" && targetUserData.role == "User") {
-                // Check if source_user already followed target_user
+                // Check if source_user already blocking target_user
                 blockingExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id);
 
                 // Check if target_user is the same as source_user
