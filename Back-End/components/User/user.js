@@ -6,15 +6,34 @@ const userSchema = require('./userSchema')
 const tweetSchema = require('../Tweets/tweetsSchema')
 const ObjectId = userSchema.ObjectId;
 
+const auth = require('../middleware/auth');
+const jwt = require('jsonwebtoken');
+
 // users ||Test||
 router.get('/', function(req,res){
     res.status(200).send({"UserPage":true});
 });
 
+// Test || Token || - TO-DELETE
+router.get('/gToken/:id',async(req,res)=>{
+    userInfo = await userSchema.findById(req.params.id);
+    const token = jwt.sign({
+        _id: req.params.id,
+        email: userInfo.email,
+        role: userInfo.role
+    },process.env.JWT_SECRET_KEY ,{expiresIn :'1d'});
+
+    res.send(token);
+});
 
 //"""Bookmark endpoints"""
 // List of bookmarked tweets of the user ID : GET /users/:id/bookmarks/
-router.get('/:id/bookmarks', async (req, res) =>{
+router.get('/:id/bookmarks', auth, async (req, res) =>{
+
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data by id
     userSchema.findById(req.params.id).populate('bookmarks').exec(async (err, bookmarksData) =>{
         try {
@@ -34,7 +53,13 @@ router.get('/:id/bookmarks', async (req, res) =>{
 });
 
 // Allows an user to bookmark tweet : POST /users/{id}/bookmarks/{tweet_id}
-router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{ 
+router.post('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
+
+    // Authorization
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data of the user who want to bookmark by id
     userSchema.findById(req.params.id).exec(async(err, userData)=>{
         try {
@@ -79,7 +104,13 @@ router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{
 });
 
 // Allows an user to unbookmark tweet : DEL /users/{id}/bookmarks/{tweet_id}
-router.delete('/:id/bookmarks/:tweet_id', async (req, res) =>{
+router.delete('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
+    
+    // Authorization
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data of the user who want to unbookmark by id
     userSchema.findById(req.params.id).exec(async(err, userData)=>{
         try {
@@ -126,7 +157,13 @@ router.delete('/:id/bookmarks/:tweet_id', async (req, res) =>{
 
 //"""Follow endpoints"""
 // List of users who are followers of the user ID : GET /users/{id}/followers
-router.get('/:id/followers', async (req, res) =>{
+router.get('/:id/followers', auth, async (req, res) =>{
+
+    // Authrization
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data by id
     userSchema.findById(req.params.id).populate('followers', "_id name username email profilePic covorPhoto description").exec(async (err, followersData)=>{
         try {
@@ -135,7 +172,7 @@ router.get('/:id/followers', async (req, res) =>{
                 // return followers data
                 res.status(200).send(followersData.followers);
             }else{
-                throw err;
+                res.sendStatus(500).send("Specefied id not an User");
             }
         }
         catch(err){
@@ -145,7 +182,13 @@ router.get('/:id/followers', async (req, res) =>{
 });
 
 // List of users the specified user ID is following : GET /users/{id}/following
-router.get('/:id/following', async (req, res) =>{ 
+router.get('/:id/following', auth, async (req, res) =>{ 
+    
+    // Authrization
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data by id
     userSchema.findById(req.params.id).populate('following', "_id name username email profilePic covorPhoto description").exec(async (err, followingData)=>{
         try {
@@ -163,7 +206,13 @@ router.get('/:id/following', async (req, res) =>{
 });
 
 // Allows a user ID to follow another user : POST /users/{source_user_id}/following/{target_user_id}
-router.post('/:source_user_id/following/:target_user_id', async (req, res) =>{
+router.post('/:source_user_id/following/:target_user_id', auth, async (req, res) =>{
+
+    // Authrization
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data of the user who want to follow by id
     userSchema.findById(req.params.source_user_id).exec(async (err, followingData)=>{
         try {
@@ -222,7 +271,13 @@ router.post('/:source_user_id/following/:target_user_id', async (req, res) =>{
 });
 
 // Allows a user ID to unfollow another user : DEL /users/{source_user_id}/following/{target_user_id}
-router.delete('/:source_user_id/following/:target_user_id', async (req, res) =>{
+router.delete('/:source_user_id/following/:target_user_id', auth, async (req, res) =>{
+    
+    // Authrization
+    if (req.user.role != "User" && req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
+
     // Get data of the user who want to unfollow by source_user_id
     userSchema.findById(req.params.source_user_id).exec(async(err, followingData)=>{
         try {
