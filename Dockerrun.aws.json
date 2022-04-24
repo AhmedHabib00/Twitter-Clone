@@ -7,7 +7,7 @@
             "image": "mado7abib007/swfront",
             "hostname": "nginx",
             "essential": true,
-            "memory":10
+            "memory":100
         },
         {
             "name": "backend",
