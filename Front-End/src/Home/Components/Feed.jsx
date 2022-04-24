@@ -11,7 +11,6 @@ import Post from './Post';
  * to display the posts in the feed component.
  */
 function Feed({ data }) {
-  console.log(data);
   return (
     <div data-testid="feed-render-test" className={styles.feed}>
 
@@ -19,6 +18,7 @@ function Feed({ data }) {
         data && data.map((post) => (
 
           <Post
+            key={post.id}
             id={post.id}
             displayname={post.displayName}
             username={post.userName}
@@ -43,7 +43,7 @@ function Feed({ data }) {
 
 Feed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,

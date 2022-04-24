@@ -29,7 +29,6 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [isEnabled, setIsEnabled] = useState(true);
 
   const onSearchChange = (value) => {
-    console.log(value);
     let url;
     if (value === '') {
       url = 'http://api.giphy.com/v1/gifs/trending?api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF';
@@ -38,7 +37,6 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     }
     (async () => {
       const resp = await GetGifs(url);
-      console.log(resp.data);
       setGifs(resp.data);
     })();
   };
@@ -85,7 +83,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
       setImageId(tempCounter);
       setImages(tempImages);
       setGifDisabled(true);
-      document.getElementById('media-selection-from-pc').value = '';
+      document.getElementById(`media-selection-from-pc-${boxId}`).value = '';
     }
   };
 
@@ -218,7 +216,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.number,
+  replyId: PropTypes.string,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
 };

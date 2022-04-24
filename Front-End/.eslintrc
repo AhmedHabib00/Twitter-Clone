@@ -14,5 +14,11 @@
         "linebreak-style":"off",
         "jsx-a11y/click-events-have-key-events":"off",
         "react-hooks/exhaustive-deps":"off"
+    },
+    "parserOptions": {
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
     }
+}
 }

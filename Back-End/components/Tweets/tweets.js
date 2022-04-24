@@ -532,6 +532,7 @@ router.post("/",auth, async function(req,res){
 
     //If there is an error with uploading the images, send a 400 status
     //an error is not the same as not uploading images
+    console.log(req.body);
     upload(req,res,async function(err){
         // console.log(req.files);
         // console.log(req.body);
@@ -543,6 +544,7 @@ router.post("/",auth, async function(req,res){
 
     token=req.user._id
     console.log(req.body.gifs);
+    console.log(req.user._id)
     try
     {
         userInfo=await user.findById(req.user._id)     
@@ -559,11 +561,12 @@ router.post("/",auth, async function(req,res){
         return res.status(400).send("1 of the body parameters could not be read.");
         
     }
+    console.log("maradona")
     
     
     //initialising images,gifs,content,reply as empty
-     mediaTemp=[]
-     contentTemp=""
+    mediaTemp=[]
+    contentTemp=""
      replyTemp=undefined //represents an empty object
      gifTemp=""
      console.log("here")   
@@ -600,9 +603,9 @@ router.post("/",auth, async function(req,res){
             {
                 return res.sendStatus(400)  //can not have more than 1 gif    
             } 
-
-        
-        if(mediaTemp.length!=0) //can not have images and a gif
+            
+            
+            if(mediaTemp.length!=0) //can not have images and a gif
             {
                  return res.sendStatus(400)
             }

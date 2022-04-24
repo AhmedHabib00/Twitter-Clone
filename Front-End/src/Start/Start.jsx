@@ -29,7 +29,6 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   const navigate = useNavigate();
   const onGoogleSuccess = (response) => {
     const { tokenId } = response;
-    console.log(response);
     axiosApiCall(
       '/auth/google',
       'post',
@@ -37,7 +36,6 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     ).then((res) => {
       const token = res.data['x-auth-token'];
       localStorage.setItem('token', token);
-      console.log(localStorage);
       setIsLoggedIn(true);
       // Save the JWT inside a cookie
       Cookie.set('token', token);
@@ -48,10 +46,6 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   const onGoogleFailure = () => {};
 
   const handleLoginStatus = (logEvent, adminEvent) => {
-    console.log('start routing');
-    console.log(logEvent);
-    console.log(adminEvent);
-    console.log('start routing finish');
     setIsLoggedIn(logEvent);
     setisAdmin(adminEvent);
     navigate('/');
@@ -71,13 +65,10 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   //   // })();
   // };
   const responseFacebook = (response) => {
-    console.log(response);
     // Login failed
     if (response.status === 'unknown') {
-      alert('Login failed!');
       return false;
     }
-    console.log(response);
 
     return response;
   };

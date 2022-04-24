@@ -31,7 +31,6 @@ function Dashboard() {
   useEffect(() => {
     (async () => {
       const resp = await getStats();
-      console.log(resp);
       setNoUsers(resp.statData.noUsers);
       setNoBanned(resp.statData.noBanned);
       setTweetsRatio(resp.statData.ratioTweets);
