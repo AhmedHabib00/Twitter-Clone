@@ -27,6 +27,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-18.04
+    #needs: test
     steps:
       - name: Checkout Latest Repo
         uses: actions/checkout@master

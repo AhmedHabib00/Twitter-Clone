@@ -1,5 +1,5 @@
 build_test:
-	docker build -t whispertest -f ./Dockerfile.test .
+	docker build -t whispertest -f ./Testing/Dockerfile.test .
 
 run_test:
 	docker run -e CI=true whispertest
