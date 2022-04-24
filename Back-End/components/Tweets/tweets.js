@@ -330,7 +330,6 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
         console.log(error);
         return res.sendStatus(400);
     })
-    // console.log(results2)
     const Obj= ({
         id:results[0]["_id"],
         userName: results2["username"],
@@ -486,7 +485,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         .catch(error => {
             return res.status(400).send("error: problem with finding current user");;
         }) 
-        
+        console.log(results2)
         const Obj= ({
             id:results[i]["_id"],
             userName: results2["username"],
@@ -543,6 +542,7 @@ router.post("/",auth, async function(req,res){
     else{
 
     token=req.user._id
+    console.log(req.body.gifs);
     try
     {
         userInfo=await user.findById(req.user._id)     

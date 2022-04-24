@@ -14,10 +14,10 @@ export async function PostTweet(props) {
     if (image.type === 'img') {
       formData.append('images', image.imgFile);
     } else {
+      formData.delete('gifs');
       formData.append('gifs', image.imageUrl);
     }
   });
-  console.log(formData);
   let response = '';
   try {
     response = await axios.post(

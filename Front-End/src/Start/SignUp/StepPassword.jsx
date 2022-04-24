@@ -38,7 +38,7 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
         </div>
       </div>
       <div className="start-modals-title-container">
-        <h1 className={styles.title}> You&apos;ll need a pssword</h1>
+        <h1 className={styles.title}> You&apos;ll need a password</h1>
         <p className={styles.subtitle}>Make sure it&apos;s 8 characters or more.</p>
       </div>
       <form

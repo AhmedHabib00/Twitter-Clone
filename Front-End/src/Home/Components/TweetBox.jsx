@@ -21,7 +21,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [isGifOpen, setIsGifOpen] = useState(false);
-  const [gifs, setGifs] = useState([]);
+  const [gifs, setGifs] = useState();
   const [mediaDisabled, setMediaDisabled] = useState(false);
   const [gifDisabled, setGifDisabled] = useState(false);
   const [imageId, setImageId] = useState(0);
@@ -29,6 +29,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [isEnabled, setIsEnabled] = useState(true);
 
   const onSearchChange = (value) => {
+    console.log(value);
     let url;
     if (value === '') {
       url = 'http://api.giphy.com/v1/gifs/trending?api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF';
@@ -37,7 +38,8 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     }
     (async () => {
       const resp = await GetGifs(url);
-      setGifs(resp.data.data);
+      console.log(resp.data);
+      setGifs(resp.data);
     })();
   };
   const deleteImage = (id) => {
@@ -139,7 +141,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
         <div className={styles['inner-gif']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
           <div className={styles['popup-imgs-container']}>
-            {gifs.map((gif) => ((gifs.length === 0) ? '' : (
+            {gifs && gifs.map((gif) => ((gifs.length === 0) ? '' : (
               <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>
                 <img
                   id={`gif-popup-children-${gif.id}`}

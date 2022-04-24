@@ -151,13 +151,13 @@
 }
 
 .signup-tweet-google {
-  background-color: #ffff !important;
+  background-color: #ffff;
   border: none !important;
-  color: black !important;
-  border-color: rgb(207 217 222) !important;
+  color: #1d9bf0 !important;
+  border-color: rgb(207 217 222);
   border-width: 1px !important;
   border-style: solid !important;
-  font-weight: 700 !important;
+  font-weight: 640 !important;
   text-transform: inherit !important;
   border-radius: 30px !important;
   height: 50px !important;
@@ -171,11 +171,16 @@
     Helvetica,
     Arial,
     sans-serif !important;
-  line-height: 20px !important;
+
+  /* line-height: 20px !important; */
   min-width: 36px !important;
-  min-height: 36px !important;
+
+  /* min-height: 36px !important; */
   width: 300px !important;
   max-width: 380px !important;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .google-logo {
