@@ -43,7 +43,7 @@ RUN sudo chmod a+x chromedriver
 
 WORKDIR /app
 
-COPY . .
+COPY Testing/ .
 
 RUN ls
 
