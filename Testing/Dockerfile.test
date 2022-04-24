@@ -1,8 +1,12 @@
 FROM python:3
 
 RUN apt update -y
+
+RUN apt install sudo
 # We need wget to set up the PPA and xvfb to have a virtual screen and unzip to install the Chromedriver
 RUN apt install wget -y xvfb unzip
+
+
 
 # Set up the Chrome PPA
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -23,6 +27,11 @@ RUN mkdir $CHROMEDRIVER_DIR
 # Download and install Chromedriver
 RUN wget -q --continue -P $CHROMEDRIVER_DIR "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
 RUN unzip $CHROMEDRIVER_DIR/chromedriver* -d $CHROMEDRIVER_DIR
+
+
+ENV PATH $CHROMEDRIVER_DIR:$PATH
+
+RUN sudo apt-get install -y chromium
 
 RUN apt-get install -y libglib2.0-0 \
     libnss3 \
