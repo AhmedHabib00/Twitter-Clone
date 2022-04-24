@@ -21,7 +21,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [isGifOpen, setIsGifOpen] = useState(false);
-  const [gifs, setGifs] = useState([]);
+  const [gifs, setGifs] = useState();
   const [mediaDisabled, setMediaDisabled] = useState(false);
   const [gifDisabled, setGifDisabled] = useState(false);
   const [imageId, setImageId] = useState(0);
@@ -37,7 +37,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     }
     (async () => {
       const resp = await GetGifs(url);
-      setGifs(resp.data.data);
+      setGifs(resp.data);
     })();
   };
   const deleteImage = (id) => {
@@ -83,7 +83,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
       setImageId(tempCounter);
       setImages(tempImages);
       setGifDisabled(true);
-      document.getElementById('media-selection-from-pc').value = '';
+      document.getElementById(`media-selection-from-pc-${boxId}`).value = '';
     }
   };
 
@@ -139,7 +139,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
         <div className={styles['inner-gif']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
           <div className={styles['popup-imgs-container']}>
-            {gifs.map((gif) => ((gifs.length === 0) ? '' : (
+            {gifs && gifs.map((gif) => ((gifs.length === 0) ? '' : (
               <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>
                 <img
                   id={`gif-popup-children-${gif.id}`}
@@ -216,7 +216,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.number,
+  replyId: PropTypes.string,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
 };

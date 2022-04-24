@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const User = require('../User/userSchema');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
+const { OAuth2Client } = require('google-auth-library')
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 
 
@@ -66,16 +68,45 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-router.post('/google', passport.authenticate(
-  'google-token', { session: false }), async function(req, res) {
-    if (!req.user) {
-      return res.status(400).send('Authentication failed!');
-    }
-    const user = await User.findOne({ email:req.user.email });
-    const token = user.generateJWT();
-    return res.status(200).send({ token, user });
-  }
-);
+router.post("/google", async (req, res) => {
+  const  token   = req.body.tokenId
+  console.log("1::: " + token);
+  const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGEL_CLIENT_ID
+  });
+  console.log("2::: " + token);
+  const { name, email } = ticket.getPayload();    
+  var user = await User.findOne({ email:email});
+        if (!user) {
+          const uniqueUsername = await createUniqueUsername(email);
+            user = new User({
+              name: name,
+              email: email,
+              //googleId: profile.user.id,
+              username:uniqueUsername
+            });
+            await user.save() 
+        } 
+        console.log("3::: " + token);
+        const newToken = user.generateJWT();
+        return res.status(201).header('x-auth-token',newToken).send({
+          message:'User Registeration Successful!',
+          data: {userId: user._id,role:user.role},
+          "x-auth-token":newToken
+        }); 
+   
+})
+// router.post('/google', passport.authenticate(
+//   'google-token', { session: false }), async function(req, res) {
+//     if (!req.user) {
+//       return res.status(400).send('Authentication failed!');
+//     }
+//     const user = await User.findOne({ email:req.user.email });
+//     const token = user.generateJWT();
+//     return res.status(200).send({ token, user });
+//   }
+// );
 // router.get('/google', passport.authenticate('google', { scope: ['profile','email'] }));
 // router.get('/google/secrets', passport.authenticate('google', { failureMessage: true }),async function(req, res) {
 //     // Successful authentication.
