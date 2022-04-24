@@ -35,19 +35,18 @@ router.get('/gToken/:id',async(req,res)=>{
 
 // Information about an authorized (current) user : GET /users/me/
 router.get('/me', auth, async (req, res) =>{
-
-        try{
-            userData = await userSchema.findById(req.user._id,"_id name username email profilePic coverPhoto birthdate description followers following blocks likes bookmarks role banned createdAt replies tweets");
-            if (userData.role == "User") {
-                // return followers data
-                res.status(200).send(userData);
-            }else{
-                throw err;
-            }
-
-        }catch(err){
-            res.sendStatus(500);
+    try{
+        userData = await userSchema.findById(req.user._id,"_id name username email profilePic coverPhoto birthdate description followers following blocks likes bookmarks role banned createdAt replies tweets");
+        if (userData.role == "User") {
+            // return followers data
+            res.status(200).send(userData);
+        }else{
+            throw err;
         }
+
+    }catch(err){
+        res.sendStatus(500);
+    }
 });
 
 //"""Bookmark endpoints"""
