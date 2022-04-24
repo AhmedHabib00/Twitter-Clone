@@ -29,7 +29,7 @@ RUN apt-get install -y libglib2.0-0 \
 
 WORKDIR /app
 
-COPY . .
+COPY Testing/ .
 
 RUN ls
 
