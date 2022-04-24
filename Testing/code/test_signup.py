@@ -7,7 +7,7 @@ import time
 
 
 def test_invalid_signup_with_email():
-    driver.get('http://localhost:3000/')
+    driver.get('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api')
     time.sleep(10)
 
     try:
