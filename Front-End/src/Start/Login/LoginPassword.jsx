@@ -87,7 +87,7 @@ function LoginPassword({ email, handleAfterSignin }) {
            )}
           <div className="start-modals-button-container">
             <Button
-              id="next-button"
+              id="next-login-password-button"
               data-testid="next-button"
               variant="outlined"
               className={styles['singin-button']}

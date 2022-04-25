@@ -30,6 +30,7 @@ const useFormUserName = (userEmail, handleAfterSignup) => {
         if (response.status === 201) {
           const token = localStorage.getItem('temp-token');
           localStorage.setItem('token', token);
+          localStorage.setItem('userId', response.data.data.userId);
           localStorage.removeItem('temp-token');
           handleAfterSignup(true, false);
         } else if (response.status === 400) {
