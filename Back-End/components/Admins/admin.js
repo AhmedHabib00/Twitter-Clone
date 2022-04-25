@@ -6,6 +6,7 @@ const User = require('../User/userSchema');
 const tweetSchema = require('../Tweets/tweetsSchema');
 const { ObjectId, Admin } = require('mongodb');
 const auth = require('../middleware/auth');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { count } = require('../User/userSchema');
 
@@ -92,7 +93,7 @@ router.get('/users', async (req, res, next) =>{
                 break;
 
             default:
-                banned = false;
+                banned =  { $ne: true };
                 break
         }
 
@@ -368,7 +369,7 @@ async function getStatisticsDate(noUsers=0, noBanned=0, ratioTweets=["all time",
                     "count": noAgeUsers[5]
                     },
                     {
-                    "name": "Unkown",
+                    "name": "Unknown",
                     "count": noAgeUsers[6]
                     }
                 ]
@@ -479,20 +480,23 @@ router.delete('/:id/banning/:target_user_id', async (req, res) =>{
 
 
 // POST: admins/:id/adding/ -> Add a new admin
-router.post('/:id/adding', function(req,res){
+router.post('/:id/adding', async (req, res) =>{
     
     // if (req.user._id != req.params.id) {
     //     return res.status(403).send("Access denied");
     // }
 
-    userSchema.findById(req.params.id).exec(function(err, adminData){
+    userSchema.findById(req.params.id).exec(async (err, adminData) =>{
         try {
+            const salt = await bcrypt.genSalt(10);
+            const hasshedpPassword = await bcrypt.hash(req.body.password,salt);
+            
             if (adminData.role == "Admin") {
                 var newAdmin = new User({
                     name: req.body.name, 
                     username:req.body.username, 
                     email:req.body.email, 
-                    password:req.body.password, 
+                    password: hasshedpPassword, 
                     role:"Admin"
                 })
                 newAdmin.save().then(function() {
