@@ -1,0 +1,26 @@
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-header {
+  background-color: white;
+  align-self: flex-start;
+  width: 100%;
+  margin-left: 5px;
+}
+
+.home-header > h2 {
+  left: 10px;
+  text-align: left;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.home-hor-hr {
+  background-color: rgb(225 225 225 / 40%);
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: none;
+}

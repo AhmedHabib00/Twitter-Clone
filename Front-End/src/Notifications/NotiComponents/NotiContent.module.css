@@ -1,0 +1,212 @@
+/* @media screen & (max-width: 900px) {
+  .noticontent {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 10px;
+  }
+} */
+
+.parent {
+  position: relative;
+  float: left;
+  text-align: center;
+  min-height: 100px;
+  width: 278px;
+}
+
+.display-name {
+  font-size: 15px;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: -70px;
+  width: 100%;
+  height: auto;
+}
+
+.postavatar {
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: -75px;
+  width: 100%;
+  height: auto;
+}
+
+.content1 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.content11 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 80px;
+  left: 43px;
+  width: 100%;
+  height: auto;
+  white-space: nowrap;
+}
+
+.content2 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: 40px;
+  width: 100%;
+  height: auto;
+}
+
+.content22 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 80px;
+  left: 43px;
+  width: 100%;
+  height: auto;
+  white-space: nowrap;
+}
+
+.content3 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: 8px;
+  width: 100%;
+  height: auto;
+}
+
+.content4 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: 28px;
+  width: 100%;
+  height: auto;
+}
+
+.content5 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 20px;
+  left: 45px;
+  width: 100%;
+  height: auto;
+  white-space: pre;
+}
+
+.content55 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+  white-space: pre;
+}
+
+.content6 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  width: 100%;
+  height: auto;
+  white-space: pre;
+}
+
+.like-icon {
+  color: rgb(249 24 128);
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+
+  /* position: absolute;
+  text-align: left;
+  bottom: 0;
+  height: auto; */
+
+  /* vertical-align: top; */
+}
+
+.retweet-icon {
+  color: rgb(0 186 124);
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.missed-icon {
+  color: rgb(121 75 196);
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.followed-icon {
+  color: rgb(29 155 240);
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.login-icon {
+  color: rgb(29 155 240);
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.news-icon {
+  color: rgb(29 155 240);
+  font-size: 30px !important;
+  line-height: normal;
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}

@@ -1,0 +1,34 @@
+.menu {
+  height: 70px;
+  border-radius: 3px;
+  font-size: 17px;
+  width: 100%;
+  outline-color: #1d9bf0;
+}
+
+.year-container {
+  flex: 1;
+  padding-right: 6%;
+}
+
+.month-container {
+  flex: 2;
+  padding-right: 10px;
+}
+
+.day-container {
+  flex: 1;
+  padding-right: 10px;
+}
+
+.date {
+  display: flex;
+  justify-content: space-between;
+}
+
+.year-label {
+  position: absolute;
+  top: 25px;
+  left: 10px;
+  font-size: 14px;
+}

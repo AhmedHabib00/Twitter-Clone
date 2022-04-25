@@ -1,0 +1,139 @@
+@media screen & (max-width: 900px) {
+  .post {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 10px;
+  }
+}
+
+.postbody {
+  flex: 1;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.like {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
+.label-out {
+  display: flex;
+}
+
+.label {
+  padding-right: 10px;
+  margin-top: 0;
+}
+
+img {
+  border-radius: 20px;
+  object-fit: fill;
+  max-width: 270px;
+  max-height: 200px;
+  padding: 5px;
+}
+
+.postfooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.postheaderdescription {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.postheadertext > h3 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.postbadge {
+  font-size: 14px !important;
+  color: var(--twitter-color);
+}
+
+.postheaderspecial {
+  font-weight: 600;
+  font-size: 12px;
+  color: gray;
+}
+
+.postavatar {
+  padding: 0 10px;
+  text-align: left;
+}
+
+.posthoricon {
+  float: right;
+  border-radius: 25px;
+  padding: 6px;
+}
+
+.posthoricon:hover {
+  background-color: rgb(99 184 241 / 20.5%);
+}
+
+.post:hover {
+  cursor: pointer;
+  background-color: rgb(241 237 237);
+}
+
+.postblue {
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.postblue:hover {
+  color: #1d9bf0;
+  background-color: rgb(99 184 241 / 20.5%);
+}
+
+.postgreen {
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.postgreen:hover {
+  color: rgb(18 180 26);
+  background-color: rgb(204 238 196);
+}
+
+.postpink {
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.postpink:hover {
+  color: #f02896;
+  background-color: rgb(235 217 229);
+}
+
+.dropdown-content {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.dropdown-content:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.imgpopup {
+  max-width: 750px;
+  max-height: 750px;
+}
+
+.retweet {
+  min-width: 750px;
+  min-height: 750px;
+}
+
+/* .imagediv {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 10px;
+} */

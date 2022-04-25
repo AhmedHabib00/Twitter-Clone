@@ -1,0 +1,14 @@
+.admin-foundation {
+  display: flex;
+  background-color: rgb(245 245 245);
+}
+
+.foundation-a-tag {
+  max-width: 200px;
+  text-decoration: none;
+  color: #0f1419 !important;
+}
+
+.foundation-a-tag:hover .nav-item-dimensions {
+  background-color: #e7e7e8;
+}

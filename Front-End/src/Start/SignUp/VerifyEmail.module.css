@@ -1,0 +1,90 @@
+.code-logo {
+  color: #1d9bf0;
+
+  /* padding-top: 10px; */
+  padding-left: 40%;
+  padding-right: 50%;
+}
+
+.title {
+  margin-top: 16px;
+  color: rgb(15 20 25);
+  line-height: 28px;
+  font-size: 23px;
+  font-family:
+    TwitterChirp,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: rgb(83 100 113);
+  font-size: small;
+  margin-top: -5px;
+}
+
+.code-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.code-form label {
+  color: rgb(118 118 118);
+  position: relative;
+  display: flex;
+}
+
+.code-form span {
+  position: absolute;
+  bottom: 60px;
+  left: 38px;
+  transform: translateY(40px);
+  transition-duration: 300ms;
+  font-size: 17px;
+}
+
+label:focus-within > span,
+input:not(:placeholder-shown) + span {
+  color: #1d9bf0;
+  transform: translateY(20px);
+  font-size: 0.825em;
+}
+
+@media screen and (max-width: 700px) {
+  .signup-button {
+    margin-top: 5% !important;
+    padding: 0 !important;
+  }
+
+  .body {
+    height: 300px;
+    margin-right: 5%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .body {
+    height: 270px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .code-form input {
+    margin-left: 15px;
+  }
+
+  .signup-button {
+    margin-right: 25px !important;
+  }
+
+  .body {
+    height: 320px;
+  }
+}

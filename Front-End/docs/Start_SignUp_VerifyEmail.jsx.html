@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Start/SignUp/VerifyEmail.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Start/SignUp/VerifyEmail.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { React } from 'react';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import IconButton from '@mui/material/IconButton';
+import { Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PropTypes from 'prop-types';
+import styles from './VerifyEmail.module.css';
+import useFormCode from './Components/useFormCode';
+/**
+ * In this function the user will type his verification code
+ * @param {function}  handleGoToStepOne [used to manage the back arrow to step one]
+ * @param {function}  setStepPassword [used to manage the password step status]
+ * @param {function}  setStepVerify [used to manage the verification code step status]
+ * @param {string}  email [used to be able to send the password to the backend with it]
+ * @returns Verfication email form
+ */
+
+function VerifyEmail({
+  handleGoToStepOne, setStepPassword, setStepVerify, email,
+}) {
+  const {
+    handleChange, values, handleSubmit, errors,
+  } = useFormCode(setStepPassword, setStepVerify, email);
+  return (
+    &lt;div data-testid="verify-email">
+      &lt;div className="start-modals-header">
+        &lt;div className={styles['close-signup']}>
+          &lt;IconButton onClick={handleGoToStepOne}>
+            &lt;ArrowBackIcon />
+          &lt;/IconButton>
+        &lt;/div>
+        &lt;div className={styles['code-logo']}>
+          &lt;TwitterIcon className="start-modals-icon-size" />
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="start-modals-title-container">
+        &lt;h1 className={styles.title}> We sent you a code&lt;/h1>
+        &lt;p className={styles.subtitle}>
+          Enter it below to verify
+          {' '}
+          {email}
+        &lt;/p>
+      &lt;/div>
+      &lt;form
+        className={styles['code-form']}
+        onSubmit={handleSubmit}
+      >
+        &lt;div className="start-modals-body">
+          &lt;label htmlFor="verificationCode">
+            &lt;input
+              className="start-modals-form-input"
+              type="text"
+              id="verificationCode"
+              name="code"
+              value={values.code}
+              placeholder=" "
+              onChange={handleChange}
+            />
+            &lt;span>Verification Code&lt;/span>
+          &lt;/label>
+          {errors.code
+           &amp;&amp; &lt;p className="start-modals-form-errors">{errors.code}&lt;/p>}
+        &lt;/div>
+        &lt;div className="start-modals-button-container">
+          &lt;Button
+            id="signup-submit-verification-code"
+            variant="outlined"
+            className="start-modals-button"
+            type="submit"
+          >
+            Next
+          &lt;/Button>
+        &lt;/div>
+      &lt;/form>
+    &lt;/div>
+  );
+}
+
+export default VerifyEmail;
+VerifyEmail.propTypes = {
+  handleGoToStepOne: PropTypes.func.isRequired,
+  setStepVerify: PropTypes.func.isRequired,
+  setStepPassword: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

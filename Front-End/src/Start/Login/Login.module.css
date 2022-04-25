@@ -1,0 +1,19 @@
+.login-background {
+  background: center;
+  background-color: rgb(153 153 153);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50.1%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-icon {
+  color: #1d9bf0;
+  padding-left: 40%;
+  padding-right: 50%;
+}

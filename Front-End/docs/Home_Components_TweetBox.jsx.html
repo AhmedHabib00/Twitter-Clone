@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Home/Components/TweetBox.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Home/Components/TweetBox.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { createRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
+import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
+
+import ImageBox from './ImageBox';
+import PopupPage from './PopupPage';
+import SearchBar from '../../Search/SearchBar/SearchBar';
+
+import styles from './TweetBox.module.css';
+import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
+
+/**
+ * This components takes a text input from user and a maximum of 4 media items
+ * (local images or gifs).
+ * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
+ */
+function TweetBox({ replyId, placeHolder, boxId }) {
+  const inputFile = createRef();
+  const [images, setImages] = useState([]);
+  const [imageCount, setImageCount] = useState(0);
+  const [isGifOpen, setIsGifOpen] = useState(false);
+  const [gifs, setGifs] = useState([]);
+  const [mediaDisabled, setMediaDisabled] = useState(false);
+  const [gifDisabled, setGifDisabled] = useState(false);
+  const [imageId, setImageId] = useState(0);
+  const [wordsCount, setWordsCount] = useState(0);
+  const [isEnabled, setIsEnabled] = useState(true);
+
+  const onSearchChange = (value) => {
+    let url;
+    if (value === '') {
+      url = 'http://api.giphy.com/v1/gifs/trending?api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF';
+    } else {
+      url = `http://api.giphy.com/v1/gifs/search?q=${value}&amp;api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`;
+    }
+    (async () => {
+      const resp = await GetGifs(url);
+      setGifs(resp.data.data);
+    })();
+  };
+  const deleteImage = (id) => {
+    if (images.find((image) => image.id === id).type === 'gif') {
+      setMediaDisabled(true);
+      setGifDisabled(true);
+    }
+    const newImages = images.filter((image) => image.id !== id);
+    if (newImages.length === 0) {
+      setMediaDisabled(false);
+      setGifDisabled(false);
+    }
+    setImages(newImages);
+    setImageCount(imageCount - 1);
+  };
+  const autoGrow = (element) => {
+    // eslint-disable-next-line no-param-reassign
+    element.target.style.height = 'inherit';
+    // eslint-disable-next-line no-param-reassign
+    element.target.style.height = `${element.target.scrollHeight &lt; 101 ? element.target.scrollHeight - 22 : element.target.scrollHeight}px`;
+  };
+  const onSelectFIle = () => {
+    inputFile.current.click();
+  };
+
+  const handleFileInput = (event) => {
+    if (event.target.files.length + imageCount > 4) {
+      return;
+    }
+    const tempImages = [...images];
+    let tempCounter = imageId;
+    if (event.target.files &amp;&amp; event.target.files[0]) {
+      Array.from(event.target.files).forEach((file) => {
+        tempImages.push({
+          type: 'img',
+          id: tempCounter,
+          imageUrl: URL.createObjectURL(file),
+          imgFile: file,
+        });
+        tempCounter += 1;
+      });
+      setImageCount(event.target.files.length + imageCount);
+      setImageId(tempCounter);
+      setImages(tempImages);
+      setGifDisabled(true);
+      document.getElementById('media-selection-from-pc').value = '';
+    }
+  };
+
+  const onOpenGif = () => {
+    if (imageCount - 1 &lt; 4) {
+      setIsGifOpen(!isGifOpen);
+      onSearchChange('');
+    }
+  };
+
+  const onSelectGif = (url) => {
+    setImages([...images,
+      {
+        type: 'gif',
+        id: imageId,
+        imageUrl: url,
+      }]);
+    setMediaDisabled(true);
+    setGifDisabled(true);
+    setImageId(imageId + 1);
+    setImageCount(imageCount + 1);
+    setIsGifOpen(!isGifOpen);
+    setGifs([]);
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+  };
+
+  const handleSendData = () => {
+    const { value } = document.getElementById(`twbox-text-area-${boxId}`);
+    document.getElementById(`twbox-text-area-${boxId}`).value = '';
+    document.getElementById(`twbox-text-area-${boxId}`).style.height = '53px';
+    setImages([]);
+    setGifs([]);
+    setImageCount(0);
+    setImageId(0);
+    setGifDisabled(false);
+    setMediaDisabled(false);
+    setWordsCount(0);
+
+    if (value !== '' || images.length !== 0) {
+      PostTweet({ value, images, replyId });
+    }
+  };
+
+  const maxWordsNoValidation = () => {
+    const count = document.getElementById(`twbox-text-area-${boxId}`).value.length;
+    setWordsCount(count);
+    if (count > 280) setIsEnabled(false);
+    else setIsEnabled(true);
+  };
+  return (
+    &lt;div>
+      &lt;PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
+        &lt;div className={styles['inner-gif']}>
+          &lt;SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
+          &lt;div className={styles['popup-imgs-container']}>
+            {gifs.map((gif) => ((gifs.length === 0) ? '' : (
+              &lt;div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>
+                &lt;img
+                  id={`gif-popup-children-${gif.id}`}
+                  className={styles['popup-img']}
+                  alt=""
+                  src={gif.images.original.url}
+                />
+              &lt;/div>
+            )))}
+          &lt;/div>
+        &lt;/div>
+      &lt;/PopupPage>
+
+      &lt;div className={styles['tweet-box']}>
+        &lt;a href="#top" className={styles['icon-button']}>
+          &lt;AccountCircleIcon className={styles.icon} />
+        &lt;/a>
+        &lt;div className={styles['text-area']}>
+          &lt;div>
+            &lt;textarea
+              onChange={maxWordsNoValidation}
+              id={`twbox-text-area-${boxId}`}
+              placeholder={placeHolder}
+              className={styles['tweet-input']}
+              onInput={autoGrow}
+            />
+          &lt;/div>
+          &lt;ImageBox images={images} onDeleteImage={deleteImage} />
+          &lt;div className={styles['text-area-icons']}>
+            &lt;div className={styles['media-icons']}>
+              &lt;div role="button" tabIndex="0" onClick={(mediaDisabled) ? undefined : onSelectFIle}>
+                &lt;PhotoOutlinedIcon
+                  className={[(mediaDisabled) ? styles['disabled-div'] : styles.cursor, styles['media-icon']].join(' ')}
+                />
+                &lt;input
+                  id="media-selection-from-pc"
+                  type="file"
+                  multiple="multiple"
+                  accept=".jpg, .png"
+                  ref={inputFile}
+                  onChange={handleFileInput}
+                  style={{ display: 'none' }}
+                />
+              &lt;/div>
+              &lt;div role="button" tabIndex="0" onClick={(gifDisabled) ? undefined : onOpenGif}>
+                &lt;GifBoxOutlinedIcon
+                  className={[(gifDisabled) ? styles['disabled-div'] : styles.cursor, styles['media-icon']].join(' ')}
+                />
+              &lt;/div>
+            &lt;/div>
+            &lt;div className={styles['whisp-button-container']}>
+              &lt;div
+                className={styles['words-count']}
+                style={{ color: (wordsCount &lt;= 280) ? 'rgb(29 155 240)' : 'red' }}
+              >
+                {280 - wordsCount}
+
+              &lt;/div>
+              &lt;button
+                id="twbox-submit"
+                type="submit"
+                className={styles['tweet-icons-button']}
+                onClick={handleSendData}
+                disabled={!isEnabled}
+              >
+                whisp
+              &lt;/button>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+TweetBox.propTypes = {
+  replyId: PropTypes.number,
+  placeHolder: PropTypes.string,
+  boxId: PropTypes.string.isRequired,
+};
+
+TweetBox.defaultProps = {
+  replyId: null,
+  placeHolder: '',
+};
+
+export default TweetBox;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
