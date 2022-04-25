@@ -21,7 +21,6 @@ router.get('/gToken/:id',async(req,res)=>{
 });
 
 
-
 // GET: admins/ -> Retrieve all admins
 router.get('/', auth, async (req, res) => {
     
