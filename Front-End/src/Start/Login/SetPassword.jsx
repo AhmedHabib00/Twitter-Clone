@@ -111,7 +111,7 @@ function SetPassword({ setSettingPassword, handleAfterSignin }) {
           )}
           <div className="start-modals-button-container">
             <Button
-              id="verify-email-button"
+              id="verify-new-password-button"
               data-testid="verify-email-button"
               variant="outlined"
               className={styles['forgot-password-button']}

@@ -45,7 +45,7 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
         } else if (response.status === 400) {
           setErrors({
             ...errors,
-            password: 'Invalid password',
+            password: 'Invalid email or username or password',
           });
         }
       });
