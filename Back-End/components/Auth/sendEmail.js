@@ -6,12 +6,13 @@ require('dotenv').config({ path: 'config.env'});
     //2)Define the email it self
     //3) Actually send the email 
 const options = {
-    host:process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
+    //host:process.env.EMAIL_HOST,
+    //port: process.env.EMAIL_PORT,
+    //secure: false,
+    service:'SendGrid',
      auth: {
-         user: process.env.EMAIL_USERNAME,
-         pass: process.env.EMAIL_PASSWORD
+         user: process.env.SEND_GRID_USER,    //process.env.EMAIL_USERNAME
+         pass: process.env.SEND_GRID_PASSWORD //process.env.EMAIL_PASSWORD
      }
 };
 
@@ -20,7 +21,7 @@ const sendConfirmationEmail = async function sendEmail(email ,otp)
         
     const transporter = nodemailer.createTransport(options);
     const mailOptions = {
-        from: 'noreply@twitter',
+        from: 'whisperapp2@gmail.com',
         to: email,
         subject: 'Twitter signup verification email',
         html: `<p> your verification code is ${otp} </p>`
@@ -28,13 +29,14 @@ const sendConfirmationEmail = async function sendEmail(email ,otp)
     
     await transporter.sendMail(mailOptions);
     
+    
 };
 const sendForgetPasswordEmail = async function sendEmail(email ,OTP)
     {       
     const transporter = nodemailer.createTransport(options);
 
     const mailOptions = {
-        from: 'noreply@twitter',
+        from: 'whisperapp2@gmail.com',
         to: email,
         subject: 'Twitter password reset request',
         html: `<p> your password reset code is ${OTP} </p>`
