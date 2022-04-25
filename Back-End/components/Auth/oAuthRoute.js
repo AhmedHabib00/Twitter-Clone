@@ -41,6 +41,7 @@ passport.use(new FacebookStrategy({
 ));
 
 router.post("/google", async (req, res) => {
+  if (!req.body.tokenId) return res.status(400).send('Provide Google tokenId');
   const  token   = req.body.tokenId
   const ticket = await client.verifyIdToken({
       idToken: token,
