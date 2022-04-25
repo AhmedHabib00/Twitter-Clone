@@ -7,7 +7,7 @@ import time
 
 
 def test_invalid_signup_with_email():
-    driver.get('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com')
+    driver.get('http://localhost:3000/')
     time.sleep(10)
 
     try:
@@ -189,9 +189,9 @@ def test_invalid_signup_with_email():
     except NoSuchElementException:
         pass
 
-    assert driver.find_element(By.CSS_SELECTOR,
+    assert driver.find_element(By.XPATH,
                                accessabilities.signup_name_error).is_displayed() and driver.find_element(
-        By.CSS_SELECTOR, accessabilities.signup_email_error).is_displayed()
+        By.XPATH, accessabilities.signup_email_error).is_displayed()
 
     # end of case 5
 
@@ -245,7 +245,7 @@ def test_invalid_signup_with_email():
         pass
 
     assert driver.find_element(
-        By.CSS_SELECTOR, accessabilities.signup_email_error).is_displayed()
+        By.XPATH, accessabilities.signup_email_error).is_displayed()
 
     # end of case 6
 
@@ -300,7 +300,7 @@ def test_invalid_signup_with_email():
         pass
 
     assert driver.find_element(
-        By.CSS_SELECTOR, accessabilities.signup_name_error).is_displayed()
+        By.XPATH, accessabilities.signup_name_error).is_displayed()
 
     # end of case 7
     try:
