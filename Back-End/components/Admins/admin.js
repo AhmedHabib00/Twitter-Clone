@@ -7,6 +7,7 @@ const tweetSchema = require('../Tweets/tweetsSchema');
 const { ObjectId, Admin } = require('mongodb');
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
+const { count } = require('../User/userSchema');
 
 // Test || Token || - TO-DELETE
 router.get('/gToken/:id',async(req,res)=>{
@@ -84,41 +85,35 @@ router.get('/users', auth, async (req, res, next) =>{
             search = "";
         }
 
+        let banned = Boolean(false);
         switch (options) {
             case "Banned":
-                usersData = await userSchema.find({
-                    "role":"User",
-                    "banned":true,
-                    "username": {$regex:  ".*"+search+".*", $options:"si"} 
-                },
-                    '_id name username description profilePic role',
-                ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
-                
-                length = await userSchema.count({
-                    "role":"User",
-                    "banned":true, 
-                    "username": {$regex:  ".*"+search+".*", $options:"i"}
-                });
+                banned = true;
                 break;
 
             default:
-                usersData = await userSchema.find({
-                    "role":"User",
-                    "username": {$regex:  ".*"+search+".*", $options:"si"} 
-                },
-                    '_id name username description profilePic role',
-                ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
-                
-                length = await userSchema.count({
-                    "role":"User",
-                    "username": {$regex:  ".*"+search+".*", $options:"i"}
-                });
-                break;
+                banned = false;
+                break
         }
+
+        usersData = await userSchema.find({
+            "role":"User",
+            "banned": banned,
+            "username": {$regex:  ".*"+search+".*", $options:"si"} 
+        },
+            '_id name username description profilePic role',
+        ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
         
-        noOfpages = parseInt(Math.ceil(length/size));
+        countUsers = await userSchema.count({
+            "role":"User",
+            "banned": banned, 
+            "username": {$regex:  ".*"+search+".*", $options:"i"}
+        });
+        
+        noOfpages = parseInt(Math.ceil(countUsers/size));
 
         return res.status(200).send({
+            "count": countUsers,
             "length": noOfpages,
             Info: usersData
         });
