@@ -23,11 +23,11 @@ router.get('/gToken/:id',async(req,res)=>{
 
 
 // GET: admins/ -> Retrieve all admins
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
     
-    if (req.user.role != "Admin") {
-        return res.status(403).send("Access denied");
-    }
+    // if (req.user.role != "Admin") {
+    //     return res.status(403).send("Access denied");
+    // }
 
     try {
         let { page, size } = req.query;
@@ -59,11 +59,11 @@ router.get('/', auth, async (req, res) => {
 
 
 // GET: admins/users/ -> Retrieve all users
-router.get('/users', auth, async (req, res, next) =>{
+router.get('/users', async (req, res, next) =>{
     
-    if (req.user.role != "Admin") {
-        return res.status(403).send("Access denied");
-    }
+    // if (req.user.role != "Admin") {
+    //     return res.status(403).send("Access denied");
+    // }
 
     try {
         let { page, size, search, options } = req.query;
@@ -126,11 +126,11 @@ router.get('/users', auth, async (req, res, next) =>{
 
 
 // GET: admins/statistics/ -> Retrive statistics data about users
-router.get('/statistics', auth, async (req, res) =>{
+router.get('/statistics', async (req, res) =>{
     
-    if (req.user.role != "Admin") {
-        return res.status(403).send("Access denied");
-    }
+    // if (req.user.role != "Admin") {
+    //     return res.status(403).send("Access denied");
+    // }
 
     // Get current date
     const month = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -399,11 +399,11 @@ async function rangeAgesCalculator(minRangeAge=0, maxRangeAge=0, Schema) {
 
 
 // POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
-router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
+router.post('/:id/banning/:target_user_id', async (req, res) =>{
     try {
-        if (req.user._id != req.params.id) {
-            return res.status(403).send("Access denied");
-        }
+        // if (req.user._id != req.params.id) {
+        //     return res.status(403).send("Access denied");
+        // }
 
         // Get start_date and end_date
         const start_date = new Date();
@@ -417,10 +417,10 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
             console.log(req.params.id);
 
             if (bannedUser.role == "Admin") {
-                return res.status(500).send("Not Authorized.");
+                return res.status(500).send("Not Authorized User.");
             }
             if (bannedBy.role == "User") {
-                return res.status(500).send("Not Authorized.");
+                return res.status(500).send("Not Authorized Admin.");
             }
             // banned user contents
             bannedUser.banned = true;
@@ -447,21 +447,22 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
 
 
 // DELETE: admins/:id/banning/:target_user_id/ -> unBan a user by admin
-router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
+router.delete('/:id/banning/:target_user_id', async (req, res) =>{
     try {
-        if (req.user._id != req.params.id) {
-            return res.status(403).send("Access denied");
-        }
+        // if (req.user._id != req.params.id) {
+        //     return res.status(403).send("Access denied");
+        // }
 
         const bannedUser = await userSchema.findById(req.params.target_user_id);
         const bannedBy = await userSchema.findById(req.params.id);
         if (bannedUser.role == "Admin") {
-            throw err;
+            return res.status(500).send("Not Authorized User.");
         }
 
         if (bannedBy.role == "User") {
-            throw err;
+            return res.status(500).send("Not Authorized User.");
         }
+
         // banned user contents
         bannedUser.banned = false;
         bannedUser.bannedEndDate = new Date();
@@ -478,11 +479,11 @@ router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
 
 
 // POST: admins/:id/adding/ -> Add a new admin
-router.post('/:id/adding', auth, function(req,res){
+router.post('/:id/adding', function(req,res){
     
-    if (req.user._id != req.params.id) {
-        return res.status(403).send("Access denied");
-    }
+    // if (req.user._id != req.params.id) {
+    //     return res.status(403).send("Access denied");
+    // }
 
     userSchema.findById(req.params.id).exec(function(err, adminData){
         try {
@@ -522,17 +523,17 @@ router.post('/:id/adding', auth, function(req,res){
 
 
 // DELETE: admins/:id/adding/ -> Delete user by admin
-router.delete('/:id/deleting/:target_user_id', auth, async (req, res) =>{
+router.delete('/:id/deleting/:target_user_id', async (req, res) =>{
     try {
-        if (req.user._id != req.params.id) {
-            return res.status(403).send("Access denied");
-        }
+        // if (req.user._id != req.params.id) {
+        //     return res.status(403).send("Access denied");
+        // }
         adminData = await userSchema.findById(req.params.id).exec();
         if (adminData.role == "Admin") {
             foundUser = await userSchema.findById(req.params.target_user_id);
             if(foundUser != null){
                 // Delete all tweets by target_user_id
-                await userSchema.deleteMany({"postedBy":req.params.target_user_id});
+                await tweetSchema.deleteMany({"postedBy":req.params.target_user_id});
                 // Delete target_user_id from users
                 userSchema.deleteOne({"_id": req.params.target_user_id}).exec().then(function() {
                     return res.status(202).send({
@@ -548,15 +549,20 @@ router.delete('/:id/deleting/:target_user_id', auth, async (req, res) =>{
             }else{
                 return res.status(500).send({
                     "deleted": false,
+                    "reason": "User not found."
                 });
             }
         }else{
-            throw err;
+            return res.status(500).send({
+                "deleted": false,
+                "reason": "Not Authorized Admin."
+            });
         }
     }
     catch(err){
         return res.status(500).send({
             "deleted": false,
+            "reason": "Unknown Error"
         });
     }
 });
