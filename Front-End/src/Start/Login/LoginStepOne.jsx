@@ -89,8 +89,7 @@ function LoginStepOne({
           </div>
         </form>
         <Button
-          id="signup-facebook-button"
-          data-testid="facebook-button"
+          id="login-forgot-password-button"
           variant="outlined"
           className={styles['login-with-google']}
           onClick={() => {

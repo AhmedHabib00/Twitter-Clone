@@ -236,6 +236,10 @@
   .right-column-container {
     min-width: 55%;
   }
+
+  .left-column-container {
+    height: 850px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -254,6 +258,10 @@
   .left-column-container {
     width: 100%;
     height: 50%;
+  }
+
+  .right-group {
+    margin-bottom: 10%;
   }
 }
 
