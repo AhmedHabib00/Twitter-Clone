@@ -3,16 +3,6 @@ const server = require('../app');
 const userSchema = require('../components/User/userSchema');
 const tweetSchema = require('../components/Tweets/tweetsSchema');
 
-// users ||Test||
-describe('GET: users/',()=>{
-
-    test('Test users route: should respond with a 200 status code', async ()=>{
-        const res = await request(server).get('/users/')
-        expect(res.statusCode).toEqual(200)
-    });
-
-});
-
 let token = 0;
 
 describe('GET: /users/gToken/{id}',()=>{

@@ -11,12 +11,6 @@ const jwt = require('jsonwebtoken');
 
 const request = require('request');
 
-
-// users ||Test||
-router.get('/', function(req,res){
-    res.status(200).send({"UserPage":true});
-});
-
 // Test || Token || - TO-DELETE
 router.get('/gToken/:id',async(req,res)=>{
     userInfo = await userSchema.findById(req.params.id);
@@ -44,6 +38,82 @@ router.get('/me', auth, async (req, res) =>{
             throw err;
         }
 
+    }catch(err){
+        res.sendStatus(500);
+    }
+});
+
+// information of many users by search : GET /users?page=&size=&search=
+router.get('/', async (req, res, next) =>{
+    try {
+        let { page, size, search } = req.query;
+  
+        // If the page is not entered in query.
+        if (!page) {
+            // Make the Default value 1.
+            page = 1;
+        }
+        
+        // If the size is not entered in query.
+        if (!size) {
+            size = 10;
+        }
+        //  Make it integer because query parameter -> string
+        const limit = parseInt(size);
+
+        // If the search is not entered in query. 
+        if(!search){
+            search = "";
+        }
+
+        usersData = await userSchema.find({
+            "role":"User",
+            "username": {$regex:  ".*"+search+".*", $options:"si"} 
+        },
+            '_id name username description profilePic role',
+        ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
+        
+        length = await userSchema.count({
+            "role":"User",
+            "username": {$regex:  ".*"+search+".*", $options:"i"}
+        });
+        
+        noOfpages = parseInt(Math.ceil(length/size));
+
+        return res.status(200).send({
+            "length": noOfpages,
+            Info: usersData
+        });
+    }
+    catch (error) {
+        res.sendStatus(500).send("Error");
+    }
+});
+// Information of a single user by the ID : GET /users/:id
+router.get('/:id', async (req, res) =>{
+    try{
+        userData = await userSchema.findById(req.params.id,'_id name username description profilePic role');
+        if (userData.role == "User") {
+            // return followers data
+            res.status(200).send(userData);
+        }else{
+            res.sendStatus(500).send("Not valid user id");
+        }
+    }catch(err){
+        res.sendStatus(500);
+    }
+});
+
+// Information of a single user by username : GET /users/by/username/:username
+router.get('/by/username/:username', async (req, res) =>{
+    try{
+        userData = await userSchema.findOne({"username": req.params.username}, '_id name username description profilePic role');
+        if (userData.role == "User") {
+            // return followers data
+            res.status(200).send(userData);
+        }else{
+            res.sendStatus(500).send("Not valid username");
+        }
     }catch(err){
         res.sendStatus(500);
     }
