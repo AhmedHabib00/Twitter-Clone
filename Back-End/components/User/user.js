@@ -9,8 +9,6 @@ const ObjectId = userSchema.ObjectId;
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 
-const request = require('request');
-
 // Test || Token || - TO-DELETE
 router.get('/gToken/:id',async(req,res)=>{
     userInfo = await userSchema.findById(req.params.id);
