@@ -3,8 +3,8 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
@@ -15,12 +15,13 @@ import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
 import './Navbar/Navbar.css';
+
 /**
  * The main layout for a normal user that logs in.
  * It displays the navbar, opened page, widgets.
  * The navbar is not scrollable
  */
-function Foundation({ setIsLoggedIn }) {
+function Foundation({ setIsLoggedIn, userInfo }) {
   const pages = getUserPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
@@ -44,7 +45,6 @@ function Foundation({ setIsLoggedIn }) {
     localStorage.clear();
     navigate('/');
   };
-
   return (
     <div className={styles['found-margins']}>
       <div className={styles.foundation}>
@@ -93,10 +93,11 @@ function Foundation({ setIsLoggedIn }) {
                   <AccountCircleIcon className="nav-bar-profile" />
                   <div className={styles['user-menu-text-container']}>
                     <h1 className={styles['user-menu-text']}>
-                      Amr Zayed
+                      {(userInfo.displayName.length >= 9) ? `${userInfo.displayName.substring(0, 10)}...` : userInfo.displayName}
                     </h1>
                     <h2 className={[styles['user-menu-text'], styles['user-menu-text-name']].join(' ')}>
-                      @AmrZayed
+                      @
+                      {(userInfo.username.length >= 12) ? `${userInfo.username.substring(0, 11)}...` : userInfo.username}
                     </h2>
                   </div>
                 </div>
@@ -124,6 +125,23 @@ function Foundation({ setIsLoggedIn }) {
 
 Foundation.propTypes = {
   setIsLoggedIn: PropTypes.func.isRequired,
+  userInfo: PropTypes.shape({
+    Birthdate: PropTypes.string.isRequired,
+    'Cover Photo': PropTypes.string.isRequired,
+    'Profile Picture': PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+  }),
+};
+
+Foundation.defaultProps = {
+  userInfo: {
+    Birthdate: '',
+    'Cover Photo': '',
+    'Profile Picture': '',
+    displayName: '',
+    username: '',
+  },
 };
 
 export default Foundation;
