@@ -17,7 +17,7 @@ function VerifyForgotPasswordCode({ email, setVerifyCode, setSettingPassword }) 
     handleChange, values, handleSubmit, errors,
   } = useVerifyCodeForm(email, setVerifyCode, setSettingPassword);
   return (
-    <div className={styles['forgot-password-container']}>
+    <div className={styles['forgot-password-container']} id="login-modal-verify-code">
       <form
         className={styles['forgot-password-form']}
         onSubmit={handleSubmit}
@@ -43,7 +43,14 @@ function VerifyForgotPasswordCode({ email, setVerifyCode, setSettingPassword }) 
             <span>Enter your Code</span>
           </label>
           {errors.code
-             && <p className="start-modals-form-errors">{errors.code}</p>}
+             && (
+             <p
+               className="start-modals-form-errors"
+               id="forgot-password-verify-error"
+             >
+               {errors.code}
+             </p>
+             )}
           <div className="start-modals-button-container">
             <Button
               id="verify-email-button"

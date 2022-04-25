@@ -17,7 +17,7 @@ function ForgotPassword({ setForgotPassword, setEmail, setVerifyCode }) {
     handleChange, values, handleSubmit, errors,
   } = useForgetPasswordForm(setEmail, setForgotPassword, setVerifyCode);
   return (
-    <div className={styles['forgot-password-container']}>
+    <div className={styles['forgot-password-container']} id="login-modal-forgot-password">
       <form
         className={styles['forgot-password-form']}
         onSubmit={handleSubmit}
@@ -38,7 +38,14 @@ function ForgotPassword({ setForgotPassword, setEmail, setVerifyCode }) {
             <span>Enter your Email or username</span>
           </label>
           {errors.emailOrUsername
-             && <p className="start-modals-form-errors">{errors.emailOrUsername}</p>}
+             && (
+             <p
+               className="start-modals-form-errors"
+               id="forgot-password-emailor-username-error"
+             >
+               {errors.emailOrUsername}
+             </p>
+             )}
           <div className="start-modals-button-container">
             <Button
               id="search-email-button"

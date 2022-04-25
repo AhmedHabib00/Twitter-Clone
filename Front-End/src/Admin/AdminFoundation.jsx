@@ -34,7 +34,7 @@ function AdminFoundation({ setIsLoggedIn }) {
     navigate('/');
   };
   return (
-    <div className={styles['admin-foundation']}>
+    <div className={styles['admin-foundation']} id="admin-foundation">
       <Navbar route="" onTwIconClick={handleLogOut}>
         <div>
           {

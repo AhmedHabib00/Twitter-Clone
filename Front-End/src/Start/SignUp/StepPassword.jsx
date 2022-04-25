@@ -31,7 +31,7 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
     handleChange, values, handleSubmit, errors,
   } = useFormPassword(setStepPassword, setStepUsername, email);
   return (
-    <div data-testid="password">
+    <div data-testid="password" id="sign-up-modal-step-password">
       <div className={styles.header}>
         <div className={styles['password-logo']}>
           <TwitterIcon className="start-modals-icon-size" />
@@ -72,7 +72,14 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
 
           </label>
           {errors.password
-           && <p className="start-modals-form-errors">{errors.password}</p>}
+           && (
+           <p
+             className="start-modals-form-errors"
+             id="sign-up-password-error"
+           >
+             {errors.password}
+           </p>
+           )}
         </div>
         <div className="start-modals-button-container">
           <Button

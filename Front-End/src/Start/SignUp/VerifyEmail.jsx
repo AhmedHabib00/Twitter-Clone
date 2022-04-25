@@ -22,7 +22,7 @@ function VerifyEmail({
     handleChange, values, handleSubmit, errors,
   } = useFormCode(setStepPassword, setStepVerify, email);
   return (
-    <div data-testid="verify-email">
+    <div data-testid="verify-email" id="sign-up-modal-step-verify">
       <div className="start-modals-header">
         <div className={styles['close-signup']}>
           <IconButton onClick={handleGoToStepOne}>
@@ -59,7 +59,14 @@ function VerifyEmail({
             <span>Verification Code</span>
           </label>
           {errors.code
-           && <p className="start-modals-form-errors">{errors.code}</p>}
+           && (
+           <p
+             className="start-modals-form-errors"
+             id="sign-up-verify-error"
+           >
+             {errors.code}
+           </p>
+           )}
         </div>
         <div className="start-modals-button-container">
           <Button

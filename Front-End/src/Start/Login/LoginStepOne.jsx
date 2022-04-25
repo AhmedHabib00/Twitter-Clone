@@ -22,7 +22,7 @@ function LoginStepOne({
     handleChange, values, handleSubmit, errors,
   } = useLoginForm(setStepOne, setEmail, setLoginPassword);
   return (
-    <div>
+    <div id="login-modal-step-one">
       <div className={styles.body}>
         <h1>Sign in to Whisper</h1>
         <Button
@@ -68,7 +68,14 @@ function LoginStepOne({
             <span>Email or Username</span>
           </label>
           {errors.emailOrUsername
-             && <p className={styles['login-form-errors']}>{errors.emailOrUsername}</p>}
+             && (
+             <p
+               className={styles['login-form-errors']}
+               id="login-emailor-username-error"
+             >
+               {errors.emailOrUsername}
+             </p>
+             )}
           <div className={styles['login-buttons-container']}>
             <Button
               id="next-button"

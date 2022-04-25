@@ -19,7 +19,7 @@ function Home() {
   }, []);
 
   return (
-    <div className={styles.home}>
+    <div className={styles.home} id="Home-page">
       <div className={styles['home-header']}>
         <h2>Home</h2>
       </div>
