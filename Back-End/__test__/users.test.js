@@ -3,26 +3,29 @@ const server = require('../app');
 const userSchema = require('../components/User/userSchema');
 const tweetSchema = require('../components/Tweets/tweetsSchema');
 
-// users ||Test||
-describe('GET: users/',()=>{
+let token = 0;
 
-    test('Test users route: should respond with a 200 status code', async ()=>{
-        const res = await request(server).get('/users/')
-        expect(res.statusCode).toEqual(200)
+describe('GET: /users/gToken/{id}',()=>{
+    test('Get token: should respond with a 200 status code', async ()=>{
+        randomUser = await userSchema.findOne({role:"User"});
+        randomUserId = randomUser._id;
+        
+        const res = await request(server).get('/users/gToken/'+randomUserId);
+        token = res.body;
+        console.log(token)
+        expect(res.statusCode).toEqual(200);
     });
-
 });
-
 
 
 // """Bookmarks endpoints"""
 // List of bookmarked tweets of the user ID : GET /users/:id/bookmarks/
-describe('GET: /users/:id/bookmarks/',()=>{
+describe('GET: /users/{id}/bookmarks/',()=>{
     test('List of bookmarked tweets of the user ID: should respond with a 200 status code', async ()=>{
         randomUser = await userSchema.findOne({role:"User"});
         randomUserId = randomUser._id;
     
-        const res = await request(server).get('/users/'+randomUserId+'/bookmarks');
+        const res = await request(server).setHeader("x-auth-token",token).get('/users/'+randomUserId+'/bookmarks');
         expect(res.statusCode).toEqual(200);
     });
 
