@@ -22,7 +22,7 @@ router.get('/gToken/:id',async(req,res)=>{
 
 
 
-//GET: admins/ -> Retrieve all admins
+// GET: admins/ -> Retrieve all admins
 router.get('/', auth, async (req, res) => {
     
     if (req.user.role != "Admin") {
@@ -201,14 +201,20 @@ router.get('/statistics', auth, async (req, res) =>{
     // noMostFollowed
     let noMostFollowed = await userSchema.aggregate([
         {$match: {"role":"User"}},
-        {$group: {_id:'$username', "count": {$sum: 1}}},
         {$unwind:"$followers"},
+        {$group: {_id:'$username', "count": {$sum: 1}}},
         {$project: {_id: 0, "username":'$_id', "count":'$count'}}
     ]).sort({"count" : -1}).limit(5);
 
-    //let noMostFollowed = await userSchema.count({"role":"User"}).sort({"count" : -1}).limit(5);
-
-
+    zeroFollowersUser = await userSchema.find({"followers": [],"role": "User"},"username").limit(5-noMostFollowed.length);
+    for (let i = noMostFollowed.length; i < 5; i++) {
+        if (zeroFollowersUser[5-i-1]) {
+            noMostFollowed.push({
+                "username": zeroFollowersUser[5-i-1].username,
+                "count": 0
+            })
+        }
+    }
     // Get statistics data
     statistics = await getStatisticsDate(noUsers, noBanned, ratioTweets, noTweets, noJoined, noAgeUsers, noMostFollowed);
     return res.status(200).send(statistics);
@@ -412,6 +418,10 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
         if (end_date > start_date) {
             const bannedUser = await userSchema.findById(req.params.target_user_id);
             const bannedBy = await userSchema.findById(req.params.id);
+
+            console.log(req.params.target_user_id);
+            console.log(req.params.id);
+
             if (bannedUser.role == "Admin") {
                 return res.status(500).send("Not Authorized.");
             }
@@ -491,8 +501,10 @@ router.post('/:id/adding', auth, function(req,res){
                     role:"Admin"
                 })
                 newAdmin.save().then(function() {
+                    
                     return res.status(201).send({
-                        "Add": true
+                        "Add": true,
+                        "_id": newAdmin._id
                     });
                 }, function(err) {
                     return res.status(500).send({
