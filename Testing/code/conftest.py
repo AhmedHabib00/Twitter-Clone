@@ -5,7 +5,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import accessabilities
 
 
-def driver_setup():
+def driver():
     # initializing webdriver
     caps = DesiredCapabilities().CHROME
     caps["pageLoadStrategy"] = "none"
@@ -17,7 +17,9 @@ def driver_setup():
     driver = webdriver.Chrome(service=s, options=chrome_options, desired_capabilities=caps)
     driver.implicitly_wait(20)
     driver.maximize_window()
+    driver.get('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/')
     return driver
 
 
-driver = driver_setup()
+def teardown(driver):
+    driver.quit()
