@@ -11,7 +11,7 @@ const mongoose= require('./database');
 // SignUp and Auth
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
-const oAuth = require('./components/Auth/OAuthRoute');
+const oAuth = require('./components/Auth/oAuthRoute');
 const forgotPassword = require('./components/Auth/forgotPasswordRoute');
 // Users  
 var users = require('./components/User/user');
@@ -27,7 +27,7 @@ var  multer = require('multer');
 var cors = require('cors');
 app.use(cors({origin: '*'}));
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 
 // use it before all route definitions

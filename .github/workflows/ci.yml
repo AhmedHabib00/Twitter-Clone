@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Testing
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup Testing Env.
+      run: make build_test
+    
+    - name: Give Access
+      run: sudo chmod 666 /var/run/docker.sock
+    
+    - name: Run Tests
+      run: make run_test
+
+
+  deploy:
+    runs-on: ubuntu-18.04
+    needs: test
+    steps:
+      - name: Checkout Latest Repo
+        uses: actions/checkout@master
+
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+
+      - name: Build Backend Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swbackend -f ./Back-End/Dockerfile  ./Back-End
+
+      - name: Tag Backend Image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swbackend ${{ secrets.DOCKERHUB_USERNAME }}/swbackend:latest
+
+      - name: Push Backend to DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/swbackend
+
+
+      - name: Build FrontEnd Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/swfront -f ./Front-End/Dockerfile ./Front-End
+
+      - name: Tag FrontEnd Image
+        run: docker tag ${{ secrets.DOCKERHUB_USERNAME }}/swfront ${{ secrets.DOCKERHUB_USERNAME }}/swfront:latest
+
+      - name: Push FrontEnd to DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/swfront
+    
+      - name: Get Timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run String Replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip * -x "**node_modules**"
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: HABIBSW
+          environment_name: Habibsw-env-1
+          version_label: "docker-app-${{ steps.format-time.outputs.replaced }}"
+          region: us-east-1
+          deployment_package: deploy.zip

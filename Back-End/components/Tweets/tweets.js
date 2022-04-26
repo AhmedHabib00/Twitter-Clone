@@ -451,8 +451,8 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         else{            
             for(j=0;j<tempMedia.length;j++)
             {
-                console.log(process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j])
-               img[j]='http://'+process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j]
+                console.log(process.env.DOMAIN+'/'+tempMedia[j])
+               img[j]=process.env.DOMAIN+'/'+tempMedia[j]
             }
 
             if(j==1) //1 image

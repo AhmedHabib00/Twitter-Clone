@@ -1,0 +1,52 @@
+FROM python:3
+
+RUN apt update -y
+
+RUN apt install sudo
+# We need wget to set up the PPA and xvfb to have a virtual screen and unzip to install the Chromedriver
+RUN apt install wget -y xvfb unzip
+
+
+
+# Set up the Chrome PPA
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+
+# Update the package list and install chrome
+RUN apt-get update -y
+RUN apt-get install -y google-chrome-stable
+
+RUN apt install dpkg
+
+RUN dpkg -s google-chrome-stable
+# Set up Chromedriver Environment variables
+ENV CHROMEDRIVER_VERSION 100.0.4896.20
+ENV CHROMEDRIVER_DIR /chromedriver
+RUN mkdir $CHROMEDRIVER_DIR
+
+# Download and install Chromedriver
+RUN wget -q --continue -P $CHROMEDRIVER_DIR "http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+RUN unzip $CHROMEDRIVER_DIR/chromedriver* -d $CHROMEDRIVER_DIR
+
+
+ENV PATH $CHROMEDRIVER_DIR:$PATH
+
+RUN sudo apt-get install -y chromium
+
+RUN apt-get install -y libglib2.0-0 \
+    libnss3 \
+    libgconf-2-4 \
+    libfontconfig1
+
+RUN cd $CHROMEDRIVER_DIR
+RUN sudo chmod a+x chromedriver
+
+WORKDIR /app
+
+COPY Testing/ .
+
+RUN ls
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD python code/test_main.py
