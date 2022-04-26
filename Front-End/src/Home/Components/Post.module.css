@@ -79,6 +79,7 @@ img {
 
 .post:hover {
   cursor: pointer;
+  background-color: rgb(241 237 237);
 }
 
 .postblue {
@@ -130,3 +131,9 @@ img {
   min-width: 750px;
   min-height: 750px;
 }
+
+/* .imagediv {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 10px;
+} */

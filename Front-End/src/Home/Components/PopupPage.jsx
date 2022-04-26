@@ -22,8 +22,12 @@ function PopupPage({
       toClose = true;
     }
   };
-  const childClick = () => {
+
+  const handleCloseIcon = () => {
+    SetTrigger(false);
     document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+  };
+  const childClick = () => {
     toClose = false;
   };
   return (trigger) ? (
@@ -37,7 +41,7 @@ function PopupPage({
         onClick={childClick}
         style={{ width: `${widthpercentage}%` }}
       >
-        <CloseIcon className={styles['close-btn']} onClick={() => { SetTrigger(false); }} />
+        <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
         {children}
       </div>
     </div>

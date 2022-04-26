@@ -1,6 +1,5 @@
 import React, { createRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
@@ -10,7 +9,7 @@ import PopupPage from './PopupPage';
 import SearchBar from '../../Search/SearchBar/SearchBar';
 
 import styles from './TweetBox.module.css';
-import PostTweet from '../../Services/userServices';
+import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
 
 /**
  * This components takes a text input from user and a maximum of 4 media items
@@ -26,6 +25,8 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [mediaDisabled, setMediaDisabled] = useState(false);
   const [gifDisabled, setGifDisabled] = useState(false);
   const [imageId, setImageId] = useState(0);
+  const [wordsCount, setWordsCount] = useState(0);
+  const [isEnabled, setIsEnabled] = useState(true);
 
   const onSearchChange = (value) => {
     let url;
@@ -34,9 +35,10 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     } else {
       url = `http://api.giphy.com/v1/gifs/search?q=${value}&api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`;
     }
-    axios.get(url).then((res) => {
-      setGifs(res.data.data);
-    });
+    (async () => {
+      const resp = await GetGifs(url);
+      setGifs(resp.data.data);
+    })();
   };
   const deleteImage = (id) => {
     if (images.find((image) => image.id === id).type === 'gif') {
@@ -105,25 +107,35 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     setImageCount(imageCount + 1);
     setIsGifOpen(!isGifOpen);
     setGifs([]);
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
   };
 
   const handleSendData = () => {
     const { value } = document.getElementById(`twbox-text-area-${boxId}`);
     document.getElementById(`twbox-text-area-${boxId}`).value = '';
+    document.getElementById(`twbox-text-area-${boxId}`).style.height = '53px';
     setImages([]);
     setGifs([]);
     setImageCount(0);
     setImageId(0);
     setGifDisabled(false);
     setMediaDisabled(false);
+    setWordsCount(0);
 
     if (value !== '' || images.length !== 0) {
       PostTweet({ value, images, replyId });
     }
   };
+
+  const maxWordsNoValidation = () => {
+    const count = document.getElementById(`twbox-text-area-${boxId}`).value.length;
+    setWordsCount(count);
+    if (count > 280) setIsEnabled(false);
+    else setIsEnabled(true);
+  };
   return (
     <div>
-      <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen}>
+      <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         <div className={styles['inner-gif']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
           <div className={styles['popup-imgs-container']}>
@@ -148,6 +160,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
         <div className={styles['text-area']}>
           <div>
             <textarea
+              onChange={maxWordsNoValidation}
               id={`twbox-text-area-${boxId}`}
               placeholder={placeHolder}
               className={styles['tweet-input']}
@@ -177,14 +190,24 @@ function TweetBox({ replyId, placeHolder, boxId }) {
                 />
               </div>
             </div>
-            <button
-              id="twbox-submit"
-              type="submit"
-              className={styles['tweet-icons-button']}
-              onClick={handleSendData}
-            >
-              whisp
-            </button>
+            <div className={styles['whisp-button-container']}>
+              <div
+                className={styles['words-count']}
+                style={{ color: (wordsCount <= 280) ? 'rgb(29 155 240)' : 'red' }}
+              >
+                {280 - wordsCount}
+
+              </div>
+              <button
+                id="twbox-submit"
+                type="submit"
+                className={styles['tweet-icons-button']}
+                onClick={handleSendData}
+                disabled={!isEnabled}
+              >
+                whisp
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -193,13 +216,13 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.string,
+  replyId: PropTypes.number,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
 };
 
 TweetBox.defaultProps = {
-  replyId: '',
+  replyId: null,
   placeHolder: '',
 };
 

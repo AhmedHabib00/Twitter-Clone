@@ -33,7 +33,6 @@ import PropTypes from 'prop-types';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
-
 /**
  * This functions renders the start page from which
  * user can login or signup with google, facebook, or email.
@@ -61,6 +60,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 data-testid="google-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
+                onClick={handleGoogleAuth}
               >
                 &lt;img
                   className={styles['google-logo']}
@@ -74,6 +74,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 data-testid="facebook-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
+                onClick={handleFacebookAuth}
               >
                 &lt;img
                   className={styles['google-logo']}

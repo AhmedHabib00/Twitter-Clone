@@ -62,9 +62,10 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     } else {
       url = `http://api.giphy.com/v1/gifs/search?q=${value}&amp;api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`;
     }
-    axios.get(url).then((res) => {
-      setGifs(res.data.data);
-    });
+    (async () => {
+      const resp = await GetGifs(url);
+      setGifs(resp.data.data);
+    })();
   };
   const deleteImage = (id) => {
     if (images.find((image) => image.id === id).type === 'gif') {
@@ -151,7 +152,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   };
   return (
     &lt;div>
-      &lt;PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen}>
+      &lt;PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         &lt;div className={styles['inner-gif']}>
           &lt;SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
           &lt;div className={styles['popup-imgs-container']}>
@@ -205,14 +206,24 @@ function TweetBox({ replyId, placeHolder, boxId }) {
                 />
               &lt;/div>
             &lt;/div>
-            &lt;button
-              id="twbox-submit"
-              type="submit"
-              className={styles['tweet-icons-button']}
-              onClick={handleSendData}
-            >
-              whisp
-            &lt;/button>
+            &lt;div className={styles['whisp-button-container']}>
+              &lt;div
+                className={styles['words-count']}
+                style={{ color: (wordsCount &lt;= 280) ? 'rgb(29 155 240)' : 'red' }}
+              >
+                {280 - wordsCount}
+
+              &lt;/div>
+              &lt;button
+                id="twbox-submit"
+                type="submit"
+                className={styles['tweet-icons-button']}
+                onClick={handleSendData}
+                disabled={!isEnabled}
+              >
+                whisp
+              &lt;/button>
+            &lt;/div>
           &lt;/div>
         &lt;/div>
       &lt;/div>

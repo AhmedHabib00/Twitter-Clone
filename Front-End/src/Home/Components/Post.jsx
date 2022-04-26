@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import RepeatIcon from '@mui/icons-material/Repeat';
@@ -22,11 +23,12 @@ import {
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
 import 'font-awesome/css/font-awesome.min.css';
-// import axios from 'axios';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
+import { handleLikes } from '../../Services/postServices';
+
 /**
  *
  * @param {Number} id     Post Id
@@ -37,6 +39,11 @@ import TweetBox from './TweetBox';
  * @param {String} img2     uploaded image-2 url.
  * @param {String} img3     uploaded image-3 url.
  * @param {String} img4     uploaded image-4 url.
+ * @param {Bool} isLiked     flag to know if post was initially liked.
+ * @param {Number} noOfLike     number of likes for this post.
+ * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
+ * @param {Number} noOfRetweets     number of retweets for this post.
+ * @param {Number} noOfReplies     number of replies for this post.
  *
  * @returns div element containing the whole whispered tweet
  */
@@ -54,42 +61,25 @@ function Post({
   // const [retweetCount, setRetweetCount] = useState(noOfRetweets);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
-
+  const navigate = useNavigate();
   // const handleRetweets = () => {
 
   // };
+
   /**
    *@returns get the number of the post likes.
    */
   const handellikes = () => {
     if (like) {
+      const likeFlag = false;
+      const likeCountFlag = likeCount - 1;
+      handleLikes({ likeFlag, likeCountFlag });
       setLikeCount(likeCount - 1);
-      // axios.post(localurl, {
-      //   likes: (likeCount - 1),
-      //   isLiked: false,
-      //   id,
-      // })
-      //   .then((response) => {
-      //     setLikeCount(response.data[0].likes);
-      //     setLike(response.data[0].isLiked);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
     } else {
+      const likeFlag = true;
+      const likeCountFlag = likeCount + 1;
+      handleLikes({ likeFlag, likeCountFlag });
       setLikeCount(likeCount + 1);
-      // axios.post(localurl, {
-      //   likes: (likeCount + 1),
-      //   isLiked: true,
-      // })
-      //   .then((response) => {
-      //     console.log(response);
-      //     setLikeCount(response.data[0].likes);
-      //     setLike(response.data[0].isLiked);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
     }
     setLike(!like);
   };
@@ -114,40 +104,16 @@ function Post({
   const handelCloseRetweet = () => {
     setRetweetEl(null);
   };
-  // const trial = () => {
-  //   let response = '';
-  //   try {
-  //     response = axios.put('http://localhost:8000/posts', {
-  //       id,
-
-  //     });
-  //     return (response);
-  //   } catch (error) {
-  //     if (error.response) {
-  //       return (error.response);
-  //     }
-
-  //     return (response);
-  //   }
-  // };
 
   return (
     <div data-testid="post-render-test" className={styles.post}>
-      {/* <div>
-        <FontAwesomeIcon icon={faCoffee} />
-      </div> */}
-      {/* {
-         Data && Data.map((post) => ( */}
-      <div className={styles.postbody} key={id}>
+      <div className={styles.postbody}>
         <div className={styles.postheader}>
 
           <div className={styles.postheadertext}>
-
             <h3>
               <div data-testid="post-avatar-render-test" className={styles.postavatar}>
-
                 <AccountCircleIcon />
-
                 {displayname}
                 {' '}
                 <span className={styles.postheaderSpecial}>
@@ -155,12 +121,9 @@ function Post({
                   {' '}
                   @
                   {username}
-
                 </span>
                 <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
-
                 <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-
                   <MenuList className={styles['dropdown-content']}>
                     <div className={styles['label-out']}>
                       {'    '}
@@ -241,15 +204,15 @@ function Post({
                   </MenuList>
 
                 </Menu>
-
               </div>
             </h3>
           </div>
 
-          <div data-testid="content-render-test" className={styles.postheaderdescription}>
+          <div data-testid="content-render-test" className={styles.postheaderdescription} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
             <p>{content}</p>
           </div>
         </div>
+
         <div data-testid="images-render-test">
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img1} alt="pic1" /></a>
           <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img2} alt="pic1" /></a>
@@ -258,22 +221,22 @@ function Post({
         </div>
         <div>
           <ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-            <Carousel showArrows={false}>
+            <Carousel>
 
               <div>
                 <img className={styles.imgpopup} src={img1} alt="pic1" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img2} alt="pic1" />
+                <img className={styles.imgpopup} src={img2} alt="pic2" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img3} alt="pic1" />
+                <img className={styles.imgpopup} src={img3} alt="pic3" />
               </div>
 
               <div>
-                <img className={styles.imgpopup} src={img4} alt="pic1" />
+                <img className={styles.imgpopup} src={img4} alt="pic4" />
               </div>
 
             </Carousel>
@@ -281,36 +244,38 @@ function Post({
         </div>
 
         <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
-          <div className={styles.postbody} key={id}>
-            <div className={styles.postheader}>
-              <div className={styles.postheadertext}>
-                <h3>
-                  <div data-testid="post-avatar-render-test" className={styles.postavatar}>
-                    <AccountCircleIcon />
-                    {displayname}
-                    {' '}
-                    <span className={styles.postheaderSpecial}>
-                      {true && <VerifiedIcon className={styles.postbadge} />}
+          <div>
+            <div className={styles.postbody} key={id}>
+              <div className={styles.postheader}>
+                <div className={styles.postheadertext}>
+                  <h3>
+                    <div data-testid="post-avatar-render-test" className={styles.postavatar}>
+                      <AccountCircleIcon />
+                      {displayname}
                       {' '}
-                      @
-                      {username}
+                      <span className={styles.postheaderSpecial}>
+                        {true && <VerifiedIcon className={styles.postbadge} />}
+                        {' '}
+                        @
+                        {username}
 
-                    </span>
-                    <div data-testid="content-render-test" className={styles.postheaderdescription}>
-                      <p>{content}</p>
+                      </span>
+                      <div data-testid="content-render-test" className={styles.postheaderdescription}>
+                        <p>{content}</p>
+                      </div>
+                      <div data-testid="images-render-test">
+                        <img src={img1} alt="pic1" />
+                        <img src={img2} alt="pic1" />
+                        <img src={img3} alt="pic1" />
+                        <img src={img4} alt="pic1" />
+                      </div>
                     </div>
-                    <div data-testid="images-render-test">
-                      <img src={img1} alt="pic1" />
-                      <img src={img2} alt="pic1" />
-                      <img src={img3} alt="pic1" />
-                      <img src={img4} alt="pic1" />
-                    </div>
-                  </div>
-                </h3>
+                  </h3>
+                </div>
               </div>
             </div>
+            <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
           </div>
-          <TweetBox replyId={id} placeHolder="Tweet your reply" className={styles.retweet} />
         </PopupPage>
 
         <div data-testid="footer-render-test" className={styles.postfooter}>
@@ -357,6 +322,7 @@ function Post({
       </div>
 
     </div>
+
   );
 }
 

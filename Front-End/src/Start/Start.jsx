@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
-
+import { authGoogle, authFacebook } from '../Services/accountServices';
 /**
  * This functions renders the start page from which
  * user can login or signup with google, facebook, or email.
@@ -17,6 +17,34 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   const handleLoginStatus = (logEvent, adminEvent) => {
     setIsLoggedIn(logEvent);
     setisAdmin(adminEvent);
+  };
+  const handleGoogleAuth = () => {
+    (async () => {
+      const response = await authGoogle();
+      if (response.status === 200) {
+        const { token } = response.headers['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('logged', true);
+        localStorage.setItem('admin', false);
+        const logged = localStorage.getItem('logged');
+        const admin = localStorage.getItem('admin');
+        handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+      }
+    })();
+  };
+  const handleFacebookAuth = () => {
+    (async () => {
+      const response = await authFacebook();
+      if (response.status === 200) {
+        const { token } = response.headers['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('logged', true);
+        localStorage.setItem('admin', false);
+        const logged = localStorage.getItem('logged');
+        const admin = localStorage.getItem('admin');
+        handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
+      }
+    })();
   };
 
   return (
@@ -33,6 +61,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 data-testid="google-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
+                onClick={handleGoogleAuth}
               >
                 <img
                   className={styles['google-logo']}
@@ -46,6 +75,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 data-testid="facebook-button"
                 variant="outlined"
                 className={styles['signup-tweet-google']}
+                onClick={handleFacebookAuth}
               >
                 <img
                   className={styles['google-logo']}

@@ -18,13 +18,13 @@ describe('validate the verification code', () => {
       email: 'mahmoudsuliman@gmail.com',
     })).toEqual(
       {
-        password: 'Password needs to be 6 characters or more',
+        password: 'Password needs to be 8 characters or more',
       },
     );
   });
   it('validate the password', () => {
     expect(validatePassword({
-      password: '12345678912cascascscsac',
+      password: 'Abdo#1gd',
       email: 'mahmoudsuliman@gmail.com',
     })).toEqual(
       {},

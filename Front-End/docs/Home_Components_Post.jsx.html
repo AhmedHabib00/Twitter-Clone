@@ -28,6 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import RepeatIcon from '@mui/icons-material/Repeat';
@@ -65,6 +66,11 @@ import TweetBox from './TweetBox';
  * @param {String} img2     uploaded image-2 url.
  * @param {String} img3     uploaded image-3 url.
  * @param {String} img4     uploaded image-4 url.
+ * @param {Bool} isLiked     flag to know if post was initially liked.
+ * @param {Number} noOfLike     number of likes for this post.
+ * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
+ * @param {Number} noOfRetweets     number of retweets for this post.
+ * @param {Number} noOfReplies     number of replies for this post.
  *
  * @returns div element containing the whole whispered tweet
  */
@@ -170,12 +176,9 @@ function Post({
         &lt;div className={styles.postheader}>
 
           &lt;div className={styles.postheadertext}>
-
             &lt;h3>
               &lt;div data-testid="post-avatar-render-test" className={styles.postavatar}>
-
                 &lt;AccountCircleIcon />
-
                 {displayname}
                 {' '}
                 &lt;span className={styles.postheaderSpecial}>
@@ -183,10 +186,8 @@ function Post({
                   {' '}
                   @
                   {username}
-
                 &lt;/span>
                 &lt;MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
-
                 &lt;Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
 
                   &lt;MenuList className={styles['dropdown-content']}>
@@ -269,15 +270,15 @@ function Post({
                   &lt;/MenuList>
 
                 &lt;/Menu>
-
               &lt;/div>
             &lt;/h3>
           &lt;/div>
 
-          &lt;div data-testid="content-render-test" className={styles.postheaderdescription}>
+          &lt;div data-testid="content-render-test" className={styles.postheaderdescription} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
             &lt;p>{content}&lt;/p>
           &lt;/div>
         &lt;/div>
+
         &lt;div data-testid="images-render-test">
           &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img1} alt="pic1" />&lt;/a>
           &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img2} alt="pic1" />&lt;/a>
@@ -385,6 +386,7 @@ function Post({
       &lt;/div>
 
     &lt;/div>
+
   );
 }
 
