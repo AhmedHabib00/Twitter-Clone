@@ -24,11 +24,11 @@ router.get('/gToken/:id',async(req,res)=>{
 
 
 // GET: admins/ -> Retrieve all admins
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     
-    // if (req.user.role != "Admin") {
-    //     return res.status(403).send("Access denied");
-    // }
+    if (req.user.role != "Admin") {
+        return res.status(403).send("Access denied");
+    }
 
     try {
         let { page, size } = req.query;
@@ -60,11 +60,11 @@ router.get('/', async (req, res) => {
 
 
 // GET: admins/users/ -> Retrieve all users
-router.get('/users', async (req, res, next) =>{
+router.get('/users', auth, async (req, res, next) =>{
     
-    // if (req.user.role != "Admin") {
-    //     return res.status(403).send("Access denied");
-    // }
+    if (req.user.role != "Admin") {
+        return res.status(403).send("Access denied");
+    }
 
     try {
         let { page, size, search, options } = req.query;
@@ -127,11 +127,11 @@ router.get('/users', async (req, res, next) =>{
 
 
 // GET: admins/statistics/ -> Retrive statistics data about users
-router.get('/statistics', async (req, res) =>{
+router.get('/statistics', auth, async (req, res) =>{
     
-    // if (req.user.role != "Admin") {
-    //     return res.status(403).send("Access denied");
-    // }
+    if (req.user.role != "Admin") {
+        return res.status(403).send("Access denied");
+    }
 
     // Get current date
     const month = ["Jan","Feb","Mar","Apr","May","June","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -400,11 +400,11 @@ async function rangeAgesCalculator(minRangeAge=0, maxRangeAge=0, Schema) {
 
 
 // POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
-router.post('/:id/banning/:target_user_id', async (req, res) =>{
+router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
     try {
-        // if (req.user._id != req.params.id) {
-        //     return res.status(403).send("Access denied");
-        // }
+        if (req.user.role != "Admin" || req.user._id != req.params.id) {
+            return res.status(403).send("Access denied");
+        }
 
         // Get start_date and end_date
         const start_date = new Date();
@@ -448,11 +448,11 @@ router.post('/:id/banning/:target_user_id', async (req, res) =>{
 
 
 // DELETE: admins/:id/banning/:target_user_id/ -> unBan a user by admin
-router.delete('/:id/banning/:target_user_id', async (req, res) =>{
+router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
     try {
-        // if (req.user._id != req.params.id) {
-        //     return res.status(403).send("Access denied");
-        // }
+        if (req.user.role != "Admin" || req.user._id != req.params.id) {
+            return res.status(403).send("Access denied");
+        }
 
         const bannedUser = await userSchema.findById(req.params.target_user_id);
         const bannedBy = await userSchema.findById(req.params.id);
@@ -480,11 +480,11 @@ router.delete('/:id/banning/:target_user_id', async (req, res) =>{
 
 
 // POST: admins/:id/adding/ -> Add a new admin
-router.post('/:id/adding', async (req, res) =>{
+router.post('/:id/adding', auth, async (req, res) =>{
     
-    // if (req.user._id != req.params.id) {
-    //     return res.status(403).send("Access denied");
-    // }
+    if (req.user.role != "Admin" || req.user._id != req.params.id) {
+        return res.status(403).send("Access denied");
+    }
 
     userSchema.findById(req.params.id).exec(async (err, adminData) =>{
         try {
@@ -527,11 +527,13 @@ router.post('/:id/adding', async (req, res) =>{
 
 
 // DELETE: admins/:id/adding/ -> Delete user by admin
-router.delete('/:id/deleting/:target_user_id', async (req, res) =>{
+router.delete('/:id/deleting/:target_user_id', auth, async (req, res) =>{
     try {
-        // if (req.user._id != req.params.id) {
-        //     return res.status(403).send("Access denied");
-        // }
+        
+        if (req.user.role != "Admin" || req.user._id != req.params.id) {
+            return res.status(403).send("Access denied");
+        }
+
         adminData = await userSchema.findById(req.params.id).exec();
         if (adminData.role == "Admin") {
             foundUser = await userSchema.findById(req.params.target_user_id);
