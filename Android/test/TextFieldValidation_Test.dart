@@ -4,13 +4,23 @@ import 'package:test/test.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 
 void main() {
+  test('Name -Empty- return error string', () {
+    var result = NameFieldValidator.validate('');
+    expect(result, 'Enter correct Name');
+  });
+
+  test('Name -Non-Empty- return null', () {
+    var result = NameFieldValidator.validate('AnyName');
+    expect(result, null);
+  });
+
   test('Email -Empty- return error string', () {
     var result = EmailFieldValidator.validate('');
     expect(result, 'Enter correct email');
   });
 
   test('Email -Non-Empty- return null', () {
-    var result = EmailFieldValidator.validate('email@gmail.com');
+    var result = EmailFieldValidator.validate('AnyEmail@Any.com');
     expect(result, null);
   });
 
@@ -31,6 +41,16 @@ void main() {
 
   test('ForgetpassEmail -Non-Empty- return null', () {
     var result = ForgetPassFieldValidator.validate('email@gmail.com');
+    expect(result, null);
+  });
+
+  test('ForgetpassVerify Empty return error string', () {
+    var result = ForgetPassVerifyFieldValidator.validate('');
+    expect(result, 'Enter correct code');
+  });
+
+  test('ForgetpassVerify -Non-Empty- return null', () {
+    var result = ForgetPassVerifyFieldValidator.validate('6582414');
     expect(result, null);
   });
 

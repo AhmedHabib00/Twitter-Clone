@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 
-class ForgotPassPage extends StatelessWidget {
-  ForgotPassPage({Key? key}) : super(key: key);
+// ignore: camel_case_types
+class ForgotPassSetPass extends StatefulWidget {
+  const ForgotPassSetPass({Key? key}) : super(key: key);
+  @override
+  _ForgotPassSetPass createState() => _ForgotPassSetPass();
+}
+
+// ignore: camel_case_types
+class _ForgotPassSetPass extends State<ForgotPassSetPass> {
   final formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +47,7 @@ class ForgotPassPage extends StatelessWidget {
                   Column(
                     children: const <Widget>[
                       Text(
-                        "Forgot Password",
+                        " Enter a password",
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
@@ -53,26 +61,38 @@ class ForgotPassPage extends StatelessWidget {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.email,
-                                color: Color.fromARGB(179, 0, 110, 255),
+                              obscureText: _isObscure,
+                              obscuringCharacter: "*",
+                              //keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(
+                                  Icons.password,
+                                  color: Color.fromARGB(179, 255, 0, 0),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(_isObscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isObscure = !_isObscure;
+                                    });
+                                  },
+                                ),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor:
+                                    const Color.fromARGB(255, 179, 177, 177)
+                                        .withOpacity(0.3),
+                                labelText: "Set Password",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        width: 0, style: BorderStyle.none)),
                               ),
-                              filled: true,
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              fillColor:
-                                  const Color.fromARGB(255, 179, 177, 177)
-                                      .withOpacity(0.3),
-                              labelText: "Email",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: const BorderSide(
-                                      width: 0, style: BorderStyle.none)),
-                            ),
-                            validator: (value) =>
-                                ForgetPassFieldValidator.validate(value!),
-                          ),
+                              validator: (value) =>
+                                  SetPassFieldValidator.validate(value!)),
                         ],
                       ),
                     ),
@@ -94,7 +114,7 @@ class ForgotPassPage extends StatelessWidget {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Password Reset");
+                            print("Password set");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -107,7 +127,7 @@ class ForgotPassPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: const Text(
-                          "Reset Password",
+                          "Return to Login",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,

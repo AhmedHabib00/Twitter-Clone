@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Dart",
+            "type": "dart",
+            "request": "launch",
+            "program": "bin/main.dart"
+        },
+
+        {
+            "name": "android",
+            "cwd": "C:/Users/ET/AndroidStudioProjects/Whisper/android",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "android (profile mode)",
+            "cwd": "android",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "android (release mode)",
+            "cwd": "android",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

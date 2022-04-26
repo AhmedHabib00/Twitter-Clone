@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, avoid_print, duplicate_ignore
+// ignore_for_file: sized_box_for_whitespace, avoid_print, duplicate_ignore, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,8 +7,9 @@ import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/SignUp/VerifyEmail.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
-//import 'package:whisper/models/TextField.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -19,8 +20,11 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPage extends State<SignUpPage> {
   final formKey = GlobalKey<FormState>();
   final format = DateFormat('yyyy-MM-dd');
+  //final _conName = TextEditingController();
+  //final _conEmail = TextEditingController();
+  TextEditingController NameController = new TextEditingController();
+  TextEditingController EmailController = new TextEditingController();
   TextEditingController dateinput = TextEditingController();
-  bool _isObscure = true;
   IconData? get icon => null;
 
   @override
@@ -84,6 +88,28 @@ class _SignUpPage extends State<SignUpPage> {
                     children: <Widget>[
                       const SizedBox(height: 5),
                       TextFormField(
+                        controller: NameController,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            Icons.person,
+                            color: Color.fromARGB(179, 0, 110, 255),
+                          ),
+                          filled: true,
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          fillColor: const Color.fromARGB(255, 179, 177, 177)
+                              .withOpacity(0.3),
+                          labelText: "Name",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: const BorderSide(
+                                  width: 0, style: BorderStyle.none)),
+                        ),
+                        validator: (value) =>
+                            NameFieldValidator.validate(value!),
+                      ),
+                      const SizedBox(height: 15),
+                      TextFormField(
+                        controller: EmailController,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             Icons.email,
@@ -101,38 +127,6 @@ class _SignUpPage extends State<SignUpPage> {
                         ),
                         validator: (value) =>
                             EmailFieldValidator.validate(value!),
-                      ),
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        obscureText: _isObscure,
-                        obscuringCharacter: "*",
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(
-                            Icons.password,
-                            color: Color.fromARGB(179, 255, 0, 0),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(_isObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            },
-                          ),
-                          filled: true,
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          fillColor: const Color.fromARGB(255, 179, 177, 177)
-                              .withOpacity(0.3),
-                          labelText: "Password",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: const BorderSide(
-                                  width: 0, style: BorderStyle.none)),
-                        ),
-                        validator: (value) =>
-                            PassFieldValidator.validate(value!),
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
@@ -163,8 +157,8 @@ class _SignUpPage extends State<SignUpPage> {
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(
-                                    2000), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101));
+                                    1900), //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2100));
 
                             if (pickedDate != null) {
                               //     pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
@@ -204,11 +198,13 @@ class _SignUpPage extends State<SignUpPage> {
                       // ignore: avoid_print
                       if (formKey.currentState!.validate()) {
                         // ignore: avoid_print
-                        print("Logged In");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const VerifyEmail()));
+                        // print("Logged In");
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const VerifyEmail()));
+                        SignUpp(NameController.text, EmailController.text,
+                            dateinput.text);
                       }
                     },
                     color: const Color(0xff0095FF),
@@ -277,6 +273,88 @@ class _SignUpPage extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  SignUpp(String name, String email, String birthdate) async {
+    Map data = {'name': name, 'email': email, 'birthdate': birthdate};
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //SharedPreferences.setMockInitialValues({});
+    var response = await http.post(
+        Uri.parse(
+            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp"),
+        body: data);
+    if (response.statusCode == 201) {
+      print(response.body);
+      //jsonData = json.decode(response.body);
+      setState(() {
+        mapResponse = json.decode(response.body);
+        dataResponse = mapResponse;
+        //sharedPreferences.setString("token", jsonData['token']);
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    VerifyEmail(EmailController.text)),
+            (Route<dynamic> route) => false);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      dataResponse["message"].toString(),
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 400) {
+      print(response.statusCode);
+      print(response.body);
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
   }
 
   Future signIn() async {

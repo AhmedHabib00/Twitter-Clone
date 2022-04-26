@@ -1,28 +1,21 @@
-// ignore_for_file: file_names, avoid_print, unused_import, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null
+// ignore_for_file: file_names, avoid_print, unused_import, duplicate_ignore
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/SignUp/setPassword.dart';
+// ignore: unused_import
+import 'package:intl/intl.dart';
+import 'package:whisper/layout/Login/ForgotPassSetPass.dart';
+import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
-class VerifyEmail extends StatefulWidget {
-  const VerifyEmail(String text, {Key? key}) : super(key: key);
+class ForgotPassCodeVerify extends StatefulWidget {
+  const ForgotPassCodeVerify({Key? key}) : super(key: key);
   @override
-  _VerifyEmail createState() => _VerifyEmail();
+  _ForgotPassCodeVerify createState() => _ForgotPassCodeVerify();
 }
 
-class _VerifyEmail extends State<VerifyEmail> {
+class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
   final formKey = GlobalKey<FormState>();
   bool _isObscure = true;
-  TextEditingController VerifyEmailController = new TextEditingController();
-  @override
-  void initState() {
-    VerifyEmailController.text = ""; //set the initial value of text field
-    String VerifyE = "";
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +49,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                   Column(
                     children: const <Widget>[
                       Text(
-                        " Email Verification",
+                        "Forgot Password verification",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
@@ -70,9 +63,9 @@ class _VerifyEmail extends State<VerifyEmail> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                            keyboardType: TextInputType.number,
                             obscureText: _isObscure,
                             obscuringCharacter: "*",
-                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
                                 Icons.password,
@@ -83,11 +76,8 @@ class _VerifyEmail extends State<VerifyEmail> {
                                     ? Icons.visibility
                                     : Icons.visibility_off),
                                 onPressed: () {
-                                  String VerifyE = 'null';
                                   setState(() {
                                     _isObscure = !_isObscure;
-
-                                    VerifyEmailController.text = VerifyE;
                                   });
                                 },
                               ),
@@ -97,14 +87,14 @@ class _VerifyEmail extends State<VerifyEmail> {
                               fillColor:
                                   const Color.fromARGB(255, 179, 177, 177)
                                       .withOpacity(0.3),
-                              labelText: "Verification Code",
+                              labelText: "Enter Verification code",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                   borderSide: const BorderSide(
                                       width: 0, style: BorderStyle.none)),
                             ),
                             validator: (value) =>
-                                VerifyEmailFieldValidator.validate(value!),
+                                ForgetPassVerifyFieldValidator.validate(value!),
                           ),
                         ],
                       ),
@@ -127,14 +117,12 @@ class _VerifyEmail extends State<VerifyEmail> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Verification Successful");
+                            print("Password Reset");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const setPassword()));
-                            print('begin 1');
-                            //VerifyEmail(VerifyEmailController.text);
-                            print('begin 2');
+                                    builder: (context) =>
+                                        const ForgotPassSetPass()));
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -143,7 +131,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: const Text(
-                          "Next",
+                          "Confirm",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
@@ -161,92 +149,4 @@ class _VerifyEmail extends State<VerifyEmail> {
       ),
     );
   }
-
-  // VerifyEmail(
-  //   String VerifyE,
-  // ) async {
-  //   Map data = {
-  //     'code': VerifyE,
-  //   };
-  //   var jsonData = null;
-  //   Map mapResponse;
-  //   Map dataResponse;
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   //SharedPreferences.setMockInitialValues({});
-  //   print('test 1');
-  //   var response = await http.patch(
-  //       Uri.parse(
-  //           "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"),
-  //       body: data);
-  //   if (response.statusCode == 200) {
-  //     print('test 3');
-  //     print(response.body);
-  //     setState(() {
-  //       print('test 4');
-  //       //sharedPreferences.setString("token", jsonData['token']);
-  //       Navigator.of(context).pushAndRemoveUntil(
-  //           MaterialPageRoute(
-  //               builder: (BuildContext context) => const setPassword()),
-  //           (Route<dynamic> route) => false);
-  //       print('test 5');
-  //       showModalBottomSheet<void>(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: 200,
-  //             color: const Color.fromARGB(0, 255, 255, 255),
-  //             child: Center(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     response.body,
-  //                     style: const TextStyle(
-  //                       color: Color(0xff0095FF),
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 20,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     });
-  //   } else if (response.statusCode == 400) {
-  //     print('test 6');
-  //     setState(() {
-  //       print('test 7');
-  //       showModalBottomSheet<void>(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: 200,
-  //             color: const Color.fromARGB(0, 255, 255, 255),
-  //             child: Center(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     response.body,
-  //                     style: const TextStyle(
-  //                       color: Color(0xff0095FF),
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 20,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     });
-  //   } else {
-  //     print('bad');
-  //   }
-  // }
 }
