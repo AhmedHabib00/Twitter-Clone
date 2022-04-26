@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import accessabilities
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 
 def driver():
@@ -17,9 +19,8 @@ def driver():
     driver = webdriver.Chrome(service=s, options=chrome_options, desired_capabilities=caps)
     driver.implicitly_wait(20)
     driver.maximize_window()
-    driver.get('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/')
+    driver.get('http://habibs.me/')
     return driver
-
 
 def teardown(driver):
     driver.quit()

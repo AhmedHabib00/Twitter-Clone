@@ -2,17 +2,24 @@ import accessabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
+import time
 import conftest
 
 
-def test_invalid_signup_with_email():
+def test_signup_invalid_email_and_name():
+    # OPEN PAGE
     driver = conftest.driver()
+    time.sleep(2)
+
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
+    time.sleep(10)
 
     # case 1
+    # EMPTY NAME AND MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("")
     except NoSuchElementException:
@@ -28,128 +35,188 @@ def test_invalid_signup_with_email():
     except NoSuchElementException:
         pass
 
-    assert 'Please select an item in the list.' == driver.find_element(By.ID,
-                                                                       accessabilities.signup_month_list_id).get_attribute(
-        "validationMessage")
-
-    # end of case 1
+    test = False
+    # CHECK THE ERROR MESSGAE
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = 'Please select an item in the list.' == driver.find_element(By.ID,
+                                                                           accessabilities.signup_month_list_id).get_attribute(
+            "validationMessage")
     except NoSuchElementException:
         pass
 
+    print('INVALID MAIL AND NAME SIGN UP')
+
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    # CLOSE THE PAGE
+    conftest.teardown(driver)
+    time.sleep(2)
+
+
+def test_signup_invalid_email_only():
+    # OPEN PAGE
+    driver = conftest.driver()
+    time.sleep(2)
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
 
-    # case 2
+    # VALID NAME
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("Yasmeen")
     except NoSuchElementException:
         pass
-
+    # EMPTY MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("")
     except NoSuchElementException:
         pass
-
+    # NEXT BUTTON
     try:
         driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
     except NoSuchElementException:
         pass
 
-    assert 'Please select an item in the list.' == driver.find_element(By.ID,
-                                                                       accessabilities.signup_month_list_id).get_attribute(
-        "validationMessage")
-
-    # end of case 2
-
+    test = False
+    # CHECK THE ERROR MESSAGE
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = 'Please select an item in the list.' == driver.find_element(By.ID,
+                                                                           accessabilities.signup_month_list_id).get_attribute(
+            "validationMessage")
     except NoSuchElementException:
         pass
 
+    print('INVALID MAIL AND VALID NAME SIGN UP')
+
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    conftest.teardown(driver)
+    time.sleep(2)
+
+
+def test_signup_invalid_name_only():
+    # OPEN PAGE
+    driver = conftest.driver()
+    time.sleep(2)
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
 
-    # case 3
+    # INVALID NAME
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("")
     except NoSuchElementException:
         pass
 
+    # VALID MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("yasmeen_zaki01@gmail.com")
     except NoSuchElementException:
         pass
-
+    # NEXT BUTTON
     try:
         driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
     except NoSuchElementException:
         pass
-
-    assert 'Please select an item in the list.' == driver.find_element(By.ID,
-                                                                       accessabilities.signup_month_list_id).get_attribute(
-        "validationMessage")
-
-    # end of case 3
-
+    # CHECK THE ERROR MESSAGE
+    test = False
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = 'Please select an item in the list.' == driver.find_element(By.ID,
+                                                                           accessabilities.signup_month_list_id).get_attribute(
+            "validationMessage")
     except NoSuchElementException:
         pass
 
+    print('INVALID NAME AND VALID MAIL SIGN UP')
+
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    # CLOSE PAGE
+    conftest.teardown(driver)
+    time.sleep(2)
+
+
+def test_signup_invalid_date_only():
+    # OPEN PAGE
+    driver = conftest.driver()
+    time.sleep(2)
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
 
-    # case 4
+    # VALID NAME
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("Yasmeen")
     except NoSuchElementException:
         pass
-
+    # VALID MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("yasmeen_zaki01@gmail.com")
     except NoSuchElementException:
         pass
-
+    # NEXT BUTTON
     try:
         driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
     except NoSuchElementException:
         pass
 
-    assert 'Please select an item in the list.' == driver.find_element(By.ID,
-                                                                       accessabilities.signup_month_list_id).get_attribute(
-        "validationMessage")
-
-    # end of case 4
-
+    test = False
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = 'Please select an item in the list.' == driver.find_element(By.ID,
+                                                                           accessabilities.signup_month_list_id).get_attribute(
+            "validationMessage")
     except NoSuchElementException:
         pass
 
+    print('INVALID DATE SIGN UP')
+
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    # CLOSE PAGE
+    conftest.teardown(driver)
+    time.sleep(2)
+
+
+def test_signup_valid_date_only():
+    # OPEN PAGE
+    driver = conftest.driver()
+    time.sleep(2)
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
 
-    # case 5
+    # INVALID NAME
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("")
     except NoSuchElementException:
         pass
-
+    # INVALID MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("")
     except NoSuchElementException:
         pass
 
+    # VALID DATE
     try:
         Select(driver.find_element(By.ID, accessabilities.signup_month_list_id)).select_by_visible_text('August')
     except NoSuchElementException:
@@ -165,38 +232,53 @@ def test_invalid_signup_with_email():
     except NoSuchElementException:
         pass
 
+    # NEXT BUTTON
     try:
         driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
     except NoSuchElementException:
         pass
 
-    assert driver.find_element(By.CSS_SELECTOR,
-                               accessabilities.signup_name_error).is_displayed() and driver.find_element(
-        By.CSS_SELECTOR, accessabilities.signup_email_error).is_displayed()
-
-    # end of case 5
-
+    # CHECK THE ERROR MESSAGE
+    test = False
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = driver.find_element(By.ID,
+                                   accessabilities.signup_name_error) and driver.find_element(By.XPATH,
+                                                                                              accessabilities.signup_email_error)
     except NoSuchElementException:
         pass
 
+    print('VALID DATE SIGN UP WITH INVALID DATA')
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    # CLOSE PAGE
+    conftest.teardown(driver)
+    time.sleep(2)
+
+
+def test_signup_valid_date_and_name():
+    # OPEN PAGE
+    driver = conftest.driver()
+    time.sleep(2)
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
 
-    # case 6
+    # VALID NAME
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("Yasmeen")
     except NoSuchElementException:
         pass
-
+    # INVALID MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("")
     except NoSuchElementException:
         pass
-
+    # VALID MONTH
     try:
         Select(driver.find_element(By.ID, accessabilities.signup_month_list_id)).select_by_visible_text('August')
     except NoSuchElementException:
@@ -212,37 +294,50 @@ def test_invalid_signup_with_email():
     except NoSuchElementException:
         pass
 
+    # NEXT BUTTON
     try:
         driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
     except NoSuchElementException:
         pass
-
-    assert driver.find_element(
-        By.CSS_SELECTOR, accessabilities.signup_email_error).is_displayed()
-
-    # end of case 6
-
+    # CHECK THE ERROR MESSAGE
+    test = False
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = driver.find_element(By.XPATH, accessabilities.signup_email_error).is_displayed()
     except NoSuchElementException:
         pass
 
+    print('VALID DATE AND NAME SIGN UP')
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    # CLOSE PAGE
+    conftest.teardown(driver)
+    time.sleep(2)
+
+
+def test_signup_valid_date_and_email():
+    # OPEN PAGE
+    driver = conftest.driver()
+    time.sleep(2)
+    # SIGN UP BUTTON
     try:
         driver.find_element(By.ID, accessabilities.sign_up_with_email_button_id).click()
     except NoSuchElementException:
         pass
 
-    # case 7
+    # EMPTY NAME
     try:
         driver.find_element(By.ID, accessabilities.signup_name_textbox_id).send_keys("")
     except NoSuchElementException:
         pass
-
+    # VALID MAIL
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("yasmeen_zaki01@gmail")
     except NoSuchElementException:
         pass
-
+    # VALID DATE
     try:
         Select(driver.find_element(By.ID, accessabilities.signup_month_list_id)).select_by_visible_text('August')
     except NoSuchElementException:
@@ -257,21 +352,29 @@ def test_invalid_signup_with_email():
         Select(driver.find_element(By.ID, accessabilities.signup_year_list_id)).select_by_visible_text('2001')
     except NoSuchElementException:
         pass
-
+    # NEXT BUTTON
     try:
         driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
     except NoSuchElementException:
         pass
 
-    assert driver.find_element(
-        By.CSS_SELECTOR, accessabilities.signup_name_error).is_displayed()
-
-    # end of case 7
+    # CHECK THE ERROR MESSGAE
+    test = False
     try:
-        driver.find_element(By.CSS_SELECTOR, accessabilities.signup_close_button).click()
+        test = driver.find_element(
+            By.ID, accessabilities.signup_name_error).is_displayed()
     except NoSuchElementException:
         pass
+
+    print('VALID DATE AND MAIL SIGN UP')
+    if test:
+        print('Test Successful')
+    else:
+        print('Test Failed')
+
+    # CLOSE PAGE
     conftest.teardown(driver)
+    time.sleep(2)
 
 
 def test_invalid_email_address():
@@ -323,6 +426,7 @@ def test_invalid_email_address():
     else:
         print('Test Failed')
 
+    # email with an '@' but without continuation
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).clear()
     except NoSuchElementException:
@@ -352,6 +456,7 @@ def test_invalid_email_address():
     else:
         print('Test Failed')
 
+    # email without .com
     try:
         driver.find_element(By.ID, accessabilities.signup_email_textbox_id).clear()
     except NoSuchElementException:
@@ -489,7 +594,7 @@ def test_invalid_verification_code_1():
     test = False
 
     try:
-        test = (driver.find_element(By.CSS_SELECTOR, accessabilities.incorrect_verification_error)).is_displayed()
+        test = (driver.find_element(By.ID, accessabilities.incorrect_verification_error)).is_displayed()
     except NoSuchElementException:
         pass
 
@@ -499,6 +604,7 @@ def test_invalid_verification_code_1():
         print('Test Failed')
 
     conftest.teardown(driver)
+
 
 def test_invalid_verification_code_2():
     driver = to_verification_page()
@@ -515,7 +621,7 @@ def test_invalid_verification_code_2():
     test = False
 
     try:
-        test = (driver.find_element(By.CSS_SELECTOR, accessabilities.incorrect_verification_error_1)).is_displayed()
+        test = (driver.find_element(By.ID, accessabilities.incorrect_verification_error_1)).is_displayed()
     except NoSuchElementException:
         pass
 
@@ -525,6 +631,7 @@ def test_invalid_verification_code_2():
         print('Test Failed')
 
     conftest.teardown(driver)
+
 
 def test_invalid_verification_code_3():
     driver = to_verification_page()
@@ -542,7 +649,7 @@ def test_invalid_verification_code_3():
     test = False
 
     try:
-        test = (driver.find_element(By.CSS_SELECTOR, accessabilities.incorrect_verification_error_2)).is_displayed()
+        test = (driver.find_element(By.ID, accessabilities.incorrect_verification_error_2)).is_displayed()
     except NoSuchElementException:
         pass
 
