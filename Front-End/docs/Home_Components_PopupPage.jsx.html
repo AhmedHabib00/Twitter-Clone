@@ -28,7 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React from 'react';
 import PropTypes from 'prop-types';
-
+import CloseIcon from '@mui/icons-material/Close';
 import styles from './PopupPage.module.css';
 /**
  * A customizable component that has a white background where you can add your components.
@@ -37,21 +37,35 @@ import styles from './PopupPage.module.css';
  * @param {Element} children elements to render in the popup page
  * @param {Function} SetTrigger setter for trigger
  */
-function PopupPage({ trigger, children, SetTrigger }) {
+function PopupPage({
+  trigger, children, SetTrigger, widthpercentage, isCloseEnabled,
+}) {
   let toClose = true;
   const closePopup = () => {
-    if (toClose) {
-      SetTrigger(false);
-      document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+    if (isCloseEnabled) {
+      if (toClose) {
+        SetTrigger(false);
+        document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+      }
+      toClose = true;
     }
-    toClose = true;
   };
   const childClick = () => {
+    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
     toClose = false;
   };
   return (trigger) ? (
     &lt;div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
-      &lt;div id="popup-page-children" role="button" tabIndex={0} className={styles['popup-page-click-detect']} onClick={childClick}>
+      {document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden')}
+      &lt;div
+        id="popup-page-children"
+        role="button"
+        tabIndex={0}
+        className={styles['popup-page-click-detect']}
+        onClick={childClick}
+        style={{ width: `${widthpercentage}%` }}
+      >
+        &lt;CloseIcon className={styles['close-btn']} onClick={() => { SetTrigger(false); }} />
         {children}
       &lt;/div>
     &lt;/div>
@@ -62,6 +76,13 @@ PopupPage.propTypes = {
   trigger: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
   SetTrigger: PropTypes.func.isRequired,
+  widthpercentage: PropTypes.number,
+  isCloseEnabled: PropTypes.bool,
+};
+
+PopupPage.defaultProps = {
+  widthpercentage: 50,
+  isCloseEnabled: true,
 };
 
 export default PopupPage;
@@ -75,13 +96,13 @@ export default PopupPage;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Apr 02 2022 14:29:15 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

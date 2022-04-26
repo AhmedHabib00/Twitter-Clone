@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Start/SignUp/SignUp.jsx</title>
+    <title>JSDoc: Source: Start/SignUp/Components/validateUsername.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Start/SignUp/SignUp.jsx</h1>
+    <h1 class="page-title">Source: Start/SignUp/Components/validateUsername.js</h1>
 
     
 
@@ -26,81 +26,20 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { React, useState } from 'react';
-import PropTypes from 'prop-types';
-import styles from './SignUp.module.css';
-import StepOne from './StepOne';
-import StepPassword from './StepPassword';
-import VerifyEmail from './VerifyEmail';
-import UserName from './UserName';
-
-/**
- * This Function manages signup and its states.
- * @param {boolean} closeSignup [boolen to close signup modal]
- * @returns SignUp modal
+            <pre class="prettyprint source linenums"><code>/**
+ * This function is used to validate the username input.
+ * @param {object} values contains the email and code
+ * @returns errors
  */
-function SignUp({ closeSignup, handleLoginStatus }) {
-  const [stepOne, setStepOne] = useState(true);
-  const [stepPassword, setStepPassword] = useState(false);
-  const [stepVerify, setStepVerify] = useState(false);
-  const [stepUsername, setStepUsername] = useState(false);
-  const [email, setEmail] = useState('');
-  const handleCloseSignup = (e) => {
-    closeSignup(e);
-  };
-  const handleGoToStepOne = () => {
-    setStepOne(true);
-    setStepVerify(false);
-    setStepPassword(false);
-    setStepUsername(false);
-  };
-  const handleAfterSignup = (logged, admin) => {
-    handleLoginStatus(logged, admin);
-  };
-  return (
-    &lt;div className={styles['signup-background']}>
-      &lt;div id="signup-modals" className="start-modals-container">
-        {stepOne &amp;&amp; (
-        &lt;StepOne
-          handleCloseSignup={handleCloseSignup}
-          setStepOne={setStepOne}
-          setStepVerify={setStepVerify}
-          setEmail={setEmail}
-        />
-        )}
-        {stepVerify &amp;&amp; (
-        &lt;VerifyEmail
-          handleGoToStepOne={handleGoToStepOne}
-          setStepPassword={setStepPassword}
-          setStepVerify={setStepVerify}
-          email={email}
-        />
-        )}
-        {stepPassword &amp;&amp; (
-        &lt;StepPassword
-          setStepUsername={setStepUsername}
-          setStepPassword={setStepPassword}
-          email={email}
-        />
-        )}
-        {stepUsername &amp;&amp; (
-        &lt;UserName
-          data-testid="username"
-          email={email}
-          handleAfterSignup={handleAfterSignup}
-        />
-        )}
-      &lt;/div>
-
-    &lt;/div>
-  );
+export default function validateInfo(values) {
+  const errors = {};
+  if (!values.username) {
+    errors.username = 'Please enter a username';
+  } else if (!/@\S/.test(values.username)) {
+    errors.username = 'Please start your username with @';
+  }
+  return errors;
 }
-
-export default SignUp;
-SignUp.propTypes = {
-  closeSignup: PropTypes.func.isRequired,
-  handleLoginStatus: PropTypes.func.isRequired,
-};
 </code></pre>
         </article>
     </section>

@@ -16,13 +16,13 @@ import styles from './SearchUser.module.css';
 
 /**
  * @param {Number} profileid      Id
- * @param {String} displayname      User display name (user first name).
- * @param {String} username      User display name (user first name).
- * @param {String} description       text.
+ * @param {String} displayname    User display name (user first and second name).
+ * @param {String} username       User username.
+ * @param {String} description    User's bio.
  * @param {String} url
  *
  /**
- return notifications content inside feed insidd notifications component
+ return list of searched users
  */
 
 function SearchUser({

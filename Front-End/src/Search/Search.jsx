@@ -8,7 +8,7 @@ import UsersData from '../Home/Components/UsersData.json';
 
 /**
  *
- * @returns shows everything in the notifications component
+ * @returns shows everything in the search component
 
  */
 function Search() {

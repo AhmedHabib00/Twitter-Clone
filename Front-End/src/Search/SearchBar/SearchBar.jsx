@@ -4,14 +4,13 @@ import { useState, React } from 'react';
 // import Downshift from 'downshift';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import { useNavigate } from 'react-router-dom';
-
 import styles from './SearchBar.module.css';
 import data from '../../Home/Components/UsersData.json';
 import SearchUserDropDown from '../SearchComponents/SearchUserDropDown';
 // import { AutoComplete } from 'antd';
 
 /**
- * a text input cmponent that enables user to type a search value
+ * a text input component that enables user to type a search value
  * @param {string} placeHolder placeholder for searchbox
  * @param {string} searchValue function passed from parent that gets the searched
  * value on value change
@@ -57,8 +56,8 @@ function SearchBar() {
   // eslint-disable-next-line arrow-body-style
   const formatResult = (item) => {
     return (
-      <div data-testid="notifeed-render-test" className={styles.notifeed}>
-        <div data-testid="noticontent-render-test" className={styles.parent}>
+      <div data-testid="feed-render-test" className={styles.notifeed}>
+        <div data-testid="content-render-test" className={styles.parent}>
           <SearchUserDropDown
             profileid={item.id}
             displayname={item.displayName}
@@ -79,7 +78,7 @@ function SearchBar() {
           <ReactSearchAutocomplete
             className={styles.searchbartop}
             items={data}
-            placeholder="Search Twitter"
+            placeholder="Search Whisper"
             onSearch={handleOnSearch}
             showClear
             // onHover={handleOnHover}

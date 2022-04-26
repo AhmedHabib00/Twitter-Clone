@@ -27,14 +27,20 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { React, useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+
+import PropTypes from 'prop-types';
 
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
 import getUserPages from '../Home/NavItems';
-import SearchBar from '../Home/Components/SearchBar';
+import SearchBar from '../Search/SearchBar/SearchBar';
+import PopupPage from '../Home/Components/PopupPage';
+import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
 import './Navbar/Navbar.css';
@@ -43,9 +49,11 @@ import './Navbar/Navbar.css';
  * It displays the navbar, opened page, widgets.
  * The navbar is not scrollable
  */
-function Foundation() {
+function Foundation({ setIsLoggedIn, setisAdmin }) {
   const pages = getUserPages();
+  const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
+  const [isPopupTweetOpen, setIsPopupTweetOpen] = useState(false);
   useEffect(() => {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
   }, [openedPage]);
@@ -54,34 +62,81 @@ function Foundation() {
   };
 
   const onNavItemClick = (id) => {
+    console.log(id);
+    if (id !== 'Search')document.getElementById('SearchBar').style.visibility = 'visible';
+
     document.getElementById(openedPage).style.setProperty('font-weight', '400');
     document.getElementById(id).style.setProperty('font-weight', 'bolder');
     setOpenedPage(id);
   };
+
+  const handleLogOut = () => {
+    localStorage.setItem('logged', false);
+    localStorage.setItem('admin', false);
+    const logged = localStorage.getItem('logged');
+    const admin = localStorage.getItem('admin');
+    setIsLoggedIn(JSON.parse(logged));
+    setisAdmin(JSON.parse(admin));
+    navigate(-1);
+  };
+
   return (
     &lt;div className={styles['found-margins']}>
       &lt;div className={styles.foundation}>
         &lt;div>
           &lt;Navbar onTwIconClick={onNavItemClick} route="Home">
-            &lt;div>
-              {pages.map((page) => (
-                &lt;Link
-                  to={`/${page.name}`}
-                  key={page.name}
-                  onClick={() => onNavItemClick(page.name)}
-                  className="foundation-a-tag"
+            &lt;div className={styles['navbar-container']}>
+              &lt;div>
+                {pages.map((page) => (
+                  &lt;Link
+                    to={`/${page.name}`}
+                    key={page.name}
+                    onClick={() => onNavItemClick(page.name)}
+                    className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
+                  >
+                    &lt;div id={page.name}>
+                      &lt;NavItem title={page.name}>
+                        {page.icon}
+                      &lt;/NavItem>
+                    &lt;/div>
+                  &lt;/Link>
+                ))}
+                &lt;button
+                  type="button"
+                  className="tweet-button whisp-button-text"
+                  onClick={() => setIsPopupTweetOpen(true)}
                 >
-                  &lt;div id={page.name}>
-                    &lt;NavItem title={page.name}>
-                      {page.icon}
-                    &lt;/NavItem>
+                  Whisp
+
+                &lt;/button>
+                &lt;button
+                  type="button"
+                  aria-label="save"
+                  className="tweet-button whisp-button-icon"
+                  onClick={() => setIsPopupTweetOpen(true)}
+                >
+                  &lt;HistoryEduIcon className="feather-icon" />
+                &lt;/button>
+              &lt;/div>
+              &lt;div
+                className={styles['user-menu']}
+                role="button"
+                tabIndex={0}
+                onClick={handleLogOut}
+              >
+                &lt;div className={styles['user-menu-info']}>
+                  &lt;AccountCircleIcon className="nav-bar-profile" />
+                  &lt;div className={styles['user-menu-text-container']}>
+                    &lt;h1 className={styles['user-menu-text']}>
+                      Amr Zayed
+                    &lt;/h1>
+                    &lt;h2 className={[styles['user-menu-text'], styles['user-menu-text-name']].join(' ')}>
+                      @AmrZayed
+                    &lt;/h2>
                   &lt;/div>
-                &lt;/Link>
-              ))}
-              &lt;button type="button" className="tweet-button whisp-button-text">Whisp&lt;/button>
-              &lt;button type="button" aria-label="save" className="tweet-button whisp-button-icon">
-                &lt;HistoryEduIcon className="feather-icon" />
-              &lt;/button>
+                &lt;/div>
+                &lt;MoreHorizIcon className={styles['user-menu-more']} />
+              &lt;/div>
             &lt;/div>
           &lt;/Navbar>
         &lt;/div>
@@ -89,7 +144,11 @@ function Foundation() {
           &lt;Outlet />
         &lt;/div>
 
-        &lt;div className={styles['foundation-widget']}>
+        &lt;PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
+          &lt;TweetBox placeHolder="What's happening" boxId="foundation" />
+        &lt;/PopupPage>
+
+        &lt;div className={styles['foundation-widget']} id="SearchBar">
           &lt;SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
         &lt;/div>
 
@@ -99,6 +158,10 @@ function Foundation() {
 }
 
 export default Foundation;
+Foundation.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+  setisAdmin: PropTypes.func.isRequired,
+};
 </code></pre>
         </article>
     </section>
@@ -109,13 +172,13 @@ export default Foundation;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Apr 02 2022 14:29:15 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

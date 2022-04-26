@@ -16,12 +16,12 @@ import styles from './SearchUserDropDown.module.css';
 
 /**
  * @param {Number} profileid      Id
- * @param {String} displayname      User display name (user first name).
- * @param {String} username      User display name (user first name).
- * @param {String} description       text.
+ * @param {String} displayname   User display name (user first and second name).
+ * @param {String} username      User usernamename.
+ * @param {String} description   User's bio.
  * @param {String} url
  /**
- return notifications content inside feed insidd notifications component
+ return suggestions of users
  */
 
 function SearchUser({
@@ -55,7 +55,7 @@ function SearchUser({
         />
 
         {/* <AccountCircleIcon /> */}
-        <div data-testid="noticontent-avatar-render-test" className={styles.postavatar}>
+        <div data-testid="content-avatar-render-test" className={styles.postavatar}>
           <b>{displayname}</b>
         </div>
 

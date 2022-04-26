@@ -28,7 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './NotiFeed.css';
+import styles from './NotiFeed.module.css';
 import NotiContent from './NotiContent';
 /**
  * @param {array} data array containing our notifications.
@@ -37,46 +37,39 @@ import NotiContent from './NotiContent';
  */
 function NotiFeed({ data }) {
   return (
-    &lt;div data-testid="feed-render-test" className={styles.notifeed}>
+    &lt;div data-testid="notifeed-render-test" className={styles.notifeed}>
 
-      {
+      &lt;div data-testid="noticontent-render-test" className={styles.parent}>
+
+        {
         data &amp;&amp; data.map((content) => (
-          &lt;section className="feedbox1">
-            &lt;button className="feedbox2" type="button">
-              &lt;NotiContent
-                id={content.id}
-                displayname={content.displayname}
-                content1={content.content1}
-                content11={content.content11}
-                content2={content.content2}
-                content22={content.content22}
-                content3={content.content3}
-                content4={content.content4}
-                content5={content.content5}
-                content55={content.content55}
-                content6={content.content6}
-                notitype={content.notitype}
-              />
-            &lt;/button>
-          &lt;/section>
+          // &lt;section className={styles.feedbox1}>
+          //   &lt;button className={styles.feedbox2} type="button">
+          &lt;NotiContent
+            id={content.id}
+            postid={content.postid}
+            profileid={content.profileid}
+            displayname={content.displayname}
+            content={content.content}
+            notitype={content.notitype}
+            date={content.date}
+          />
+          //   &lt;/button>
+          // &lt;/section>
         ))
     }
+        &lt;div className={styles.emptyspace} />
+      &lt;/div>
     &lt;/div>
+
   );
 }
 NotiFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     displayname: PropTypes.string.isRequired,
-    content1: PropTypes.string.isRequired,
-    content11: PropTypes.string.isRequired,
-    content2: PropTypes.string.isRequired,
-    content22: PropTypes.string.isRequired,
-    content3: PropTypes.string.isRequired,
-    content4: PropTypes.string.isRequired,
-    content5: PropTypes.string.isRequired,
-    content55: PropTypes.string.isRequired,
-    content6: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+
     notitype: PropTypes.string.isRequired,
   })).isRequired,
 };
@@ -91,13 +84,13 @@ export default NotiFeed;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Apr 02 2022 14:29:15 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

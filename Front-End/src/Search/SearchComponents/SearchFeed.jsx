@@ -6,18 +6,18 @@ import SearchUser from './SearchUser';
 import Post from '../../Home/Components/Post';
 
 /**
- * @param {array} data array containing our notifications.
+ * @param {array} data array containing our posts.
  * @param {Boolean} dataType
- * @returns map through the post array data and starts passing the notifications props
- * to display the notifications in the feed component.
+ * @returns map through the post array data and starts passing the posts props
+ * to display posts in the feed component.
  */
 function SearchFeed({ data, dataType }) {
   console.log(dataType);
 
   if (dataType) {
     return (
-      <div data-testid="notifeed-render-test" className={styles.notifeed}>
-        <div data-testid="noticontent-render-test" className={styles.parent}>
+      <div data-testid="feed-render-test" className={styles.notifeed}>
+        <div data-testid="content-render-test" className={styles.parent}>
           {
             data && data.map((content) => (
               <SearchUser
@@ -35,8 +35,8 @@ function SearchFeed({ data, dataType }) {
     );
   }
   return (
-    <div data-testid="notifeed-render-test" className={styles.notifeed}>
-      <div data-testid="noticontent-render-test" className={styles.parent} id="FeedContainer">
+    <div data-testid="feed-render-test" className={styles.notifeed}>
+      <div data-testid="content-render-test" className={styles.parent} id="FeedContainer">
         {
                         data && data.map((content) => (
                           <Post
