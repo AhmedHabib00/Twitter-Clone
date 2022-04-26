@@ -34,6 +34,9 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
   };
 
   const onNavItemClick = (id) => {
+    console.log(id);
+    if (id !== 'Search')document.getElementById('SearchBar').style.visibility = 'visible';
+
     document.getElementById(openedPage).style.setProperty('font-weight', '400');
     document.getElementById(id).style.setProperty('font-weight', 'bolder');
     setOpenedPage(id);
@@ -118,7 +121,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
           <TweetBox placeHolder="What's happening" boxId="foundation" />
         </PopupPage>
 
-        <div className={styles['foundation-widget']}>
+        <div className={styles['foundation-widget']} id="SearchBar">
           <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
         </div>
 

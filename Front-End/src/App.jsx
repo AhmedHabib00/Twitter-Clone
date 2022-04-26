@@ -14,6 +14,7 @@ import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
+import ViewTweet from './Notifications/ViewTweet';
 import Tweet from './Home/Components/Tweet';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
     <>
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
+      <Route path="ViewTweet" element={<ViewTweet />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
       <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
