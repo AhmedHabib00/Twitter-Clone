@@ -1,16 +1,50 @@
 import axios from 'axios';
+import configData from '../config/production.json';
 
-export default async function DisplayPost(props) {
-  const { id, noOfLike } = props;
+const { SERVER_URL } = configData;
 
+export default async function GetPostsArray() {
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/posts', {
-      id,
-      noOfLike: (noOfLike + 1),
+    response = await axios.get(`${SERVER_URL}/posts`, {
+      headers: {
+        Authorization: `x-auth-token ${localStorage.token}`,
+      },
+    });
+    // Success
+    return (response);
+  } catch (error) {
+    // if (error.response) {
+    //   // console.log(error.response.data);
+    //   // console.log(error.response.status);
+    //   // console.log(error.response.headers);
+    // } else if (error.request) {
+    //   console.log(error.request);
+    // } else {
+    //   console.log('Error', error.message);
+    // }
+    // console.log(error);
+  }
+  return response;
+}
+
+export async function handleLikes(props) {
+  const {
+    isLiked,
+    noOfLike,
+  } = props;
+  let response = '';
+  try {
+    response = await axios.patch(`${SERVER_URL}/posts`, {
+      headers: {
+        'content-type': 'application/json',
+      },
+      isLiked,
+      noOfLike,
 
     });
     // Success
+    // console.log(response);
     return (response);
   } catch (error) {
     if (error.response) {
@@ -18,6 +52,9 @@ export default async function DisplayPost(props) {
           * The request was made and the server responded with a
           * status code that falls out of the range of 2xx
           */
+      //   console.log(error.response.data);
+      //   console.log(error.response.status);
+      //   console.log(error.response.headers);
       return (error.response);
     } if (error.request) {
       /*
@@ -30,6 +67,7 @@ export default async function DisplayPost(props) {
       // Something happened in setting up the request and triggered an Error
     //   console.log('Error', error.message);
     }
+    // console.log(error);
     return (response);
   }
 }

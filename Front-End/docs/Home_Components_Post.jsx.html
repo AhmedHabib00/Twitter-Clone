@@ -28,28 +28,34 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import PublishIcon from '@mui/icons-material/Publish';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
-import VolumeOffSharpIcon from '@mui/icons-material/VolumeOffSharp';
+// import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
 import BlockSharpIcon from '@mui/icons-material/BlockSharp';
+import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined';
 import { Menu, MenuList } from '@mui/material';
-import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
-import LinkIcon from '@mui/icons-material/Link';
-import EditIcon from '@mui/icons-material/Edit';
-import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
-import axios from 'axios';
+// import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
+// import LinkIcon from '@mui/icons-material/Link';
+// import EditIcon from '@mui/icons-material/Edit';
+// import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faComment, faBookmark,
+} from '@fortawesome/free-regular-svg-icons';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
+import 'font-awesome/css/font-awesome.min.css';
 import styles from './Post.module.css';
 import ImagePopUp from './ImagePopUp';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
+import { handleLikes } from '../../Services/postServices';
 
 /**
  *
@@ -61,48 +67,49 @@ import TweetBox from './TweetBox';
  * @param {String} img2     uploaded image-2 url.
  * @param {String} img3     uploaded image-3 url.
  * @param {String} img4     uploaded image-4 url.
+ * @param {Bool} isLiked     flag to know if post was initially liked.
+ * @param {Number} noOfLike     number of likes for this post.
+ * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
+ * @param {Number} noOfRetweets     number of retweets for this post.
+ * @param {Number} noOfReplies     number of replies for this post.
  *
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, img1, img2, img3, img4,
+  id, displayname, username, content, img1, img2, img3,
+  img4, isLiked, noOfLike,
+  isRetweeted, noOfRetweets, noOfReplies,
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [imagePopUp, setImagePopUp] = useState(false);
   const [replyPopUp, setReplyPopUp] = useState(false);
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [like, setLike] = useState(isLiked);
+  const [likeCount, setLikeCount] = useState(noOfLike);
+  // const [repliesCount, setRepliesCount] = useState(noOfReplies);
+  // const [retweetCount, setRetweetCount] = useState(noOfRetweets);
   const [shareEl, setShareEl] = useState(null);
   const [retweetEl, setRetweetEl] = useState(null);
-  const localurl = 'http://localhost:8000/posts?id=1';
+  const navigate = useNavigate();
+  // const handleRetweets = () => {
+
+  // };
 
   /**
    *@returns get the number of the post likes.
    */
   const handellikes = () => {
-    axios.get(localurl)
-      .then((resp) => {
-        setLike(!like);
-        const whole = {};
-        whole.total = resp.data;
-        whole.likesNo = resp.data.map((post) => ({
-          likesNo: post.likes,
-        }));
-        // console.log(resp.data);
-        console.log(whole.likesNo[0]);
-        let likecounts = likeCount;
-        if (!like) {
-          // let likecounts = likeCount;
-          likecounts += 1;
-          setLikeCount(likecounts);
-        } else {
-          // let likecounts = likeCount;
-          likecounts -= 1;
-          setLikeCount(likecounts);
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
+    if (like) {
+      const likeFlag = false;
+      const likeCountFlag = likeCount - 1;
+      handleLikes({ likeFlag, likeCountFlag });
+      setLikeCount(likeCount - 1);
+    } else {
+      const likeFlag = true;
+      const likeCountFlag = likeCount + 1;
+      handleLikes({ likeFlag, likeCountFlag });
+      setLikeCount(likeCount + 1);
+    }
+    setLike(!like);
   };
 
   const handelOpenMenu = (e) => {
@@ -127,19 +134,14 @@ function Post({
   };
 
   return (
-    &lt;div data-testid="post-render-test" className={styles.post}>
-      {/* {
-         Data &amp;&amp; Data.map((post) => ( */}
-      &lt;div className={styles.postbody} key={id}>
+    &lt;div data-testid="post-render-test" className={styles.post} key={id}>
+      &lt;div className={styles.postbody}>
         &lt;div className={styles.postheader}>
 
           &lt;div className={styles.postheadertext}>
-
             &lt;h3>
               &lt;div data-testid="post-avatar-render-test" className={styles.postavatar}>
-
                 &lt;AccountCircleIcon />
-
                 {displayname}
                 {' '}
                 &lt;span className={styles.postheaderSpecial}>
@@ -147,58 +149,67 @@ function Post({
                   {' '}
                   @
                   {username}
-
                 &lt;/span>
                 &lt;MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
-
                 &lt;Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                  &lt;MenuList className={styles['dropdown-content ']}>
-                    {'    '}
-                    &lt;PlaylistAddSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Add/remove @
-                    {displayname}
-                    {' '}
-                    from Lists
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    &lt;div className={styles['label-out']}>
+                      {'    '}
+                      &lt;VolumeOffOutlinedIcon className={styles['dropdown-content']} />
+                      &lt;p className={styles.label}>
+                        {' '}
+                        Mute @
+                        {displayname}
+                      &lt;/p>
+                    &lt;/div>
                   &lt;/MenuList>
+                  &lt;MenuList className={styles['dropdown-content']}>
+                    &lt;div className={styles['label-out']}>
+                      {'    '}
+                      &lt;BlockSharpIcon className={styles['dropdown-content']} />
+                      &lt;p className={styles.label}>
+                        {' '}
+                        Block @
+                        {displayname}
+                      &lt;/p>
+                    &lt;/div>
+                  &lt;/MenuList>
+                  {/* &lt;MenuList className={styles['dropdown-content']}>
+                    &lt;div className={styles['label-out']}>
+                      {'    '}
+                      &lt;FollowTheSignsIcon className={styles['dropdown-content']} />
+                      {' '}
+                      &lt;p className={styles.label}>
+                        {' '}
+                        Follow @
+                        {displayname}
 
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    &lt;VolumeOffSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Mute @
-                    {displayname}
-                  &lt;/MenuList>
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    &lt;BlockSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Block @
-                    {displayname}
-                  &lt;/MenuList>
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    &lt;FollowTheSignsIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Follow @
-                    {displayname}
-                  &lt;/MenuList>
+                      &lt;/p>
+                    &lt;/div>
+                  &lt;/MenuList> */}
                 &lt;/Menu>
 
                 &lt;Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
                   &lt;MenuList className={styles['dropdown-content']}>
                     {'    '}
-                    &lt;BookmarkAddSharpIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Bookmark
+                    &lt;div className={styles['label-out']}>
+                      &lt;FontAwesomeIcon
+                        fontSize="large"
+                        className={styles['dropdown-content']}
+                        icon={faBookmark}
+                      />
+                      {/* &lt;BookmarkAddSharpIcon className={styles['dropdown-content']} /> */}
+                      {' '}
+                      &lt;p className={styles.label}>Bookmark&lt;/p>
+                    &lt;/div>
                   &lt;/MenuList>
-
+                  {/*
                   &lt;MenuList className={styles['dropdown-content']}>
                     {'    '}
                     &lt;LinkIcon className={styles['dropdown-content']} />
                     {' '}
                     Copy link to Tweet
-                  &lt;/MenuList>
+                  &lt;/MenuList> */}
 
                 &lt;/Menu>
 
@@ -211,90 +222,112 @@ function Post({
                   &lt;/MenuList>
 
                   &lt;MenuList className={styles['dropdown-content']}>
+                    &lt;div className={styles['label-out']}>
+                      {'    '}
+                      &lt;EditOutlinedIcon className={styles['dropdown-content']} />
+                      {' '}
 
-                    {'    '}
-                    &lt;EditIcon className={styles['dropdown-content']} />
-                    {' '}
-
-                    Quote Tweet
-
+                      &lt;p className={styles.label}>Quote Tweet&lt;/p>
+                    &lt;/div>
                   &lt;/MenuList>
 
                 &lt;/Menu>
-
               &lt;/div>
             &lt;/h3>
           &lt;/div>
 
-          &lt;div data-testid="content-render-test" className={styles.postheaderdescription}>
+          &lt;div data-testid="content-render-test" className={styles.postheaderdescription} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
             &lt;p>{content}&lt;/p>
           &lt;/div>
         &lt;/div>
+
         &lt;div data-testid="images-render-test">
           &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img1} alt="pic1" />&lt;/a>
           &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img2} alt="pic1" />&lt;/a>
           &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img3} alt="pic1" />&lt;/a>
           &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img4} alt="pic1" />&lt;/a>
         &lt;/div>
-        &lt;ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-          &lt;Carousel>
+        &lt;div>
+          &lt;ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
+            &lt;Carousel>
 
-            &lt;div>
-              &lt;img className={styles.imgpopup} src={img1} alt="pic1" />
-            &lt;/div>
+              &lt;div>
+                &lt;img className={styles.imgpopup} src={img1} alt="pic1" />
+              &lt;/div>
 
-            &lt;div>
-              &lt;img className={styles.imgpopup} src={img2} alt="pic1" />
-            &lt;/div>
+              &lt;div>
+                &lt;img className={styles.imgpopup} src={img2} alt="pic2" />
+              &lt;/div>
 
-            &lt;div>
-              &lt;img className={styles.imgpopup} src={img3} alt="pic1" />
-            &lt;/div>
+              &lt;div>
+                &lt;img className={styles.imgpopup} src={img3} alt="pic3" />
+              &lt;/div>
 
-            &lt;div>
-              &lt;img className={styles.imgpopup} src={img4} alt="pic1" />
-            &lt;/div>
+              &lt;div>
+                &lt;img className={styles.imgpopup} src={img4} alt="pic4" />
+              &lt;/div>
 
-          &lt;/Carousel>
-        &lt;/ImagePopUp>
-        {/* &lt;div>
-          {
-             images &amp;&amp; images.map((src) => (
-
-             ))
-
-           }
-
+            &lt;/Carousel>
+          &lt;/ImagePopUp>
         &lt;/div>
 
-        &lt;ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-          &lt;Carousel>
-            {
-          images &amp;&amp; images.map((src) => (
-            &lt;div key={src.id}>
-              &lt;img className={styles.imgpopup} src={src.src} alt="pic1" />
-            &lt;/div>
-          ))
-           }
-          &lt;/Carousel>
-        &lt;/ImagePopUp> */}
+        &lt;PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
+          &lt;div>
+            &lt;div className={styles.postbody} key={id}>
+              &lt;div className={styles.postheader}>
+                &lt;div className={styles.postheadertext}>
+                  &lt;h3>
+                    &lt;div data-testid="post-avatar-render-test" className={styles.postavatar}>
+                      &lt;AccountCircleIcon />
+                      {displayname}
+                      {' '}
+                      &lt;span className={styles.postheaderSpecial}>
+                        {true &amp;&amp; &lt;VerifiedIcon className={styles.postbadge} />}
+                        {' '}
+                        @
+                        {username}
 
-        &lt;PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp}>
-          &lt;TweetBox />
+                      &lt;/span>
+                      &lt;div data-testid="content-render-test" className={styles.postheaderdescription}>
+                        &lt;p>{content}&lt;/p>
+                      &lt;/div>
+                      &lt;div data-testid="images-render-test">
+                        &lt;img src={img1} alt="pic1" />
+                        &lt;img src={img2} alt="pic1" />
+                        &lt;img src={img3} alt="pic1" />
+                        &lt;img src={img4} alt="pic1" />
+                      &lt;/div>
+                    &lt;/div>
+                  &lt;/h3>
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+            &lt;TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
+          &lt;/div>
         &lt;/PopupPage>
 
         &lt;div data-testid="footer-render-test" className={styles.postfooter}>
-          &lt;ChatBubbleIcon
-            className={styles.postblue}
-            fontSize="small"
-            onClick={() => setReplyPopUp(true)}
-          />
-          &lt;RepeatIcon
-            className={styles.postgreen}
-            fontSize="small"
-            aria-controls="retweet"
-            onClick={handelOpenRetweet}
-          />
+
+          &lt;div className={styles.like}>
+            &lt;FontAwesomeIcon
+              className={styles.postblue}
+              fontSize="large"
+              onClick={() => setReplyPopUp(true)}
+              icon={faComment}
+            />
+            &lt;p>{noOfReplies}&lt;/p>
+          &lt;/div>
+
+          &lt;div className={styles.like}>
+            &lt;RepeatIcon
+              style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
+              className={styles.postgreen}
+              fontSize="small"
+              aria-controls="retweet"
+              onClick={handelOpenRetweet}
+            />
+            &lt;p>{noOfRetweets}&lt;/p>
+          &lt;/div>
           &lt;div className={styles.like}>
             &lt;FavoriteBorderIcon
               style={(like) ? { color: '#f02896' } : { color: '' }}
@@ -304,12 +337,20 @@ function Post({
             />
             &lt;p>{likeCount}&lt;/p>
           &lt;/div>
-          &lt;PublishIcon fontSize="small" aria-controls="share" onClick={handelOpenShare} className={styles.postblue} />
+
+          &lt;IosShareOutlinedIcon
+            className={styles.postblue}
+            fontSize="small"
+            aria-controls="share"
+            onClick={handelOpenShare}
+          />
+
         &lt;/div>
 
       &lt;/div>
 
     &lt;/div>
+
   );
 }
 
@@ -322,6 +363,11 @@ Post.propTypes = {
   img2: PropTypes.string.isRequired,
   img3: PropTypes.string.isRequired,
   img4: PropTypes.string.isRequired,
+  isLiked: PropTypes.bool.isRequired,
+  noOfLike: PropTypes.number.isRequired,
+  isRetweeted: PropTypes.bool.isRequired,
+  noOfRetweets: PropTypes.number.isRequired,
+  noOfReplies: PropTypes.number.isRequired,
 };
 
 export default Post;
@@ -335,13 +381,13 @@ export default Post;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat Apr 02 2022 14:29:15 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
