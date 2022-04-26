@@ -1,5 +1,5 @@
 import test_signup
-import test_login
+import test_signin
 import test_homepage
 
 
@@ -16,13 +16,13 @@ test_signup.test_invalid_verification_code_1()
 test_signup.test_invalid_verification_code_2()
 test_signup.test_invalid_verification_code_3()
 
-test_login.test_empty_username()
-test_login.test_empty_password()
-test_login.test_incorrect_password()
-test_login.test_unregistered_username_signin()
-test_login.test_unregistered_email_signin()
-test_login.test_unregistered_email_forgot_password()
-test_login.test_unregistered_username_forgot_password()
+test_signin.test_empty_username()
+test_signin.test_empty_password()
+test_signin.test_incorrect_password()
+test_signin.test_unregistered_username_signin()
+test_signin.test_unregistered_email_signin()
+test_signin.test_unregistered_email_forgot_password()
+test_signin.test_unregistered_username_forgot_password()
 
 test_homepage.test_tweetbox_text_image_combinations_1()
 test_homepage.test_tweetbox_text_image_combinations_2()
