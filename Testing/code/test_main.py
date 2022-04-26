@@ -1,7 +1,8 @@
 import test_signup
-import test_signin
+import test_login
+import test_homepage
 
-#SIGN UP TESTS
+
 test_signup.test_signup_invalid_email_and_name()
 test_signup.test_signup_invalid_email_only()
 test_signup.test_signup_invalid_name_only()
@@ -9,11 +10,22 @@ test_signup.test_signup_invalid_date_only()
 test_signup.test_signup_valid_date_only()
 test_signup.test_signup_valid_date_and_name()
 test_signup.test_signup_valid_date_and_email()
-print('SIGN_UP_TESTS_DONE')
+test_signup.test_invalid_email_address()
+test_signup.test_valid_signup_with_email()
+test_signup.test_invalid_verification_code_1()
+test_signup.test_invalid_verification_code_2()
+test_signup.test_invalid_verification_code_3()
 
-#SIGN IN TESTS
-test_signin.test_empty_username()
-test_signin.test_empty_password()
-test_signin.test_wrong_username()
-test_signin.test_wrong_password()
-print('SIGN_IN_TESTS_DONE')
+test_login.test_empty_username()
+test_login.test_empty_password()
+test_login.test_incorrect_password()
+test_login.test_unregistered_username_signin()
+test_login.test_unregistered_email_signin()
+test_login.test_unregistered_email_forgot_password()
+test_login.test_unregistered_username_forgot_password()
+
+test_homepage.test_tweetbox_text_image_combinations_1()
+test_homepage.test_tweetbox_text_image_combinations_2()
+test_homepage.test_tweetbox_text_image_combinations_3()
+test_homepage.test_tweetbox_text_image_combinations_4()
+test_homepage.test_tweetbox_text_image_combinations_5()
