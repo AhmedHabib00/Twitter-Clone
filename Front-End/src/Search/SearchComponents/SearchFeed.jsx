@@ -17,7 +17,7 @@ function SearchFeed({ data, dataType }) {
   if (dataType) {
     return (
       <div data-testid="feed-render-test" className={styles.notifeed}>
-        <div data-testid="content-render-test" className={styles.parent}>
+        <div className={styles.parent}>
           {
             data && data.map((content) => (
               <SearchUser
@@ -36,7 +36,7 @@ function SearchFeed({ data, dataType }) {
   }
   return (
     <div data-testid="feed-render-test" className={styles.notifeed}>
-      <div data-testid="content-render-test" className={styles.parent} id="FeedContainer">
+      <div className={styles.parent} id="FeedContainer">
         {
                         data && data.map((content) => (
                           <Post

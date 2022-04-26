@@ -56,8 +56,8 @@ function SearchBar() {
   // eslint-disable-next-line arrow-body-style
   const formatResult = (item) => {
     return (
-      <div data-testid="feed-render-test" className={styles.notifeed}>
-        <div data-testid="content-render-test" className={styles.parent}>
+      <div className={styles.notifeed}>
+        <div className={styles.parent}>
           <SearchUserDropDown
             profileid={item.id}
             displayname={item.displayName}

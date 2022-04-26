@@ -86,7 +86,7 @@ function SearchUser({
         />
 
         {/* <AccountCircleIcon /> */}
-        <div data-testid="noticontent-avatar-render-test" className={styles.postavatar}>
+        <div className={styles.postavatar}>
           <b>{displayname}</b>
         </div>
 
@@ -108,7 +108,7 @@ function SearchUser({
       </div>
       {' '}
 
-      <div data-testid="content-render-test">
+      <div>
         <br />
       </div>
     </button>

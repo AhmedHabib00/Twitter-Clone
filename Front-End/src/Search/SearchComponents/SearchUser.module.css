@@ -1,11 +1,3 @@
-/* @media screen & (max-width: 900px) {
-  .noticontent {
-    display: flex;
-    align-items: flex-start;
-    padding-bottom: 10px;
-  }
-} */
-
 .parent {
   position: relative;
   float: left;
