@@ -12,7 +12,7 @@ function Tweet() {
   // const { id } = useParams();
   return (
     <div className={styles.tweet}>
-      <div>
+      <div id="tweet-page-layout">
         <KeyboardBackspaceIcon className={styles['back-btn']} />
         <h2 className={styles['tweet-header']}>Tweet</h2>
       </div>

@@ -31,7 +31,7 @@ function SetPassword({ setSettingPassword, handleAfterSignin }) {
     event.preventDefault();
   };
   return (
-    <div className={styles['forgot-password-container']}>
+    <div className={styles['forgot-password-container']} id="login-modal-set-new-password">
       <form
         className={styles['forgot-password-form']}
         onSubmit={handleSubmit}
@@ -68,7 +68,14 @@ function SetPassword({ setSettingPassword, handleAfterSignin }) {
 
             </label>
             {errors1.password1
-          && <p className="start-modals-form-errors">{errors1.password1}</p>}
+          && (
+          <p
+            className="start-modals-form-errors"
+            id="forgot-password-set-password1-error"
+          >
+            {errors1.password1}
+          </p>
+          )}
           </div>
           <label htmlFor="password2">
             <input
@@ -94,10 +101,17 @@ function SetPassword({ setSettingPassword, handleAfterSignin }) {
 
           </label>
           {errors2.password2
-          && <p className="start-modals-form-errors">{errors2.password2}</p>}
+          && (
+          <p
+            className="start-modals-form-errors"
+            id="forgot-password-set-password2-error"
+          >
+            {errors2.password2}
+          </p>
+          )}
           <div className="start-modals-button-container">
             <Button
-              id="verify-email-button"
+              id="verify-new-password-button"
               data-testid="verify-email-button"
               variant="outlined"
               className={styles['forgot-password-button']}

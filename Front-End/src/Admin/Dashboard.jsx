@@ -42,7 +42,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.dashboard} id="admin-dashboard">
       <NumberStat
         type={noUsers.title}
         description={noUsers.interval}

@@ -16,7 +16,7 @@ function UserName({ email, handleAfterSignup }) {
     handleChange, values, handleSubmit, errors,
   } = useFormUserName(email, handleAfterSignup);
   return (
-    <div>
+    <div id="sign-up-modal-step-username">
       <div className={styles.header}>
         <div className={styles['username-logo']}>
           <TwitterIcon className="start-modals-icon-size" />
@@ -46,7 +46,14 @@ function UserName({ email, handleAfterSignup }) {
             <span>Username</span>
           </label>
           {errors.username
-           && <p className="start-modals-form-errors">{errors.username}</p>}
+           && (
+           <p
+             className="start-modals-form-errors"
+             id="sign-up-username-error"
+           >
+             {errors.username}
+           </p>
+           )}
         </div>
         <div className="start-modals-button-container">
           <Button

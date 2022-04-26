@@ -39,7 +39,7 @@ function ImageBox({ images, onDeleteImage }) {
     </div>
   );
   return (
-    <div data-testid="imagebox" className={styles.imagebox}>
+    <div data-testid="imagebox" className={styles.imagebox} id="imagebox">
       <div className={styles['row-images']}>
         {images.map((image, index) => ((index <= 1) ? imageContainer(image) : ''))}
       </div>

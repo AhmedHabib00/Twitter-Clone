@@ -12,7 +12,7 @@ import Post from './Post';
  */
 function Feed({ data }) {
   return (
-    <div data-testid="feed-render-test" className={styles.feed}>
+    <div data-testid="feed-render-test" className={styles.feed} id="feed">
 
       {
         data && data.map((post) => (

@@ -28,7 +28,7 @@ function Login({ closeLogin, handleLoginStatus }) {
     handleLoginStatus(logged, admin);
   };
   return (
-    <div className={styles['login-background']}>
+    <div className={styles['login-background']} id="login-modal">
       <div id="signup-modals" className="start-modals-container">
         <div className="start-modals-header">
           <div>

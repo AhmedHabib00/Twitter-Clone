@@ -16,10 +16,12 @@ import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
 import { getClientRole } from './Services/accountServices';
 import Tweet from './Home/Components/Tweet';
+import getUserInfo from './Services/UserServices';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userInfo, setUserInfo] = useState(false);
   useEffect(() => {
     (async () => {
       if (localStorage.token) {
@@ -29,6 +31,9 @@ function App() {
           setIsAdmin(true);
         } else {
           setIsAdmin(false);
+          if (!userInfo) {
+            setUserInfo(await getUserInfo(localStorage.userId));
+          }
         }
       }
     })();
@@ -39,7 +44,7 @@ function App() {
       if (isAdmin) {
         return <AdminFoundation setIsLoggedIn={setIsLoggedIn} />;
       }
-      return <Foundation setIsLoggedIn={setIsLoggedIn} />;
+      return <Foundation setIsLoggedIn={setIsLoggedIn} userInfo={(userInfo) || undefined} />;
     }
     return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setIsAdmin} />;
   };

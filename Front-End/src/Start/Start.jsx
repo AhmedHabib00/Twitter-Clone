@@ -74,7 +74,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   };
 
   return (
-    <div>
+    <div id="start-page">
       <div className={styles.container}>
         <div className={styles['right-column-container']}>
           <div className={styles['right-group']}>

@@ -31,7 +31,7 @@ function SignUp({ closeSignup, handleLoginStatus }) {
     handleLoginStatus(logged, admin);
   };
   return (
-    <div className={styles['signup-background']}>
+    <div className={styles['signup-background']} id="sign-up-modal">
       <div id="signup-modals" className="start-modals-container">
         {stepOne && (
         <StepOne

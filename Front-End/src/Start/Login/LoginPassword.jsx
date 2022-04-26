@@ -30,7 +30,7 @@ function LoginPassword({ email, handleAfterSignin }) {
     event.preventDefault();
   };
   return (
-    <div className={styles['password-container']}>
+    <div className={styles['password-container']} id="login-modal-step-password">
       <form
         className={styles['signup-form']}
         onSubmit={handleSubmit}
@@ -77,10 +77,17 @@ function LoginPassword({ email, handleAfterSignin }) {
 
           </label>
           {errors.password
-           && <p className="start-modals-form-errors">{errors.password}</p>}
+           && (
+           <p
+             className="start-modals-form-errors"
+             id="login-password-error"
+           >
+             {errors.password}
+           </p>
+           )}
           <div className="start-modals-button-container">
             <Button
-              id="next-button"
+              id="next-login-password-button"
               data-testid="next-button"
               variant="outlined"
               className={styles['singin-button']}

@@ -33,6 +33,7 @@ const useSetPasswordForm = (setSettingPassword, handleAfterSignin) => {
           setSettingPassword(false);
           const token = localStorage.getItem('temp-token');
           localStorage.setItem('token', token);
+          localStorage.setItem('userId', response.data.data.userId);
           localStorage.removeItem('temp-token');
           (async () => {
             if (localStorage.token) {

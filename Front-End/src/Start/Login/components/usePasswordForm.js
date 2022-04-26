@@ -31,6 +31,7 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
         if (response.status === 200 || response.status === 201) {
           const token = response.data['x-auth-token'];
           localStorage.setItem('token', token);
+          localStorage.setItem('userId', response.data.data.userId);
           (async () => {
             if (localStorage.token) {
               const resp = await getClientRole();
@@ -45,7 +46,7 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
         } else if (response.status === 400) {
           setErrors({
             ...errors,
-            password: 'Invalid password',
+            password: 'Invalid email or username or password',
           });
         }
       });

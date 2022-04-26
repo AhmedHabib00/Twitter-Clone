@@ -30,7 +30,7 @@ function StepOne({
     setEmail(values.email);
   });
   return (
-    <div data-testid="step-one">
+    <div data-testid="step-one" id="sign-up-modal-step-one">
       <div className="start-modals-header">
         <div>
           <IconButton onClick={() => {
@@ -66,7 +66,14 @@ function StepOne({
             <span>Name</span>
           </label>
           {errors.name
-           && <p className="start-modals-form-errors">{errors.name}</p>}
+           && (
+           <p
+             className="start-modals-form-errors"
+             id="sign-up-name-error"
+           >
+             {errors.name}
+           </p>
+           )}
           <label className="start-modals-form-label" htmlFor="email">
             <input
               data-testid="input-email"
@@ -80,7 +87,14 @@ function StepOne({
             />
             <span>Email</span>
             {errors.email
-             && <p className="start-modals-form-errors">{errors.email}</p>}
+             && (
+             <p
+               className="start-modals-form-errors"
+               id="sign-up-email-error"
+             >
+               {errors.email}
+             </p>
+             )}
           </label>
           <div className={styles['date-container']}>
             <h3>Date of birth</h3>
@@ -91,7 +105,14 @@ function StepOne({
             <DatePicker setDate={setDate} />
           </div>
           {errors.birthdate
-           && <p className="start-modals-form-errors">{errors.birthdate}</p>}
+           && (
+           <p
+             className="start-modals-form-errors"
+             id="sign-up-date-error"
+           >
+             {errors.birthdate}
+           </p>
+           )}
         </div>
         <div className="start-modals-button-container">
           <Button

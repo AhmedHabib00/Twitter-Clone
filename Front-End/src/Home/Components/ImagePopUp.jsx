@@ -15,7 +15,7 @@ import styles from './ImagePopUp.module.css';
 function ImagePopUp({ trigger, setTrigger, children }) {
   return (trigger) ? (
 
-    <div data-testid="image-render-test" className={styles.popup}>
+    <div data-testid="image-render-test" className={styles.popup} id="image-pop-up-page">
 
       <div className={styles['popup-inner']}>
         <CloseIcon className={styles['close-btn']} onClick={() => { setTrigger(false); }} />

@@ -8,7 +8,11 @@ export async function PostTweet(props) {
   const formData = new FormData();
   formData.append('content', value);
   formData.append('replyId', replyId);
-  if (images && images[0].type !== 'gif') {
+  if (images.length === 0) {
+    formData.append('images', []);
+    formData.append('gifs', '');
+  }
+  if (images.length !== 0 && images[0].type !== 'gif') {
     formData.append('gifs', '');
   }
   images.forEach((image) => {
@@ -19,6 +23,7 @@ export async function PostTweet(props) {
       formData.append('gifs', image.imageUrl);
     }
   });
+
   let response = '';
   try {
     response = await axios.post(
