@@ -26,6 +26,32 @@ sign_in_password_error = '#signup-modals > div.LoginPassword_password-container_
 empty_username_error = '#signup-modals > div:nth-child(2) > div > form > p'
 empty_password_error = '#signup-modals > div.LoginPassword_password-container__Lednj > form > div > p'
 
+# Forgot password page ids
+forgot_password_button = 'login-forgot-password-button'
+forgot_password_textbox_id = 'Find-Twitter-account-emailOrUsername'
+forgot_password_search_button_id = 'search-email-button'
+user_not_found_error = 'forgot-password-emailor-username-error'
+
+# Home page ids
+sample_text = 'this is a test done by testing team'
+text_exceed_limit = 'limitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimit'
+tweet_box_id ='twbox-text-area-home'
+whisp_button_id = 'twbox-submit'
+select_image_button = '#Tweet-box > div > div > div.TweetBox_text-area-icons__JlZNF > div.TweetBox_media-icons__Glmzm > div:nth-child(1) > svg'
+post_body_class_name = 'Post_postbody__oRteY'
+image_1_css_selector = "img[src$='imageabcde1.png']"
+image_2_css_selector = "img[src$='imagefghi2.png']"
+image_3_css_selector = "img[src$='imagejklm3.png']"
+image_4_css_selector = "img[src$='imagenopq4.png']"
+image_5_css_selector = "img[src$='imagerstu5.png']"
+images_in_tweetbox_id = 'image-box-image-canvas'
+
+email = 'testingwhisper2@gmail.com'
+password = 'BnSuliman@1'
+password_1 = 'whispertest2'
+username = 'BnSuliman@1'
+
+
 #IMPORTANT FOR DEVOPS AND TESTING
 chrome_driver = '/chromedriver/chromedriver'
 #chrome_driver = '..\drivers\chromedriver.exe'
