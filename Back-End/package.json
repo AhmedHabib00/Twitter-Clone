@@ -33,6 +33,12 @@
     "passport": "^0.5.2",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "session": "^0.1.0",
+    "@google-cloud/storage": "^5.19.3",
+    "util": "^0.12.4",
+    "uuid": "^8.3.2",
     "passport-google-token": "^0.1.2",
     "supertest": "^6.2.2"
   },
