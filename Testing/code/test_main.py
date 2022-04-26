@@ -1,6 +1,6 @@
 import test_signup
 import test_signin
-import test_homepage
+#import test_homepage
 
 
 test_signup.test_signup_invalid_email_and_name()
