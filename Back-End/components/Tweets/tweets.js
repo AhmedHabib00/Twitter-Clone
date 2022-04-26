@@ -396,12 +396,14 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             console.log(error);
             return res.status(400).send("error: problem with finding the tweets");;
         })
-
+        if (!results) return res.status.send('No tweets found')
         
 
 
     for(i=0;i<results.length;i++)
        {
+        if (!results[i])
+        continue;
         //    console.log(results[i]["media"])
         //    console.log(results[i]["gifs"]==null)
         //    console.log("ehhh")
@@ -595,7 +597,6 @@ router.post("/",multer.any(),auth, async function(req,res,next){
         return res.status(400).send("1 of the body parameters could not be read.");
         
     }
-    console.log("maradona")
     
     
     //initialising images,gifs,content,reply as empty
@@ -752,11 +753,11 @@ router.post("/",multer.any(),auth, async function(req,res,next){
              }
              else
              {
-                console.log(replyTemp)
+                //console.log(replyTemp)
                 //If it is not a reply
                  if(replyTemp==undefined)
                  {
-                    console.log(replyTemp)
+                    //console.log(replyTemp)
                     //add the tweet to the user's tweets 
                     await user.findByIdAndUpdate(token,{$addToSet:{tweets: theTweet.id}},{new:true})
                     .catch(error => {
@@ -914,7 +915,7 @@ router.put("/:id/like",auth,async(req,res)=>{
 //////////////////////////////////////////////////////////////////////////////Retweeting and unretweeting:
 router.post("/:id/retweet",auth,async(req,res)=>{
 
-    console.log(req.params.id); //post id
+    //console.log(req.params.id); //post id
     var postId=req.params.id; 
     token=req.user._id
 
@@ -925,7 +926,6 @@ router.post("/:id/retweet",auth,async(req,res)=>{
     }
     catch(error) //error with finding (invalid id)
     {
-        console.log("hena")
          return res.sendStatus(400);
          
          
