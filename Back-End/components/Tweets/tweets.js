@@ -572,7 +572,6 @@ router.post("/",multer.any(),auth, async function(req,res,next){
     // console.log(req.body.replyId)
     // console.log(req.body.replyId == null )
 
-    // console.log(req.files)
     if(req.body.content==null || req.files==null|| req.body.gifs==null || req.body.replyId==null) 
     {
         return res.status(400).send("1 of the body parameters could not be read.");
@@ -699,7 +698,7 @@ router.post("/",multer.any(),auth, async function(req,res,next){
 
 
      //if the tweet is a reply to another tweet
-     if(req.body.replyId!="") 
+     if(req.body.replyId) 
      {
         replyTemp = req.body.replyId
 
@@ -749,9 +748,11 @@ router.post("/",multer.any(),auth, async function(req,res,next){
              }
              else
              {
+                console.log(replyTemp)
                 //If it is not a reply
                  if(replyTemp==undefined)
                  {
+                    console.log(replyTemp)
                     //add the tweet to the user's tweets 
                     await user.findByIdAndUpdate(token,{$addToSet:{tweets: theTweet.id}},{new:true})
                     .catch(error => {
@@ -800,33 +801,28 @@ router.post("/",multer.any(),auth, async function(req,res,next){
         return res.sendStatus(400);
         
     }
-
+    var deletedTweet= null;
     try
     {
-        deletedTweet=await tweet.findByIdAndDelete(req.params.id)
+        const Tweet = await tweet.findById(req.params.id)
+        if (Tweet && Tweet.postedBy==req.user._id)
+        {
+            deletedTweet = await tweet.findByIdAndDelete(req.params.id)
+
+        }
+        
     }
     catch(error) //error with deleting
     {
-         return res.sendStatus(400);
+         return res.status(400).send('Error deleting');
     }
 
     if(!deletedTweet) //the id of the tweet in the path parameters is not found
     {
-        return res.sendStatus(400);
+        return res.status(400).send('Access denied:tweet is not posted by this user');
     }
     else
     {
-        //deleting the tweet's images from the uploads file
-        if(deletedTweet.media.length!=0)
-        {
-            for(i=0;i<deletedTweet.media.length;i++)
-            {
-                //from index 5 till the end
-                fileName= deletedTweet.media[i].substring(8,deletedTweet.media[i].length)
-                fs.unlinkSync("./uploads/"+fileName)
-            }
-        }
-
         return res.sendStatus(200);
     }
      
