@@ -21,8 +21,8 @@ var users = require('./routes/users');
 
 
 
-app.use('/uploads',express.static('uploads'));
-
+// app.use('/uploads',express.static('uploads'));
+// app.set('view engine', 'pug');
 
 //user profile 
 const userProfileRoute = require('./components/UserProfile/userProfile');

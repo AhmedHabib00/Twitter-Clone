@@ -6,27 +6,30 @@ const bodyParser = require('body-parser');
 const user = require('../User/userSchema');
 const tweet=require('./tweetsSchema');  
 const auth=require('../middleware/auth');
+const uuid=require("uuid");
+const {format}=require('util');
+const uuidv1=uuid.v1;
+
 
 const http = require('https'); 
 const fs = require('fs');
 
 
-const multer=require('multer')
+const Multer=require('multer')
 
-const filestorageEngine=multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null,"./uploads")
+const multer = Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
     },
-    filename:(req,file,cb) => {
-    cb (null,Date.now()+"-"+file.originalname);
-    }
-});
+  });
+  
+  // A bucket is a container for objects (files).
+const {Storage}=require('@google-cloud/storage');
+const storage = new Storage({projectId:process.env.GCLOUD_PROJECT,credentials:{client_email:process.env.GCLOUD_CLIENT_EMAIL,private_key:process.env.GCLOUD_PRIVATE_KEY}});
+const bucket = storage.bucket(process.env.GCS_BUCKET);
 
-objectMulter={
-    storage: filestorageEngine
-}
 
-const upload=multer(objectMulter).array('images',4);
 
 ////////////////////////////////////////////////////////////////////Getting array of replies for a single tweet.
 router.get("/repliesArray/:id",auth,async (req,res)=>{
@@ -94,6 +97,10 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
             console.log(error);
             return res.sendStatus(400);
         })
+        if(results2==null)
+        {
+            return res.status(400).send("a user who posted one of the tweets is not found.")
+        }
 
        //Getting number of replies for the tweet:
        results22=await tweet.find({replyTo:the_id},{new:true}) 
@@ -207,7 +214,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
 //////////////////////////////////////////////////////////////////////////////////Getting single tweet endpoint
 router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
-    // theUser=req.user._id;
+    theUser=req.user._id;
     TheTweet=req.params.id;
     // theUser="62608baaaa118abd39b1288f";
 
@@ -330,6 +337,10 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
         console.log(error);
         return res.sendStatus(400);
     })
+    if(results2==null)
+    {
+        return res.status(400).send("a user who posted one of the tweets is not found.")
+    }
     // console.log(results2)
     const Obj= ({
         id:results[0]["_id"],
@@ -372,11 +383,12 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
     //     const limit = parseInt(size);
 
         const theUser=req.user._id;
+        // const theUser="62608baaaa118abd39b1288f";
         
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};
         const projection2 ={"_id":0,"name":1,"username":1};
-
+        //  console.log("hjgfjsegfjs")
 
         // .limit(limit).skip(size*(page-1))
         var results = await tweet.find({},projection)
@@ -385,12 +397,14 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             return res.status(400).send("error: problem with finding the tweets");;
         })
 
+        
+
 
     for(i=0;i<results.length;i++)
        {
-           console.log(results[i]["media"])
-           console.log(results[i]["gifs"]==null)
-           console.log("ehhh")
+        //    console.log(results[i]["media"])
+        //    console.log(results[i]["gifs"]==null)
+        //    console.log("ehhh")
 
         // if(results[i]["_id"]==null || results[i]["media"]==null || results[i]["gifs"]==null || results[i]["content"]==null || results[i]["postedBy"]==null || results[i]["likes"]==null || results[i]["retweeters"]==null)
         // {
@@ -452,8 +466,8 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         else{            
             for(j=0;j<tempMedia.length;j++)
             {
-                console.log(process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j])
-               img[j]='http://'+process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j]
+                // console.log(process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j])
+               img[j]=tempMedia[j]
             }
 
             if(j==1) //1 image
@@ -517,7 +531,6 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
 
         finalArray.push(Obj)
-
               
         }
     }
@@ -534,7 +547,9 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 })
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
-router.post("/",auth, async function(req,res){
+router.post("/",multer.any(),auth, async function(req,res,next){
+
+    // console.log("hi")
 
     //A tweet can have content or images or gifs, but it can not be empty 
     //A tweet can have maximum 4 images/1 gif.
@@ -545,19 +560,19 @@ router.post("/",auth, async function(req,res){
 
     //If there is an error with uploading the images, send a 400 status
     //an error is not the same as not uploading images
-    upload(req,res,async function(err){
-        // console.log(req.files);
-        // console.log(req.body);
-    if(err){
-        console.log(err);
-        return res.status(400).send("error with image uploading")
-    } 
-    else{
+    // upload(req,res,async function(err){
+     
+    // if(err){
+    //     console.log(err);
+    //     return res.status(400).send("error with image uploading")
+    // } 
+    // else{
 
     // console.log(req.body.gifs.length)
     // console.log(req.body.replyId)
     // console.log(req.body.replyId == null )
 
+    // console.log(req.files)
     if(req.body.content==null || req.files==null|| req.body.gifs==null || req.body.replyId==null) 
     {
         return res.status(400).send("1 of the body parameters could not be read.");
@@ -565,13 +580,14 @@ router.post("/",auth, async function(req,res){
     }  
 
     token=req.user._id
+    // token="62608baaaa118abd39b1288f"
     try
     {
-        userInfo=await user.findById(req.user._id)     
+        userInfo=await user.findById(token)     
     }
     catch(error) //error with finding (invalid id)
     {
-        console.log(err);
+        // console.log(err);
          return res.status(400).send("user not found.");
     }
 
@@ -584,7 +600,7 @@ router.post("/",auth, async function(req,res){
      contentTemp=""
      replyTemp=undefined //represents an empty object
      gifTemp=""
-     console.log("here")   
+    //  console.log("here")   
      
      //if the tweet has content 
      if(req.body.content!="")
@@ -594,19 +610,71 @@ router.post("/",auth, async function(req,res){
          if(contentTemp.length>280)
             return res.status(400).send("the tweet is longer than 280 characters")
      }
- 
+     publicUrl=""; 
     //if the tweet has images
+
+
+
      if(req.files)
      {
-         m=req.files
+         if(req.files.length >4)
+         {
+            return res.status(400).send("there are more than 4 images attached.")
+         }
          
-         for(i=0;i<m.length;i++)
-          {
-                 mediaTemp.push(req.files[i].path.replace("\\","/"))
-          }
-     }
-    //  console.log(req.body.gifs.length)
+       for(m=0;m<req.files.length;m++)
+        {
+            const newFileName=uuidv1()+"-"+req.files[m].originalname;
+            const blob = bucket.file(newFileName);
 
+            const blobStream = blob.createWriteStream(
+            { resumable: false }
+            );
+      
+        blobStream.on('error', err => {
+          next(err);
+        });
+
+        // publicUrl="";
+        // console.log(bucket.name)
+        // console.log(blob.name)
+        blobStream.on('finish', () => {
+          // The public URL can be used to directly access the file via HTTP.
+          publicUrl =format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+      
+        //   s2="dgregrehs";
+            // mediaTemp.push(publicUrl);
+            // console.log(publicUrl)
+            // console.log(mediaTemp+"mediaTempp inside")
+
+        // blob.makePublic().then(()=>{
+            
+        // })  
+
+        });
+      
+        blobStream.end(req.files[m].buffer);
+     
+        // console.log(mediaTemp+"mediaTempp outside")
+       
+        //  m=req.files
+         
+        //  for(i=0;i<m.length;i++)
+        //   {
+        //          mediaTemp.push(req.files[i].path.replace("\\","/"))
+        //   }
+
+        // let mediaTemp = []
+
+        
+     
+
+     mediaTemp.push(format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`));
+    //  mediaTemp[0]=publicUrl;
+    //  console.log(mediaTemp+"bara")
+    }
+}
+    
      //if the tweet has a gif:
      if(req.body.gifs.length!=0)
      {
@@ -655,9 +723,11 @@ router.post("/",auth, async function(req,res){
                
              
     //The tweet/reply has to have at least one of these to be valid
-     if(contentTemp!="" || mediaTemp!="" || gifTemp!="")
+     if(contentTemp!="" || mediaTemp!=[] || gifTemp!="")
      {  
-
+         
+        //  mediaTemp.push(publicUrl)
+        //  console.log(mediaTemp+" the images")
             const userTweet= new tweet({
              content: req.body.content,
              postedBy: token,
@@ -667,8 +737,8 @@ router.post("/",auth, async function(req,res){
              pinned:false,
              likes:[],
              retweeters:[],
-             retweetInfo:[],
-             replyTo:replyTemp
+             retweetInfo:[]
+            //  replyTo:replyTemp
             });
             
 
@@ -708,8 +778,7 @@ router.post("/",auth, async function(req,res){
         
          return res.status(400).send("error can not post an empty tweet.");
      }  
-        }
-  });
+        
 
 });
  
@@ -768,18 +837,18 @@ router.post("/",auth, async function(req,res){
 
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
 router.put("/:id/like",auth,async(req,res)=>{
-    console.log("aywa")
+    // console.log("aywa")
     if(!req.params.id)
     {
         return res.status(400).send("The tweet id could not be read.");
         
     }  
-    console.log(req.params.id); //post id
+    // console.log(req.params.id); //post id
     var postId=req.params.id;
-    token=req.user._id
+    token=req.user._id;
     try
     {
-        userInfo=await user.findById(req.user._id)
+        userInfo=await user.findById(token)
     }
     catch(error) //error with finding (invalid id)
     {
