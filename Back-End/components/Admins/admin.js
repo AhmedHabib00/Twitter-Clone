@@ -456,6 +456,7 @@ router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
 
         const bannedUser = await userSchema.findById(req.params.target_user_id);
         const bannedBy = await userSchema.findById(req.params.id);
+
         if (bannedUser.role == "Admin") {
             return res.status(500).send("Not Authorized User.");
         }
@@ -464,10 +465,14 @@ router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
             return res.status(500).send("Not Authorized User.");
         }
 
-        // banned user contents
-        bannedUser.banned = false;
-        bannedUser.bannedEndDate = new Date();
-        bannedUser.save();
+        // Update banned user contents
+        await userSchema.updateOne({"_id": req.params.target_user_id},
+        {
+            "banned": false,
+            "bannedEndDate": new Date(),
+            $unset: {"bannedBy": ""}
+        });
+
         return res.status(200).send({
             "Ban": false,
         });
