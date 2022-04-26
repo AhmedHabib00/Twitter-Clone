@@ -1,9 +1,10 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 
+import { useNavigate } from 'react-router-dom';
 import ImageBox from './ImageBox';
 import PopupPage from './PopupPage';
 import SearchBar from '../../Search/SearchBar/SearchBar';
@@ -17,7 +18,9 @@ import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
  * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
  */
 function TweetBox({ replyId, placeHolder, boxId }) {
+  const navigate = useNavigate();
   const inputFile = createRef();
+  const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [isGifOpen, setIsGifOpen] = useState(false);
@@ -33,13 +36,17 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     if (value === '') {
       url = 'http://api.giphy.com/v1/gifs/trending?api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF';
     } else {
-      url = `http://api.giphy.com/v1/gifs/search?q=${value}&api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`;
+      url = `http://api.giphy.com/v1/gifs/search?q=${value}&limit=20&api_key=3Tq937jtd7Hyq33VveHBIZsJABFPz1vF`;
     }
     (async () => {
       const resp = await GetGifs(url);
       setGifs(resp.data);
     })();
   };
+  useEffect(() => {
+    const timeOutId = setTimeout(() => onSearchChange(query), 2000);
+    return () => clearTimeout(timeOutId);
+  }, [query]);
   const deleteImage = (id) => {
     if (images.find((image) => image.id === id).type === 'gif') {
       setMediaDisabled(true);
@@ -123,7 +130,10 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     setWordsCount(0);
 
     if (value !== '' || images.length !== 0) {
-      PostTweet({ value, images, replyId });
+      (async () => {
+        await PostTweet({ value, images, replyId });
+      })();
+      navigate('/');
     }
   };
 
@@ -137,7 +147,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     <div id="Tweet-box">
       <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         <div className={styles['inner-gif']}>
-          <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" />
+          <SearchBar searchValue={setQuery} placeHolder="Search for GIFs" />
           <div className={styles['popup-imgs-container']}>
             {gifs && gifs.map((gif) => ((gifs.length === 0) ? '' : (
               <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>

@@ -210,14 +210,12 @@ function Post({
         </div>
 
         <div data-testid="images-render-test">
-          <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img1} alt="pic1" /></a>
-          <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img2} alt="pic1" /></a>
-          <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img3} alt="pic1" /></a>
-          <a href="# " onClick={() => setImagePopUp(!imagePopUp)}><img src={img4} alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src={img1} alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src={img2} alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src={img3} alt="pic1" /></a>
+          <a href="# " onClick={() => setImagePopUp(true)}><img src={img4} alt="pic1" /></a>
         </div>
         <div>
-          {imagePopUp ? document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')
-            : document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll')}
           <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
             <Carousel>
 
