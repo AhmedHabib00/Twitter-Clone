@@ -283,7 +283,6 @@ router.post('/:source_user_id/blocking/:target_user_id', async (req, res) =>{
     // }
 
     // Get data of the user who want to block by id
-    userSchema.findById(req.params.source_user_id).exec(async (err, userData)=>{
         try {
             // Get data of the user that will be followed from body request by target_user_id
             sourceUserData = await userSchema.findById(req.params.source_user_id);
@@ -292,7 +291,7 @@ router.post('/:source_user_id/blocking/:target_user_id', async (req, res) =>{
             if (sourceUserData.role == "User" && targetUserData.role == "User") {
                 // Check if the source_user_id not already blocking the target_user_id
 
-                blockExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id)
+                blockExistPass = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id)
 
                 // Check if user is the same as target_user
                 selfPass = req.params.source_user_id == req.params.target_user_id
@@ -300,19 +299,17 @@ router.post('/:source_user_id/blocking/:target_user_id', async (req, res) =>{
                 if (!selfPass) {
                     if (!blockExistPass) {
                         // Delete follow relation between source_user_id and target_user_id
+                        // Delete followers
+                        targetUserData.followers = removeItem(targetUserData.followers, req.params.source_user_id);
+                        targetUserData.save();
                         // Delete following
-                        userData.following = removeItem(userData.following, req.params.target_user_id);
-                        userData.following = removeItem(userData.following, req.params.source_user_id);
+                        sourceUserData.following = removeItem(sourceUserData.following, req.params.target_user_id);
 
-                        // Delete follower
-                        userData.followers = removeItem(userData.followers, req.params.source_user_id);
-                        userData.followers = removeItem(userData.followers, req.params.target_user_id);
-                        
                         // Add target_user_id to the block list of the user
-                        userData.blocks.push(req.params.target_user_id);
-                        userData.save();
+                        sourceUserData.blocks.push(req.params.target_user_id);
+                        sourceUserData.save();
                         
-                        blockExistPass = userData.blocks.find(blocking => blocking == req.params.target_user_id)
+                        blockExistPass = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id)
                         
                         if (blockExistPass) {
                             res.status(200).send({"data": {
@@ -344,7 +341,6 @@ router.post('/:source_user_id/blocking/:target_user_id', async (req, res) =>{
                 "blocking": false,
             }});
         }
-    })
 });
 
 // Allows an user to unblock user : DEL /users/{source_user_id}/blocking/{target_user_id}
