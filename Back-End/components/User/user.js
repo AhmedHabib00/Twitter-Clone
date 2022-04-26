@@ -459,34 +459,45 @@ router.post('/:source_user_id/following/:target_user_id', async (req, res) =>{
                 try {
                     sourceUserData = await userSchema.findById(req.params.source_user_id);
                     targetUserData = await userSchema.findById(req.params.target_user_id);
+
                     if (sourceUserData.role == "User" && targetUserData.role == "User") {
                         // Check if the source_user_id not already follow the target_user_id
                         followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
                         followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
 
+                        targetUserBlocked = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id);
+                        sourceUserBlocked = targetUserData.blocks.find(blocking => blocking == req.params.source_user_id);
+    
                         // Check if user is the same as target_user
                         selfPass = req.params.source_user_id == req.params.target_user_id
 
                         if (!selfPass) {
                             if (!followerExistPass && !followingExistPass) {
-                                // Add target_user_id to the following list of the user
-                                followingData.following.push(req.params.target_user_id);
-                                followingData.save();
+                                if (!targetUserBlocked && !sourceUserBlocked) {
+                                    // Add target_user_id to the following list of the user
+                                    followingData.following.push(req.params.target_user_id);
+                                    followingData.save();
 
-                                // Add user_id to the followers list of the target_user
-                                followerData.followers.push(req.params.source_user_id);
-                                followerData.save();
-                                
-                                followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
-                                followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
-                                
-                                if (followingExistPass && followerExistPass) {
-                                    res.status(200).send({"data": {
-                                        "following": true
-                                    }});
+                                    // Add user_id to the followers list of the target_user
+                                    followerData.followers.push(req.params.source_user_id);
+                                    followerData.save();
+                                    
+                                    followingExistPass = followingData.following.find(following => following == req.params.target_user_id)
+                                    followerExistPass = followerData.followers.find(follower => follower == req.params.source_user_id)
+                                    
+                                    if (followingExistPass && followerExistPass) {
+                                        res.status(200).send({"data": {
+                                            "following": true
+                                        }});
+                                    }else{
+                                        throw err;
+                                    }   
                                 }else{
-                                    throw err;
-                                }   
+                                    res.status(200).send({"data": {
+                                        "following": false,
+                                        "reason": "User blocks another."
+                                    }});
+                                }
                             }else{
                                 res.status(200).send({"data": {
                                     "following": true

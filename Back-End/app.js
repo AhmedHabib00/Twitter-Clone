@@ -6,8 +6,6 @@ const databse = require('./database');
 const session = require('express-session');
 const mongoose= require('./database');
 
-
-
 // SignUp and Auth
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
