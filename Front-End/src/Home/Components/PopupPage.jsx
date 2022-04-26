@@ -17,7 +17,7 @@ function PopupPage({
     if (isCloseEnabled) {
       if (toClose) {
         SetTrigger(false);
-        document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+        document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
       }
       toClose = true;
     }
@@ -25,14 +25,14 @@ function PopupPage({
 
   const handleCloseIcon = () => {
     SetTrigger(false);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   };
   const childClick = () => {
     toClose = false;
   };
   return (trigger) ? (
     <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
-      {document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden')}
+      {document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
       <div
         id="popup-page-children"
         role="button"

@@ -9,14 +9,14 @@ import styles from './SearchBar.module.css';
  * value on value change
  */
 function SearchBar({ placeHolder, searchValue }) {
-  const updateGifs = () => {
+  const updateText = () => {
     const { value } = document.getElementsByClassName(styles['searchbar-input'])[0];
     searchValue(value);
   };
   return (
     <div className={styles.searchbar}>
       <SearchOutlinedIcon className={styles['searchbar-icon']} />
-      <input id="searchbar-input-element" type="search" placeholder={placeHolder} className={styles['searchbar-input']} onChange={updateGifs} />
+      <input id="searchbar-input-element" type="search" placeholder={placeHolder} className={styles['searchbar-input']} onChange={updateText} />
     </div>
   );
 }
