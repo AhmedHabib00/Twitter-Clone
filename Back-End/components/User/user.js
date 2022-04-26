@@ -118,7 +118,7 @@ router.get('/by/username/:username', async (req, res) =>{
     }
 });
 
-//"""Bookmark endpoints"""
+//"""Bookmarks endpoints"""
 // List of bookmarked tweets of the user ID : GET /users/:id/bookmarks/
 router.get('/:id/bookmarks', auth, async (req, res) =>{
 
