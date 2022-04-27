@@ -8,7 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class VerifyEmail extends StatefulWidget {
-  const VerifyEmail(String text, {Key? key}) : super(key: key);
+  final String email;
+  const VerifyEmail({Key? key, required this.email}) : super(key: key);
   @override
   _VerifyEmail createState() => _VerifyEmail();
 }
@@ -17,13 +18,6 @@ class _VerifyEmail extends State<VerifyEmail> {
   final formKey = GlobalKey<FormState>();
   bool _isObscure = true;
   TextEditingController VerifyEmailController = new TextEditingController();
-  @override
-  void initState() {
-    VerifyEmailController.text = ""; //set the initial value of text field
-    String VerifyE = "";
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +64,7 @@ class _VerifyEmail extends State<VerifyEmail> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                            controller: VerifyEmailController,
                             obscureText: _isObscure,
                             obscuringCharacter: "*",
                             keyboardType: TextInputType.number,
@@ -80,14 +75,13 @@ class _VerifyEmail extends State<VerifyEmail> {
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(_isObscure
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                                 onPressed: () {
-                                  String VerifyE = 'null';
                                   setState(() {
                                     _isObscure = !_isObscure;
 
-                                    VerifyEmailController.text = VerifyE;
+                                    //VerifyEmailController.text = VerifyE;
                                   });
                                 },
                               ),
@@ -127,14 +121,8 @@ class _VerifyEmail extends State<VerifyEmail> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Verification Successful");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const setPassword()));
-                            print('begin 1');
-                            //VerifyEmail(VerifyEmailController.text);
-                            print('begin 2');
+                            VerifyEmailcode(
+                                VerifyEmailController.text, widget.email);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -162,91 +150,90 @@ class _VerifyEmail extends State<VerifyEmail> {
     );
   }
 
-  // VerifyEmail(
-  //   String VerifyE,
-  // ) async {
-  //   Map data = {
-  //     'code': VerifyE,
-  //   };
-  //   var jsonData = null;
-  //   Map mapResponse;
-  //   Map dataResponse;
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   //SharedPreferences.setMockInitialValues({});
-  //   print('test 1');
-  //   var response = await http.patch(
-  //       Uri.parse(
-  //           "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"),
-  //       body: data);
-  //   if (response.statusCode == 200) {
-  //     print('test 3');
-  //     print(response.body);
-  //     setState(() {
-  //       print('test 4');
-  //       //sharedPreferences.setString("token", jsonData['token']);
-  //       Navigator.of(context).pushAndRemoveUntil(
-  //           MaterialPageRoute(
-  //               builder: (BuildContext context) => const setPassword()),
-  //           (Route<dynamic> route) => false);
-  //       print('test 5');
-  //       showModalBottomSheet<void>(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: 200,
-  //             color: const Color.fromARGB(0, 255, 255, 255),
-  //             child: Center(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     response.body,
-  //                     style: const TextStyle(
-  //                       color: Color(0xff0095FF),
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 20,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     });
-  //   } else if (response.statusCode == 400) {
-  //     print('test 6');
-  //     setState(() {
-  //       print('test 7');
-  //       showModalBottomSheet<void>(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: 200,
-  //             color: const Color.fromARGB(0, 255, 255, 255),
-  //             child: Center(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     response.body,
-  //                     style: const TextStyle(
-  //                       color: Color(0xff0095FF),
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 20,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     });
-  //   } else {
-  //     print('bad');
-  //   }
-  // }
+  VerifyEmailcode(
+    String code,
+    String email,
+  ) async {
+    Map data = {
+      'code': code,
+      'email': email,
+    };
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    var response = await http.patch(
+        Uri.parse(
+            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"),
+        body: data);
+    if (response.statusCode == 200) {
+      mapResponse = json.decode(response.body);
+      dataResponse = mapResponse;
+      // Token /////////
+      var tokenValue = dataResponse["x-auth-token"];
+      print(tokenValue);
+      print('token was printed');
+      // Token ////////
+      setState(() {
+        mapResponse = json.decode(response.body);
+        dataResponse = mapResponse;
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => setPassword(email: email)),
+            (Route<dynamic> route) => false);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      dataResponse["message"].toString(),
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 400) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
+  }
 }

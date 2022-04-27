@@ -1,12 +1,17 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, avoid_init_to_null, unused_local_variable, unnecessary_new
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/SignUp/setUsername.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 // ignore: camel_case_types
 class setPassword extends StatefulWidget {
-  const setPassword({Key? key}) : super(key: key);
+  //const setPassword({Key? key}) : super(key: key);
+  final String email;
+  const setPassword({Key? key, required this.email}) : super(key: key);
   @override
   _setPassword createState() => _setPassword();
 }
@@ -14,6 +19,7 @@ class setPassword extends StatefulWidget {
 // ignore: camel_case_types
 class _setPassword extends State<setPassword> {
   final formKey = GlobalKey<FormState>();
+  TextEditingController SetPassController = new TextEditingController();
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -64,6 +70,7 @@ class _setPassword extends State<setPassword> {
                               obscureText: _isObscure,
                               obscuringCharacter: "*",
                               //keyboardType: TextInputType.number,
+                              controller: SetPassController,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.password,
@@ -71,8 +78,8 @@ class _setPassword extends State<setPassword> {
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(_isObscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
                                   onPressed: () {
                                     setState(() {
                                       _isObscure = !_isObscure;
@@ -115,10 +122,13 @@ class _setPassword extends State<setPassword> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             print("Password set");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => setUsername()));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => setUsername()));
+                            SetPass(SetPassController.text, widget.email);
+                            print(SetPassController.text);
+                            print(widget.email);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -145,32 +155,137 @@ class _setPassword extends State<setPassword> {
       ),
     );
   }
-}
 
-// we will be creating a widget for text field
-Widget inputFile({label, obscureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color.fromARGB(255, 126, 126, 126)),
-            ),
-            border: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: Color.fromARGB(255, 139, 139, 139)))),
-      ),
-    ],
-  );
+  SetPass(
+    //String VerifyE,
+    String password,
+    String email,
+  ) async {
+    Map data = {
+      'password': password,
+      'email': email,
+    };
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    //SharedPreferences.setMockInitialValues({});
+    print('test 1');
+    var response = await http.patch(
+        Uri.parse(
+            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setPassword"),
+        body: data);
+    print(password);
+    print(email);
+    if (response.statusCode == 200) {
+      print('test 3');
+      print(response.body);
+      setState(() {
+        print('test 4');
+        mapResponse = json.decode(response.body);
+        dataResponse = mapResponse;
+        //sharedPreferences.setString("token", jsonData['token']);
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => setUsername()),
+            (Route<dynamic> route) => false);
+        print('test 5');
+        print(email);
+        print(password);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      //response.body,
+                      dataResponse["message"].toString(),
+
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 400) {
+      print('test 6');
+      setState(() {
+        print('test 7');
+        print(email);
+        print(password);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 403) {
+      print('bad');
+      setState(() {
+        print('test 8');
+        print(email);
+        print(password);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else {
+      print('bad');
+      print(response.body);
+    }
+  }
 }

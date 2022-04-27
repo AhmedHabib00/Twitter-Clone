@@ -195,14 +195,8 @@ class _SignUpPage extends State<SignUpPage> {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      // ignore: avoid_print
                       if (formKey.currentState!.validate()) {
-                        // ignore: avoid_print
-                        // print("Logged In");
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const VerifyEmail()));
+                        ;
                         SignUpp(NameController.text, EmailController.text,
                             dateinput.text);
                       }
@@ -281,23 +275,20 @@ class _SignUpPage extends State<SignUpPage> {
     Map mapResponse;
     Map dataResponse;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    //SharedPreferences.setMockInitialValues({});
     var response = await http.post(
         Uri.parse(
             "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp"),
         body: data);
     if (response.statusCode == 201) {
-      print(response.body);
-      //jsonData = json.decode(response.body);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  VerifyEmail(email: EmailController.text)),
+          (Route<dynamic> route) => false);
       setState(() {
         mapResponse = json.decode(response.body);
         dataResponse = mapResponse;
-        //sharedPreferences.setString("token", jsonData['token']);
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    VerifyEmail(EmailController.text)),
-            (Route<dynamic> route) => false);
+
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
@@ -325,8 +316,6 @@ class _SignUpPage extends State<SignUpPage> {
         );
       });
     } else if (response.statusCode == 400) {
-      print(response.statusCode);
-      print(response.body);
       setState(() {
         showModalBottomSheet<void>(
           context: context,

@@ -71,8 +71,8 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(_isObscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
                                   onPressed: () {
                                     setState(() {
                                       _isObscure = !_isObscure;

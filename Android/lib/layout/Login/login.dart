@@ -115,8 +115,8 @@ class _LoginPage extends State<LoginPage> {
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(_isObscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
                                   onPressed: () {
                                     setState(() {
                                       _isObscure = !_isObscure;
@@ -277,18 +277,15 @@ class _LoginPage extends State<LoginPage> {
         Uri.parse(
             "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/login"),
         body: data);
-
     if (response.statusCode == 200) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (BuildContext context) => TimelinePage()),
           (Route<dynamic> route) => false);
       print(response.body);
+      print(' 1 token is here');
       setState(() {
         mapResponse = json.decode(response.body);
         dataResponse = mapResponse;
-
-        //sharedPreferences.setString("token", jsonData['token']);
-
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
