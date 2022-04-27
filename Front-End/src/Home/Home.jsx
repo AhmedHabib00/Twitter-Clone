@@ -13,20 +13,19 @@ function Home() {
       const resp = await GetPostsArray();
       if (resp.status === 200) {
         setPostData(resp.data);
-
-        // document.getElementById('mydiv').style.overflow = 'hidden';
+        // document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden');
       }
     })();
   }, []);
 
   return (
-    <div className={styles.home}>
+    <div className={styles.home} id="Home-page">
       <div className={styles['home-header']}>
         <h2>Home</h2>
       </div>
       <TweetBox placeHolder="What's happening" boxId="home" />
       <hr className={styles['home-hor-hr']} />
-      <Feed className={styles.feed} data={postData} />
+      {postData && <Feed className={styles.feed} data={postData} />}
     </div>
   );
 }
