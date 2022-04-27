@@ -45,8 +45,7 @@ WORKDIR /app
 
 COPY Testing/ .
 
-RUN ls
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD python code/test_main.py
+CMD ls code/*.py|xargs -n 1 -P 3 python
