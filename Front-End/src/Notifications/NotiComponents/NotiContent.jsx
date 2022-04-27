@@ -58,14 +58,23 @@ function NotiContent({
     icon = null;
   }
 
+  // eslint-disable-next-line consistent-return
   const handleOpenNoti = () => {
     // console.log(postid);
-    console.log(profileid);
-    return navigate('/ViewTweet', {
-      state: {
-        postid,
-      },
-    });
+    // console.log(profileid);
+    if (notitype === 'like' || notitype === 'retweet' || notitype === 'missed') {
+      return navigate('/ViewTweet', {
+        state: {
+          postid,
+        },
+      });
+    } if (notitype === 'followed') {
+      return navigate('/Profile', {
+        state: {
+          profileid,
+        },
+      });
+    }
     // setShareEl(e.currentTarget);
   };
 

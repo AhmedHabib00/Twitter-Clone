@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
+import ViewTweet from './Notifications/ViewTweet';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Settings from './Settings/Settings';
 import Home from './Home/Home';
@@ -14,17 +15,15 @@ import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
-import ViewTweet from './Notifications/ViewTweet';
 import Tweet from './Home/Components/Tweet';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
-  // localStorage.clear();
+
   useEffect(() => {
     const logged = localStorage.getItem('logged');
     const admin = localStorage.getItem('admin');
-    console.log(localStorage);
     setIsLoggedIn(JSON.parse(logged));
     setisAdmin(JSON.parse(admin));
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
