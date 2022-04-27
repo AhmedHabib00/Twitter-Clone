@@ -10,54 +10,51 @@
   ],
   "posts": [
     {
-        "id": 1,
-        "userName":  "Noha Tarek El-Boghdady",
-        "displayName": "Noha",
-        "content": "Happy birthday Melissa! Much love as always. Enjoy!",
-        "img1": "https://images.pexels.com/photos/2072181/pexels-photo-2072181.jpeg",
-        "img2": "https://images.pexels.com/photos/428124/pexels-photo-428124.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "img3": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "img4": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "isLiked": true,
-        "isRetweeted": true,
-        "noOfLike": 300,
-        "noOfReplies": 0,
-        "noOfRetweets": 1
-      },
-
+      "id": 1,
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "img1": "https://images.pexels.com/photos/2072181/pexels-photo-2072181.jpeg",
+      "img2": "https://images.pexels.com/photos/428124/pexels-photo-428124.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "img3": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "img4": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },
     {
-        "id": 2,
-        "userName": "Amr Zayed",
-        "displayName": "Amora",
-        "content": "Hello this is my second trial to create json file and request it. doinvcjewds",
-        "img1": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "img2": "https://www.beautycrew.com.au/media/31742/best-natural-beauty-products-p.jpg?width=490",
-        "img3": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "img4": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "isLiked": false,
-        "isRetweeted": true,
-        "noOfLike": 200,
-        "noOfReplies": 250,
-        "noOfRetweets": 500
-      },
-
-   
-      {
-        "id": 3,
-        "userName":  "Abdulrehman",
-        "displayName": "Abdulrehman Soliman", 
-        "content": "Hello this is my last trial to create json file and request it.",
-        "img1": "https://www.beautycrew.com.au/media/31742/best-natural-beauty-products-p.jpg?width=490",
-        "img2": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "img3": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "img4": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
-        "isLiked": true,
-        "isRetweeted": false,
-        "noOfLike": 100,
-        "noOfReplies": 15,
-        "noOfRetweets": 5
-      }
-],
+      "id": 2,
+      "userName": "Amr Zayed",
+      "displayName": "Amora",
+      "content": "Hello this is my second trial to create json file and request it. doinvcjewds",
+      "img1": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "img2": "https://www.beautycrew.com.au/media/31742/best-natural-beauty-products-p.jpg?width=490",
+      "img3": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "img4": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "isLiked": false,
+      "isRetweeted": true,
+      "noOfLike": 200,
+      "noOfReplies": 250,
+      "noOfRetweets": 500
+    },
+    {
+      "id": 3,
+      "userName": "Abdulrehman",
+      "displayName": "Abdulrehman Soliman",
+      "content": "Hello this is my last trial to create json file and request it.",
+      "img1": "https://www.beautycrew.com.au/media/31742/best-natural-beauty-products-p.jpg?width=490",
+      "img2": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "img3": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "img4": "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "isLiked": true,
+      "isRetweeted": false,
+      "noOfLike": 100,
+      "noOfReplies": 15,
+      "noOfRetweets": 5
+    }
+  ],
   "loginEmail": [],
   "loginPassword": [
     {

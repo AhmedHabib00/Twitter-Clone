@@ -59,7 +59,7 @@ function Search() {
         <h1>helloooooo</h1>
       </div> */}
       <div>
-        <SearchFeed className="notifeed" data={passedData} dataType={dataType} />
+        <SearchFeed className={styles.notifeed} data={passedData} dataType={dataType} />
       </div>
     </div>
 

@@ -29,7 +29,7 @@ function Notifications() {
         <h1>helloooooo</h1>
       </div> */}
       <div>
-        <NotiFeed className="notifeed" data={passedData} />
+        <NotiFeed className={styles.notifeed} data={passedData} />
       </div>
     </div>
 

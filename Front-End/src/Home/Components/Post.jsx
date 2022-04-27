@@ -161,7 +161,7 @@ function Post({
                   </MenuList> */}
                 </Menu>
 
-                <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
+                <Menu id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <div className={styles['label-out']}>
@@ -185,7 +185,7 @@ function Post({
 
                 </Menu>
 
-                <Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
+                <Menu id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
                   <MenuList className={styles['dropdown-content']}>
                     {'    '}
                     <RepeatIcon className={styles['dropdown-content']} />

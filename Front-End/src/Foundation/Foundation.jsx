@@ -15,7 +15,7 @@ import PopupPage from '../Home/Components/PopupPage';
 import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
-import './Navbar/Navbar.css';
+import navStyles from './Navbar/Navbar.module.css';
 /**
  * The main layout for a normal user that logs in.
  * It displays the navbar, opened page, widgets.
@@ -65,7 +65,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
                     to={`/${page.name}`}
                     key={page.name}
                     onClick={() => onNavItemClick(page.name)}
-                    className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
+                    className={[navStyles['foundation-a-tag'], navStyles[(page.name === 'Search') ? 'disable-nav-item' : '']].join(' ')}
                   >
                     <div id={page.name}>
                       <NavItem title={page.name}>
@@ -76,7 +76,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
                 ))}
                 <button
                   type="button"
-                  className="tweet-button whisp-button-text"
+                  className={[navStyles['tweet-button'], navStyles['whisp-button-text']].join(' ')}
                   onClick={() => setIsPopupTweetOpen(true)}
                 >
                   Whisp
@@ -85,10 +85,10 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
                 <button
                   type="button"
                   aria-label="save"
-                  className="tweet-button whisp-button-icon"
+                  className={[navStyles['tweet-button'], navStyles['whisp-button-icon']].join(' ')}
                   onClick={() => setIsPopupTweetOpen(true)}
                 >
-                  <HistoryEduIcon className="feather-icon" />
+                  <HistoryEduIcon className={navStyles['feather-icon']} />
                 </button>
               </div>
               <div
@@ -98,7 +98,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
                 onClick={handleLogOut}
               >
                 <div className={styles['user-menu-info']}>
-                  <AccountCircleIcon className="nav-bar-profile" />
+                  <AccountCircleIcon className={navStyles['nav-bar-profile']} />
                   <div className={styles['user-menu-text-container']}>
                     <h1 className={styles['user-menu-text']}>
                       Amr Zayed

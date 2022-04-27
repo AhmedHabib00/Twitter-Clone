@@ -1,9 +1,9 @@
 import React from 'react';
-import './Bookmarks.css';
+import styles from './Bookmarks.module.css';
 
 function Bookmarks() {
   return (
-    <div className="bookmarks">
+    <div className={styles.bookmarks}>
       Bookmarks
     </div>
   );
