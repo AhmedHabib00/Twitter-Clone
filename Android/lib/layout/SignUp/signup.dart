@@ -20,8 +20,6 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPage extends State<SignUpPage> {
   final formKey = GlobalKey<FormState>();
   final format = DateFormat('yyyy-MM-dd');
-  //final _conName = TextEditingController();
-  //final _conEmail = TextEditingController();
   TextEditingController NameController = new TextEditingController();
   TextEditingController EmailController = new TextEditingController();
   TextEditingController dateinput = TextEditingController();
@@ -196,7 +194,6 @@ class _SignUpPage extends State<SignUpPage> {
                     height: 60,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        ;
                         SignUpp(NameController.text, EmailController.text,
                             dateinput.text);
                       }
@@ -288,7 +285,6 @@ class _SignUpPage extends State<SignUpPage> {
       setState(() {
         mapResponse = json.decode(response.body);
         dataResponse = mapResponse;
-
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {

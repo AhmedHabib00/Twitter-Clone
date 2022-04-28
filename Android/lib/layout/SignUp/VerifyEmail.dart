@@ -1,10 +1,11 @@
 // ignore_for_file: file_names, avoid_print, unused_import, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/SignUp/setPassword.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class VerifyEmail extends StatefulWidget {
@@ -18,6 +19,7 @@ class _VerifyEmail extends State<VerifyEmail> {
   final formKey = GlobalKey<FormState>();
   bool _isObscure = true;
   TextEditingController VerifyEmailController = new TextEditingController();
+  late final String token = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +82,6 @@ class _VerifyEmail extends State<VerifyEmail> {
                                 onPressed: () {
                                   setState(() {
                                     _isObscure = !_isObscure;
-
-                                    //VerifyEmailController.text = VerifyE;
                                   });
                                 },
                               ),
@@ -121,8 +121,8 @@ class _VerifyEmail extends State<VerifyEmail> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            VerifyEmailcode(
-                                VerifyEmailController.text, widget.email);
+                            VerifyEmailcode(VerifyEmailController.text,
+                                widget.email, token);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -153,6 +153,7 @@ class _VerifyEmail extends State<VerifyEmail> {
   VerifyEmailcode(
     String code,
     String email,
+    String token,
   ) async {
     Map data = {
       'code': code,
@@ -162,23 +163,25 @@ class _VerifyEmail extends State<VerifyEmail> {
     Map mapResponse;
     Map dataResponse;
     var response = await http.patch(
-        Uri.parse(
-            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"),
-        body: data);
+      Uri.parse(
+          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"),
+      body: data,
+    );
     if (response.statusCode == 200) {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
-      // Token /////////
-      var tokenValue = dataResponse["x-auth-token"];
-      print(tokenValue);
-      print('token was printed');
-      // Token ////////
+      //    Token /////////
+      token = dataResponse["x-auth-token"];
+      //    Token ////////
       setState(() {
         mapResponse = json.decode(response.body);
         dataResponse = mapResponse;
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (BuildContext context) => setPassword(email: email)),
+                builder: (BuildContext context) => setPassword(
+                      email: email,
+                      token: token,
+                    )),
             (Route<dynamic> route) => false);
         showModalBottomSheet<void>(
           context: context,

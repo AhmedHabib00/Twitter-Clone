@@ -5,9 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:whisper/models/tweet_model.dart';
 import 'package:whisper/modules/tweetBoxWidget.dart';
 
-class TimelinePage extends StatelessWidget {
-  TimelinePage({Key? key}) : super(key: key);
+class TimelinePage extends StatefulWidget {
+  final String token;
+  const TimelinePage({Key? key, required this.token}) : super(key: key);
+  @override
+  _TimelinePage createState() => _TimelinePage();
+}
 
+class _TimelinePage extends State<TimelinePage> {
   final List<TweetModel> Tweets = [
     TweetModel(
       username: " Kareem",

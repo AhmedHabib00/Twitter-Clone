@@ -10,7 +10,6 @@ import 'package:whisper/layout/Login/FogotPass.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -26,8 +25,8 @@ class _LoginPage extends State<LoginPage> {
   IconData? get icon => null;
   late String _email;
   bool _isLoading = false;
+  late final String token = '';
 
-  String name = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,10 +161,8 @@ class _LoginPage extends State<LoginPage> {
                           });
 
                           if (formKey.currentState!.validate()) {
-                            // ignore: avoid_print
-                            //print('Logged In');
                             SignIn(EmailorUserController.text,
-                                PassController.text);
+                                PassController.text, token);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -266,26 +263,24 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
-  SignIn(String email, String password) async {
+  SignIn(String email, String password, String token) async {
     Map data = {'emailOrUsername': email, 'password': password};
     var jsonData = null;
     Map mapResponse;
     Map dataResponse;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    //SharedPreferences.setMockInitialValues({});
     var response = await http.post(
         Uri.parse(
             "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/login"),
         body: data);
     if (response.statusCode == 200) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => TimelinePage()),
-          (Route<dynamic> route) => false);
-      print(response.body);
-      print(' 1 token is here');
+      mapResponse = json.decode(response.body);
+      dataResponse = mapResponse;
+      token = dataResponse["x-auth-token"];
       setState(() {
-        mapResponse = json.decode(response.body);
-        dataResponse = mapResponse;
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => TimelinePage(token: token)),
+            (Route<dynamic> route) => false);
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {

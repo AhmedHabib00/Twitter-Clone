@@ -56,7 +56,7 @@ class ForgetPassVerifyFieldValidator {
   ForgetPassVerifyFieldValidator(String? value);
 
   static String? validate(String value) {
-    if (value.isEmpty || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+    if (value.isEmpty || !RegExp(r'^[a-z A-Z]+$').hasMatch(value)) {
       return "Enter correct code";
     } else {
       return null;

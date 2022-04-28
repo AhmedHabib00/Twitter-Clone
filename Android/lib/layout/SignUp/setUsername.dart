@@ -1,14 +1,27 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, camel_case_types, unnecessary_new, duplicate_ignore, unused_local_variable, avoid_init_to_null
 
 import 'package:flutter/material.dart';
-import 'package:whisper/layout/UserProfile/profile_layout.dart';
+import 'package:whisper/layout/Timeline/Timeline.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // ignore: camel_case_types
-class setUsername extends StatelessWidget {
-  setUsername({Key? key}) : super(key: key);
-  final formKey = GlobalKey<FormState>();
+class setUsername extends StatefulWidget {
+  final String email;
+  final String token;
+  const setUsername({
+    Key? key,
+    required this.email,
+    required this.token,
+  }) : super(key: key);
+  @override
+  _setUsername createState() => _setUsername();
+}
 
+class _setUsername extends State<setUsername> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController setUsernameController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +68,7 @@ class setUsername extends StatelessWidget {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                              controller: setUsernameController,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.person,
@@ -95,11 +109,8 @@ class setUsername extends StatelessWidget {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("User created");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ProfilePage()));
+                            setUser(setUsernameController.text, widget.email,
+                                widget.token);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -125,5 +136,113 @@ class setUsername extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  setUser(
+    String username,
+    String email,
+    String token,
+  ) async {
+    Map data = {'username': username, 'email': email, 'x-auth-token': token};
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    var response = await http.post(
+      Uri.parse(
+          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setUsername"),
+      body: data,
+      headers: {"x-auth-token": token},
+    );
+    if (response.statusCode == 201) {
+      mapResponse = json.decode(response.body);
+      dataResponse = mapResponse;
+      setState(() {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => TimelinePage(token: token)),
+            (Route<dynamic> route) => false);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      dataResponse["message"].toString(),
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 400) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 403) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
   }
 }

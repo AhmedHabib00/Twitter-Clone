@@ -1,17 +1,23 @@
-// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, avoid_init_to_null, unused_local_variable, unnecessary_new
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, avoid_init_to_null, unused_local_variable, unnecessary_new, unused_import
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:whisper/layout/SignUp/VerifyEmail.dart';
 import 'package:whisper/layout/SignUp/setUsername.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 // ignore: camel_case_types
 class setPassword extends StatefulWidget {
-  //const setPassword({Key? key}) : super(key: key);
   final String email;
-  const setPassword({Key? key, required this.email}) : super(key: key);
+  final String token;
+  const setPassword({
+    Key? key,
+    required this.email,
+    required this.token,
+  }) : super(key: key);
   @override
   _setPassword createState() => _setPassword();
 }
@@ -69,7 +75,6 @@ class _setPassword extends State<setPassword> {
                           TextFormField(
                               obscureText: _isObscure,
                               obscuringCharacter: "*",
-                              //keyboardType: TextInputType.number,
                               controller: SetPassController,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
@@ -121,14 +126,8 @@ class _setPassword extends State<setPassword> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Password set");
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => setUsername()));
-                            SetPass(SetPassController.text, widget.email);
-                            print(SetPassController.text);
-                            print(widget.email);
+                            SetPass(SetPassController.text, widget.email,
+                                widget.token);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -157,40 +156,27 @@ class _setPassword extends State<setPassword> {
   }
 
   SetPass(
-    //String VerifyE,
     String password,
     String email,
+    String token,
   ) async {
-    Map data = {
-      'password': password,
-      'email': email,
-    };
+    Map data = {'password': password, 'email': email, 'x-auth-token': token};
     var jsonData = null;
     Map mapResponse;
     Map dataResponse;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    //SharedPreferences.setMockInitialValues({});
-    print('test 1');
     var response = await http.patch(
-        Uri.parse(
-            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setPassword"),
-        body: data);
-    print(password);
-    print(email);
+      Uri.parse(
+          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setPassword"),
+      body: data,
+      headers: {"x-auth-token": token},
+    );
     if (response.statusCode == 200) {
-      print('test 3');
-      print(response.body);
       setState(() {
-        print('test 4');
-        mapResponse = json.decode(response.body);
-        dataResponse = mapResponse;
-        //sharedPreferences.setString("token", jsonData['token']);
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => setUsername()),
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    setUsername(email: email, token: token)),
             (Route<dynamic> route) => false);
-        print('test 5');
-        print(email);
-        print(password);
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
@@ -203,9 +189,7 @@ class _setPassword extends State<setPassword> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      //response.body,
-                      dataResponse["message"].toString(),
-
+                      response.body,
                       style: const TextStyle(
                         color: Color(0xff0095FF),
                         fontWeight: FontWeight.bold,
@@ -220,11 +204,7 @@ class _setPassword extends State<setPassword> {
         );
       });
     } else if (response.statusCode == 400) {
-      print('test 6');
       setState(() {
-        print('test 7');
-        print(email);
-        print(password);
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
@@ -235,10 +215,12 @@ class _setPassword extends State<setPassword> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
+                  children: const <Widget>[
                     Text(
-                      response.body,
-                      style: const TextStyle(
+                      //response.body,
+                      "Invalid password- criteria: minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1",
+                      //dataResponse["msg"].toString(),
+                      style: TextStyle(
                         color: Color(0xff0095FF),
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -252,11 +234,7 @@ class _setPassword extends State<setPassword> {
         );
       });
     } else if (response.statusCode == 403) {
-      print('bad');
       setState(() {
-        print('test 8');
-        print(email);
-        print(password);
         showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
@@ -283,9 +261,6 @@ class _setPassword extends State<setPassword> {
           },
         );
       });
-    } else {
-      print('bad');
-      print(response.body);
     }
   }
 }

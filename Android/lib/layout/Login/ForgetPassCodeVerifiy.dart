@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, unused_import, duplicate_ignore
+// ignore_for_file: file_names, avoid_print, unused_import, duplicate_ignore, must_be_immutable, unnecessary_new, unused_local_variable, avoid_init_to_null
 
 import 'package:flutter/material.dart';
 // ignore: unused_import
@@ -6,15 +6,22 @@ import 'package:intl/intl.dart';
 import 'package:whisper/layout/Login/ForgotPassSetPass.dart';
 import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ForgotPassCodeVerify extends StatefulWidget {
-  const ForgotPassCodeVerify({Key? key}) : super(key: key);
+  String emailOrUsername;
+  ForgotPassCodeVerify({Key? key, required this.emailOrUsername})
+      : super(key: key);
   @override
   _ForgotPassCodeVerify createState() => _ForgotPassCodeVerify();
 }
 
 class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
   final formKey = GlobalKey<FormState>();
+  TextEditingController forgotPassCodeController = new TextEditingController();
+  late final String token = '';
+
   bool _isObscure = true;
 
   @override
@@ -63,6 +70,7 @@ class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                            controller: forgotPassCodeController,
                             keyboardType: TextInputType.number,
                             obscureText: _isObscure,
                             obscuringCharacter: "*",
@@ -73,8 +81,8 @@ class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(_isObscure
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                                 onPressed: () {
                                   setState(() {
                                     _isObscure = !_isObscure;
@@ -117,12 +125,8 @@ class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Password Reset");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPassSetPass()));
+                            forgotPassCode(widget.emailOrUsername,
+                                forgotPassCodeController.text, token);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -148,5 +152,122 @@ class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
         ),
       ),
     );
+  }
+
+  forgotPassCode(
+    String email,
+    String code,
+    String token,
+  ) async {
+    Map data = {
+      'emailOrUsername': email,
+      'code': code,
+    };
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    var response = await http.post(
+      Uri.parse(
+          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword/codeVerification"),
+      body: data,
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
+      mapResponse = json.decode(response.body);
+      dataResponse = mapResponse;
+      //    Token /////////
+      token = dataResponse["x-auth-token"];
+      //    Token ////////
+      setState(() {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => ForgotPassSetPass(
+                      email: email,
+                      token: token,
+                    )),
+            (Route<dynamic> route) => false);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      dataResponse["massege"].toString(),
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 400) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 404) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
   }
 }

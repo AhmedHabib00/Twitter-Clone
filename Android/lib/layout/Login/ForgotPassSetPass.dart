@@ -1,12 +1,16 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, unnecessary_new, unused_local_variable, avoid_init_to_null
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
+import 'package:http/http.dart' as http;
 
 // ignore: camel_case_types
 class ForgotPassSetPass extends StatefulWidget {
-  const ForgotPassSetPass({Key? key}) : super(key: key);
+  final String email;
+  final String token;
+  const ForgotPassSetPass({Key? key, required this.email, required this.token})
+      : super(key: key);
   @override
   _ForgotPassSetPass createState() => _ForgotPassSetPass();
 }
@@ -14,6 +18,7 @@ class ForgotPassSetPass extends StatefulWidget {
 // ignore: camel_case_types
 class _ForgotPassSetPass extends State<ForgotPassSetPass> {
   final formKey = GlobalKey<FormState>();
+  TextEditingController forgotSetPassController = new TextEditingController();
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -61,9 +66,9 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                              controller: forgotSetPassController,
                               obscureText: _isObscure,
                               obscuringCharacter: "*",
-                              //keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.password,
@@ -114,11 +119,8 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            print("Password set");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()));
+                            forgotSetPass(
+                                forgotSetPassController.text, widget.token);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -145,32 +147,81 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
       ),
     );
   }
-}
 
-// we will be creating a widget for text field
-Widget inputFile({label, obscureText = false}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        label,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      TextField(
-        obscureText: obscureText,
-        decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color.fromARGB(255, 126, 126, 126)),
-            ),
-            border: OutlineInputBorder(
-                borderSide:
-                    BorderSide(color: Color.fromARGB(255, 139, 139, 139)))),
-      ),
-    ],
-  );
+  forgotSetPass(
+    String password,
+    String token,
+  ) async {
+    Map data = {'password': password, 'x-auth-token': token};
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    var response = await http.post(
+      Uri.parse(
+          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword/newPassword"),
+      body: data,
+      headers: {"x-auth-token": token},
+    );
+    if (response.statusCode == 200) {
+      setState(() {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => const LoginPage()),
+            (Route<dynamic> route) => false);
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 400) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: const <Widget>[
+                    Text(
+                      "Invalid password- criteria: minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1",
+                      style: TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
+  }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null, unused_import
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class ForgotPassPage extends StatefulWidget {
 }
 
 class _ForgotPassPage extends State<ForgotPassPage> {
-  TextEditingController EmailOrUserController = new TextEditingController();
+  TextEditingController EmailOrUsernameController = new TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   @override
@@ -63,6 +63,7 @@ class _ForgotPassPage extends State<ForgotPassPage> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                            controller: EmailOrUsernameController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
                                 Icons.person,
@@ -104,17 +105,8 @@ class _ForgotPassPage extends State<ForgotPassPage> {
                         height: 60,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const ForgotPassCodeVerify();
-                                },
-                              ),
-                            );
+                            forgetPassAPI(EmailOrUsernameController.text);
                           }
-
-                          //SignInF(EmailOrUserController.text);
                         },
                         color: const Color(0xff0095FF),
                         elevation: 5,
@@ -141,89 +133,76 @@ class _ForgotPassPage extends State<ForgotPassPage> {
     );
   }
 
-  // SignInF(String EmailOrUsername) async {
-  //   Map data = {'emailOrUsername': EmailOrUsername};
-  //   var jsonData = null;
-  //   //Map mapResponse;
-  //   //Map dataResponse;
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   //SharedPreferences.setMockInitialValues({});
-  //   var response = await http.post(
-  //       Uri.parse(
-  //           "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword"),
-  //       body: data);
-  //   print('test 1');
-  //   if (response.statusCode == 200) {
-  //     print('test 2');
-  //     Navigator.of(context).pushAndRemoveUntil(
-  //         MaterialPageRoute(
-  //             builder: (BuildContext context) => const ForgotPassCodeVerify()),
-  //         (Route<dynamic> route) => false);
-  //     print(response.body);
-  //     print('test 3');
-  //     setState(() {
-  //       //mapResponse = json.decode(response.body);
-  //       //dataResponse = mapResponse;
-
-  //       //sharedPreferences.setString("token", jsonData['token']);
-  //       jsonData = json.decode(response.body);
-  //       showModalBottomSheet<void>(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: 200,
-  //             color: const Color.fromARGB(0, 255, 255, 255),
-  //             child: Center(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     response.body,
-  //                     //dataResponse["message"].toString(),
-
-  //                     style: const TextStyle(
-  //                       color: Color(0xff0095FF),
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 20,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     });
-  //   } else if (response.statusCode == 404) {
-  //     setState(() {
-  //       print('test 4');
-  //       showModalBottomSheet<void>(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: 200,
-  //             color: const Color.fromARGB(0, 255, 255, 255),
-  //             child: Center(
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: <Widget>[
-  //                   Text(
-  //                     response.body,
-  //                     style: const TextStyle(
-  //                       color: Color(0xff0095FF),
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 20,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     });
-  //   }
-  // }
+  forgetPassAPI(String email) async {
+    Map data = {'emailOrUsername': email};
+    var jsonData = null;
+    Map mapResponse;
+    Map dataResponse;
+    var response = await http.post(
+        Uri.parse(
+            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword"),
+        body: data);
+    if (response.statusCode == 200) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ForgotPassCodeVerify(emailOrUsername: email)),
+          (Route<dynamic> route) => false);
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    } else if (response.statusCode == 404) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
+  }
 }
