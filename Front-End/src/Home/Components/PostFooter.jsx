@@ -94,8 +94,8 @@ function PostFooter({
         </MenuList>
 
       </Menu>
-      <div data-testid="footer-render-test" className={styles.postfooter}>
 
+      <div data-testid="footer-render-test" className={styles.postfooter}>
         <div className={styles.like}>
           <FontAwesomeIcon
             className={styles.postblue}

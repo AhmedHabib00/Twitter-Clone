@@ -6,10 +6,18 @@
   }
 }
 
+.postfooter {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 15px;
+}
+
 .tweet-header {
   background-color: white;
   width: 100vh;
   justify-content: space-between;
+  margin-top: 5px;
+  padding-left: 20px;
 }
 
 .back-btn {
