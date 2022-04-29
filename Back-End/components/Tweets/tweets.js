@@ -27,6 +27,7 @@ const multer = Multer({
   // A bucket is a container for objects (files).
 const {Storage}=require('@google-cloud/storage');
 const { userInfo } = require('os');
+const Tweet = require('./tweetsSchema');
 const storage = new Storage({projectId:process.env.GCLOUD_PROJECT,credentials:{client_email:process.env.GCLOUD_CLIENT_EMAIL,private_key:process.env.GCLOUD_PRIVATE_KEY}});
 const bucket = storage.bucket(process.env.GCS_BUCKET);
 
@@ -696,48 +697,86 @@ router.post("/",multer.any(),auth,async function(req,res,next){
  //////////////////////////////////////////////////////////////////////////////Deleting a tweet:
  router.delete("/:id",auth, async function(req, res){
 
+    var userInfo=null;
     try
     {
         userInfo=await user.findById(req.user._id)
     }
     catch(error) //error with finding (invalid id)
     {
-         return res.sendStatus(400);
+         return res.status(400).send("error with finding (invalid id)");
     }
 
     if(!userInfo) //the id of the user is not found
     {
-        return res.sendStatus(400);
+        return res.status(400).send("the id of the user is not found");
         
     }
     var deletedTweet= null;
-    try
-    {
-        const Tweet = await tweet.findById(req.params.id)
-        if (Tweet && Tweet.postedBy==req.user._id)
-        {
-            deletedTweet = await tweet.findByIdAndDelete(req.params.id)
+ 
+    const Tweet = await tweet.findById(req.params.id)
+    .catch(error => {
+        console.log(error);
+        return res.status(400).send("error with finding the tweet");
+    })
 
-        }
-        
-    }
-    catch(error) //error with deleting
+    //if the tweet is found and is posted by the current logged in user:
+    if (Tweet && Tweet.postedBy==req.user._id)
     {
-         return res.status(400).send('Error deleting');
-    }
-
-    if(!deletedTweet) //the id of the tweet in the path parameters is not found
-    {
-        return res.status(400).send('Access denied:tweet is not posted by this user');
+        deletedTweet = await tweet.findByIdAndDelete(req.params.id)
+        .catch(error => {
+            console.log(error);
+            return res.status(400).send("error with deleting the tweet from the tweets schema");
+        })
     }
     else
     {
-        return res.sendStatus(200);
+        res.status(400).send("The tweet you are trying to delete is not found");
     }
+
+    //delete tweet from users schema:
+    if(!Tweet.replyTo) //if it is a tweet or a retweet:
+        {   
+            //remove the tweet/retweet from the user's tweets. 
+            await user.findByIdAndUpdate(req.user._id,{$pull:{tweets: req.params.id}},{new:true})
+           .catch(error => {
+             console.log(error);
+             return res.status(400).send("error with removing the tweet from the user's schema");
+           })
+
+           //if the tweet deleted is a retweet
+           if(Tweet.retweetInfo)
+           {
+                //decrement the number of replies for the original tweet:
+                await tweet.findByIdAndUpdate(Tweet.retweetInfo,{$inc:{'numberRetweets' : -1}},{new:true})
+                .catch(error => {
+                 console.log(error);
+                 return res.status(400).send("error with decrementing the retweets from the user's schema");;
+                })
+
+           }
+        }
+
+    else //if it is a reply
+        {  
+            //decrement the number of replies for the original tweet:
+            await tweet.findByIdAndUpdate(Tweet.replyTo,{$inc:{'numberReplies' : -1}},{new:true})
+            .catch(error => {
+                console.log(error);
+                return res.status(400).send("error with decrementing the replies count from the user's schema");
+            })
+
+            //remove the tweet from the user's replies array
+            await user.findByIdAndUpdate(req.user._id,{$pull:{replies: req.params.id}},{new:true})
+           .catch(error => {
+            console.log(error);
+            return res.status(400).send("error with removing the tweet from the user's schema");
+           })
+        }
+    return res.status(200).send("successfully deleted.");
+    
      
  })
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
@@ -822,7 +861,6 @@ router.put("/:id/like",auth,async(req,res)=>{
         return res.sendStatus(200);
 
 })
-
 
 
 //////////////////////////////////////////////////////////////////////////////Retweeting and unretweeting:
