@@ -742,6 +742,7 @@ router.post("/",multer.any(),auth,async function(req,res,next){
 
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
 router.put("/:id/like",auth,async(req,res)=>{
+    var userInfo=null;
     if(!req.params.id)
     {
         return res.status(400).send("The tweet id could not be read.");
@@ -788,7 +789,11 @@ router.put("/:id/like",auth,async(req,res)=>{
             console.log(error);
             return res.sendStatus(400);
         })
-        await tweet.findByIdAndUpdate(postId,{$inc : {'numberLikes' : -1}},{$pull:{likes: token}},{new:true})
+        updateDecrement={
+            $inc : {'numberLikes' : -1},
+            $pull:{likes: token}
+        }
+        await tweet.findByIdAndUpdate(postId,updateDecrement,{new:true})
         .catch(error => {
             console.log(error);
             return res.sendStatus(400);
@@ -802,7 +807,11 @@ router.put("/:id/like",auth,async(req,res)=>{
             console.log(error);
             return res.sendStatus(400);
         })
-        await tweet.findByIdAndUpdate(postId,{$inc : {'numberLikes' : 1}},{$addToSet: {likes: token}},{new:true})
+        updateIncrement={
+            $inc : {'numberLikes' : 1},
+            $addToSet: {likes: token}
+        }
+        await tweet.findByIdAndUpdate(postId,updateIncrement,{new:true})
         .catch(error => {
             console.log(error);
             return res.sendStatus(400);
