@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+
 import Feed from './Components/Feed';
 import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
@@ -24,7 +24,7 @@ function Home() {
       </div>
       <TweetBox placeHolder="What's happening" boxId="home" />
       <hr className={styles['home-hor-hr']} />
-      <Feed className={styles.feed} data={postData} />
+      {postData && <Feed className={styles.feed} data={postData} />}
     </div>
   );
 }
