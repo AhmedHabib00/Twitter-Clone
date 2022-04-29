@@ -212,7 +212,6 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
 })
 
 
-
 //////////////////////////////////////////////////////////////////////////////////Getting single tweet endpoint
 router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
@@ -715,19 +714,13 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     var deletedTweet= null;
  
     const Tweet = await tweet.findById(req.params.id)
-    .catch(error => {
-        console.log(error);
-        return res.status(400).send("error with finding the tweet");
-    })
+
 
     //if the tweet is found and is posted by the current logged in user:
     if (Tweet && Tweet.postedBy==req.user._id)
     {
         deletedTweet = await tweet.findByIdAndDelete(req.params.id)
-        .catch(error => {
-            console.log(error);
-            return res.status(400).send("error with deleting the tweet from the tweets schema");
-        })
+
     }
     else
     {
@@ -739,21 +732,26 @@ router.post("/",multer.any(),auth,async function(req,res,next){
         {   
             //remove the tweet/retweet from the user's tweets. 
             await user.findByIdAndUpdate(req.user._id,{$pull:{tweets: req.params.id}},{new:true})
-           .catch(error => {
-             console.log(error);
-             return res.status(400).send("error with removing the tweet from the user's schema");
-           })
 
            //if the tweet deleted is a retweet
            if(Tweet.retweetInfo)
            {
-                //decrement the number of replies for the original tweet:
+                //decrement the number of retweets for the original tweet:
                 await tweet.findByIdAndUpdate(Tweet.retweetInfo,{$inc:{'numberRetweets' : -1}},{new:true})
-                .catch(error => {
-                 console.log(error);
-                 return res.status(400).send("error with decrementing the retweets from the user's schema");;
-                })
 
+                //remove any replies this retweet has:
+                if(Tweet.numberReplies > 0)
+                   await tweet.deleteMany({"replyTo":req.params.id});
+           }
+
+           //if the tweet is neither a reply nor a retweet:
+           else
+           {
+              //delete any replies this tweet has:
+              if(Tweet.numberReplies > 0)
+                  await tweet.deleteMany({"replyTo":req.params.id});
+
+              //TODO:///////////////////delete any retweets this tweet has and if it's retweets have replies remove them too:
            }
         }
 
@@ -761,20 +759,16 @@ router.post("/",multer.any(),auth,async function(req,res,next){
         {  
             //decrement the number of replies for the original tweet:
             await tweet.findByIdAndUpdate(Tweet.replyTo,{$inc:{'numberReplies' : -1}},{new:true})
-            .catch(error => {
-                console.log(error);
-                return res.status(400).send("error with decrementing the replies count from the user's schema");
-            })
 
             //remove the tweet from the user's replies array
             await user.findByIdAndUpdate(req.user._id,{$pull:{replies: req.params.id}},{new:true})
-           .catch(error => {
-            console.log(error);
-            return res.status(400).send("error with removing the tweet from the user's schema");
-           })
+
+            //TODO:///////////////////check if the reply has retweets remove these retweets and remove any replies they have.
+
         }
     return res.status(200).send("successfully deleted.");
     
+    //Any tweet removed should be removed from users liked tweets.
      
  })
 
@@ -897,7 +891,7 @@ router.post("/:id/retweet",auth,async(req,res)=>{
     {
         return res.sendStatus(400);
     }
-    if(tweetFound.length==0){ //tweet not found
+    if(!tweetFound){ //tweet not found
         return res.sendStatus(400)
     }    
     
@@ -984,6 +978,55 @@ router.post("/:id/retweet",auth,async(req,res)=>{
         }
 
         return res.sendStatus(200)
+
+})
+
+/////////////////////////////////////////////////////////////////////////////Getting likers of a tweet:
+router.get("/:id/likers",auth,async(req,res)=>{
+
+    var postId=req.params.id; 
+    token=req.user._id;
+    var userInfo=null;
+
+    try
+    {
+       userInfo =await user.findById(token)
+     
+    }
+    catch(error) //error with finding (invalid id)
+    {
+         return res.status(400).send("error with finding user (invalid id)");
+          
+    }
+
+    if(!userInfo) //the id of the user is not found
+    {
+        return res.status(400).send("the id of the user is not found");
+    }
+
+    //checking if the tweet we want to retweet exists:
+    var tweetFound=null;
+    try
+    {
+        tweetFound=await tweet.find({_id:postId});
+    }
+    catch(error) //invalid tweet
+    {
+        return res.status(400).send("invalid tweet");
+    }
+    if(!tweetFound){ //tweet not found
+        return res.status(400).send("tweet not found")
+    }
+
+    finalArray=[];
+    const projection ={"_id":0,"name":1,"username":1,"description":1};
+    for(iterator=0; iterator<tweetFound[0]["likes"].length;  iterator++)
+    {
+        currentLiker=tweetFound[0]["likes"][iterator]
+        var likingUser=await user.findOne({_id:currentLiker}).select(projection)
+        finalArray.push(likingUser)
+    }
+    res.status(200).send(finalArray);
 
 })
 
