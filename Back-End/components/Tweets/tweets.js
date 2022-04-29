@@ -784,7 +784,7 @@ router.put("/:id/like",auth,async(req,res)=>{
 
     var foundLike= await user.find({_id:token,likes:{ $all:[postId]}},{new:true})
 
-    //if the tweet is liked, unlike it
+    //if the tweet is liked, unlike it and decrement number of likes
     if(foundLike.length!=0){
 
         await user.findByIdAndUpdate(token,{$pull:{likes: postId}},{new:true})
@@ -792,25 +792,26 @@ router.put("/:id/like",auth,async(req,res)=>{
             console.log(error);
             return res.sendStatus(400);
         })
-        await tweet.findByIdAndUpdate(postId,{$pull:{likes: token}},{new:true})
+        await tweet.findByIdAndUpdate(postId,{$inc : {'numberLikes' : -1}},{$pull:{likes: token}},{new:true})
         .catch(error => {
             console.log(error);
             return res.sendStatus(400);
         })
 
     }
-    //if the tweet is unliked,like it.
+    //if the tweet is unliked,like it and increment number of likes
     else{
         await user.findByIdAndUpdate(token,{$addToSet:{likes: postId}},{new:true})
         .catch(error => {
             console.log(error);
             return res.sendStatus(400);
         })
-        await tweet.findByIdAndUpdate(postId,{$addToSet: {likes: token}},{new:true})
+        await tweet.findByIdAndUpdate(postId,{$inc : {'numberLikes' : 1}},{$addToSet: {likes: token}},{new:true})
         .catch(error => {
             console.log(error);
             return res.sendStatus(400);
         })
+
 
     }
         return res.sendStatus(200);
@@ -896,7 +897,7 @@ router.post("/:id/retweet",auth,async(req,res)=>{
                 return res.sendStatus(400);
             })
             //add to retweeters of the post in table tweets
-            await tweet.findByIdAndUpdate(postId,{$addToSet:{retweeters: token}},{new:true})
+            await tweet.findByIdAndUpdate(postId,{$inc : {'numberRetweets' : 1}},{$addToSet:{retweeters: token}},{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
@@ -922,7 +923,7 @@ router.post("/:id/retweet",auth,async(req,res)=>{
                 return res.sendStatus(400);
             })
             //remove from retweeters in tweets table
-            await tweet.findByIdAndUpdate(postId,{$pull:{retweeters: token}},{new:true})
+            await tweet.findByIdAndUpdate(postId,{$inc : {'numberRetweets' : -1}},{$pull:{retweeters: token}},{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
