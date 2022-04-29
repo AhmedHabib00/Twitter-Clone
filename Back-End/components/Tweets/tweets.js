@@ -28,6 +28,7 @@ const multer = Multer({
 const {Storage}=require('@google-cloud/storage');
 const { userInfo } = require('os');
 const Tweet = require('./tweetsSchema');
+const { UserRefreshClient } = require('google-auth-library');
 const storage = new Storage({projectId:process.env.GCLOUD_PROJECT,credentials:{client_email:process.env.GCLOUD_CLIENT_EMAIL,private_key:process.env.GCLOUD_PRIVATE_KEY}});
 const bucket = storage.bucket(process.env.GCS_BUCKET);
 
@@ -695,9 +696,7 @@ router.post("/",multer.any(),auth,async function(req,res,next){
  
  //////////////////////////////////////////////////////////////////////////////Deleting a tweet:
  router.delete("/:id",auth, async function(req, res){
-
-    ////////////////////////////TODO:Any tweet removed should be removed from users liked tweets.
-  
+    var checkLikes=[];
     var userInfo=null;
     try
     {
@@ -720,12 +719,12 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     //if the tweet is found and is posted by the current logged in user:
     if (Tweet && Tweet.postedBy==req.user._id)
     {
-        var deletedTweet = await tweet.findByIdAndDelete(req.params.id)
-
+        var deletedTweet=await tweet.findByIdAndDelete(req.params.id,{new:true})
+        checkLikes.push(deletedTweet._id);
     }
     else
     {
-        res.status(400).send("The tweet you are trying to delete is not found");
+        return res.status(400).send("The tweet you are trying to delete is not found");
     }
 
     //delete tweet from users schema:
@@ -734,10 +733,10 @@ router.post("/",multer.any(),auth,async function(req,res,next){
             //remove the tweet/retweet from the user's tweets. 
             await user.findByIdAndUpdate(req.user._id,{$pull:{tweets: req.params.id}},{new:true})
 
-           //if the tweet deleted is a retweet
+           
            if(Tweet.retweetInfo)
            {
-               if(Tweet.retweetInfo.length!=0)
+               if(Tweet.retweetInfo.length!=0) //if the tweet deleted is a retweet
                {
                 //decrement the number of retweets for the original tweet,remove user from retweeters:
                 update1={
@@ -745,7 +744,7 @@ router.post("/",multer.any(),auth,async function(req,res,next){
                     $pull:{retweeters:req.user._id}
                 }
                 await tweet.findByIdAndUpdate(Tweet.retweetInfo,update1,{new:true})
-               }
+                }
 
            //if the tweet is neither a reply nor a retweet:
            else
@@ -764,47 +763,55 @@ router.post("/",multer.any(),auth,async function(req,res,next){
 
                         //delete the reply itself:
                         await tweet.findByIdAndDelete(deletedReplies[u]._id);
+                        checkLikes.push(deletedReplies[u]._id);
 
                         //remove the tweet from the user's replies array
                         await user.findByIdAndUpdate(deletedReplies[u].postedBy,{$pull:{replies:deletedReplies[u]._id}},{new:true})
 
                         //check if the reply has retweets remove these retweets.
-                        if(deletedReplies[u].retweeters)
+                        allTheRetweets22=await tweet.find({retweetInfo:deletedReplies[u]._id},{new:true}).select({"_id":1,"postedBy":1});
+                        if(allTheRetweets22)
                         {
-                        if(deletedReplies[u].retweeters.length!=0)
-                        {  
-                          for(l=0;l<deletedReplies[u].retweeters.length;l++)
+                          for(g=0;g<allTheRetweets22.length;g++)
                           {
                             //remove retweets and remove them from tweets of users that posted them: 
-                            update2={
-                                $pull:{tweets:deletedReplies[u].retweeters[l]._id}
-                                }
-                            await user.findByIdAndUpdate(deletedReplies[u].retweeters[l].postedBy,update1,{new:true})
-                            await tweet.findByIdAndDelete(deletedReplies[u].retweeters[l]._id);
-                          } 
-                        }  
+            
+                            //remove from user schema    
+                            await user.findByIdAndUpdate(allTheRetweets22[g].postedBy,{$pull:{tweets:allTheRetweets22[g]._id}})
+                            .catch(error => {
+                                console.log(error);
+                                return res.sendStatus(400);
+                            })
+                            //remove from tweets schema
+                            await tweet.findByIdAndDelete(allTheRetweets22[g]._id);
+                            checkLikes.push(allTheRetweets22[g]._id);
+                          }   
                         } 
-
                          
                    }
                 }
               }
 
               //if the deleted tweet has retweets:
-              if(Tweet.numberRetweets!=null &&Tweet.numberRetweets > 0)
+              hasRetweets=await tweet.find({retweetInfo:Tweet._id},{new:true}).select({"_id":1,"postedBy":1});
+              if(hasRetweets)
               {
-                for(it=0;it<Tweet.retweeters.length;it++)
+                
+                for(hr=0;hr<hasRetweets.length;hr++)
                 {
                   //remove retweets and remove them from tweets of users that posted them: 
-                  update2={
-                      $pull:{tweets:Tweet.retweeters[it]._id}
-                      }
-                  await user.findByIdAndUpdate(Tweet.retweeters[it].postedBy,update1,{new:true})
-                  await tweet.findByIdAndDelete(Tweet.retweeters[it]._id);
-                }
-
-
-              }
+                  
+                  //remove from user schema    
+                  await user.findByIdAndUpdate(hasRetweets[hr].postedBy,{ $pull:{tweets:hasRetweets[hr]._id}})
+                  .catch(error => {
+                      console.log(error);
+                      return res.sendStatus(400);
+                  })
+                  //remove from tweets schema
+                  await tweet.findByIdAndDelete(hasRetweets[hr]._id);
+                  checkLikes.push(hasRetweets[hr]._id);
+                }   
+              } 
 
            }
         }
@@ -819,23 +826,38 @@ router.post("/",multer.any(),auth,async function(req,res,next){
             await user.findByIdAndUpdate(req.user._id,{$pull:{replies: req.params.id}},{new:true})
 
             //check if the reply has retweets remove these retweets.
-            if(Tweet.retweeters)
+            allTheRetweets=await tweet.find({retweetInfo:Tweet._id},{new:true}).select({"_id":1,"postedBy":1});
+            if(allTheRetweets)
             {
-              for(r=0;r<Tweet.retweeters.length;r++)
+              
+              for(r=0;r<allTheRetweets.length;r++)
               {
                 //remove retweets and remove them from tweets of users that posted them: 
+                
                 update2={
-                    $pull:{tweets:Tweet.retweeters[r]._id}
-                    }
-                await user.findByIdAndUpdate(Tweet.retweeters[r].postedBy,update1,{new:true})
-                await tweet.findByIdAndDelete(Tweet.retweeters[r]._id);
+                    $pull:{tweets:allTheRetweets[r]._id}
+                    } 
+                //remove from user schema    
+                console.log(allTheRetweets[r])
+                await user.findByIdAndUpdate(allTheRetweets[r].postedBy,update2)
+                .catch(error => {
+                    console.log(error);
+                    return res.sendStatus(400);
+                })
+                //remove from tweets schema
+                await tweet.findByIdAndDelete(allTheRetweets[r]._id);
+                checkLikes.push(allTheRetweets[r]._id);
               }   
             } 
 
         }
-    return res.status(200).send("successfully deleted.");
-    
 
+    //Any tweet removed should be removed from users liked tweets.
+    if(checkLikes.length!=0)
+    {
+        await user.updateMany({},{$pull:{likes:{$in:checkLikes}}})
+    }
+    return res.status(200).send("successfully deleted.");
      
  })
 
