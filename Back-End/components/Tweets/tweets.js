@@ -696,6 +696,8 @@ router.post("/",multer.any(),auth,async function(req,res,next){
  //////////////////////////////////////////////////////////////////////////////Deleting a tweet:
  router.delete("/:id",auth, async function(req, res){
 
+    ////////////////////////////TODO:Any tweet removed should be removed from users liked tweets.
+  
     var userInfo=null;
     try
     {
@@ -711,7 +713,6 @@ router.post("/",multer.any(),auth,async function(req,res,next){
         return res.status(400).send("the id of the user is not found");
         
     }
-    var deletedTweet= null;
  
     const Tweet = await tweet.findById(req.params.id)
 
@@ -719,7 +720,7 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     //if the tweet is found and is posted by the current logged in user:
     if (Tweet && Tweet.postedBy==req.user._id)
     {
-        deletedTweet = await tweet.findByIdAndDelete(req.params.id)
+        var deletedTweet = await tweet.findByIdAndDelete(req.params.id)
 
     }
     else
@@ -736,23 +737,77 @@ router.post("/",multer.any(),auth,async function(req,res,next){
            //if the tweet deleted is a retweet
            if(Tweet.retweetInfo)
            {
-                //decrement the number of retweets for the original tweet:
-                await tweet.findByIdAndUpdate(Tweet.retweetInfo,{$inc:{'numberRetweets' : -1}},{new:true})
-
-                //remove any replies this retweet has:
-                if(Tweet.numberReplies > 0)
-                   await tweet.deleteMany({"replyTo":req.params.id});
-           }
+               if(Tweet.retweetInfo.length!=0)
+               {
+                //decrement the number of retweets for the original tweet,remove user from retweeters:
+                update1={
+                    $inc:{'numberRetweets' : -1},
+                    $pull:{retweeters:req.user._id}
+                }
+                await tweet.findByIdAndUpdate(Tweet.retweetInfo,update1,{new:true})
+               }
 
            //if the tweet is neither a reply nor a retweet:
            else
            {
-              //delete any replies this tweet has:
-              if(Tweet.numberReplies > 0)
-                  await tweet.deleteMany({"replyTo":req.params.id});
+              //if the deleted tweet has replies:
+              if(Tweet.numberReplies!=null &&Tweet.numberReplies > 0)
+              {
+                //delete any replies this tweet has:  
+                const projection3 ={"_id":1,"replyTo":1,"postedBy":1,"retweeters":1};      
+                var deletedReplies=await tweet.find({"replyTo":req.params.id}).select(projection3);
+               if(deletedReplies)
+                {
 
-              //TODO:///////////////////delete any retweets this tweet has and if it's retweets have replies remove them too:
+                   for(u=0;u<deletedReplies.length;u++)
+                   {
+
+                        //delete the reply itself:
+                        await tweet.findByIdAndDelete(deletedReplies[u]._id);
+
+                        //remove the tweet from the user's replies array
+                        await user.findByIdAndUpdate(deletedReplies[u].postedBy,{$pull:{replies:deletedReplies[u]._id}},{new:true})
+
+                        //check if the reply has retweets remove these retweets.
+                        if(deletedReplies[u].retweeters)
+                        {
+                        if(deletedReplies[u].retweeters.length!=0)
+                        {  
+                          for(l=0;l<deletedReplies[u].retweeters.length;l++)
+                          {
+                            //remove retweets and remove them from tweets of users that posted them: 
+                            update2={
+                                $pull:{tweets:deletedReplies[u].retweeters[l]._id}
+                                }
+                            await user.findByIdAndUpdate(deletedReplies[u].retweeters[l].postedBy,update1,{new:true})
+                            await tweet.findByIdAndDelete(deletedReplies[u].retweeters[l]._id);
+                          } 
+                        }  
+                        } 
+
+                         
+                   }
+                }
+              }
+
+              //if the deleted tweet has retweets:
+              if(Tweet.numberRetweets!=null &&Tweet.numberRetweets > 0)
+              {
+                for(it=0;it<Tweet.retweeters.length;it++)
+                {
+                  //remove retweets and remove them from tweets of users that posted them: 
+                  update2={
+                      $pull:{tweets:Tweet.retweeters[it]._id}
+                      }
+                  await user.findByIdAndUpdate(Tweet.retweeters[it].postedBy,update1,{new:true})
+                  await tweet.findByIdAndDelete(Tweet.retweeters[it]._id);
+                }
+
+
+              }
+
            }
+        }
         }
 
     else //if it is a reply
@@ -763,12 +818,24 @@ router.post("/",multer.any(),auth,async function(req,res,next){
             //remove the tweet from the user's replies array
             await user.findByIdAndUpdate(req.user._id,{$pull:{replies: req.params.id}},{new:true})
 
-            //TODO:///////////////////check if the reply has retweets remove these retweets and remove any replies they have.
+            //check if the reply has retweets remove these retweets.
+            if(Tweet.retweeters)
+            {
+              for(r=0;r<Tweet.retweeters.length;r++)
+              {
+                //remove retweets and remove them from tweets of users that posted them: 
+                update2={
+                    $pull:{tweets:Tweet.retweeters[r]._id}
+                    }
+                await user.findByIdAndUpdate(Tweet.retweeters[r].postedBy,update1,{new:true})
+                await tweet.findByIdAndDelete(Tweet.retweeters[r]._id);
+              }   
+            } 
 
         }
     return res.status(200).send("successfully deleted.");
     
-    //Any tweet removed should be removed from users liked tweets.
+
      
  })
 
