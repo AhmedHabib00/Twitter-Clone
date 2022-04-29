@@ -26,6 +26,7 @@ const multer = Multer({
   
   // A bucket is a container for objects (files).
 const {Storage}=require('@google-cloud/storage');
+const { userInfo } = require('os');
 const storage = new Storage({projectId:process.env.GCLOUD_PROJECT,credentials:{client_email:process.env.GCLOUD_CLIENT_EMAIL,private_key:process.env.GCLOUD_PRIVATE_KEY}});
 const bucket = storage.bucket(process.env.GCS_BUCKET);
 
@@ -514,23 +515,19 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     //number of characters in a tweet is maximum: 
     //same goes for a reply
 
-    if(req.body.content==null || req.files==null|| req.body.gifs==null || req.body.replyId==null) 
-    {
-        return res.status(400).send("1 of the body parameters could not be read.");
-        
-    }  
-
     token=req.user._id
-
+    var userInfo=null;
     try
     {
         userInfo=await user.findById(token)     
     }
     catch(error) //error with finding (invalid id)
     {
+        console.log(error)
          return res.status(400).send("user not found.");
     }
 
+    
    
     if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
     {
@@ -745,13 +742,12 @@ router.post("/",multer.any(),auth,async function(req,res,next){
 
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
 router.put("/:id/like",auth,async(req,res)=>{
-    // console.log("aywa")
     if(!req.params.id)
     {
         return res.status(400).send("The tweet id could not be read.");
         
     }  
-    // console.log(req.params.id); //post id
+     //post id
     var postId=req.params.id;
     token=req.user._id;
     try
@@ -825,10 +821,11 @@ router.post("/:id/retweet",auth,async(req,res)=>{
 
     var postId=req.params.id; 
     token=req.user._id;
+    var userInfo=null;
 
     try
     {
-        userInfo=await user.findById(token)
+       userInfo =await user.findById(token)
      
     }
     catch(error) //error with finding (invalid id)
@@ -897,7 +894,11 @@ router.post("/:id/retweet",auth,async(req,res)=>{
                 return res.sendStatus(400);
             })
             //add to retweeters of the post in table tweets
-            await tweet.findByIdAndUpdate(postId,{$inc : {'numberRetweets' : 1}},{$addToSet:{retweeters: token}},{new:true})
+            update={
+                $inc : {'numberRetweets' : 1},
+                $addToSet:{retweeters: token}
+            }
+            await tweet.findByIdAndUpdate(postId,update,{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
@@ -923,7 +924,11 @@ router.post("/:id/retweet",auth,async(req,res)=>{
                 return res.sendStatus(400);
             })
             //remove from retweeters in tweets table
-            await tweet.findByIdAndUpdate(postId,{$inc : {'numberRetweets' : -1}},{$pull:{retweeters: token}},{new:true})
+            update={
+                $inc : {'numberRetweets' : -1},
+                $pull:{retweeters: token}
+            }
+            await tweet.findByIdAndUpdate(postId,update,{new:true})
             .catch(error => {
                 console.log(error);
                 return res.sendStatus(400);
