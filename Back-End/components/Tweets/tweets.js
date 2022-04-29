@@ -383,10 +383,10 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
     //     const limit = parseInt(size);
 
         const theUser=req.user._id;
-        // const theUser="62608baaaa118abd39b1288f";
+       
         
         finalArray=[]
-        const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};
+        const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
         const projection2 ={"_id":0,"name":1,"username":1};
         //  console.log("hjgfjsegfjs")
 
@@ -396,110 +396,75 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             console.log(error);
             return res.status(400).send("error: problem with finding the tweets");;
         })
-
+        if (!results) return res.status.send('No tweets found')
         
 
 
     for(i=0;i<results.length;i++)
        {
-        //    console.log(results[i]["media"])
-        //    console.log(results[i]["gifs"]==null)
-        //    console.log("ehhh")
+        if (!results[i])
+            continue;
 
-        // if(results[i]["_id"]==null || results[i]["media"]==null || results[i]["gifs"]==null || results[i]["content"]==null || results[i]["postedBy"]==null || results[i]["likes"]==null || results[i]["retweeters"]==null)
-        // {
-        //     return res.status(400).send("error: problem with reading tweet parameters.");
-        // }
   
-        //do not view reply as a tweet.go to next iteration.   
+        //do not view reply as a tweet. go to next iteration.   
         if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length=="") 
        {
-       //Getting number of replies for the tweet:
-       findReplies=await tweet.find({replyTo:results[i]["_id"]},{new:true}) 
-       .catch(error => {
-        console.log(error);
-        return res.status(400).send("error: problem with getting number of replies for the tweet");;
-       });
-       countReplies=findReplies.length;
 
 
-        
-        //Checking if the tweet is retweeted by the current user.
-        var Retweeted=false       
+        if(results[i]._id)
+       { 
+           //Checking if the tweet is retweeted by the current user.
+           var Retweeted=false       
 
-            findRetweet=await tweet.find({retweetInfo:results[i]["_id"],postedBy:theUser}).select("_id") 
-            .catch(error => {
-            console.log(error);
-            return res.sendStatus(400).send("error: problem with checking if the tweet is retweeted by the current user ");
-            })       
-            if(findRetweet.length!=0)
-             Retweeted=true
+           findRetweet=await tweet.find({_id:results[i]._id,retweeters:{ $all:theUser}},{new:true}).select("_id") 
+           .catch(error => {
+           console.log(error);
+           return res.sendStatus(400).send("error: problem with checking if the tweet is retweeted by the current user ");
+           })       
+           if(findRetweet.length!=0)
+            Retweeted=true
      
         
-        //Checking if the tweet is liked by current user.  
-        var Liked=false     
-        var foundLike= await user.find({_id:theUser,likes:{ $all:results[i]["_id"]}},{new:true})
-        .catch(error => {
+            //Checking if the tweet is liked by current user.  
+            var Liked=false     
+            var foundLike= await user.find({_id:theUser,likes:{ $all:results[i]._id}},{new:true})
+            .catch(error => {
             console.log(error);
             return res.status(400).send("error: problem with checking if if the tweet is liked by current user ");;
-        })        
-        if(foundLike.length!=0)
-            Liked=true
+            })        
+            if(foundLike.length!=0)
+                Liked=true
 
-  
-
-        var numLikes=results[i]["likes"].length
-        var numRetweets=results[i]["retweeters"].length
-        // console.log("likesNum: ")
-        // console.log(numLikes)
-        var theId=results[i]["postedBy"]
-        // console.log(results[i]["media"])
-        var tempMedia=results[i]["media"]
-        var img=[]
-        if (tempMedia.length==0)
-        {
-               img[0]="";
-               img[1]="";
-               img[2]="";
-               img[3]="";
-        }
-        else{            
-            for(j=0;j<tempMedia.length;j++)
-            {
-                // console.log(process.env.DOMAIN+':'+process.env.PORT+'/'+tempMedia[j])
-               img[j]=tempMedia[j]
-            }
-
-            if(j==1) //1 image
-            {
-                img[1]=""
-                img[2]=""
-                img[3]=""
-            }
-
-            else if(j==2) //2 images
-            {
-                img[2]=""
-                img[3]=""
-            }
-
-            else if(j==3) //3 images
-            {
-                img[3]=""
-            }
-
-        }
-
+       }
+       else
+       {
+           res.sendStatus(400).send("one of the tweets' ids is null");
+       }    
 
         var contentTemp="";
-        var gifTemp="";
-        
-
+        var gifTemp=results[i]["gifs"];
+        var theId=results[i]["postedBy"]
+        var tempMedia=results[i]["media"]
+        var urls=[]
+        if(!tempMedia || tempMedia.length==0)
+        {
+            if(!gifTemp || gifTemp.length==0)
+            {
+                urls=[];
+            }
+            else
+            {
+                urls.push(gifTemp);
+            }
+        }
+        else
+        {
+            urls=tempMedia;
+        }
+    
         if(results[i]["content"])
                  contentTemp=results[i]["content"];
-      
-        if(results[i]["gifs"])         
-                 gifTemp=results[i]["gifs"];
+
 
         var results2 = await user.findById(theId,projection2)
         .catch(error => {
@@ -517,16 +482,12 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             userName: results2["username"],
             displayName: results2["name"],
             content: contentTemp,
-            img1:img[0],
-            img2:img[1],
-            img3:img[2],
-            img4:img[3],
-            gifs:gifTemp,
+            URLs:urls,
             isLiked:Liked,
             isRetweeted:Retweeted,
-            noOfLike:numLikes,
-            noOfReplies:countReplies,
-            noOfRetweets:numRetweets,
+            noOfLike:results[i].numberLikes,
+            noOfReplies:results[i].numberReplies,
+            noOfRetweets:results[i].numberRetweets,
            });
 
 
@@ -547,32 +508,12 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 })
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
-router.post("/",multer.any(),auth, async function(req,res,next){
-
-    // console.log("hi")
-
+router.post("/",multer.any(),auth,async function(req,res,next){
     //A tweet can have content or images or gifs, but it can not be empty 
     //A tweet can have maximum 4 images/1 gif.
     //number of characters in a tweet is maximum: 
     //same goes for a reply
 
-
-
-    //If there is an error with uploading the images, send a 400 status
-    //an error is not the same as not uploading images
-    // upload(req,res,async function(err){
-     
-    // if(err){
-    //     console.log(err);
-    //     return res.status(400).send("error with image uploading")
-    // } 
-    // else{
-
-    // console.log(req.body.gifs.length)
-    // console.log(req.body.replyId)
-    // console.log(req.body.replyId == null )
-
-    // console.log(req.files)
     if(req.body.content==null || req.files==null|| req.body.gifs==null || req.body.replyId==null) 
     {
         return res.status(400).send("1 of the body parameters could not be read.");
@@ -580,27 +521,29 @@ router.post("/",multer.any(),auth, async function(req,res,next){
     }  
 
     token=req.user._id
-    // token="62608baaaa118abd39b1288f"
+
     try
     {
         userInfo=await user.findById(token)     
     }
     catch(error) //error with finding (invalid id)
     {
-        // console.log(err);
          return res.status(400).send("user not found.");
     }
 
-    // console.log(req.body.content)
-
+   
+    if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
+    {
+        return res.status(400).send("1 of the body parameters could not be read.");
+        
+    }
     
     
     //initialising images,gifs,content,reply as empty
-     mediaTemp=[]
-     contentTemp=""
+    mediaTemp=[]
+    contentTemp=""
      replyTemp=undefined //represents an empty object
      gifTemp=""
-    //  console.log("here")   
      
      //if the tweet has content 
      if(req.body.content!="")
@@ -611,10 +554,8 @@ router.post("/",multer.any(),auth, async function(req,res,next){
             return res.status(400).send("the tweet is longer than 280 characters")
      }
      publicUrl=""; 
+
     //if the tweet has images
-
-
-
      if(req.files)
      {
          if(req.files.length >4)
@@ -635,45 +576,16 @@ router.post("/",multer.any(),auth, async function(req,res,next){
           next(err);
         });
 
-        // publicUrl="";
-        // console.log(bucket.name)
-        // console.log(blob.name)
         blobStream.on('finish', () => {
           // The public URL can be used to directly access the file via HTTP.
           publicUrl =format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-      
-        //   s2="dgregrehs";
-            // mediaTemp.push(publicUrl);
-            // console.log(publicUrl)
-            // console.log(mediaTemp+"mediaTempp inside")
-
-        // blob.makePublic().then(()=>{
-            
-        // })  
 
         });
       
         blobStream.end(req.files[m].buffer);
-     
-        // console.log(mediaTemp+"mediaTempp outside")
-       
-        //  m=req.files
-         
-        //  for(i=0;i<m.length;i++)
-        //   {
-        //          mediaTemp.push(req.files[i].path.replace("\\","/"))
-        //   }
-
-        // let mediaTemp = []
-
-        
-     
-
-     mediaTemp.push(format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`));
-    //  mediaTemp[0]=publicUrl;
-    //  console.log(mediaTemp+"bara")
+        mediaTemp.push(format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`));
+       }
     }
-}
     
      //if the tweet has a gif:
      if(req.body.gifs.length!=0)
@@ -687,9 +599,9 @@ router.post("/",multer.any(),auth, async function(req,res,next){
             {
                 return res.status(400).send("can not have more than 1 gif")  //can not have more than 1 gif    
             } 
-
-        
-        if(mediaTemp.length!=0) //can not have images and a gif
+            
+            
+            if(mediaTemp.length!=0) //can not have images and a gif
             {
                  return res.status(400).send("can not have images and a gif")
             }
@@ -699,7 +611,7 @@ router.post("/",multer.any(),auth, async function(req,res,next){
 
 
      //if the tweet is a reply to another tweet
-     if(req.body.replyId!="") 
+     if(req.body.replyId) 
      {
         replyTemp = req.body.replyId
 
@@ -726,8 +638,6 @@ router.post("/",multer.any(),auth, async function(req,res,next){
      if(contentTemp!="" || mediaTemp!=[] || gifTemp!="")
      {  
          
-        //  mediaTemp.push(publicUrl)
-        //  console.log(mediaTemp+" the images")
             const userTweet= new tweet({
              content: req.body.content,
              postedBy: token,
@@ -737,8 +647,10 @@ router.post("/",multer.any(),auth, async function(req,res,next){
              pinned:false,
              likes:[],
              retweeters:[],
-             retweetInfo:[]
-            //  replyTo:replyTemp
+             retweetInfo:[],
+             numberLikes:0,
+             numberReplies:0,
+             numberRetweets:0
             });
             
 
@@ -768,7 +680,8 @@ router.post("/",multer.any(),auth, async function(req,res,next){
                    .catch(error => {
                       console.log(error);
                       return res.status(400).send("error with adding the tweet to the user's replies.");
-                }) 
+                    })
+                    await tweet.findByIdAndUpdate(replyTemp,{$inc : {'numberReplies' : 1}}); 
                  }
                  return res.sendStatus(200);
              }
@@ -800,33 +713,28 @@ router.post("/",multer.any(),auth, async function(req,res,next){
         return res.sendStatus(400);
         
     }
-
+    var deletedTweet= null;
     try
     {
-        deletedTweet=await tweet.findByIdAndDelete(req.params.id)
+        const Tweet = await tweet.findById(req.params.id)
+        if (Tweet && Tweet.postedBy==req.user._id)
+        {
+            deletedTweet = await tweet.findByIdAndDelete(req.params.id)
+
+        }
+        
     }
     catch(error) //error with deleting
     {
-         return res.sendStatus(400);
+         return res.status(400).send('Error deleting');
     }
 
     if(!deletedTweet) //the id of the tweet in the path parameters is not found
     {
-        return res.sendStatus(400);
+        return res.status(400).send('Access denied:tweet is not posted by this user');
     }
     else
     {
-        //deleting the tweet's images from the uploads file
-        if(deletedTweet.media.length!=0)
-        {
-            for(i=0;i<deletedTweet.media.length;i++)
-            {
-                //from index 5 till the end
-                fileName= deletedTweet.media[i].substring(8,deletedTweet.media[i].length)
-                fs.unlinkSync("./uploads/"+fileName)
-            }
-        }
-
         return res.sendStatus(200);
     }
      
@@ -914,18 +822,16 @@ router.put("/:id/like",auth,async(req,res)=>{
 //////////////////////////////////////////////////////////////////////////////Retweeting and unretweeting:
 router.post("/:id/retweet",auth,async(req,res)=>{
 
-    console.log(req.params.id); //post id
     var postId=req.params.id; 
-    token=req.user._id
+    token=req.user._id;
 
     try
     {
-        userInfo=await user.findById(req.user._id)
+        userInfo=await user.findById(token)
      
     }
     catch(error) //error with finding (invalid id)
     {
-        console.log("hena")
          return res.sendStatus(400);
          
          
@@ -966,6 +872,16 @@ router.post("/:id/retweet",auth,async(req,res)=>{
             const userTweet= new tweet({
                 postedBy: token,
                 retweetInfo: postId,
+                content:"",
+                media:[],
+                pinned:false,
+                likes:[],
+                retweeters:[],
+                numberLikes:0,
+                numberReplies:0,
+                numberRetweets:0,
+                gifs:""
+
             });
     
             userTweet.save(async function(err,theRetweet){
