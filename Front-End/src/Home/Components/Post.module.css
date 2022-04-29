@@ -6,6 +6,10 @@
   }
 }
 
+#mydiv {
+  overflow: visible;
+}
+
 .postbody {
   flex: 1;
   padding: 0 10px;
@@ -33,6 +37,10 @@ img {
   max-width: 270px;
   max-height: 200px;
   padding: 5px;
+}
+
+.trail {
+  overflow: hidden;
 }
 
 .postfooter {
