@@ -26,9 +26,6 @@ const multer = Multer({
   
   // A bucket is a container for objects (files).
 const {Storage}=require('@google-cloud/storage');
-const { userInfo } = require('os');
-const Tweet = require('./tweetsSchema');
-const { UserRefreshClient } = require('google-auth-library');
 const storage = new Storage({projectId:process.env.GCLOUD_PROJECT,credentials:{client_email:process.env.GCLOUD_CLIENT_EMAIL,private_key:process.env.GCLOUD_PRIVATE_KEY}});
 const bucket = storage.bucket(process.env.GCS_BUCKET);
 
@@ -53,14 +50,11 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         //Casting the size string to integer.
         const limit = parseInt(size);
 
-    // theUser="62608baaaa118abd39b1288f";
     const theUser=req.user._id;
-    // theTweet="62604a81aa118abd39b12886";
     const theTweet=req.params.id;
     finalArray=[]
-    // theUser=req.user._id;
 
-    const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};
+    const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
     const projection2 ={"_id":0,"name":1,"username":1};
 
     try{
@@ -79,13 +73,13 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
     
     for(i=0;i<results.length;i++)
     {
-        var numLikes=results[i]["likes"].length
-        var numRetweets=results[i]["retweeters"].length
-        var tempMedia=results[i]["media"]
 
+        var tempMedia=results[i]["media"]
         const the_id= results[i]["_id"]
+
         //the user who posted this reply.
         var theId=results[i]["postedBy"]
+
         var contentTemp="";
         var gifTemp="";
         
@@ -93,8 +87,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         if(results[i]["content"])
                  contentTemp=results[i]["content"];
       
-        if(results[i]["gifs"])         
-                 gifTemp=results[i]["gifs"];
+
         var results2 = await user.findById(theId,projection2)
         .catch(error => {
             console.log(error);
@@ -104,14 +97,6 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         {
             return res.status(400).send("a user who posted one of the tweets is not found.")
         }
-
-       //Getting number of replies for the tweet:
-       results22=await tweet.find({replyTo:the_id},{new:true}) 
-       .catch(error => {
-        console.log(error);
-        return res.sendStatus(400);
-       })
-       countReplies=results22.length;
 
         //Checking if the tweet is retweeted by the current user.
         var Retweeted=false       
@@ -136,61 +121,35 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
             Liked=true
 
   
-        // console.log(results[i]["likes"])
-        // const numLikes1=results[i]['likes'].length
-        
-        // numLikes=numLikes1.length
-        
 
-        var img=[]
-        if (tempMedia.length==0)
+        var urls=[]
+        if(!tempMedia || tempMedia.length==0)
         {
-               img[0]="";
-               img[1]="";
-               img[2]="";
-               img[3]="";
+            if(!gifTemp || gifTemp.length==0)
+            {
+                urls=[];
+            }
+            else
+            {
+                urls.push(gifTemp);
+            }
         }
-        else{
-            
-            for(j=0;j<tempMedia.length;j++)
-            {
-               img[j]=tempMedia[j]
-            }
-
-            if(j==1) //1 image
-            {
-                img[1]=""
-                img[2]=""
-                img[3]=""
-            }
-
-            else if(j==2) //2 images
-            {
-                img[2]=""
-                img[3]=""
-            }
-
-            else if(j==3) //3 images
-            {
-                img[3]=""
-            }
-        }        
+        else
+        {
+            urls=tempMedia;
+        }
 
         const Obj= ({
             id:the_id,
             userName: results2["username"],
             displayName: results2["name"],
             content: contentTemp,
-            img1:img[0],
-            img2:img[1],
-            img3:img[2],
-            img4:img[3],
-            gifs:gifTemp,
+            URLs:urls,
             isLiked:Liked,
             isRetweeted:Retweeted,
-            noOfLike:numLikes,
-            noOfReplies:countReplies,
-            noOfRetweets:numRetweets,
+            noOfLike:results[i]["numberLikes"],
+            noOfReplies:results[i]["numberReplies"],
+            noOfRetweets:results[i]["numberRetweets"],
            });
 
            finalArray.push(Obj)
@@ -218,43 +177,21 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
 
     theUser=req.user._id;
     TheTweet=req.params.id;
-    // theUser="62608baaaa118abd39b1288f";
 
-    
-
-  
-    // finalArray=[]
-    const projection ={ "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1};;
+    const projection ={ "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
     const projection2 ={"_id":0,"name":1,"username":1};
 
     try{
-        var results= await tweet.find({_id:TheTweet},projection)
+        var results= await tweet.findOne({_id:TheTweet},projection)
         }
         catch(error)
         {
             return res.sendStatus(400);
         }
-        if(!results.length)
+        if(!results)
         {
             return res.status(400).send("tweet not found");
         }
-    // console.loh
-    // console.log(results[0])
-    // .catch(error => console.log(error))
-
-
-  
-    // console.log(results)
-
-
-   //Getting number of replies for the tweet:
-   findReplies=await tweet.find({replyTo:TheTweet},{new:true})
-   .catch(error => {
-    console.log(error);
-    return res.sendStatus(400);
-   })  
-   countReplies=findReplies.length;
-
 
     
     //Checking if the tweet is retweeted by the current user.
@@ -268,9 +205,8 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
         Retweeted=true
 
     
+ 
     //Checking if the tweet is liked by current user.  
-
-        //Checking if the tweet is liked by current user.  
         var Liked=false     
         var foundLike= await user.find({_id:theUser,likes:{ $all:TheTweet}},{new:true})
         .catch(error => {
@@ -281,58 +217,32 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
         if(foundLike.length!=0)
             Liked=true
 
-    // console.log(results[0]["likes"])
-    var numLikes=results[0]["likes"].length
-    var numRetweets=results[0]["retweeters"].length
-    // console.log("likesNum: ")
-    // console.log(numLikes)
-    var theId=results[0]["postedBy"]
-    // console.log(results[i]["media"])
-    var tempMedia=results[0]["media"]
-    var img=[]
-    if (tempMedia.length==0)
+
+    var theId=results["postedBy"]
+    var tempMedia=results["media"]
+    var gifTemp=results["gifs"]
+    var urls=[]
+
+    if(!tempMedia || tempMedia.length==0)
     {
-           img[0]="";
-           img[1]="";
-           img[2]="";
-           img[3]="";
+        if(!gifTemp || gifTemp.length==0)
+        {
+            urls=[];
+        }
+        else
+        {
+            urls.push(gifTemp);
+        }
     }
-    else{
-        
-        for(j=0;j<tempMedia.length;j++)
-        {
-           img[j]=tempMedia[j]
-        }
-
-        if(j==1) //1 image
-        {
-            img[1]=""
-            img[2]=""
-            img[3]=""
-        }
-
-        else if(j==2) //2 images
-        {
-            img[2]=""
-            img[3]=""
-        }
-
-        else if(j==3) //3 images
-        {
-            img[3]=""
-        }
-
+    else
+    {
+        urls=tempMedia;
     }
 
     var contentTemp="";
-    var gifTemp="";
-    
+    if(results["content"])
+             contentTemp=results["content"];
 
-    if(results[0]["content"])
-             contentTemp=results[i]["content"];
-  
-    if(results[0]["gifs"])         
-             gifTemp=results[i]["gifs"];
 
     var results2 = await user.findById(theId,projection2)
     .catch(error => {
@@ -341,24 +251,20 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
     })
     if(results2==null)
     {
-        return res.status(400).send("a user who posted one of the tweets is not found.")
+        return res.status(400).send("the user who posted this tweet is not found.")
     }
-    // console.log(results2)
+
     const Obj= ({
-        id:results[0]["_id"],
+        id:results["_id"],
         userName: results2["username"],
         displayName: results2["name"],
         content: contentTemp,
-        img1:img[0],
-        img2:img[1],
-        img3:img[2],
-        img4:img[3],
-        gifs:gifTemp,
+        URLs:urls,
         isLiked:Liked,
         isRetweeted:Retweeted,
-        noOfLike:numLikes,
-        noOfReplies:countReplies,
-        noOfRetweets:numRetweets,
+        noOfLike:results["numberLikes"],
+        noOfReplies:results["numberReplies"],
+        noOfRetweets:results["numberRetweets"]
        });
     res.status(200).send(Obj);     
 
@@ -390,7 +296,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
         const projection2 ={"_id":0,"name":1,"username":1};
-        //  console.log("hjgfjsegfjs")
+        
 
         // .limit(limit).skip(size*(page-1))
         var results = await tweet.find({},projection)
