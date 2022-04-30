@@ -442,6 +442,11 @@ router.post("/",multer.any(),auth,async function(req,res,next){
         
     }
     
+    //prevent the user from posting if he is banned.
+    if(userInfo.banned)
+    {
+        return res.status(400).send("The user is banned and cannot post a tweet.");
+    }
     
     //initialising images,gifs,content,reply as empty
     mediaTemp=[]
