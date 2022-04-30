@@ -58,7 +58,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
     const projection2 ={"_id":0,"name":1,"username":1};
 
     try{
-    var results=await tweet.find({replyTo:theTweet},projection).limit(limit).skip(size*(page-1))
+    var results=await tweet.find({replyTo:theTweet},projection).limit(limit).skip(size*(page-1)).sort({"createdAt":-1})
     }
     catch(error)
     {
@@ -275,20 +275,20 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
 ///////////////////////////////////////////////////////////////////////////////////Getting timeline tweets endpoint:
 router.get("/TimelineTweets",auth,async (req,res)=>{
 
-    // try {
-    //     let { page, size } = req.query;
-  
-    //     //default value is 1 if page parameter is not given.
-    //     if (!page) {
-    //         page = 1;
-    //     }
-    //     //default value is 10 if page parameter is not given.
-    //     if (!size) {
-    //         size = 10;
-    //     }
+    try {
+        let { page, size } = req.query;
+    
+        //default value is 1 if page parameter is not given.
+        if (!page) {
+            page = 1;
+        }
+        //default value is 10 if page parameter is not given.
+        if (!size) {
+            size = 10;
+        }
 
-    //     //Casting the size string to integer.
-    //     const limit = parseInt(size);
+        //Casting the size string to integer.
+        const limit = parseInt(size);
 
         const theUser=req.user._id;
        
@@ -297,9 +297,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
         const projection2 ={"_id":0,"name":1,"username":1};
         
-
-        // .limit(limit).skip(size*(page-1))
-        var results = await tweet.find({},projection)
+        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1)).sort({"createdAt":-1})
         .catch(error => {
             console.log(error);
             return res.status(400).send("error: problem with finding the tweets");;
@@ -403,16 +401,18 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
               
         }
     }
-// }
-// catch (error) {
-//     return res.status(400).send("problem with page parameters size/number");
-// }
-
         if(finalArray.length==0)
         {
-            return res.status(200).send([]); 
+            return res.status(200).send("no tweets found"); 
         }
-        return res.status(200).send(finalArray);    
+        return res.status(200).send(finalArray); 
+
+        
+    
+    }
+    catch (error) {
+        return res.status(400).send("problem with page parameters size/number");
+    }
 })
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
