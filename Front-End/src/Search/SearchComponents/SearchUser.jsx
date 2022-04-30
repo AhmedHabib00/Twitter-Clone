@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 // import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // import FlashOnRoundedIcon from '@mui/icons-material/FlashOnRounded';
@@ -26,58 +26,27 @@ import styles from './SearchUser.module.css';
  */
 
 function SearchUser({
-  profileid, displayname, username, description, url,
+  profileid, displayname, username, description, url, buttonStyle,
+  buttonStyleClicked, isButtonActive,
 }) {
   const navigate = useNavigate();
-  // const icon = null;
-  // const statement1 = null;
-  // const statement2 = null;
-  // const statement3 = null;
-  // console.log(content);
+  let isClicked = false;
+  const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
 
   const handleOpenProfile = () => {
-    console.log(profileid);
-    return navigate('/Profile', {
-      state: {
-        profileid,
-      },
-    });
-  };
-
-  const handlefollow = (e) => {
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-    if (e.target.className === styles.tweetfollowbutton) {
-      e.target.className = styles.tweetfollowingbutton;
-      e.target.textContent = 'Following';
-    } else {
-      e.target.className = styles.tweetfollowbutton;
-      e.target.textContent = 'Follow';
+    if (!isClicked) {
+      navigate('/Profile', {
+        state: {
+          profileid,
+        },
+      });
     }
+    isClicked = false;
   };
 
-  const handleEnter = (e) => {
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-    if (e.target.className === styles.tweetfollowingbutton) {
-      e.target.textContent = 'Unfollow';
-      e.target.className = styles.tweetfollowingbuttonhover;
-    }
-  };
-
-  const handleLeave = (e) => {
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-    if (e.target.className === styles.tweetfollowingbuttonhover) {
-      e.target.textContent = 'Following';
-      e.target.className = styles.tweetfollowingbutton;
-    }
-  };
-
-  // const pp = <AccountCircleIcon />;
-
+  // <button className={styles.wrapper} type="button" onCklick={handleOpenProfile}>
   return (
-    <button className={styles.wrapper} type="button" onClick={handleOpenProfile}>
+    <div className={styles.wrapper} role="button" tabIndex={0} onClick={handleOpenProfile}>
       <div className={styles.wrapper2}>
         <img
           alt=""
@@ -94,8 +63,16 @@ function SearchUser({
       <div className={styles.username}>
         @
         {username}
-        <button className={styles.tweetfollowbutton} type="button" id="followbutton" onClick={handlefollow} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-          Follow
+        <button
+          className={styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle]}
+          type="button"
+          id="followbutton"
+          onClick={() => {
+            isClicked = true;
+            setIsButtonClicked(!isButtonClicked);
+          }}
+        >
+          <span />
         </button>
       </div>
 
@@ -111,7 +88,7 @@ function SearchUser({
       <div>
         <br />
       </div>
-    </button>
+    </div>
   );
 }
 
@@ -121,7 +98,15 @@ SearchUser.propTypes = {
   username: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  buttonStyle: PropTypes.string,
+  buttonStyleClicked: PropTypes.string,
+  isButtonActive: PropTypes.bool,
+};
 
+SearchUser.defaultProps = {
+  buttonStyle: 'tweetfollowbutton',
+  buttonStyleClicked: 'tweetfollowingbutton',
+  isButtonActive: false,
 };
 
 export default SearchUser;
