@@ -12,7 +12,6 @@ import Start from './Start/Start';
 import AdminFoundation from './Admin/AdminFoundation';
 import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
-import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
 import ViewTweet from './Notifications/ViewTweet';
 import Tweet from './Home/Components/Tweet';
@@ -49,9 +48,9 @@ function App() {
   };
   const adminRoutes = () => (
     <>
-      <Route path="users" element={<AdminUsers />} />
+      <Route path="users" element={<AdminUsers state="unblocked" />} />
       <Route path="dashboard" element={<Dashboard />} />
-      <Route path="blocked-users" element={<BlockedUsers />} />
+      <Route path="blocked-users" element={<AdminUsers state="blocked" />} />
     </>
   );
   const startRoutes = () => (
@@ -80,10 +79,9 @@ function App() {
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={mainPage()}>
-          <Route path="" element={<Navigate to={mainPath()} />} />
           {selectingRoute()}
+          <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
       </Routes>
     </Router>

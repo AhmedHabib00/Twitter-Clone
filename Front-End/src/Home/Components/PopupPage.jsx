@@ -25,7 +25,7 @@ function PopupPage({
 
   const handleCloseIcon = () => {
     SetTrigger(false);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
+    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   };
   const childClick = () => {
     toClose = false;
