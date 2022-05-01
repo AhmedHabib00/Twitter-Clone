@@ -17,7 +17,7 @@ import PostBody from './PostBody';
 import { handleLikes } from '../../Services/postServices';
 
 function PostFooter({
-  id, displayname, username, content, img1, img2, img3, img4, isLiked, noOfLike,
+  id, displayname, username, URLs, isLiked, noOfLike,
   isRetweeted, noOfRetweets, noOfReplies,
 }) {
   const [retweetEl, setRetweetEl] = useState(null);
@@ -53,7 +53,7 @@ function PostFooter({
       <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
         <div className={styles.postbody} key={id}>
           <PostHeader displayname={displayname} username={username} />
-          <PostBody id={id} content={content} img1={img1} img2={img2} img3={img3} img4={img4} />
+          <PostBody id={id} URLs={URLs} />
         </div>
         <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
 
@@ -142,11 +142,7 @@ PostFooter.propTypes = {
   id: PropTypes.number.isRequired,
   displayname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  img1: PropTypes.string.isRequired,
-  img2: PropTypes.string.isRequired,
-  img3: PropTypes.string.isRequired,
-  img4: PropTypes.string.isRequired,
+  URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
   isLiked: PropTypes.bool.isRequired,
   isRetweeted: PropTypes.bool.isRequired,
   noOfLike: PropTypes.number.isRequired,
