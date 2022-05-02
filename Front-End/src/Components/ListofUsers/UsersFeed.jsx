@@ -10,7 +10,7 @@ import User from './User';
  * to display posts in the feed component.
  */
 function UsersFeed({
-  data, buttonStyle, buttonStyleClicked, onButtonClick, onProfileClick,
+  data, buttonStyle, buttonStyleClicked, onButtonClick, onProfileClick, hasCheckbox,
 }) {
   return (
     <div data-testid="feed-render-test" className={styles.notifeed}>
@@ -29,6 +29,7 @@ function UsersFeed({
               buttonStyleClicked={buttonStyleClicked}
               onButtonClick={onButtonClick}
               onProfileClick={onProfileClick}
+              hasCheckbox={hasCheckbox}
             />
           ))
         }
@@ -42,7 +43,7 @@ UsersFeed.propTypes = {
     id: PropTypes.number.isRequired,
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     url: PropTypes.string.isRequired,
     active: PropTypes.bool,
   })).isRequired,
@@ -50,11 +51,13 @@ UsersFeed.propTypes = {
   onProfileClick: PropTypes.func,
   buttonStyle: PropTypes.string,
   buttonStyleClicked: PropTypes.string,
+  hasCheckbox: PropTypes.bool,
 };
 
 UsersFeed.defaultProps = {
   buttonStyle: 'tweetfollowbutton',
   buttonStyleClicked: 'tweetfollowingbutton',
   onProfileClick: function tempFunc() {},
+  hasCheckbox: false,
 };
 export default UsersFeed;

@@ -15,7 +15,7 @@ import styles from './User.module.css';
 
 function User({
   profileid, displayname, username, description, url, buttonStyle,
-  buttonStyleClicked, isButtonActive, onButtonClick, onProfileClick,
+  buttonStyleClicked, isButtonActive, onButtonClick, onProfileClick, hasCheckbox, isButtonDisabled,
 }) {
   let isClicked = false;
   const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
@@ -49,18 +49,33 @@ function User({
         </div>
       </div>
       <div className={styles['button-container']}>
-        <button
-          className={[styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle], styles['default-button']].join(' ')}
-          type="button"
-          id="followbutton"
-          onClick={() => {
-            onButtonClick(profileid);
-            isClicked = true;
-            setIsButtonClicked(!isButtonClicked);
-          }}
-        >
-          <span />
-        </button>
+        {(hasCheckbox)
+          ? (
+            <input
+              className={styles['checkbox-button']}
+              type="checkbox"
+              disabled={isButtonDisabled}
+              onClick={() => {
+                onButtonClick(profileid);
+                isClicked = true;
+                setIsButtonClicked(!isButtonClicked);
+              }}
+            />
+          ) : (
+            <button
+              className={[styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle], styles['default-button']].join(' ')}
+              type="button"
+              id="followbutton"
+              onClick={() => {
+                onButtonClick(profileid);
+                isClicked = true;
+                setIsButtonClicked(!isButtonClicked);
+              }}
+              disabled={isButtonDisabled}
+            >
+              <span />
+            </button>
+          )}
       </div>
     </div>
   );
@@ -70,17 +85,24 @@ User.propTypes = {
   profileid: PropTypes.number.isRequired,
   displayname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   url: PropTypes.string.isRequired,
-  buttonStyle: PropTypes.string.isRequired,
-  buttonStyleClicked: PropTypes.string.isRequired,
+  buttonStyle: PropTypes.string,
+  buttonStyleClicked: PropTypes.string,
   isButtonActive: PropTypes.bool,
-  onButtonClick: PropTypes.func.isRequired,
+  onButtonClick: PropTypes.func,
   onProfileClick: PropTypes.func.isRequired,
+  hasCheckbox: PropTypes.bool.isRequired,
+  isButtonDisabled: PropTypes.bool,
 };
 
 User.defaultProps = {
   isButtonActive: false,
+  buttonStyle: 'tweetfollowbutton',
+  buttonStyleClicked: 'tweetfollowingbutton',
+  description: '',
+  isButtonDisabled: false,
+  onButtonClick: function tempFunc() {},
 };
 
 export default User;

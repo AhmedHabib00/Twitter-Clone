@@ -124,3 +124,8 @@
 .tweetunblockbutton:hover::after {
   content: "Unblock";
 }
+
+.checkbox-button {
+  width: 20px;
+  height: 20px;
+}
