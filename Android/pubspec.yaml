@@ -47,6 +47,7 @@ dependencies:
   datetime_picker_formfield: ^2.0.0
   charts_flutter: ^0.12.0
   path_provider: ^2.0.9
+
   
 
 dev_dependencies:
@@ -62,6 +63,8 @@ dev_dependencies:
   test: ^1.19.5
   http: ^0.13.4
   shared_preferences: ^2.0.13
+  change_app_package_name: ^1.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

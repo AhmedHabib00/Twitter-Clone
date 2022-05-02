@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Admin/GraphPie.dart';
-import 'package:whisper/layout/WelcomePage.dart';
+import 'package:whisper/layout/WelcomePage/WelcomePage.dart';
 import 'package:whisper/layout/UserProfile/profile_layout.dart';
 import 'package:whisper/layout/Admin/AdminPage.dart';
 import 'package:whisper/models/date_time_format.dart';
@@ -15,7 +15,6 @@ void main() async {
       home: WelcomePage(),
       //ProfilePage(),
       //AdminPage(),
-      //TimelinePage(), //need to remove const from MaterialApp in line 17
     ),
   );
 }

@@ -1,10 +1,14 @@
-// ignore_for_file: unused_field, unnecessary_new, non_constant_identifier_names, avoid_init_to_null, avoid_print, duplicate_ignore, unused_local_variable
+// ignore_for_file: unused_field, unnecessary_new, non_constant_identifier_names, avoid_init_to_null, avoid_print, duplicate_ignore, unused_local_variable, prefer_typing_uninitialized_variables, unnecessary_null_comparison, unrelated_type_equality_checks
 
 import 'dart:convert';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
+import 'package:whisper/layout/Admin/AdminPage.dart';
+//import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/SignUp/signup.dart';
 import 'package:whisper/layout/Login/FogotPass.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
@@ -26,7 +30,14 @@ class _LoginPage extends State<LoginPage> {
   late String _email;
   bool _isLoading = false;
   late final String token = '';
-
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   // Optional clientId
+  //   // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+  //   scopes: <String>[
+  //     'email',
+  //     'https://www.googleapis.com/auth/contacts.readonly',
+  //   ],
+  // );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,15 +251,18 @@ class _LoginPage extends State<LoginPage> {
                       children: <Widget>[
                         Expanded(
                           child: SignInButton.mini(
-                              buttonType: ButtonType.facebook,
-                              onPressed: FBsignIn //() => null,
+                              buttonType: ButtonType.facebook, onPressed: () {}
+                              //GGsignIn //signInwithGoogle //() => null,
                               ),
                         ),
                         Expanded(
                           child: SignInButton.mini(
                               buttonType: ButtonType.google,
                               buttonSize: ButtonSize.small,
-                              onPressed: GGsignIn //() {},
+                              onPressed: () {
+                                // login();
+                                GGsignIn();
+                              } //() {},
                               ),
                         )
                       ],
@@ -265,7 +279,7 @@ class _LoginPage extends State<LoginPage> {
 
   SignIn(String email, String password, String token) async {
     Map data = {'emailOrUsername': email, 'password': password};
-    var jsonData = null;
+    //var jsonData = null;
     Map mapResponse;
     Map dataResponse;
     var response = await http.post(
@@ -277,35 +291,71 @@ class _LoginPage extends State<LoginPage> {
       dataResponse = mapResponse;
       token = dataResponse["x-auth-token"];
       setState(() {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (BuildContext context) => TimelinePage(token: token)),
-            (Route<dynamic> route) => false);
-        showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              height: 200,
-              color: const Color.fromARGB(0, 255, 255, 255),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      dataResponse["message"].toString(),
-                      style: const TextStyle(
-                        color: Color(0xff0095FF),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+        dataResponse = mapResponse["data"];
+        if (dataResponse["role"].toString() == 'Admin') {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (BuildContext context) => AdminPage(token: token)),
+              (Route<dynamic> route) => false);
+          dataResponse = mapResponse;
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 200,
+                color: const Color.fromARGB(0, 255, 255, 255),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Text(
+                        ('Admin login successful'),
+                        style: TextStyle(
+                          color: Color(0xff0095FF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
+              );
+            },
+          );
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      TimelinePage(token: token)),
+              (Route<dynamic> route) => false);
+          dataResponse = mapResponse;
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 200,
+                color: const Color.fromARGB(0, 255, 255, 255),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        dataResponse["message"].toString(),
+                        style: const TextStyle(
+                          color: Color(0xff0095FF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }
       });
     } else if (response.statusCode == 400) {
       setState(() {
@@ -342,7 +392,30 @@ class _LoginPage extends State<LoginPage> {
     await GoogleSignInApi.login();
   }
 
-  Future FBsignIn() async {
-    await GoogleSignInApi.login();
-  }
+  // Future<> GGsignIn() async {
+  //   // Trigger the authentication flow
+  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //   print('test 1');
+
+  //   // Obtain the auth details from the request
+  //   final GoogleSignInAuthentication? googleAuth =
+  //       await googleUser?.authentication;
+  //   print('test 2');
+
+  //   // Create a new credential
+  //   var GoogleAuthProvider;
+  //   final credential = GoogleAuthProvider(
+  //     print('test 3'),
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+  //   //print('test 4');
+  //   // Once signed in, return the UserCredential
+  //   //return await FirebaseAuth.instance.signInWithCredential(credential);
+  //   return credential;
+  // }
+
+  // // Future FBsignIn() async {
+  //   await GoogleSignInAccount.login();
+  // }
 }

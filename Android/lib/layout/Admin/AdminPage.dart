@@ -7,7 +7,8 @@ import 'package:whisper/modules/AdminTweetBoxWidget.dart';
 import 'package:whisper/models/tweet_model.dart';
 
 class AdminPage extends StatefulWidget {
-  const AdminPage({Key? key}) : super(key: key);
+  final String token;
+  const AdminPage({Key? key, required this.token}) : super(key: key);
   @override
   _AdminPage createState() => _AdminPage();
 }

@@ -51,30 +51,34 @@ class _TimelinePage extends State<TimelinePage> {
             appBar: AppBar(
               toolbarHeight: 0,
             ),
-            body: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'),
-                    radius: 16,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: FaIcon(FontAwesomeIcons.twitter),
-                  iconSize: 20.0,
-                  color: Colors.blue,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: FaIcon(FontAwesomeIcons.star),
-                  iconSize: 20.0,
-                ),
+            body: SingleChildScrollView(
+              child: Column(children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'),
+                          radius: 16,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: FaIcon(FontAwesomeIcons.twitter),
+                        iconSize: 20.0,
+                        color: Colors.blue,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: FaIcon(FontAwesomeIcons.star),
+                        iconSize: 20.0,
+                      ),
+                    ]),
+                tweetBoxWidget(Tweets, false, () {})
               ]),
-              tweetBoxWidget(Tweets, false, () {})
-            ]),
+            ),
             bottomNavigationBar: BottomNavigationBar(
               showSelectedLabels: false,
               showUnselectedLabels: false,

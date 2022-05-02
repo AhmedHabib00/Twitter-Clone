@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whisper/layout/Login/login.dart';
-import 'package:whisper/layout//API/google_signIn_api.dart';
+//import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/SignUp/VerifyEmail.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
@@ -245,16 +245,16 @@ class _SignUpPage extends State<SignUpPage> {
                   children: <Widget>[
                     Expanded(
                       child: SignInButton.mini(
-                          buttonType: ButtonType.facebook,
-                          onPressed: signIn2 //() => null,
-                          ),
+                        buttonType: ButtonType.facebook,
+                        onPressed: /*signIn2*/ () {},
+                      ),
                     ),
                     Expanded(
                       child: SignInButton.mini(
-                          buttonType: ButtonType.google,
-                          buttonSize: ButtonSize.small,
-                          onPressed: signIn //() {},
-                          ),
+                        buttonType: ButtonType.google,
+                        buttonSize: ButtonSize.small,
+                        onPressed: /*signIn*/ () {},
+                      ),
                     ),
                   ],
                 ),
@@ -342,11 +342,11 @@ class _SignUpPage extends State<SignUpPage> {
     }
   }
 
-  Future signIn() async {
-    await GoogleSignInApi.login();
-  }
+  // Future signIn() async {
+  //   await GoogleSignInApi.login();
+  // }
 
-  Future signIn2() async {
-    await GoogleSignInApi.login();
-  }
+  // Future signIn2() async {
+  //   await GoogleSignInApi.login();
+  // }
 }

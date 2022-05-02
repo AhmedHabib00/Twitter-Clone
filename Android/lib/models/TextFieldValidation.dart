@@ -32,7 +32,7 @@ class PassFieldValidator {
   PassFieldValidator(String? value);
 
   static String? validate(String value) {
-    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 $]+$').hasMatch(value)) {
+    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 $ #]+$').hasMatch(value)) {
       return "Enter correct Password";
     } else {
       return null;
@@ -44,7 +44,8 @@ class ForgetPassFieldValidator {
   ForgetPassFieldValidator(String? value);
 
   static String? validate(String value) {
-    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 - _ . @]+$').hasMatch(value)) {
+    if (value.isEmpty ||
+        !RegExp(r'^[a-z A-Z 0-9 - _ . @ #]+$').hasMatch(value)) {
       return "Enter correct email or Username";
     } else {
       return null;
@@ -91,7 +92,7 @@ class SetPassFieldValidator {
   SetPassFieldValidator(String? value);
 
   static String? validate(String value) {
-    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 $]+$').hasMatch(value)) {
+    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 $ #]+$').hasMatch(value)) {
       return "Enter correct Password";
     } else {
       return null;
