@@ -34,7 +34,6 @@ function Post({
       <div className={styles.postbody}>
         <PostHeader displayname={displayname} username={username} />
         <PostBody id={id} content={content} URLs={URLs} />
-
         <PostFooter
           id={id}
           displayname={displayname}

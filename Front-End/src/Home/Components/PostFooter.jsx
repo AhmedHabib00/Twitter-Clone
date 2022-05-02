@@ -18,7 +18,7 @@ import { handleLikes } from '../../Services/postServices';
 
 function PostFooter({
   id, displayname, username, URLs, isLiked, noOfLike,
-  isRetweeted, noOfRetweets, noOfReplies,
+  isRetweeted, noOfRetweets, noOfReplies, content,
 }) {
   const [retweetEl, setRetweetEl] = useState(null);
   const [shareEl, setShareEl] = useState(null);
@@ -51,12 +51,13 @@ function PostFooter({
   return (
     <div>
       <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
-        <div className={styles.postbody} key={id}>
-          <PostHeader displayname={displayname} username={username} />
-          <PostBody id={id} URLs={URLs} />
+        <div>
+          <div className={styles.postbody} key={id}>
+            <PostHeader displayname={displayname} username={username} />
+            <PostBody id={id} URLs={URLs} content={content} />
+          </div>
+          <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
         </div>
-        <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
-
       </PopupPage>
       <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
         <MenuList className={styles['dropdown-content']}>
@@ -148,6 +149,7 @@ PostFooter.propTypes = {
   noOfLike: PropTypes.number.isRequired,
   noOfRetweets: PropTypes.number.isRequired,
   noOfReplies: PropTypes.number.isRequired,
+  content: PropTypes.string.isRequired,
 
 };
 export default PostFooter;

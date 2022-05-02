@@ -13,14 +13,15 @@ function PostBody({
   const [imagePopUp, setImagePopUp] = useState(false);
   const [images, setImages] = useState([]);
   useEffect(() => {
-    URLs.forEach((element, index) => {
+    const tempURLs = [...URLs];
+    tempURLs.forEach((element, index) => {
       // eslint-disable-next-line no-param-reassign
-      URLs[index] = {
+      tempURLs[index] = {
         id: index,
         imageUrl: element,
       };
     });
-    setImages(URLs);
+    setImages(tempURLs);
   }, [URLs]);
   return (
     <div>
@@ -45,7 +46,6 @@ function PostBody({
       <div>
         {imagePopUp
               && document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
-        {images[0] && console.log(images[0].imageUrl)}
         {images[0] && (
         <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
           <Carousel>
