@@ -42,7 +42,7 @@ UsersFeed.propTypes = {
     id: PropTypes.number.isRequired,
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     url: PropTypes.string.isRequired,
     active: PropTypes.bool,
   })).isRequired,

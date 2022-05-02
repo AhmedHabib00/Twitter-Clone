@@ -1,9 +1,10 @@
 import React from 'react';
-// import { useParams } from 'react-router-dom';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useNavigate } from 'react-router-dom';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+// import { useParams, useNavigate } from 'react-router-dom';
 import styles from './Tweet.module.css';
-import Post from './Post';
+import PostHeader from './PostHeader';
+// import Post from './Post';
 
 /**
  *
@@ -18,7 +19,9 @@ function Tweet() {
         <KeyboardBackspaceIcon className={styles['back-btn']} role="button" tabIndex={0} onClick={() => navigate('/home')} />
         <h2 className={styles['tweet-header']}>Tweet</h2>
       </div>
-      <Post />
+
+      <PostHeader username="Noha Tarek EL-Boghdady" displayname="Neha" />
+
     </div>
   );
 }

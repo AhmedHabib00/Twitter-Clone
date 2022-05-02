@@ -51,7 +51,7 @@ function User({
       <div className={styles['button-container']}>
         <button
           className={[styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle], styles['default-button']].join(' ')}
-          type="button"
+          type="checkbox"
           id="followbutton"
           onClick={() => {
             onButtonClick(profileid);
@@ -70,7 +70,7 @@ User.propTypes = {
   profileid: PropTypes.number.isRequired,
   displayname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   url: PropTypes.string.isRequired,
   buttonStyle: PropTypes.string.isRequired,
   buttonStyleClicked: PropTypes.string.isRequired,
@@ -81,6 +81,7 @@ User.propTypes = {
 
 User.defaultProps = {
   isButtonActive: false,
+  description: '',
 };
 
 export default User;
