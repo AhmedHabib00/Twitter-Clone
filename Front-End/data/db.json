@@ -1,4 +1,46 @@
 {
+  "usersList": [
+    {
+        "id": 1,
+        "displayName": "Mohamed Ahmed",
+        "userName": "mohdFarag5",
+        "url": "https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg",
+        "active": true
+        
+    },
+    {
+        "id": 2,
+        "displayName": "Ali Official",
+        "userName": "ALI_MUSIC_DANCE",
+        "url": "https://pbs.twimg.com/profile_images/1461273013064978433/sHQoxJSy_400x400.jpg",
+        "active": true
+        
+    },
+    {
+        "id": 3,
+        "displayName": "Asmaa Lotfy",
+        "userName": "Asmaalotfy90",
+        "url": "https://pbs.twimg.com/profile_images/591841817768910849/ztHfOcXj_400x400.jpg",
+        "active": true     
+    },
+    {
+        "id": 4,
+        "displayName": "Sarah",
+        "userName": "sarahhabel",
+        "url": "https://pbs.twimg.com/profile_images/1385349738/web_400x400.jpg",
+        "active": true
+    },
+    {
+        "id": 5,
+        "displayName": "Mohamed Salah",
+        "userName": "MoSalah",
+        "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+        "active": true
+
+    }
+]
+
+,
   "ListofUsers":{
     "pages": 2,
     "UsersList": [
