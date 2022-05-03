@@ -10,7 +10,7 @@ import styles from './PopupPage.module.css';
  * @param {Function} SetTrigger setter for trigger
  */
 function PopupPage({
-  trigger, children, SetTrigger, widthpercentage, isCloseEnabled,
+  trigger, children, SetTrigger, widthpercentage, isCloseEnabled, isUserSelector,
 }) {
   let toClose = true;
   const closePopup = () => {
@@ -41,7 +41,18 @@ function PopupPage({
         onClick={childClick}
         style={{ width: `${widthpercentage}%` }}
       >
-        <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
+
+        {(isUserSelector)
+          ? (
+            <div className={styles['horizontal-align']}>
+              <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
+              <h2 className={styles['tweet-header']}>Replying to</h2>
+              <button type="button" className={styles['button-style']}>Done</button>
+            </div>
+          ) : (
+            <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
+          )}
+
         {children}
       </div>
     </div>
@@ -54,11 +65,13 @@ PopupPage.propTypes = {
   SetTrigger: PropTypes.func.isRequired,
   widthpercentage: PropTypes.number,
   isCloseEnabled: PropTypes.bool,
+  isUserSelector: PropTypes.bool,
 };
 
 PopupPage.defaultProps = {
   widthpercentage: 50,
   isCloseEnabled: true,
+  isUserSelector: false,
 };
 
 export default PopupPage;

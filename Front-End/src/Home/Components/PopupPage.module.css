@@ -45,3 +45,31 @@
     width: 100% !important;
   }
 }
+
+.tweet-header {
+  background-color: white;
+  width: 100vh;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding-left: 20px;
+}
+
+.horizontal-align {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-style {
+  float: right;
+  background-color: rgb(100 155 204);
+  border-radius: 30px;
+  border-color: aliceblue;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+  padding-top: 0;
+  width: 100px;
+  height: 25px;
+  margin: 10px;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-// import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import styles from './Tweet.module.css';
 import PostHeader from './PostHeader';
@@ -16,7 +16,7 @@ import GetRepliesArray from '../../Services/tweetpageServices';
  * @returns Tweet Page initial layout
  */
 function Tweet() {
-  // const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [replyingToId, setReplyingToId] = useState([]);
   const [userSelectionPopUp, setUserSelectionPopUp] = useState(false);
@@ -44,16 +44,27 @@ function Tweet() {
       </div>
 
       <PostHeader username="Noha Tarek EL-Boghdady" displayname="Neha" />
+
       <PopupPage
         trigger={userSelectionPopUp}
         SetTrigger={setUserSelectionPopUp}
         isCloseEnabled={false}
+        isUserSelector="true"
       >
 
-        <User />
+        <User
+          profileid={id}
+          displayname="Neha"
+          username="Noha Tarek EL-Boghdady"
+          url="https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg"
+          isButtonActive="true"
+          hasCheckbox="true"
+          isButtonDisabled="true"
+        />
         <UsersFeed
           data={listOfUsers}
           onButtonClick={handleButtonOnClickReplying}
+          hasCheckbox="true"
         />
 
       </PopupPage>
