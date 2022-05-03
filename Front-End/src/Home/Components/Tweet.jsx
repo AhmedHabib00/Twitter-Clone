@@ -61,6 +61,8 @@ function Tweet() {
           hasCheckbox="true"
           isButtonDisabled="true"
         />
+        <hr />
+        <h2 className={styles['tweet-header']}>Others in this conversation</h2>
         <UsersFeed
           data={listOfUsers}
           onButtonClick={handleButtonOnClickReplying}
