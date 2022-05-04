@@ -1,39 +1,41 @@
 [
     {
         "id":1,
+        "postid":1,
         "displayname": "Asmaa",
-        "content1": "Liked your Tweet",
-        "content11":"Hello this is my first trial to create json file and request it.",
+        "content":"Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it. Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it",
         "notitype":"like"
     },
     {
-        "id":2,
+      "id":2,
+      "postid":3,
+      "displayname": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "notitype":"missed"  
+   },
+    {
+        "id":3,
+        "postid":2,
         "displayname": "Ahmed ",
-        "content2": "Retweeted your Tweet",
-        "content22":"Hello this is my first trial to create json file and request it.",
+        "content":"Hello this is my first trial to create json file and request it.",
         "notitype":"retweet"   
      },
     {
-        "id":3,
+        "id":4,
+        "profileid":1,
         "displayname": "Esraa",
-        "content3": "Followed you",
         "notitype":"followed"  
          
      },
      {
-        "id":4,
-        "content4": "In case you missed Noha's Tweet",
-        "notitype":"missed"  
-     },
-     {
         "id":5,
-        "content5": "There was a login to your account @yara from a new device on ",
-        "content55": "March 22,2022.Review it now.",
+        "displayname": "yara35",
+        "date": "March 22,2022",
         "notitype":"login"   
      },
      {
         "id":6,
-        "content6": "Ramadan is Expected to be on Saturday the 2nd of April. ",
+        "content": "Ramadan is Expected to be on Saturday the 2nd of April.",
         "notitype":"news"   
      }
     

@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import styles from './AdminFoundation.module.css';
-
+import navStyles from '../Foundation/Navbar/Navbar.module.css';
 import Navbar from '../Foundation/Navbar/Navbar';
 import getAdminPages from './AdminNavitems';
 import NavItem from '../Foundation/Navbar/NavItem';
@@ -42,7 +42,7 @@ function AdminFoundation({ setIsLoggedIn }) {
               <Link
                 to={`/${page.url}`}
                 key={page.url}
-                className="foundation-a-tag"
+                className={navStyles['foundation-a-tag']}
               >
                 <div
                   id={page.url}

@@ -169,3 +169,99 @@ export async function getNoBanned() {
   }
   return (response);
 }
+
+export async function getListofUsers(page, state, search) {
+  let response = '';
+  try {
+    response = await axios.get(
+      `${SERVER_URL}/admins/users/?size=5&page=${page}&search=${search}&state=${state}`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    ).then((res) => res.data);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+      return (error.response);
+    }
+  }
+  return (response);
+}
+
+export async function blockUser(userId) {
+  let response = '';
+  try {
+    response = await axios.patch(
+      `${SERVER_URL}/admins/${localStorage.userId}/banning/${userId}/`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    ).then((res) => res.data);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+      return (error.response);
+    }
+  }
+  return (response);
+}
+
+export async function unBlockUser(userId) {
+  let response = '';
+  try {
+    response = await axios.delete(
+      `${SERVER_URL}/admins/${localStorage.userId}/banning/${userId}/`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    ).then((res) => res.data);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+      return (error.response);
+    }
+  }
+  return (response);
+}
+
+export async function deleteUser(userId) {
+  let response = '';
+  try {
+    response = await axios.delete(
+      `${SERVER_URL}/admins/${localStorage.userId}/deleting/${userId}/`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    ).then((res) => res.data);
+    return (response);
+  } catch (error) {
+    if (error.response) {
+      /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+      return (error.response);
+    }
+  }
+  return (response);
+}

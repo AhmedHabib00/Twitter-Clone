@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Search/SearchComponents/SearchFeed.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Search/SearchComponents/SearchFeed.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './SearchFeed.module.css';
+import SearchUser from './SearchUser';
+// import data from '../../Home/Components/PostData.json';
+import Post from '../../Home/Components/Post';
+
+/**
+ * @param {array} data array containing our posts.
+ * @param {Boolean} dataType
+ * @returns map through the post array data and starts passing the posts props
+ * to display posts in the feed component.
+ */
+function SearchFeed({ data, dataType }) {
+  console.log(dataType);
+
+  if (dataType) {
+    return (
+      &lt;div data-testid="feed-render-test" className={styles.notifeed}>
+        &lt;div data-testid="content-render-test" className={styles.parent}>
+          {
+            data &amp;&amp; data.map((content) => (
+              &lt;SearchUser
+                profileid={content.id}
+                displayname={content.displayName}
+                username={content.userName}
+                description={content.description}
+                url={content.url}
+              />
+            ))
+            }
+          &lt;div className={styles.emptyspace} />
+        &lt;/div>
+      &lt;/div>
+    );
+  }
+  return (
+    &lt;div data-testid="feed-render-test" className={styles.notifeed}>
+      &lt;div data-testid="content-render-test" className={styles.parent} id="FeedContainer">
+        {
+                        data &amp;&amp; data.map((content) => (
+                          &lt;Post
+                            id={content.id}
+                            displayname={content.displayName}
+                            username={content.userName}
+                            content={content.content}
+                            img1={content.img1}
+                            img2={content.img2}
+                            img3={content.img3}
+                            img4={content.img4}
+                            isLiked={content.isLiked}
+                            noOfLike={content.noOfLike}
+                            isRetweeted={content.isRetweeted}
+                            noOfReplies={content.noOfReplies}
+                            noOfRetweets={content.noOfRetweets}
+                          />
+                        ))
+                    }
+        &lt;div className={styles.emptyspace} />
+      &lt;/div>
+    &lt;/div>
+
+  );
+}
+SearchFeed.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    profileid: PropTypes.number.isRequired,
+    displayname: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  })).isRequired,
+  dataType: PropTypes.string.isRequired,
+};
+export default SearchFeed;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

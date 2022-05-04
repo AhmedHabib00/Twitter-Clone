@@ -7,7 +7,7 @@ import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 import { useNavigate } from 'react-router-dom';
 import ImageBox from './ImageBox';
 import PopupPage from './PopupPage';
-import SearchBar from '../../Search/SearchBar/SearchBar';
+import SearchBar from '../../Components/SearchBar/SearchBar';
 
 import styles from './TweetBox.module.css';
 import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';

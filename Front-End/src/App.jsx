@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
+import ViewTweet from './Notifications/ViewTweet';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Settings from './Settings/Settings';
 import Home from './Home/Home';
@@ -12,7 +13,6 @@ import Start from './Start/Start';
 import AdminFoundation from './Admin/AdminFoundation';
 import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
-import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
 import { getClientRole } from './Services/accountServices';
 import Tweet from './Home/Components/Tweet';
@@ -60,9 +60,9 @@ function App() {
   };
   const adminRoutes = () => (
     <>
-      <Route path="users" element={<AdminUsers />} />
+      <Route path="users" element={<AdminUsers state="" />} />
       <Route path="dashboard" element={<Dashboard />} />
-      <Route path="blocked-users" element={<BlockedUsers />} />
+      <Route path="blocked-users" element={<AdminUsers state="Banned" />} />
     </>
   );
   const startRoutes = () => (
@@ -72,6 +72,7 @@ function App() {
     <>
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
+      <Route path="ViewTweet" element={<ViewTweet />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
       <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
@@ -90,10 +91,9 @@ function App() {
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={mainPage()}>
-          <Route path="" element={<Navigate to={mainPath()} />} />
           {selectingRoute()}
+          <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
       </Routes>
     </Router>

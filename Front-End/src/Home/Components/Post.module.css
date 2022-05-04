@@ -1,9 +1,13 @@
-@media screen & (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .post {
     display: flex;
     align-items: flex-start;
     padding-bottom: 10px;
   }
+}
+
+#mydiv {
+  overflow: visible;
 }
 
 .postbody {
@@ -33,6 +37,10 @@ img {
   max-width: 270px;
   max-height: 200px;
   padding: 5px;
+}
+
+.trail {
+  overflow: hidden;
 }
 
 .postfooter {
