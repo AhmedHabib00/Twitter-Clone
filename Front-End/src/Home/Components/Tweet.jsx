@@ -11,6 +11,7 @@ import User from '../../Components/ListofUsers/User';
 import PopupPage from './PopupPage';
 import GetUsersArray, { GetRelpiesArray } from '../../Services/tweetpageServices';
 import Post from './Post';
+import TweetBox from './TweetBox';
 
 /**
  *
@@ -65,6 +66,7 @@ function Tweet() {
         noOfRetweets={postData.noOfRetweets}
       />
       )}
+      <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
 
       {repliesData && <Feed className={feedStyles.feed} data={repliesData} />}
 
