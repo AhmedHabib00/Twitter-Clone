@@ -10,8 +10,8 @@ import PostBody from './PostBody';
 /**
  *
  * @param {Number} id     Post Id
- * @param {String} displayname      User posted display name (user first name).
- * @param {String} username     User posted user name (user full name).
+ * @param {String} displayName      User posted display name (user first name).
+ * @param {String} userName     User posted user name (user full name).
  * @param {String} content      Posted text.
  * @param {String} img1     uploaded image-1 url.
  * @param {String} img2     uploaded image-2 url.
@@ -26,18 +26,18 @@ import PostBody from './PostBody';
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, URLs, isLiked, noOfLike,
+  id, displayName, userName, content, URLs, isLiked, noOfLike,
   isRetweeted, noOfRetweets, noOfReplies,
 }) {
   return (
     <div data-testid="post-render-test" className={styles.post}>
       <div className={styles.postbody}>
-        <PostHeader displayname={displayname} username={username} />
+        <PostHeader displayName={displayName} userName={userName} />
         <PostBody id={id} content={content} URLs={URLs} />
         <PostFooter
           id={id}
-          displayname={displayname}
-          username={username}
+          displayName={displayName}
+          userName={userName}
           content={content}
           URLs={URLs}
           isLiked={isLiked}
@@ -53,8 +53,8 @@ function Post({
 
 Post.propTypes = {
   id: PropTypes.number.isRequired,
-  displayname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
   isLiked: PropTypes.bool.isRequired,

@@ -17,7 +17,7 @@ import PostBody from './PostBody';
 import { handleLikes } from '../../Services/postServices';
 
 function PostFooter({
-  id, displayname, username, URLs, isLiked, noOfLike,
+  id, displayName, userName, URLs, isLiked, noOfLike,
   isRetweeted, noOfRetweets, noOfReplies, content,
 }) {
   const [retweetEl, setRetweetEl] = useState(null);
@@ -53,7 +53,7 @@ function PostFooter({
       <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
         <div>
           <div className={styles.postbody} key={id}>
-            <PostHeader displayname={displayname} username={username} />
+            <PostHeader displayName={displayName} userName={userName} />
             <PostBody id={id} URLs={URLs} content={content} />
           </div>
           <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
@@ -141,8 +141,8 @@ function PostFooter({
 
 PostFooter.propTypes = {
   id: PropTypes.number.isRequired,
-  displayname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
   isLiked: PropTypes.bool.isRequired,
   isRetweeted: PropTypes.bool.isRequired,

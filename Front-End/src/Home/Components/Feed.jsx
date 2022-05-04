@@ -20,8 +20,8 @@ function Feed({ data }) {
           <Post
             key={post.id}
             id={post.id}
-            displayname={post.displayName}
-            username={post.userName}
+            displayName={post.displayName}
+            userName={post.userName}
             content={post.content}
             URLs={post.URLs}
             isLiked={post.isLiked}
