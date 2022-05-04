@@ -13,11 +13,10 @@ app.use(bodyParser.urlencoded({extended : true})) // For body-parser to return w
 app.use('/__test__',express.static('__test__'));
 
 // Admins end points
-const admins = require('./components/Admins/admin')
-app.use("/admins", admins)
+const admins = require('./components/Admins/admin');
+app.use("/admins", admins);
 
 const server = app.listen(port,()=>
     console.log(`app is running on port ${port}`));
 
 module.exports = server
-
