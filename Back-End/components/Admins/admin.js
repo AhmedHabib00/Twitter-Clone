@@ -404,7 +404,7 @@ router.get('/statistics/noAgeUsers', auth, async (req, res) =>{
     });
 });
 
-// GET: admins/statistics/noMostFollowed -> Retrive no. of users age intervalsRetrive no. of users age intervals
+// GET: admins/statistics/noMostFollowed -> Retrive most users has followers
 router.get('/statistics/noMostFollowed', auth, async (req, res) =>{
     if (req.user.role != "Admin") {
         return res.status(403).send("Access denied");
