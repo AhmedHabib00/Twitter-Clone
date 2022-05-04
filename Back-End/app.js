@@ -6,6 +6,20 @@ const databse = require('./database');
 const session = require('express-session');
 const mongoose= require('./database');
 
+var  multer = require('multer');
+var cors = require('cors');
+app.use(cors({origin: '*'}));
+
+const port = process.env.PORT || 3000;
+
+
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+
 // SignUp and Auth
 const signUp = require('./components/Auth/signupRoute');
 const login = require('./components/Auth/loginRoute');
@@ -20,18 +34,6 @@ const postRoute = require('./components/Tweets/tweets');
 //Admins
 const admins = require('./components/Admins/admin');
 
-var  multer = require('multer');
-var cors = require('cors');
-app.use(cors({origin: '*'}));
-
-const port = process.env.PORT || 3000;
-
-
-app.use(bodyParser.json());
-app.use(express.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 app.use('/uploads',express.static('uploads'));
 
 app.use('/imgUploads',express.static('imgUploads'));
