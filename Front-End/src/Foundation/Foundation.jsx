@@ -107,6 +107,7 @@ function Foundation({ setIsLoggedIn, userInfo }) {
           </Navbar>
         </div>
         <div className={styles.outlet}>
+          {console.log('dfsdd')}
           <Outlet />
         </div>
 
