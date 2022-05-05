@@ -718,11 +718,11 @@ router.patch('/:id/banning/:target_user_id', auth, async (req, res) =>{
 
     // Get start_date and end_date
     const start_date = new Date();
-    const end_date =  new Date(req.body.end_date);
+    const end_date =  new Date();
 
-    if (end_date <= start_date) {
-        return res.status(500).send("Invalid Date");
-    }
+    // if (end_date <= start_date) {
+    //     return res.status(500).send("Invalid Date");
+    // }
     
     const bannedUser = await userSchema.findById(req.params.target_user_id);
     const bannedBy = await userSchema.findById(req.params.id);
