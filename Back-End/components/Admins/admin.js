@@ -95,14 +95,27 @@ router.get('/users', auth, async (req, res, next) =>{
     }
 
     
-    usersData = await userSchema.find({
-        "role":"User",
-        "banned": banned,
-        "username": {$regex:  ".*"+search+".*", $options:"si"} 
-    },
-        '_id name username description profilePic banned role',
-    ).limit(limit).skip(size*(page-1)).sort('createdAt');
-    
+    usersData = await userSchema.aggregate([
+        { $match: {
+            "role":"User",
+            "banned": banned,
+            "username": {$regex:  "."+search+".", $options:"si"} 
+        }},
+        { $project: { 
+            "_id":0,
+            "id": "$_id", 
+            "name":1,
+             "username":1,
+             "description":1, 
+             "profilePic":1,
+             "banned":1,
+             "role":1
+        }},
+        { '$facet'    : {
+            data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
+        } }
+    ]
+    ).sort('createdAt');
     // Count no. of users
     countUsers = await userSchema.count({
         "role":"User",
@@ -711,18 +724,18 @@ async function rangeAgesCalculator(minRangeAge=0, maxRangeAge=0, Schema) {
 
 
 // POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
-router.patch('/:id/banning/:target_user_id', auth, async (req, res) =>{
+router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
     if (req.user.role != "Admin" || req.user._id != req.params.id) {
         return res.status(403).send("Access denied");
     }
 
     // Get start_date and end_date
     const start_date = new Date();
-    const end_date =  new Date();
+    const end_date =  new Date(req.body.end_date);
 
-    // if (end_date <= start_date) {
-    //     return res.status(500).send("Invalid Date");
-    // }
+    if (end_date <= start_date) {
+        return res.status(500).send("Invalid Date");
+    }
     
     const bannedUser = await userSchema.findById(req.params.target_user_id);
     const bannedBy = await userSchema.findById(req.params.id);

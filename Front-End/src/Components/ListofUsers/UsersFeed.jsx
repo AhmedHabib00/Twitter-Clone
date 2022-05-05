@@ -18,8 +18,8 @@ function UsersFeed({
         {
           data && data.map((content) => (
             <User
-              key={content._id}
-              profileid={content._id}
+              key={content.id}
+              profileid={content.id}
               displayname={content.name}
               username={content.username}
               description={content.description}
@@ -40,7 +40,7 @@ function UsersFeed({
 
 UsersFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     description: PropTypes.string,

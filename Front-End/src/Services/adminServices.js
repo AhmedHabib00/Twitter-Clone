@@ -200,7 +200,6 @@ export async function blockUser(userId) {
     response = await axios.post(
       `${SERVER_URL}/admins/${localStorage.userId}/banning/${userId}/`,
       {
-        end_date: '2022-05-28',
         headers: {
           'x-auth-token': localStorage.token,
         },

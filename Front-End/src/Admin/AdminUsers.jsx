@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination } from '@mui/material';
 import PropTypes from 'prop-types';
-import { blockUser, getListofUsers, deleteUser } from '../Services/adminServices';
+import {
+  blockUser, getListofUsers, deleteUser, unBlockUser,
+} from '../Services/adminServices';
 import styles from './AdminUsers.module.css';
 import UsersFeed from '../Components/ListofUsers/UsersFeed';
 import SearchBar from '../Components/SearchBar/SearchBar';
@@ -20,7 +22,7 @@ function AdminUsers({ state }) {
     (async () => {
       const resp = await getListofUsers(1, state, value);
       setPages(resp.length);
-      setListOfUsers(resp.Info);
+      setListOfUsers(resp.Info[0].data);
     })();
   };
 
@@ -29,7 +31,7 @@ function AdminUsers({ state }) {
       (async () => {
         const resp = await getListofUsers(currentPage, state, query);
         setPages(resp.length);
-        setListOfUsers(resp.Info);
+        setListOfUsers(resp.Info[0].data);
       })();
       setIsFirstTime(false);
     }
@@ -38,7 +40,7 @@ function AdminUsers({ state }) {
   }, [query, state]);
 
   const handleDeleteCLick = (userId) => {
-    const { username } = listOfUsers.filter((user) => user._id === userId)[0];
+    const { username } = listOfUsers.filter((user) => user.id === userId)[0];
     setUserToDelete({
       id: userId,
       username,
@@ -47,17 +49,19 @@ function AdminUsers({ state }) {
   };
   const handleBlockClick = (userId) => {
     (async () => {
-      const response = await blockUser(userId);
+      let response = '';
+      if (state === 'Banned') response = await unBlockUser(userId);
+      else response = await blockUser(userId);
       console.log(response);
     })();
     let usersData = [...listOfUsers];
-    usersData = usersData.filter((user) => user._id !== userId);
+    usersData = usersData.filter((user) => user.id !== userId);
     setListOfUsers(usersData);
     if (!usersData.length) {
       (async () => {
         const resp = await getListofUsers(currentPage, state, query);
         setPages(resp.length);
-        setListOfUsers(resp.Info);
+        setListOfUsers(resp.Info[0].data);
       })();
     }
   };
@@ -66,7 +70,7 @@ function AdminUsers({ state }) {
     (async () => {
       const resp = await getListofUsers(value, state, query);
       setPages(resp.length);
-      setListOfUsers(resp.Info);
+      setListOfUsers(resp.Info[0].data);
     })();
   };
 
