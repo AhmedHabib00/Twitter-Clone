@@ -23,10 +23,7 @@ function Feed({ data }) {
             displayname={post.displayName}
             username={post.userName}
             content={post.content}
-            img1={post.img1}
-            img2={post.img2}
-            img3={post.img3}
-            img4={post.img4}
+            URLs={post.URLs}
             isLiked={post.isLiked}
             noOfLike={post.noOfLike}
             isRetweeted={post.isRetweeted}
@@ -47,10 +44,7 @@ Feed.propTypes = {
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    img1: PropTypes.string.isRequired,
-    img2: PropTypes.string.isRequired,
-    img3: PropTypes.string.isRequired,
-    img4: PropTypes.string.isRequired,
+    URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
     isLiked: PropTypes.bool.isRequired,
     noOfLike: PropTypes.number.isRequired,
     isRetweeted: PropTypes.bool.isRequired,

@@ -58,11 +58,11 @@ app.use ('/login',login);
 app.use ('/auth',oAuth);
 app.use ('/forgotPassword',forgotPassword);
 
-// Test
-app.use('/__test__',express.static('__test__'));
-
 // Admins end points
 app.use("/admins", admins)
+
+// Test
+app.use('/__test__',express.static('__test__'));
 
 
 const server = app.listen(port,()=>
