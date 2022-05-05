@@ -1031,7 +1031,7 @@ try {
    const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
    var partOfContent=req.query.search;
 
-   var results = await tweet.find((tweet.find({"content":{$regex:partOfContent,$options:"i"}})),projection).limit(limit).skip(size*(page-1))
+   var results = await tweet.find(({"content":{$regex:partOfContent,$options:"i"}}),projection).limit(limit).skip(size*(page-1))
    .populate("postedBy")
    .populate("retweeters")
    .populate("likes")
