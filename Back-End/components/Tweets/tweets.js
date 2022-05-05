@@ -1,8 +1,8 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const config = require('config');
+// const jwt = require('jsonwebtoken');
+// const config = require('config');
 const router = express.Router();
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const user = require('../User/userSchema');
 const tweet=require('./tweetsSchema');  
 const auth=require('../middleware/auth');
@@ -295,12 +295,15 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
-        const projection2 ={"_id":0,"name":1,"username":1};
         
-        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1)).sort({"createdAt":-1})
+        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1))
+        .populate("postedBy")
+        .populate("retweeters")
+        .populate("likes")
+        .sort({"createdAt":-1})    
         .catch(error => {
             console.log(error);
-            return res.status(400).send("error: problem with finding the tweets");;
+            return res.status(400).send("error: problem with finding the tweets")
         })
         if (!results) return res.status.send('No tweets found')
         
@@ -319,28 +322,18 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
         if(results[i]._id)
        { 
+           Liked=false
+           Retweeted=false
+
+           //Checking if the tweet is liked by the current user.
+           var userLiked=results[i].likes.some(item => item._id == theUser)
+           if(userLiked)
+               Liked=true
+              
            //Checking if the tweet is retweeted by the current user.
-           var Retweeted=false       
-
-           findRetweet=await tweet.find({_id:results[i]._id,retweeters:{ $all:theUser}},{new:true}).select("_id") 
-           .catch(error => {
-           console.log(error);
-           return res.sendStatus(400).send("error: problem with checking if the tweet is retweeted by the current user ");
-           })       
-           if(findRetweet.length!=0)
-            Retweeted=true
-     
-        
-            //Checking if the tweet is liked by current user.  
-            var Liked=false     
-            var foundLike= await user.find({_id:theUser,likes:{ $all:results[i]._id}},{new:true})
-            .catch(error => {
-            console.log(error);
-            return res.status(400).send("error: problem with checking if if the tweet is liked by current user ");;
-            })        
-            if(foundLike.length!=0)
-                Liked=true
-
+           var userRetweeted=results[i].retweeters.some(item => item._id == theUser)
+           if(userRetweeted)
+               Retweeted=true
        }
        else
        {
@@ -349,7 +342,6 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
         var contentTemp="";
         var gifTemp=results[i]["gifs"];
-        var theId=results[i]["postedBy"]
         var tempMedia=results[i]["media"]
         var urls=[]
         if(!tempMedia || tempMedia.length==0)
@@ -371,22 +363,11 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         if(results[i]["content"])
                  contentTemp=results[i]["content"];
 
-
-        var results2 = await user.findById(theId,projection2)
-        .catch(error => {
-            console.log(error);
-            return res.status(400).send("error: can not find user.");
-        })  
-
-        if(results2==null)
-        {
-            return res.status(400).send("error: can not find the user who posted one of the tweets");
-        }
         
         const Obj= ({
             id:results[i]["_id"],
-            userName: results2["username"],
-            displayName: results2["name"],
+            userName: results[i].postedBy.username,
+            displayName: results[i].postedBy.name,
             content: contentTemp,
             URLs:urls,
             isLiked:Liked,
@@ -407,8 +388,6 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         }
         return res.status(200).send(finalArray); 
 
-        
-    
     }
     catch (error) {
         return res.status(400).send("problem with page parameters size/number");
@@ -657,9 +636,9 @@ router.post("/",multer.any(),auth,async function(req,res,next){
                 await tweet.findByIdAndUpdate(Tweet.retweetInfo,update1,{new:true})
                 }
 
-           //if the tweet is neither a reply nor a retweet:
-           else
-           {
+             //if the tweet is neither a reply nor a retweet:
+              else
+             {
               //if the deleted tweet has replies:
               if(Tweet.numberReplies!=null &&Tweet.numberReplies > 0)
               {
@@ -1030,6 +1009,129 @@ router.get("/:id/likers",auth,async(req,res)=>{
 
 })
 
+/////////////////////////////////////////////////////////////////////////////Searching by tweet's content:
+router.get("/search/all",auth,async(req,res)=>{
+
+try {
+        let page=req.query.page;
+        let size=req.query.size;
+        //default value is 1 if page parameter is not given.
+        if (!page) {
+            page = 1;
+        }
+        //default value is 10 if page parameter is not given.
+        if (!size) {
+            size = 10;
+        }
+
+   //Casting the size string to integer.
+   const limit = parseInt(size); 
+   theUser=req.user._id;
+
+   const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
+   var partOfContent=req.query.search;
+
+   var results = await tweet.find((tweet.find({"content":{$regex:partOfContent,$options:"i"}})),projection).limit(limit).skip(size*(page-1))
+   .populate("postedBy")
+   .populate("retweeters")
+   .populate("likes")
+   .sort({"createdAt":-1})    
+   .catch(error => {
+       console.log(error);
+       return res.status(400).send("error: problem with finding the tweets")
+   })
+   if (!results) 
+      return res.status(200).send("No tweets found")
+   if(results==[] || results.length==0)   
+      return res.status(200).send("No tweets found")
+
+      finalArray=[];
+      for(i=0;i<results.length;i++)
+      {
+       if (!results[i])
+           continue;
+
+ 
+       //do not view reply as a tweet. go to next iteration.   
+       if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length=="") 
+      {
+
+
+       if(results[i]._id)
+      { 
+          Liked=false
+          Retweeted=false
+
+          //Checking if the tweet is liked by the current user.
+          var userLiked=results[i].likes.some(item => item._id == theUser)
+          if(userLiked)
+              Liked=true
+             
+          //Checking if the tweet is retweeted by the current user.
+          var userRetweeted=results[i].retweeters.some(item => item._id == theUser)
+          if(userRetweeted)
+              Retweeted=true
+      }
+      else
+      {
+          return res.sendStatus(400).send("one of the tweets' ids is null");
+      }    
+
+       var contentTemp="";
+       var gifTemp=results[i]["gifs"];
+       var tempMedia=results[i]["media"]
+       var urls=[]
+       if(!tempMedia || tempMedia.length==0)
+       {
+           if(!gifTemp || gifTemp.length==0)
+           {
+               urls=[];
+           }
+           else
+           {
+               urls.push(gifTemp);
+           }
+       }
+       else
+       {
+           urls=tempMedia;
+       }
+   
+       if(results[i]["content"])
+                contentTemp=results[i]["content"];
+
+       
+       const Obj= ({
+           id:results[i]["_id"],
+           userName: results[i].postedBy.username,
+           displayName: results[i].postedBy.name,
+           content: contentTemp,
+           URLs:urls,
+           isLiked:Liked,
+           isRetweeted:Retweeted,
+           noOfLike:results[i].numberLikes,
+           noOfReplies:results[i].numberReplies,
+           noOfRetweets:results[i].numberRetweets,
+          });
+
+
+       finalArray.push(Obj)
+             
+       }
+   }
+
+    if(finalArray.length==0)
+    {
+       return res.status(200).send("no tweets found"); 
+    }
+    return res.status(200).send(finalArray); 
+}
+catch (error) {
+    return res.status(400).send("problem with page parameters size/number");
+}
+})
+
+/////////////////////////////////////////////////////////////////////////////Getting repliers info:
 
 
 module.exports =router;

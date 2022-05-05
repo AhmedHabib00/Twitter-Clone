@@ -9,7 +9,7 @@ const tweetSchema = new mongoose.Schema({
     postedBy: { type: Schema.Types.ObjectId, ref:'User'},
     //hashtag: {type:String},
     //bookmarked boolean
-    likes: [{ type: Schema.Types.ObjectId ,ref: 'User'}],
+    likes: [{ type: Schema.Types.ObjectId ,ref:'User'}],
     retweeters: [{ type: Schema.Types.ObjectId ,ref: 'User'}],
     retweetInfo: [{type:Schema.Types.ObjectId, ref: 'Tweet' }],
     replyTo: {type:Schema.Types.ObjectId, ref: 'Tweet' }, //changed to object instead of array of objects
