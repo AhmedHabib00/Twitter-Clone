@@ -38,7 +38,6 @@ function App() {
       }
     })();
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-    console.log('fffff');
   }, []);
   const mainPage = () => {
     if (isLoggedIn) {
@@ -96,6 +95,7 @@ function App() {
           {selectingRoute()}
           <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
+        <Route path="*" element={<Navigate to={mainPath()} />} />
       </Routes>
     </Router>
   );

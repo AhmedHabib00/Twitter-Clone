@@ -63,7 +63,7 @@ function PostBody({
 }
 
 PostBody.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
 

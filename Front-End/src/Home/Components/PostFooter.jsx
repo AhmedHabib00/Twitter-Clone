@@ -140,7 +140,7 @@ function PostFooter({
 }
 
 PostFooter.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   displayname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   URLs: PropTypes.arrayOf(PropTypes.string).isRequired,

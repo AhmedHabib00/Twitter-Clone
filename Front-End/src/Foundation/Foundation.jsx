@@ -33,7 +33,6 @@ function Foundation({ setIsLoggedIn, userInfo }) {
   };
 
   const onNavItemClick = (id) => {
-    console.log(id);
     if (id !== 'Search')document.getElementById('SearchBar').style.visibility = 'visible';
 
     document.getElementById(openedPage).style.setProperty('font-weight', '400');
@@ -108,7 +107,6 @@ function Foundation({ setIsLoggedIn, userInfo }) {
           </Navbar>
         </div>
         <div className={styles.outlet}>
-          {console.log('dfsdd')}
           <Outlet />
         </div>
 
