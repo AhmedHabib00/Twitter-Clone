@@ -147,7 +147,7 @@ function AdminUsers({ state, enableStyleSwitching }) {
       <PopupPage SetTrigger={setIsBlockClicked} trigger={isBlockClicked}>
         <div className={styles['unblock-popup-container']}>
           <b className={styles['unblock-popup-text']}>Select a date until unblock</b>
-          <DatePicker setDate={setDate} />
+          <DatePicker setDate={setDate} startYear={2022} endYear={2028} />
           <b className={styles['unblock-popup-error-message']}>{dateError}</b>
           <button type="button" onClick={handleBlockUser} className={[styles['delete-button'], styles['unblock-popup-button']].join(' ')}>Block</button>
         </div>
