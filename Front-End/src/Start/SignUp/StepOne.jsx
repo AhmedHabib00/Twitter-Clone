@@ -23,6 +23,9 @@ function StepOne({
   setStepVerify,
 }) {
   const [date, setDate] = useState('');
+  const today = new Date();
+  const endYear = today.getFullYear();
+  const startYear = endYear - 120;
   const {
     handleChange, values, handleSubmit, errors,
   } = useForm(date, setStepOne, setStepVerify);
@@ -102,7 +105,7 @@ function StepOne({
               This will not be shown publicly. Confirm your own age,
               even if this account is for a business, a pet, or something else.
             </p>
-            <DatePicker setDate={setDate} />
+            <DatePicker setDate={setDate} endYear={endYear} startYear={startYear} />
           </div>
           {errors.birthdate
            && (

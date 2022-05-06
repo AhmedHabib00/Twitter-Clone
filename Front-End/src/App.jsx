@@ -38,7 +38,8 @@ function App() {
       }
     })();
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  });
+    console.log('fffff');
+  }, []);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
