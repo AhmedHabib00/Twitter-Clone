@@ -60,7 +60,7 @@ function App() {
   };
   const adminRoutes = () => (
     <>
-      <Route path="users" element={<AdminUsers state="" />} />
+      <Route path="users" element={<AdminUsers state="" enableStyleSwitching={false} />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="blocked-users" element={<AdminUsers state="Banned" />} />
     </>

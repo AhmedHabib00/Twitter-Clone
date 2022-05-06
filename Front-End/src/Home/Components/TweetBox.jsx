@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
@@ -20,7 +20,6 @@ import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
 function TweetBox({ replyId, placeHolder, boxId }) {
   const navigate = useNavigate();
   const inputFile = createRef();
-  const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
   const [isGifOpen, setIsGifOpen] = useState(false);
@@ -43,10 +42,6 @@ function TweetBox({ replyId, placeHolder, boxId }) {
       setGifs(resp.data);
     })();
   };
-  useEffect(() => {
-    const timeOutId = setTimeout(() => onSearchChange(query), 2000);
-    return () => clearTimeout(timeOutId);
-  }, [query]);
   const deleteImage = (id) => {
     if (images.find((image) => image.id === id).type === 'gif') {
       setMediaDisabled(true);
@@ -147,7 +142,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     <div id="Tweet-box">
       <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         <div className={styles['inner-gif']}>
-          <SearchBar searchValue={setQuery} placeHolder="Search for GIFs" />
+          <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" delay={2000} />
           <div className={styles['popup-imgs-container']}>
             {gifs && gifs.map((gif) => ((gifs.length === 0) ? '' : (
               <div role="button" tabIndex={0} onClick={() => onSelectGif(gif.images.original.url)} key={gif.id}>

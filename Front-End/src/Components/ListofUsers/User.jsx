@@ -15,7 +15,8 @@ import styles from './User.module.css';
 
 function User({
   profileid, displayname, username, description, url, buttonStyle,
-  buttonStyleClicked, isButtonActive, onButtonClick, onProfileClick, hasCheckbox, isButtonDisabled,
+  buttonStyleClicked, isButtonActive, onButtonClick, onProfileClick,
+  hasCheckbox, isButtonDisabled, enableStyleSwitching,
 }) {
   let isClicked = false;
   const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
@@ -63,7 +64,10 @@ function User({
             />
           ) : (
             <button
-              className={[styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle], styles['default-button']].join(' ')}
+              className={[(enableStyleSwitching)
+                ? (styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle])
+                : styles[buttonStyle],
+              styles['default-button']].join(' ')}
               type="button"
               id="followbutton"
               onClick={() => {
@@ -94,6 +98,7 @@ User.propTypes = {
   onProfileClick: PropTypes.func.isRequired,
   hasCheckbox: PropTypes.bool.isRequired,
   isButtonDisabled: PropTypes.bool,
+  enableStyleSwitching: PropTypes.bool,
 };
 
 User.defaultProps = {
@@ -102,6 +107,7 @@ User.defaultProps = {
   buttonStyleClicked: 'tweetfollowingbutton',
   description: '',
   isButtonDisabled: false,
+  enableStyleSwitching: true,
   onButtonClick: function tempFunc() {},
 };
 

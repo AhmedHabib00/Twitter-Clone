@@ -194,11 +194,14 @@ export async function getListofUsers(page, state, search) {
   return (response);
 }
 
-export async function blockUser(userId) {
+export async function blockUser(userId, date) {
   let response = '';
   try {
     response = await axios.post(
-      `${SERVER_URL}/admins/${localStorage.userId}/banning/${userId}/`,
+      `${SERVER_URL}/admins/${localStorage.userId}/banning/${userId}`,
+      {
+        end_date: date,
+      },
       {
         headers: {
           'x-auth-token': localStorage.token,

@@ -74,7 +74,6 @@ function Foundation({ setIsLoggedIn, userInfo }) {
                   onClick={() => setIsPopupTweetOpen(true)}
                 >
                   Whisp
-
                 </button>
                 <button
                   type="button"
@@ -117,7 +116,7 @@ function Foundation({ setIsLoggedIn, userInfo }) {
         </PopupPage>
 
         <div className={styles['foundation-widget']} id="SearchBar">
-          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
+          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={2000} />
         </div>
 
       </div>

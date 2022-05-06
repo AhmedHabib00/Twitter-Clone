@@ -8,17 +8,25 @@ import styles from './AdminUsers.module.css';
 import UsersFeed from '../Components/ListofUsers/UsersFeed';
 import SearchBar from '../Components/SearchBar/SearchBar';
 import PopupPage from '../Home/Components/PopupPage';
+import DatePicker from '../Start/SignUp/Components/DatePicker';
+import validateDate from './dateValidation';
 
-function AdminUsers({ state }) {
+function AdminUsers({ state, enableStyleSwitching }) {
   const [pages, setPages] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   const [listOfUsers, setListOfUsers] = useState([]);
-  const [query, setQuery] = useState('');
-  const [isFirstTime, setIsFirstTime] = useState(true);
   const [openDeleteUser, setOpenDeleteUser] = useState(false);
+  const [previousState, setPreviousState] = useState('');
   const [userToDelete, setUserToDelete] = useState('');
+  const [userToRemove, setUserToRemove] = useState('');
+  const [initialUserToRemove, setInitialUserToRemove] = useState('');
+  const [dateError, setDateError] = useState('');
+  const [date, setDate] = useState('');
+  const [isBlockClicked, setIsBlockClicked] = useState(false);
+  const [searchVal, setSearchVal] = useState('');
 
-  const onSearchChange = (value) => {
+  const handleSearchChange = (value) => {
+    setSearchVal(value);
     (async () => {
       const resp = await getListofUsers(1, state, value);
       setPages(resp.length);
@@ -26,18 +34,39 @@ function AdminUsers({ state }) {
     })();
   };
 
-  useEffect(() => {
-    if (isFirstTime) {
+  const refreshUserList = () => {
+    let usersData = [...listOfUsers];
+    usersData = usersData.filter((user) => user.id !== userToRemove);
+    setListOfUsers(usersData);
+    if (!usersData.length) {
       (async () => {
-        const resp = await getListofUsers(currentPage, state, query);
+        const resp = await getListofUsers(currentPage, state, searchVal);
         setPages(resp.length);
         setListOfUsers(resp.Info[0].data);
       })();
-      setIsFirstTime(false);
     }
-    const timeOutId = setTimeout(() => onSearchChange(query), 1500);
-    return () => clearTimeout(timeOutId);
-  }, [query, state]);
+  };
+
+  useEffect(() => {
+    if (previousState !== state) {
+      (async () => {
+        const resp = await getListofUsers(currentPage, state, searchVal);
+        setPages(resp.length);
+        setListOfUsers(resp.Info[0].data);
+      })();
+      setPreviousState(state);
+    }
+    if (initialUserToRemove !== userToRemove) {
+      setInitialUserToRemove(userToRemove);
+      refreshUserList();
+    }
+  }, [state, userToRemove]);
+
+  const handleClosePopup = () => {
+    setOpenDeleteUser(false);
+    setIsBlockClicked(false);
+    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
+  };
 
   const handleDeleteCLick = (userId) => {
     const { username } = listOfUsers.filter((user) => user.id === userId)[0];
@@ -47,44 +76,51 @@ function AdminUsers({ state }) {
     });
     setOpenDeleteUser(true);
   };
-  const handleBlockClick = (userId) => {
-    (async () => {
-      let response = '';
-      if (state === 'Banned') response = await unBlockUser(userId);
-      else response = await blockUser(userId);
-      console.log(response);
-    })();
-    let usersData = [...listOfUsers];
-    usersData = usersData.filter((user) => user.id !== userId);
-    setListOfUsers(usersData);
-    if (!usersData.length) {
-      (async () => {
-        const resp = await getListofUsers(currentPage, state, query);
-        setPages(resp.length);
-        setListOfUsers(resp.Info[0].data);
-      })();
-    }
-  };
-  const changePage = (e, value) => {
-    setCurrentPage(value);
-    (async () => {
-      const resp = await getListofUsers(value, state, query);
-      setPages(resp.length);
-      setListOfUsers(resp.Info[0].data);
-    })();
-  };
-
-  const handleClosePopup = () => {
-    setOpenDeleteUser(false);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  };
 
   const handleDeleteUser = (userId) => {
     (async () => {
-      const resp = await deleteUser(userId);
-      console.log(resp);
+      await deleteUser(userId);
     })();
+    setUserToRemove(userId);
     handleClosePopup();
+  };
+
+  const handleBlockClick = (userId) => {
+    if (state === '') {
+      setIsBlockClicked(true);
+      const userInfo = listOfUsers.filter((user) => user.id === userId)[0];
+      setUserToDelete({
+        id: userId,
+        username: userInfo.username,
+      });
+    } else {
+      (async () => {
+        await unBlockUser(userId);
+        setUserToRemove(userId);
+      })();
+    }
+  };
+
+  const handleBlockUser = () => {
+    const response = validateDate(date);
+    if (response.status === 200) {
+      (async () => {
+        await blockUser(userToDelete.id, date);
+      })();
+      handleClosePopup();
+      setUserToRemove(userToDelete.id);
+    } else {
+      setDateError(response.error);
+    }
+  };
+
+  const changePage = (e, value) => {
+    setCurrentPage(value);
+    (async () => {
+      const resp = await getListofUsers(value, state, searchVal);
+      setPages(resp.length);
+      setListOfUsers(resp.Info[0].data);
+    })();
   };
 
   return (
@@ -107,7 +143,17 @@ function AdminUsers({ state }) {
           </div>
         </div>
       </PopupPage>
-      <SearchBar placeHolder="Search by username" searchValue={setQuery} />
+
+      <PopupPage SetTrigger={setIsBlockClicked} trigger={isBlockClicked}>
+        <div className={styles['unblock-popup-container']}>
+          <b className={styles['unblock-popup-text']}>Select a date until unblock</b>
+          <DatePicker setDate={setDate} />
+          <b className={styles['unblock-popup-error-message']}>{dateError}</b>
+          <button type="button" onClick={handleBlockUser} className={[styles['delete-button'], styles['unblock-popup-button']].join(' ')}>Block</button>
+        </div>
+      </PopupPage>
+
+      <SearchBar placeHolder="Search by username" searchValue={handleSearchChange} delay={1500} />
       {(listOfUsers.length) ? (
         <UsersFeed
           data={listOfUsers}
@@ -115,18 +161,26 @@ function AdminUsers({ state }) {
           buttonStyleClicked="tweetunblockbutton"
           onButtonClick={handleBlockClick}
           onProfileClick={handleDeleteCLick}
+          enableStyleSwitching={enableStyleSwitching}
         />
       )
         : <b>No results found</b>}
-      <div className={styles.pagination}>
-        {(pages >= 2) ? <Pagination count={pages} onChange={changePage} color="primary" /> : ''}
-      </div>
+      {(!(openDeleteUser || isBlockClicked))
+        ? (
+          <div className={styles.pagination}>
+            {(pages >= 2) ? <Pagination count={pages} onChange={changePage} color="primary" /> : ''}
+          </div>
+        ) : ''}
     </div>
   );
 }
 
 AdminUsers.propTypes = {
   state: PropTypes.string.isRequired,
+  enableStyleSwitching: PropTypes.bool,
 };
 
+AdminUsers.defaultProps = {
+  enableStyleSwitching: true,
+};
 export default AdminUsers;

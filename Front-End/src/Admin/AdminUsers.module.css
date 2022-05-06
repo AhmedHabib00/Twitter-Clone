@@ -54,3 +54,27 @@
   background-color: #b5131e;
   color: white;
 }
+
+.unblock-popup-container {
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  margin: 1%;
+}
+
+.unblock-popup-text {
+  font-weight: normal;
+  font-size: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
+.unblock-popup-button {
+  margin: 10px;
+}
+
+.unblock-popup-error-message {
+  color: red;
+  font-weight: normal;
+  font-size: 10px;
+}
