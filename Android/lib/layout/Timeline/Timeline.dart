@@ -1,113 +1,156 @@
-// ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable
+// ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable, avoid_print, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:whisper/models/tweet_model.dart';
+import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:whisper/modules/tweetBoxWidget.dart';
+
+const TextStyle _textStyle = TextStyle(
+  fontSize: 40,
+  fontWeight: FontWeight.bold,
+  letterSpacing: 2,
+  fontStyle: FontStyle.italic,
+);
 
 class TimelinePage extends StatefulWidget {
   final String token;
   const TimelinePage({Key? key, required this.token}) : super(key: key);
+
   @override
-  _TimelinePage createState() => _TimelinePage();
+  State<TimelinePage> createState() => _TimelinePageState();
 }
 
-class _TimelinePage extends State<TimelinePage> {
-  final List<TweetModel> Tweets = [
-    TweetModel(
-      username: " Kareem",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Kareem1",
-    ),
-    TweetModel(
-        username: "Ahmed",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Ahmed28"),
-    TweetModel(
-      username: " Kareem",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Kareem1",
-    ),
-    TweetModel(
-        username: "Ahmed",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Ahmed28"),
-    TweetModel(
-        username: "Hassan",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Hassan212"),
-  ];
+class _TimelinePageState extends State<TimelinePage> {
+  final scrollController = ScrollController();
+
+  var scaffoldkey = GlobalKey<ScaffoldState>();
+
+  bool scaffoldKey = false;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            appBar: AppBar(
-              toolbarHeight: 0,
+    print(widget.token);
+    print('token is here');
+    var token = '';
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 75,
+          elevation: 1,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          // scaffoldkey.currentState?.openDrawer();
+          leading: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://previews.123rf.com/images/koblizeek/koblizeek2001/koblizeek200100050/138262629-usuario-miembro-de-perfil-de-icono-de-hombre-vector-de-s%C3%ADmbolo-perconal-sobre-fondo-blanco-aislado-.jpg'),
+                radius: 16,
+              ),
             ),
-            body: SingleChildScrollView(
-              child: Column(children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'),
-                          radius: 16,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: FaIcon(FontAwesomeIcons.twitter),
-                        iconSize: 20.0,
-                        color: Colors.blue,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: FaIcon(FontAwesomeIcons.star),
-                        iconSize: 20.0,
-                      ),
-                    ]),
-                tweetBoxWidget(Tweets, false, () {})
-              ]),
+            onTap: () {
+              scaffoldkey.currentState?.openDrawer();
+            },
+          ),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            SizedBox(),
+            IconButton(
+              onPressed: () {
+                scrollUp();
+              },
+              icon: Image.asset(
+                "lib/shared/Assets/twitterlogoB.png",
+                scale: 20,
+              ),
+              iconSize: 55.0,
             ),
-            bottomNavigationBar: BottomNavigationBar(
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              items: [
-                BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.home),
-                    label: 'News Feed',
-                    backgroundColor: Colors.black),
-                BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.search),
-                    label: 'Search',
-                    backgroundColor: Colors.black),
-                BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.microphone),
-                    label: 'Spaces',
-                    backgroundColor: Colors.black),
-                BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.bell),
-                    label: 'Notifications',
-                    backgroundColor: Colors.black),
-                BottomNavigationBarItem(
-                    icon: FaIcon(FontAwesomeIcons.envelope),
-                    label: 'Inbox',
-                    backgroundColor: Colors.black),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
+            IconButton(
               onPressed: () {},
-              child: const Icon(Icons.add),
-            )));
+              icon: FaIcon(
+                FontAwesomeIcons.star,
+              ),
+              iconSize: 20.0,
+            ),
+          ]),
+        ),
+        key: scaffoldkey,
+        body: SingleChildScrollView(
+          controller: scrollController,
+          child: TweetBoxWidgety(),
+          //  Column(
+          //       children:  Tweets.map((tweetaya) {
+          //       return tweetBoxWidget(Tweets, true, () {}, 30);
+          //     }).toList(),
+
+          //           [
+
+          //       ]),
+        ),
+
+        drawer: SideMenu(token: token),
+        // bottomNavigationBar: MaterialYou(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          onPressed: () {
+            openAddTweetDialog();
+          },
+          child: const Icon(Icons.add),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: [
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.home),
+                label: 'News Feed',
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.search),
+                label: 'Search',
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.microphone),
+                label: 'Spaces',
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.bell),
+                label: 'Notifications',
+                backgroundColor: Colors.black),
+            BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.envelope),
+                label: 'Inbox',
+                backgroundColor: Colors.black),
+          ],
+        ),
+      ),
+    );
   }
+
+  void scrollUp() {
+    const double start = 0;
+    scrollController.animateTo(start,
+        duration: Duration(seconds: 1), curve: Curves.easeIn);
+  }
+
+  Future openAddTweetDialog() => showDialog(
+        //context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Your comment',
+          ),
+          content: TextField(
+            decoration: InputDecoration(
+              hintText: "Enter your comment",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {},
+              child: Text('submit'),
+            ),
+          ],
+        ),
+        context: context,
+      );
 }
