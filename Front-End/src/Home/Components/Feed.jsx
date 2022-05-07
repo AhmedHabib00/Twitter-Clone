@@ -10,7 +10,7 @@ import Post from './Post';
  * @returns map through the post array data and starts passing the post props
  * to display the posts in the feed component.
  */
-function Feed({ data }) {
+function Feed({ data, isReplying }) {
   return (
     <div data-testid="feed-render-test" className={styles.feed}>
 
@@ -29,6 +29,7 @@ function Feed({ data }) {
             isRetweeted={post.isRetweeted}
             noOfReplies={post.noOfReplies}
             noOfRetweets={post.noOfRetweets}
+            isReplying={isReplying}
           />
         ))
 
@@ -40,7 +41,7 @@ function Feed({ data }) {
 
 Feed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -51,5 +52,11 @@ Feed.propTypes = {
     noOfReplies: PropTypes.number.isRequired,
     noOfRetweets: PropTypes.number.isRequired,
   })).isRequired,
+  isReplying: PropTypes.bool,
+
+};
+
+Feed.defaultProps = {
+  isReplying: false,
 };
 export default Feed;

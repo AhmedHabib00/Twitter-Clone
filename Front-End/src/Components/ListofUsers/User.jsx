@@ -55,8 +55,9 @@ function User({
               className={styles['checkbox-button']}
               type="checkbox"
               disabled={isButtonDisabled}
-              onClick={() => {
-                onButtonClick(profileid);
+              checked={isButtonClicked}
+              onChange={() => {
+                onButtonClick(profileid, !isButtonClicked);
                 isClicked = true;
                 setIsButtonClicked(!isButtonClicked);
               }}

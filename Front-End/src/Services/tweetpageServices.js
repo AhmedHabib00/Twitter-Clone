@@ -21,7 +21,8 @@ export default async function GetUsersArray() {
   return response;
 }
 
-export async function GetRelpiesArray() {
+export async function GetRelpiesArray(id) {
+  console.log(id);
   let response = '';
   try {
     response = await axios.get('http://localhost:8000/TweetPage');

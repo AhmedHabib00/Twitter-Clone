@@ -30,6 +30,7 @@ function PopupPage({
   const childClick = () => {
     toClose = false;
   };
+
   return (trigger) ? (
     <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
       {document.getElementsByTagName('body')[0].style.setProperty('overflow', 'hidden')}
@@ -47,7 +48,7 @@ function PopupPage({
             <div className={styles['horizontal-align']}>
               <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
               <h2 className={styles['tweet-header']}>Replying to</h2>
-              <button type="button" className={styles['button-style']}>Done</button>
+              <button type="button" className={styles['button-style']} onClick={handleCloseIcon}>Done</button>
             </div>
           ) : (
             <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />

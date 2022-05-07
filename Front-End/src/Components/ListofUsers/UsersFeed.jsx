@@ -40,7 +40,7 @@ function UsersFeed({
 
 UsersFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
     description: PropTypes.string,

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 export async function PostTweet(props) {
-  const { images, value, replyId } = props;
+  const {
+    images, value, replyId, users,
+  } = props;
   let gifArray = '';
   const imgArray = [];
   images.forEach((image) => {
@@ -18,6 +20,7 @@ export async function PostTweet(props) {
       replyId,
       media: imgArray,
       gifs: gifArray,
+      users,
     });
     // Success
     return (response);

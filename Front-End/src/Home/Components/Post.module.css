@@ -140,6 +140,15 @@ img {
   min-height: 750px;
 }
 
+.postbody-switching {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.blue-text {
+  color: #1d9bf0;
+}
+
 /* .imagediv {
   display: flex;
   align-items: flex-start;

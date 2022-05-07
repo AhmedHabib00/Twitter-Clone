@@ -25,6 +25,8 @@ function PostFooter({
   const [like, setLike] = useState(isLiked);
   const [likeCount, setLikeCount] = useState(noOfLike);
   const [replyPopUp, setReplyPopUp] = useState(false);
+  const [replyingToId, setReplyingToId] = useState([]);
+
   const handelOpenShare = (e) => {
     setShareEl(e.currentTarget);
   };
@@ -48,15 +50,27 @@ function PostFooter({
     }
     setLike(!like);
   };
+  const handleButtonOnClickReplying = (selectedUsers) => {
+    const updateArrayOfIds = selectedUsers.map((user) => (user.id));
+    setReplyingToId(updateArrayOfIds);
+  };
   return (
     <div>
       <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
         <div>
           <div className={styles.postbody} key={id}>
             <PostHeader displayName={displayName} userName={userName} />
-            <PostBody id={id} URLs={URLs} content={content} />
+            <PostBody
+              id={id}
+              URLs={URLs}
+              content={content}
+              isReplying
+              switchEnabled
+              userName={userName}
+              onReplyButtonClick={handleButtonOnClickReplying}
+            />
           </div>
-          <TweetBox replyId={id} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
+          <TweetBox replyId={id} users={replyingToId} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
         </div>
       </PopupPage>
       <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
@@ -140,7 +154,7 @@ function PostFooter({
 }
 
 PostFooter.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
