@@ -44,22 +44,22 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         const limit = parseInt(size);
 
     const theUser=req.user._id;
-    const theTweet=req.params.id;
+    const theTweet=req.params.id
     finalArray=[]
 
     const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
     const projection2 ={"_id":0,"name":1,"username":1};
-
     try{
-    var results=await tweet.find({replyTo:theTweet},projection).limit(limit).skip(size*(page-1)).sort({"createdAt":-1})
+    //finding the tweets in which they are a direct reply to the current tweet.
+    var results=await tweet.find({"replyTo.0":theTweet},projection).limit(limit).skip(size*(page-1)).sort({"createdAt":-1})
     }
     catch(error)
     {
-        return res.sendStatus(400);
+        return res.status(400).send("error during retrieving the tweet");
     }
     if(!results)
     {
-        return res.sendStatus(400);
+        return res.sendStatus(400).send("error: cannot find tweet");
     }
     
     
@@ -148,7 +148,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
            finalArray.push(Obj)
 
               
-        }
+    }
         if(finalArray.length==0)
         {
             return res.status(200).send("no replies found"); 
@@ -309,7 +309,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
   
         //do not view reply as a tweet. go to next iteration.   
-        if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length=="") 
+        if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length==0) 
        {
 
 
@@ -406,9 +406,9 @@ router.post("/",multer.any(),auth,async function(req,res,next){
          return res.status(400).send("user not found.");
     }
 
-    
+
    
-    if(userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
+    if(req.body.users==null ||userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
     {
         return res.status(400).send("1 of the body parameters could not be read.");
         
@@ -423,9 +423,9 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     //initialising images,gifs,content,reply as empty
     mediaTemp=[]
     contentTemp=""
-     replyTemp=undefined //represents an empty object
-     gifTemp=""
-     
+    replyTemp=[] 
+    gifTemp=""
+    userReplyingTo=[] 
      //if the tweet has content 
      if(req.body.content!="")
      {
@@ -494,8 +494,15 @@ router.post("/",multer.any(),auth,async function(req,res,next){
      //if the tweet is a reply to another tweet
      if(req.body.replyId) 
      {
-        replyTemp = req.body.replyId
-
+        replyTemp[0] = req.body.replyId
+        //getting the replies thread for the parent reply.
+        projection33={"_id":0,"replyTo":1,"postedBy":1};
+        var parentThreads=await tweet.findOne({"_id":req.body.replyId}).select(projection33)
+        if(parentThreads.replyTo!=null)
+        {
+            if(parentThreads.replyTo.length!=0)
+                replyTemp=replyTemp.concat(parentThreads.replyTo)
+        }        
         //checking if the id of the tweet we are repling to is valid.
         try
         {
@@ -512,13 +519,30 @@ router.post("/",multer.any(),auth,async function(req,res,next){
             
         }
 
-     }
-               
-             
+        if(req.body.users)
+        {
+            if(req.body.users.length!=0)
+           {
+         
+              var usersArray=req.body.users
+              userReplyingTo[0]=parentThreads.postedBy
+
+            for(ip=0;ip<usersArray.length;ip++)
+            {
+                if(usersArray[ip]==parentThreads.postedBy)
+                   continue;
+                else
+                   userReplyingTo.push(usersArray[ip])   
+            }
+            
+            }
+        }
+    }
+
+    
     //The tweet/reply has to have at least one of these to be valid
      if(contentTemp!="" || mediaTemp!=[] || gifTemp!="")
      {  
-         
             const userTweet= new tweet({
              content: req.body.content,
              postedBy: token,
@@ -531,7 +555,8 @@ router.post("/",multer.any(),auth,async function(req,res,next){
              retweetInfo:[],
              numberLikes:0,
              numberReplies:0,
-             numberRetweets:0
+             numberRetweets:0,
+             replyingUsers:userReplyingTo
             });
             
 
@@ -543,7 +568,7 @@ router.post("/",multer.any(),auth,async function(req,res,next){
              else
              {
                 //If it is not a reply
-                 if(replyTemp==undefined)
+                 if(replyTemp==[])
                  {
                     //add the tweet to the user's tweets 
                     await user.findByIdAndUpdate(token,{$addToSet:{tweets: theTweet.id}},{new:true})
@@ -562,7 +587,8 @@ router.post("/",multer.any(),auth,async function(req,res,next){
                       console.log(error);
                       return res.status(400).send("error with adding the tweet to the user's replies.");
                     })
-                    await tweet.findByIdAndUpdate(replyTemp,{$inc : {'numberReplies' : 1}}); 
+                    //increment number of replies of direct parent:
+                    await tweet.findByIdAndUpdate(req.body.replyId,{$inc : {'numberReplies' : 1}});  
                  }
                  return res.sendStatus(200);
              }
@@ -575,174 +601,174 @@ router.post("/",multer.any(),auth,async function(req,res,next){
         
 
 });
- 
+
  
  //////////////////////////////////////////////////////////////////////////////Deleting a tweet:
- router.delete("/:id",auth, async function(req, res){
-    var checkLikes=[];
-    var userInfo=null;
-    try
-    {
-        userInfo=await user.findById(req.user._id)
-    }
-    catch(error) //error with finding (invalid id)
-    {
-         return res.status(400).send("error with finding (invalid id)");
-    }
+//  router.delete("/:id",auth, async function(req, res){
+//     var checkLikes=[];
+//     var userInfo=null;
+//     try
+//     {
+//         userInfo=await user.findById(req.user._id)
+//     }
+//     catch(error) //error with finding (invalid id)
+//     {
+//          return res.status(400).send("error with finding (invalid id)");
+//     }
 
-    if(!userInfo) //the id of the user is not found
-    {
-        return res.status(400).send("the id of the user is not found");
+//     if(!userInfo) //the id of the user is not found
+//     {
+//         return res.status(400).send("the id of the user is not found");
         
-    }
+//     }
  
-    const Tweet = await tweet.findById(req.params.id)
+//     const Tweet = await tweet.findById(req.params.id)
 
 
-    //if the tweet is found and is posted by the current logged in user:
-    if (Tweet && Tweet.postedBy==req.user._id)
-    {
-        var deletedTweet=await tweet.findByIdAndDelete(req.params.id,{new:true})
-        checkLikes.push(deletedTweet._id);
-    }
-    else
-    {
-        return res.status(400).send("The tweet you are trying to delete is not found");
-    }
+//     //if the tweet is found and is posted by the current logged in user:
+//     if (Tweet && Tweet.postedBy==req.user._id)
+//     {
+//         var deletedTweet=await tweet.findByIdAndDelete(req.params.id,{new:true})
+//         checkLikes.push(deletedTweet._id);
+//     }
+//     else
+//     {
+//         return res.status(400).send("The tweet you are trying to delete is not found");
+//     }
 
-    //delete tweet from users schema:
-    if(!Tweet.replyTo) //if it is a tweet or a retweet:
-        {   
-            //remove the tweet/retweet from the user's tweets. 
-            await user.findByIdAndUpdate(req.user._id,{$pull:{tweets: req.params.id}},{new:true})
+//     //delete tweet from users schema:
+//     if(!Tweet.replyTo) //if it is a tweet or a retweet:
+//         {   
+//             //remove the tweet/retweet from the user's tweets. 
+//             await user.findByIdAndUpdate(req.user._id,{$pull:{tweets: req.params.id}},{new:true})
 
            
-           if(Tweet.retweetInfo)
-           {
-               if(Tweet.retweetInfo.length!=0) //if the tweet deleted is a retweet
-               {
-                //decrement the number of retweets for the original tweet,remove user from retweeters:
-                update1={
-                    $inc:{'numberRetweets' : -1},
-                    $pull:{retweeters:req.user._id}
-                }
-                await tweet.findByIdAndUpdate(Tweet.retweetInfo,update1,{new:true})
-                }
+//            if(Tweet.retweetInfo)
+//            {
+//                if(Tweet.retweetInfo.length!=0) //if the tweet deleted is a retweet
+//                {
+//                 //decrement the number of retweets for the original tweet,remove user from retweeters:
+//                 update1={
+//                     $inc:{'numberRetweets' : -1},
+//                     $pull:{retweeters:req.user._id}
+//                 }
+//                 await tweet.findByIdAndUpdate(Tweet.retweetInfo,update1,{new:true})
+//                 }
 
-             //if the tweet is neither a reply nor a retweet:
-              else
-             {
-              //if the deleted tweet has replies:
-              if(Tweet.numberReplies!=null &&Tweet.numberReplies > 0)
-              {
-                //delete any replies this tweet has:  
-                const projection3 ={"_id":1,"replyTo":1,"postedBy":1,"retweeters":1};      
-                var deletedReplies=await tweet.find({"replyTo":req.params.id}).select(projection3);
-               if(deletedReplies)
-                {
+//              //if the tweet is neither a reply nor a retweet:
+//               else
+//              {
+//               //if the deleted tweet has replies:
+//               if(Tweet.numberReplies!=null &&Tweet.numberReplies > 0)
+//               {
+//                 //delete any replies this tweet has:  
+//                 const projection3 ={"_id":1,"replyTo":1,"postedBy":1,"retweeters":1};      
+//                 var deletedReplies=await tweet.find({"replyTo":req.params.id}).select(projection3);
+//                if(deletedReplies)
+//                 {
 
-                   for(u=0;u<deletedReplies.length;u++)
-                   {
+//                    for(u=0;u<deletedReplies.length;u++)
+//                    {
 
-                        //delete the reply itself:
-                        await tweet.findByIdAndDelete(deletedReplies[u]._id);
-                        checkLikes.push(deletedReplies[u]._id);
+//                         //delete the reply itself:
+//                         await tweet.findByIdAndDelete(deletedReplies[u]._id);
+//                         checkLikes.push(deletedReplies[u]._id);
 
-                        //remove the tweet from the user's replies array
-                        await user.findByIdAndUpdate(deletedReplies[u].postedBy,{$pull:{replies:deletedReplies[u]._id}},{new:true})
+//                         //remove the tweet from the user's replies array
+//                         await user.findByIdAndUpdate(deletedReplies[u].postedBy,{$pull:{replies:deletedReplies[u]._id}},{new:true})
 
-                        //check if the reply has retweets remove these retweets.
-                        allTheRetweets22=await tweet.find({retweetInfo:deletedReplies[u]._id},{new:true}).select({"_id":1,"postedBy":1});
-                        if(allTheRetweets22)
-                        {
-                          for(g=0;g<allTheRetweets22.length;g++)
-                          {
-                            //remove retweets and remove them from tweets of users that posted them: 
+//                         //check if the reply has retweets remove these retweets.
+//                         allTheRetweets22=await tweet.find({retweetInfo:deletedReplies[u]._id},{new:true}).select({"_id":1,"postedBy":1});
+//                         if(allTheRetweets22)
+//                         {
+//                           for(g=0;g<allTheRetweets22.length;g++)
+//                           {
+//                             //remove retweets and remove them from tweets of users that posted them: 
             
-                            //remove from user schema    
-                            await user.findByIdAndUpdate(allTheRetweets22[g].postedBy,{$pull:{tweets:allTheRetweets22[g]._id}})
-                            .catch(error => {
-                                console.log(error);
-                                return res.sendStatus(400);
-                            })
-                            //remove from tweets schema
-                            await tweet.findByIdAndDelete(allTheRetweets22[g]._id);
-                            checkLikes.push(allTheRetweets22[g]._id);
-                          }   
-                        } 
+//                             //remove from user schema    
+//                             await user.findByIdAndUpdate(allTheRetweets22[g].postedBy,{$pull:{tweets:allTheRetweets22[g]._id}})
+//                             .catch(error => {
+//                                 console.log(error);
+//                                 return res.sendStatus(400);
+//                             })
+//                             //remove from tweets schema
+//                             await tweet.findByIdAndDelete(allTheRetweets22[g]._id);
+//                             checkLikes.push(allTheRetweets22[g]._id);
+//                           }   
+//                         } 
                          
-                   }
-                }
-              }
+//                    }
+//                 }
+//               }
 
-              //if the deleted tweet has retweets:
-              hasRetweets=await tweet.find({retweetInfo:Tweet._id},{new:true}).select({"_id":1,"postedBy":1});
-              if(hasRetweets)
-              {
+//               //if the deleted tweet has retweets:
+//               hasRetweets=await tweet.find({retweetInfo:Tweet._id},{new:true}).select({"_id":1,"postedBy":1});
+//               if(hasRetweets)
+//               {
                 
-                for(hr=0;hr<hasRetweets.length;hr++)
-                {
-                  //remove retweets and remove them from tweets of users that posted them: 
+//                 for(hr=0;hr<hasRetweets.length;hr++)
+//                 {
+//                   //remove retweets and remove them from tweets of users that posted them: 
                   
-                  //remove from user schema    
-                  await user.findByIdAndUpdate(hasRetweets[hr].postedBy,{ $pull:{tweets:hasRetweets[hr]._id}})
-                  .catch(error => {
-                      console.log(error);
-                      return res.sendStatus(400);
-                  })
-                  //remove from tweets schema
-                  await tweet.findByIdAndDelete(hasRetweets[hr]._id);
-                  checkLikes.push(hasRetweets[hr]._id);
-                }   
-              } 
+//                   //remove from user schema    
+//                   await user.findByIdAndUpdate(hasRetweets[hr].postedBy,{ $pull:{tweets:hasRetweets[hr]._id}})
+//                   .catch(error => {
+//                       console.log(error);
+//                       return res.sendStatus(400);
+//                   })
+//                   //remove from tweets schema
+//                   await tweet.findByIdAndDelete(hasRetweets[hr]._id);
+//                   checkLikes.push(hasRetweets[hr]._id);
+//                 }   
+//               } 
 
-           }
-        }
-        }
+//            }
+//         }
+//         }
 
-    else //if it is a reply
-        {  
-            //decrement the number of replies for the original tweet:
-            await tweet.findByIdAndUpdate(Tweet.replyTo,{$inc:{'numberReplies' : -1}},{new:true})
+//     else //if it is a reply
+//         {  
+//             //decrement the number of replies for the original tweet:
+//             await tweet.findByIdAndUpdate(Tweet.replyTo,{$inc:{'numberReplies' : -1}},{new:true})
 
-            //remove the tweet from the user's replies array
-            await user.findByIdAndUpdate(req.user._id,{$pull:{replies: req.params.id}},{new:true})
+//             //remove the tweet from the user's replies array
+//             await user.findByIdAndUpdate(req.user._id,{$pull:{replies: req.params.id}},{new:true})
 
-            //check if the reply has retweets remove these retweets.
-            allTheRetweets=await tweet.find({retweetInfo:Tweet._id},{new:true}).select({"_id":1,"postedBy":1});
-            if(allTheRetweets)
-            {
+//             //check if the reply has retweets remove these retweets.
+//             allTheRetweets=await tweet.find({retweetInfo:Tweet._id},{new:true}).select({"_id":1,"postedBy":1});
+//             if(allTheRetweets)
+//             {
               
-              for(r=0;r<allTheRetweets.length;r++)
-              {
-                //remove retweets and remove them from tweets of users that posted them: 
+//               for(r=0;r<allTheRetweets.length;r++)
+//               {
+//                 //remove retweets and remove them from tweets of users that posted them: 
                 
-                update2={
-                    $pull:{tweets:allTheRetweets[r]._id}
-                    } 
-                //remove from user schema    
-                console.log(allTheRetweets[r])
-                await user.findByIdAndUpdate(allTheRetweets[r].postedBy,update2)
-                .catch(error => {
-                    console.log(error);
-                    return res.sendStatus(400);
-                })
-                //remove from tweets schema
-                await tweet.findByIdAndDelete(allTheRetweets[r]._id);
-                checkLikes.push(allTheRetweets[r]._id);
-              }   
-            } 
+//                 update2={
+//                     $pull:{tweets:allTheRetweets[r]._id}
+//                     } 
+//                 //remove from user schema    
+//                 console.log(allTheRetweets[r])
+//                 await user.findByIdAndUpdate(allTheRetweets[r].postedBy,update2)
+//                 .catch(error => {
+//                     console.log(error);
+//                     return res.sendStatus(400);
+//                 })
+//                 //remove from tweets schema
+//                 await tweet.findByIdAndDelete(allTheRetweets[r]._id);
+//                 checkLikes.push(allTheRetweets[r]._id);
+//               }   
+//             } 
 
-        }
+//         }
 
-    //Any tweet removed should be removed from users liked tweets.
-    if(checkLikes.length!=0)
-    {
-        await user.updateMany({},{$pull:{likes:{$in:checkLikes}}})
-    }
-    return res.status(200).send("successfully deleted.");
+//     //Any tweet removed should be removed from users liked tweets.
+//     if(checkLikes.length!=0)
+//     {
+//         await user.updateMany({},{$pull:{likes:{$in:checkLikes}}})
+//     }
+//     return res.status(200).send("successfully deleted.");
      
- })
+//  })
 
 
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
@@ -827,7 +853,6 @@ router.put("/:id/like",auth,async(req,res)=>{
         return res.sendStatus(200);
 
 })
-
 
 //////////////////////////////////////////////////////////////////////////////Retweeting and unretweeting:
 router.post("/:id/retweet",auth,async(req,res)=>{
@@ -1023,7 +1048,6 @@ try {
 
    const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
    var partOfContent=req.query.search;
-
    var results = await tweet.find(({"content":{$regex:partOfContent,$options:"i"}}),projection).limit(limit).skip(size*(page-1))
    .populate("postedBy")
    .populate("retweeters")
@@ -1043,11 +1067,6 @@ try {
       {
        if (!results[i])
            continue;
-
- 
-       //do not view reply as a tweet. go to next iteration.   
-       if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length=="") 
-      {
 
 
        if(results[i]._id)
@@ -1110,7 +1129,7 @@ try {
 
        finalArray.push(Obj)
              
-       }
+       
    }
 
     if(finalArray.length==0)
@@ -1124,7 +1143,86 @@ catch (error) {
 }
 })
 
-/////////////////////////////////////////////////////////////////////////////Getting repliers info:
+/////////////////////////////////////////////////////////////////////////////Retrieve possible repliers:
+router.get("/repliers/:id",auth,async(req,res)=>{
+    //replyTo array: ba5tar users mo3ayana a reply leeha.
+    //urersrepliers array:el users di.
+    //fel endpoint di 3ayza id el tweet el ana ba-reply leeha directly
+    //we el tweet di ageeb el replyTo/usersrepliers array bta3ha araga3o+ el user el posted el tweet di(da el user el egbare)
+    //ba3deen el front end y5tar we yb3atlee el e5taro.
+    //capitooooo
+
+    //law ma3aya id direct tweet iam replying to:
+    //We can get possible users to reply to using the replyTo array that contains the tweets.
+    token=req.user._id
+    var userInfo=null;
+    try
+    {
+        userInfo=await user.findById(token)     
+    }
+    catch(error) //error with finding (invalid id)
+    {
+        console.log(error)
+         return res.status(400).send("user not found.");
+    }
+
+    const projection = { "_id": 0,"replyingUsers":1};
+    var theUsers = await tweet.findById(req.params.id,projection)
+    .populate("replyingUsers")  
+    .populate("postedBy")
+    .catch(error => {
+        console.log(error);
+        return res.status(400).send("error: problem with finding the tweet")
+    })
+    if(theUsers==null)
+    {
+        return res.status(400).send("error: can not find the tweet")
+    }
+    if(theUsers.length==0)
+    {
+        return res.status(400).send("error: no tweet found.")
+    }
+
+    usersArray=[]
+
+    //pushing the direct parent tweet:
+    const Obj0= ({
+        id:theUsers.postedBy.id,
+        displayName: theUsers.postedBy.name,
+        userName: theUsers.postedBy.username,
+        url: theUsers.postedBy.profilePic,
+        active:true
+       });
+
+    usersArray.push(Obj0)
+
+
+    for(p=0;p<theUsers.replyingUsers.length;p++)
+    {
+        if(theUsers.replyingUsers[p].id==theUsers.postedBy.id)
+            continue;
+    
+        const Obj= ({
+            id:theUsers.replyingUsers[p].id,
+            displayName: theUsers.replyingUsers[p].name,
+            userName:theUsers.replyingUsers[p].username,
+            url:theUsers.replyingUsers[p].profilePic,
+            active:true
+           });
+
+           usersArray.push(Obj)
+
+    }
+    if(usersArray.length==0)
+    {
+        res.status(400).send("no users available to reply to.")
+    }
+    else
+    {
+        res.status(200).send(usersArray)
+    }
+
+})
 
 
 module.exports =router;
