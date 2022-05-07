@@ -33,6 +33,8 @@ const userProfileRoute = require('./components/UserProfile/userProfile');
 const postRoute = require('./components/Tweets/tweets');
 //Admins
 const admins = require('./components/Admins/admin');
+//notifications
+const notifications = require('./components/Notifications/notifications');
 
 app.use('/uploads',express.static('uploads'));
 
@@ -56,6 +58,8 @@ app.use ('/forgotPassword',forgotPassword);
 
 // Admins end points
 app.use("/admins", admins)
+//notifications
+//app.use ('/notifications',notifications);
 
 // Test
 app.use('/__test__',express.static('__test__'));
