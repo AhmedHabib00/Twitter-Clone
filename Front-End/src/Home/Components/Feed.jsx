@@ -24,7 +24,7 @@ function Feed({ data }) {
             displayname={post.displayName}
             username={post.userName}
             content={post.content}
-            URLs={[]}
+            URLs={post.URLs}
             isLiked={post.isLiked}
             noOfLike={post.noOfLike}
             isRetweeted={post.isRetweeted}
