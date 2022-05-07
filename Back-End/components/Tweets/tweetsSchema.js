@@ -12,15 +12,15 @@ const tweetSchema = new mongoose.Schema({
     likes: [{ type: Schema.Types.ObjectId ,ref:'User'}],
     retweeters: [{ type: Schema.Types.ObjectId ,ref: 'User'}],
     retweetInfo: [{type:Schema.Types.ObjectId, ref: 'Tweet' }],
-    replyTo: {type:Schema.Types.ObjectId, ref: 'Tweet' }, //changed to object instead of array of objects
+    replyTo: [{type:Schema.Types.ObjectId, ref: 'Tweet' }], 
     gifs:{type:String}, //maximum of 1 gif only is allowed 
     media: [{
         type: String
     }],
     numberLikes:{type: Number},
-    numberReplies:{type: Number},
-    numberRetweets:{type: Number}
-
+    numberReplies:{type: Number}, //number of DIRECT REPLIES.
+    numberRetweets:{type: Number},
+    replyingUsers:[{ type: Schema.Types.ObjectId ,ref:'User'}], //users the current user is replying to.
 },{timestamps: true});
 
 const Tweet= mongoose.model('Tweet',tweetSchema);
