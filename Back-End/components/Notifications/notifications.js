@@ -36,9 +36,16 @@ const getNotifications = async function getNotifications(userId) {
     snapshot = await FIREBASE_DATABASE.ref('/notifications').orderByChild('to').equalTo(userId)
     .once('value');
     if (snapshot.val()
-    && snapshot.val()[Object.keys(snapshot.val())[0]] === undefined) { return null; }
-    //console.log(snapshot.val());
-    return snapshot.val();
+    && snapshot.val()[   Object.keys(snapshot.val()) [0]   ] === undefined) { return null; }
+    if (!snapshot.val()) {return null;}
+
+    const notifications = [];
+  
+    const size = Object.keys(snapshot.val()).length;
+    for (let i = 0; i < size; i += 1) {
+      notifications.push(snapshot.val()[Object.keys(snapshot.val())[i]]);
+    }
+    return notifications;
   }
   catch(err){
       console.log(err);
@@ -143,9 +150,6 @@ const SendNotificationToUser = async function SendNotificationToUser(notificatio
     ////await clearInvalidToken(tokenSnapshot, response.results);
     // so if he unsubscribe or token changed --> delete it from db
   };
-
-
-
 const createLikeNotification = async function createLikeNotification (tweetId, likingUserId)  {
   
     try {
@@ -270,9 +274,11 @@ const createFollowerTweetingNotification = async function createFollowerTweeting
         let recievers = senderInfo.followers;
         for (i=0; i< recievers.length;i++)
         {
-            const recieverInfo= recievers[i];
+            const recieverInfo= await User.findById(recievers[i]);
+            if (!recieverInfo) return 'user not found';
             let senderName = senderInfo.username;
             let recieverName = recieverInfo.username;
+            console.log(recieverName);
             const newNotification = new Notification({
                 from: sender,
                 senderName,
@@ -307,6 +313,9 @@ const createFollowerTweetingNotification = async function createFollowerTweeting
   };
   //createLikeNotification("6260a395711f5ce89d8b54b0","6248c3b66ad307b6e8623c57");
   //result = getNotifications("6257129df18fcd7147c6c825");
+  //result = getNotifications("6248c3b66ad307b6e8623c57");
   //createBlockNotification("6248c3b66ad307b6e8623c57","6249921db35e4fa55a5da228","2 days");
   //createFollowerTweetingNotification("6249921db35e4fa55a5da228","6260a395711f5ce89d8b54b0");
-    
+  module.exports = {
+    createLikeNotification, createBlockNotification, createFollowerTweetingNotification,getNotifications
+  };  
