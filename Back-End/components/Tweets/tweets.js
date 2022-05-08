@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const user = require('../User/userSchema');
+const {createLikeNotification,createFollowerTweetingNotification} = require('../Notifications/notifications');
+const bodyParser = require('body-parser');
 const tweet=require('./tweetsSchema');  
 const auth=require('../middleware/auth');
 const uuid=require("uuid");
@@ -48,10 +50,19 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
     finalArray=[]
 
     const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
-    const projection2 ={"_id":0,"name":1,"username":1};
+    // const projection2 ={"_id":0,"name":1,"username":1};
     try{
     //finding the tweets in which they are a direct reply to the current tweet.
-    var results=await tweet.find({"replyTo.0":theTweet},projection).limit(limit).skip(size*(page-1)).sort({"createdAt":-1})
+    var results =await tweet.find({"replyTo.0":theTweet},projection).limit(limit).skip(size*(page-1))
+    .populate("postedBy")
+    .populate("retweeters")
+    .populate("likes")
+    .sort({"createdAt":-1})    
+    .catch(error => {
+        console.log(error);
+        return res.status(400).send("error: problem with finding the tweets")
+    })
+    if (!results) return res.status.send('No tweets found')
     }
     catch(error)
     {
@@ -70,9 +81,6 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         var tempMedia=results[i]["media"]
         const the_id= results[i]["_id"]
 
-        //the user who posted this reply.
-        var theId=results[i]["postedBy"]
-
         var contentTemp="";
         var gifTemp="";
         
@@ -81,39 +89,18 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
                  contentTemp=results[i]["content"];
       
 
-        var results2 = await user.findById(theId,projection2)
-        .catch(error => {
-            console.log(error);
-            return res.sendStatus(400);
-        })
-        if(results2==null)
-        {
-            return res.status(400).send("a user who posted one of the tweets is not found.")
-        }
+        var Liked=false
+        var Retweeted=false
 
-        //Checking if the tweet is retweeted by the current user.
-        var Retweeted=false       
-        findRetweet=await tweet.find({retweetInfo:the_id,postedBy:theUser}).select("_id") 
-        .catch(error => {
-            console.log(error);
-            return res.sendStatus(400);
-        })        
-        if(findRetweet.length!=0)
-            Retweeted=true
-
-        
-        //Checking if the tweet is liked by current user.  
-        var Liked=false     
-        var foundLike= await user.find({_id:theUser,likes:{ $all:the_id}},{new:true})
-        .catch(error => {
-            console.log(error);
-            return res.sendStatus(400);
-        })
-
-        if(foundLike.length!=0)
+        //Checking if the tweet is liked by the current user.
+        var userLiked=results[i].likes.some(item => item._id == theUser)
+        if(userLiked)
             Liked=true
-
-  
+           
+        //Checking if the tweet is retweeted by the current user.
+        var userRetweeted=results[i].retweeters.some(item => item._id == theUser)
+        if(userRetweeted)
+            Retweeted=true
 
         var urls=[]
         if(!tempMedia || tempMedia.length==0)
@@ -131,11 +118,11 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
         {
             urls=tempMedia;
         }
-
+        
         const Obj= ({
             id:the_id,
-            userName: results2["username"],
-            displayName: results2["name"],
+            userName: results[i].postedBy.username,
+            displayName: results[i].postedBy.name,
             content: contentTemp,
             URLs:urls,
             isLiked:Liked,
@@ -560,7 +547,7 @@ router.post("/",multer.any(),auth,async function(req,res,next){
             });
             
 
-             userTweet.save(async function(err,theTweet){
+             userTweet.save(async function(err){
              if(err)
              {
                 return res.status(400).send("error with saving the tweet.");
@@ -568,10 +555,10 @@ router.post("/",multer.any(),auth,async function(req,res,next){
              else
              {
                 //If it is not a reply
-                 if(replyTemp==[])
+                 if(replyTemp.length==0)
                  {
-                    //add the tweet to the user's tweets 
-                    await user.findByIdAndUpdate(token,{$addToSet:{tweets: theTweet.id}},{new:true})
+                    // //add the tweet to the user's tweets 
+                    await user.findByIdAndUpdate(token,{$addToSet:{tweets: userTweet["_id"]}},{new:true})
                     .catch(error => {
                      console.log(error);
                      return res.status(400).send("error with adding the tweet to the user's tweets.");
@@ -590,7 +577,15 @@ router.post("/",multer.any(),auth,async function(req,res,next){
                     //increment number of replies of direct parent:
                     await tweet.findByIdAndUpdate(req.body.replyId,{$inc : {'numberReplies' : 1}});  
                  }
-                 return res.sendStatus(200);
+
+                //Sending notification to followers:
+                var notificationStatus=await createFollowerTweetingNotification(token,userTweet.id); 
+                if(!notificationStatus)
+                {
+                    return res.status(400).send("error with sending the notification.");
+                }
+                else
+                   return res.sendStatus(200);
              }
          });
      }
@@ -849,6 +844,12 @@ router.put("/:id/like",auth,async(req,res)=>{
         })
 
 
+        //Sending notification to the user who posted the liked tweet:
+       var notificationStatus=await createLikeNotification(postId,token);
+       if(!notificationStatus)
+        {
+            return res.status(400).send("error with sending the notification.");
+        }
     }
         return res.sendStatus(200);
 
