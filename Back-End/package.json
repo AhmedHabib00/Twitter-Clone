@@ -9,12 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^5.19.3",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-session": "^1.17.2",
+    "firebase-admin": "^10.1.0",
     "jest": "^27.5.1",
     "joi": "^13.1.0",
     "jsonwebtoken": "^8.5.1",
@@ -28,6 +30,5 @@
     "session": "^0.1.0",
     "supertest": "^6.2.2"
   },
-  "devDependencies": {},
   "keywords": []
 }
