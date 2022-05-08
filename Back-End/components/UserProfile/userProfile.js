@@ -221,9 +221,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         for(var i = numbOfTweets-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(tweetss[i].toString());
-            const likesOnTweet = tempTweet.numberLikes;
-            const repliesOnTweet = tempTweet.numberReplies;
-            const tweetRetweets = tempTweet.numberRetweets;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             if(!tempTweet.likes){
                 likesOnTweet = 0;
             }
@@ -251,9 +251,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         const startIndex = (pageNumber - 1) * pageSize
         const endIndex =  pageNumber * pageSize
 
-        console.log(pageNumber)
-        console.log(startIndex)
-        console.log(endIndex)
+        // console.log(pageNumber)
+        // console.log(startIndex)
+        // console.log(endIndex)
         let filteredTweets
         if(usertweets.length > pageSize) {
            filteredTweets = usertweets.slice(startIndex, endIndex)
@@ -264,6 +264,7 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         return res.status(200).send({filteredTweets});
     }
     catch (err){
+        console.log(err)
         return res.status(400).send("User has no tweets.")
     }
 
