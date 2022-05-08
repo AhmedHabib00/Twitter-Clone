@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //import '../../screens/Settings/settingspage.dart';
 //import '../../screens/home/Timeline.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
+import 'package:whisper/layout/UserProfile/profile_layout.dart';
 
 class SideMenu extends StatefulWidget {
   final String token;
@@ -45,7 +46,7 @@ class _SideMenuState extends State<SideMenu> {
                           height: 0,
                         ),
                         const Text(
-                          'Mr.Ahmed hassan',
+                          'Eizaldin Tarik',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
@@ -56,7 +57,7 @@ class _SideMenuState extends State<SideMenu> {
                           height: 1,
                         ),
                         const Text(
-                          '@ammarhunter0',
+                          '@EizaldinT',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 15,
@@ -103,60 +104,61 @@ class _SideMenuState extends State<SideMenu> {
                 ListTile(
                   leading: const Icon(Icons.person),
                   title: const Text('Profile'),
-                  onTap: () {},
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ())),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfilePage(token: token))),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.list_alt),
-                  title: const Text('Lists'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: const Icon(Icons.message),
-                  title: const Text('Topics'),
-                  onTap: () {},
-                ),
+                // ListTile(
+                //   leading: const Icon(Icons.list_alt),
+                //   title: const Text('Lists'),
+                //   onTap: () {},
+                // ),
+                // ListTile(
+                //   leading: const Icon(Icons.message),
+                //   title: const Text('Topics'),
+                //   onTap: () {},
+                // ),
                 ListTile(
                   leading: const Icon(Icons.bookmark_border),
                   title: const Text('Bookmarks'),
                   onTap: () {},
                 ),
-                ListTile(
-                  leading: const Icon(Icons.bolt),
-                  title: const Text('Moments'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: const Icon(Icons.money_outlined),
-                  title: const Text('Monetization'),
-                  onTap: () {},
-                ),
-                const Divider(
-                  height: 2,
-                ),
-                ListTile(
-                  leading: const Icon(Icons.rocket_launch_outlined),
-                  title: const Text('Twitter for Professionals'),
-                  onTap: () {},
-                ),
-                const Divider(
-                  height: 2,
-                ),
+                // ListTile(
+                //   leading: const Icon(Icons.bolt),
+                //   title: const Text('Moments'),
+                //   onTap: () {},
+                // ),
+                // ListTile(
+                //   leading: const Icon(Icons.money_outlined),
+                //   title: const Text('Monetization'),
+                //   onTap: () {},
+                // ),
+                // const Divider(
+                //   height: 2,
+                // ),
+                // ListTile(
+                //   leading: const Icon(Icons.rocket_launch_outlined),
+                //   title: const Text('Twitter for Professionals'),
+                //   onTap: () {},
+                // ),
+                // const Divider(
+                //   height: 2,
+                // ),
                 const ListTile(
                   leading: Icon(Icons.settings),
-                  title: Text('Settings and Pirvacy'),
+                  title: Text('Settings'),
                   // onTap: () => Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => SettingsPage())),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.help_outline_outlined),
-                  title: const Text('Help Center'),
-                  onTap: () {},
-                ),
-                const Divider(
-                  height: 2,
-                ),
+                // ListTile(
+                //   leading: const Icon(Icons.help_outline_outlined),
+                //   title: const Text('Help Center'),
+                //   onTap: () {},
+                // ),
+                // const Divider(
+                //   height: 2,
+                // ),
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
                   title: const Text('Logout'),

@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, avoid_unnecessary_containers, non_constant_identifier_names, unnecessary_new, avoid_print, avoid_init_to_null, unused_local_variable, duplicate_import, prefer_typing_uninitialized_variables, camel_case_types
 
+// import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Admin/GraphBar.dart';
 import 'package:whisper/layout/Admin/GraphPie.dart';
@@ -18,81 +20,76 @@ class AdminPage extends StatefulWidget {
 class _AdminPage extends State<AdminPage> {
   @override
   initState() {
-    NoUsers();
+    //NoUsers(widget.token);
+    //NoBanned(widget.token);
+    //ratioTweets(widget.token);
     super.initState();
   }
 
-  late var NoUser = 0;
-  late var NoBan = 0;
-  late var ratioTweet = 0;
-
-  Future NoUsers() async {
+  late var NoUser = 5;
+  late var NoBan = 5;
+  late var ratioTweet = '';
+  Future NoUsers(token) async {
+    var jsonData = null;
     Map mapResponse;
     Map dataResponse;
-    http.Response response;
-    response = await http.get(
+    var response = await http.get(
       Uri.parse(
-        'https://reqres.in/api/users/2',
-        //'https://www.thegrowingdeveloper.org/apiview?id=1',
+        ('http://10.0.2.2:8080/admins/statistics/noUsers'),
         //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
-        //   //headers: {'x-auth-token': token},
       ),
+      headers: {
+        'x-auth-token': token,
+      },
     );
     setState(() {
       mapResponse = json.decode(response.body);
-      dataResponse = mapResponse['data'];
-      NoUser = dataResponse['id'];
-      //print(NoUser);
-      //print('inside api');
+      dataResponse = mapResponse['noUsers'];
+      NoUser = dataResponse['count'];
     });
   }
 
-  Future NoBanned() async {
+  Future NoBanned(token) async {
     Map mapResponse;
     Map dataResponse;
-    http.Response response;
-    response = await http.get(
+    var response = await http.get(
       Uri.parse(
-        'https://reqres.in/api/users/2',
+        'http://10.0.2.2:8080/admins/statistics/noBanned',
         //'https://www.thegrowingdeveloper.org/apiview?id=1',
         //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
-        //   //headers: {'x-auth-token': token},
       ),
+      headers: {'x-auth-token': token},
     );
     setState(() {
       mapResponse = json.decode(response.body);
-      dataResponse = mapResponse['data'];
-      NoBan = dataResponse['id'];
+      dataResponse = mapResponse['noBanned'];
+      NoBan = dataResponse['count'];
     });
   }
 
-  Future ratioTweets() async {
+  Future ratioTweets(token) async {
     Map mapResponse;
     Map dataResponse;
-    //int ratioTweet;
-    http.Response response;
-    response = await http.get(
+    var response = await http.get(
       Uri.parse(
-        'https://reqres.in/api/users/2',
+        'http://10.0.2.2:8080/admins/statistics/ratioTweets',
         //'https://www.thegrowingdeveloper.org/apiview?id=1',
         //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
-        //   //headers: {'x-auth-token': token},
       ),
+      headers: {'x-auth-token': token},
     );
     setState(() {
       mapResponse = json.decode(response.body);
-      dataResponse = mapResponse['data'];
-      ratioTweet = dataResponse['id'];
-      //print(ratioTweet);
-      // print('from parse');
+      dataResponse = mapResponse['ratioTweets'];
+      ratioTweet = dataResponse['count'];
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    NoUsers();
-    NoBanned();
-    ratioTweets();
+    NoUsers(widget.token);
+    NoBanned(widget.token);
+    ratioTweets(widget.token);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -149,7 +146,6 @@ class _AdminPage extends State<AdminPage> {
                         count: NoUser,
                         icon: Icons.person,
                         name: " No. of Users",
-                        text2: "",
                       ),
                     ),
                     Padding(
@@ -160,16 +156,14 @@ class _AdminPage extends State<AdminPage> {
                         count: NoBan,
                         icon: Icons.block,
                         name: " No. of banned Users",
-                        text2: "",
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 50, right: 50, top: 0, bottom: 50),
+                          left: 25, right: 50, top: 0, bottom: 50),
                       child: _AdminCard(
                         context: context,
-                        count: ratioTweet, //ratioTweet,
-                        text2: "%",
+                        count: ratioTweet,
                         icon: Icons.percent_sharp,
                         name: " Tweets Increased by",
                       ),
@@ -234,8 +228,7 @@ class _AdminPage extends State<AdminPage> {
 
   Widget _AdminCard(
       {required IconData icon,
-      required count,
-      required String text2,
+      required var count,
       required String name,
       required BuildContext context}) {
     return Card(
@@ -274,7 +267,6 @@ class _AdminPage extends State<AdminPage> {
                       style: const TextStyle(
                           fontSize: 100, fontWeight: FontWeight.bold),
                     ),
-                    Text(text2, style: const TextStyle(fontSize: 35)),
                   ],
                 ),
               ),

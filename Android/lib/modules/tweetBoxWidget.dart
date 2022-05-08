@@ -24,9 +24,9 @@ class TweetBoxWidgety extends StatefulWidget {
 class _TweetBoxWidgetyState extends State<TweetBoxWidgety> {
   final List<TweetModel> Tweets = [
     TweetModel(
-      username: " Ammar",
-      tweetmessg: "my name is ammar",
-      twitterHandle: "@Ammar1",
+      username: " Eizaldin",
+      tweetmessg: "my name is eiz",
+      twitterHandle: "@EizaldinT",
       time: "7h",
       date: DateTime.now(),
       comments: 23,
@@ -89,9 +89,9 @@ class _TweetBoxWidgetyState extends State<TweetBoxWidgety> {
       retweets: 8,
     ),
     TweetModel(
-      username: " Ammar",
-      tweetmessg: "my name is ammar",
-      twitterHandle: "@Ammar1",
+      username: " Ahmed",
+      tweetmessg: "my name is ahmed",
+      twitterHandle: "@Ahmed",
       time: "7h",
       date: DateTime.now(),
       comments: 23,
