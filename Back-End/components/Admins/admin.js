@@ -8,6 +8,7 @@ const { ObjectId, Admin } = require('mongodb');
 const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {createBlockNotification} = require('../Notifications/notifications')
 
 // Test || Token || - TO-DELETE
 router.get('/gToken/:id',async(req,res)=>{
@@ -101,14 +102,14 @@ router.get('/users', auth, async (req, res, next) =>{
             "username": {$regex:  ".*"+search+".*", $options:"si"} 
         }},
         { $project: { 
-            "_id":0,
+            "_id": 0,
             "id": "$_id", 
-            "name":1,
-             "username":1,
-             "description":1, 
-             "profilePic":1,
-             "banned":1,
-             "role":1
+            "name": 1,
+             "username": 1,
+             "description": {$ifNull: ["$description", ""]}, 
+             "profilePic": 1,
+             "banned": 1,
+             "role": 1
         }},
         { '$facet'    : {
             data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
@@ -748,12 +749,24 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
         return res.status(500).send("Not Authorized Admin id.");
     }
 
+    const diffTime = Math.abs(end_date - start_date);
+    const durationInDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
     // banned user contents
     bannedUser.banned = true;
     bannedUser.bannedBy = ObjectId(req.params.id);
     bannedUser.bannedStartDate = start_date;
     bannedUser.bannedEndDate = end_date;
     bannedUser.save();
+
+    let statusNotif = await createBlockNotification(req.params.target_user_id, req.params.id, durationInDays);
+    
+    if (!statusNotif) {
+        return res.status(500).send({
+            "reason": "Error in notification."
+        })
+    }
+
     return res.status(200).send({
         "Ban": true,
         "bannedUser": ObjectId(req.params.target_user_id),
