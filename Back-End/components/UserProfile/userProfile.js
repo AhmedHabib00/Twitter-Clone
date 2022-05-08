@@ -285,9 +285,9 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
         for(var i = numbofreplies-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(replies[i].toString());
-            const likesOnTweet = tempTweet.numberLikes;
-            const repliesOnTweet = tempTweet.numberReplies;
-            const tweetRetweets = tempTweet.numberRetweets;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             const tweetposter = await User.findById(tempTweet.postedBy.toString())
 
             if(!tempTweet.likes){
@@ -314,9 +314,9 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
         for(var i = numbOfTweets-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(tweetss[i].toString());
-            const likesOnTweet = tempTweet.numberLikes;
-            const repliesOnTweet = tempTweet.numberReplies;
-            const tweetRetweets = tempTweet.numberRetweets;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             const tweetposter = await User.findById(tempTweet.postedBy.toString())
 
             if(!tempTweet.likes){
@@ -343,9 +343,9 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
         const startIndex = (pageNumber - 1) * pageSize
         const endIndex =  pageNumber * pageSize
 
-        console.log(pageNumber)
-        console.log(startIndex)
-        console.log(endIndex)
+        // console.log(pageNumber)
+        // console.log(startIndex)
+        // console.log(endIndex)
         let filteredTweetsAndreplies
         if(usertweetsAndreplies.length > pageSize) {
             filteredTweetsAndreplies = usertweetsAndreplies.slice(startIndex, endIndex)
@@ -374,9 +374,9 @@ router.get('/:userProfileId/likes', async(req,res) => {
         for(var i = numbOfLikedTweets-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(likedtweets[i].toString());
-            const likesOnTweet = tempTweet.numberLikes;
-            const repliesOnTweet = tempTweet.numberReplies;
-            const tweetRetweets = tempTweet.numberRetweets;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             const tweetposter = await User.findById(tempTweet.postedBy.toString())
             if(!tempTweet.likes){
                 likesOnTweet = 0;
@@ -402,9 +402,9 @@ router.get('/:userProfileId/likes', async(req,res) => {
         const startIndex = (pageNumber - 1) * pageSize
         const endIndex =  pageNumber * pageSize
 
-        console.log(pageNumber)
-        console.log(startIndex)
-        console.log(endIndex)
+        // console.log(pageNumber)
+        // console.log(startIndex)
+        // console.log(endIndex)
         let filteredlikes
         if(userLikes.length > pageSize) {
             filteredlikes = userLikes.slice(startIndex, endIndex)
