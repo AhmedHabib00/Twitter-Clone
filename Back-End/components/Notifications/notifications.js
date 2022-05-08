@@ -150,8 +150,7 @@ const SendNotificationToUser = async function SendNotificationToUser(notificatio
     ////await clearInvalidToken(tokenSnapshot, response.results);
     // so if he unsubscribe or token changed --> delete it from db
   };
-const createLikeNotification = async function createLikeNotification (tweetId, likingUserId)  {
-  
+const createLikeNotification = async function createLikeNotification (tweetId, likingUserId)  {  
     try {
       const tweet = await Tweet.findById(tweetId);
       let reciever; // tweet writer
@@ -175,7 +174,7 @@ const createLikeNotification = async function createLikeNotification (tweetId, l
           entityId : tweetId,
           //senderImageUrl: senderInfo.profilePic,
         });
-        
+        await newNotification.save()
         senderName = senderName === undefined ? null : senderName;
         recieverName = recieverName === undefined ? null : recieverName;
   
@@ -192,8 +191,9 @@ const createLikeNotification = async function createLikeNotification (tweetId, l
         };
         await SaveNotification(firebaseNotification); 
         await SendNotificationToUser(firebaseNotification); 
+        return 'success';
       }
-    return 'success';
+    
     } catch (err) {
      console.log(err);
      return 'failure';
@@ -319,3 +319,4 @@ const createFollowerTweetingNotification = async function createFollowerTweeting
   module.exports = {
     createLikeNotification, createBlockNotification, createFollowerTweetingNotification, getNotifications
   };  
+
