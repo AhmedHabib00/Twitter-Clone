@@ -54,7 +54,7 @@ image_4_css_selector = "img[src$='imagenopq4.png']"
 image_5_css_selector = "img[src$='imagerstu5.png']"
 images_in_tweetbox_id = 'image-box-image-canvas'
 
-chrome_driver = '/chromedriver/chromedriver'
+chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
 email = 'testingwhisper2@gmail.com'
 password = 'BnSuliman@1'
 password_1 = 'whispertest2'

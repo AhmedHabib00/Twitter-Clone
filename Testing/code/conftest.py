@@ -1,13 +1,13 @@
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import accessabilities
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 
 
-def driver():
+@pytest.fixture(autouse=True)
+def driver(request):
     # initializing webdriver
     caps = DesiredCapabilities().CHROME
     caps["pageLoadStrategy"] = "none"
@@ -20,7 +20,9 @@ def driver():
     driver.implicitly_wait(20)
     driver.maximize_window()
     driver.get('http://habibs.me/')
-    return driver
 
-def teardown(driver):
+    if request.cls is not None:
+        request.cls.driver = driver
+
+    yield driver
     driver.quit()
