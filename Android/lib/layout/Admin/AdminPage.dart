@@ -20,9 +20,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPage extends State<AdminPage> {
   @override
   initState() {
-    //NoUsers(widget.token);
-    //NoBanned(widget.token);
-    //ratioTweets(widget.token);
+    getUserData(widget.token);
     super.initState();
   }
 
@@ -85,11 +83,41 @@ class _AdminPage extends State<AdminPage> {
     });
   }
 
+  Future getUserData(token) async {
+    Map mapResponse;
+    Map dataResponse;
+    //Map info;
+    //Map dataResponse;
+    var response = await http.get(
+      Uri.parse(
+        'http://10.0.2.2:8080/admins/users/?size=1&page=4&search=&state=',
+      ),
+      headers: {'x-auth-token': token},
+    );
+    setState(() {
+      var jsonData = json.decode(response.body);
+      // mapResponse = json.decode(response.body);
+      List dataResponse = jsonData['Info'];
+      List info = dataResponse[0]['data'];
+      Map infoName = info[0];
+      String infoname = infoName['name'];
+
+      // print('@@@@@@@@@@@@ dataResponse Start');
+      // print(dataResponse);
+      // print('@@@@@@@ dataResponse ends');
+
+      // print('@@@@@@@@@@@@ info Start');
+      // print(infoname);
+      // print('@@@@@@@ info ends');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     NoUsers(widget.token);
     NoBanned(widget.token);
     ratioTweets(widget.token);
+    getUserData(widget.token);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -209,14 +237,130 @@ class _AdminPage extends State<AdminPage> {
                   ],
                 ),
               ),
+              // Container(
+              //   child: Card(
+              //     child: FutureBuilder<List>(
+              //         future: datafuture,
+              //         //getUserData(),
+              //         builder: (context, snapshot) {
+              //           if (snapshot.hasData) {
+              //             users = snapshot.data!;
+              //             //return Container(
+              //             // child: const Center(
+              //             //   child: Text('loading...'),
+              //             // ),
+              //             return ListView.builder(
+              //               itemCount: snapshot.data?.length,
+              //               itemBuilder: (context, i) {
+              //                 return ListTile(
+              //                   title: Text(snapshot.data?[i].name),
+              //                   subtitle: Text(snapshot.data?[i].userName),
+              //                   trailing: Text(snapshot.data?[i].email),
+              //                 );
+              //               },
+              //             );
+              //             // );
+              //           } else {
+              //             //var data = (snapshot.data as List<User>).toList();
+              //             return const Center(
+              //                 child: CircularProgressIndicator());
+              //           }
+              //         }),
+              //   ),
+              // ),
+
+              // start here
+              //SingleChildScrollView(
+              //child:
+              Container(
+                child: getBody(), //AdminTweetBoxWidget(Tweets, false, () {}),
+              ),
+              //),
+              // delete before
+
               SingleChildScrollView(
                 child: Container(
                   child: AdminTweetBoxWidget(Tweets, false, () {}),
                 ),
               ),
-              SingleChildScrollView(
-                child: Container(
-                  child: AdminTweetBoxWidget(Tweets, false, () {}),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getBody() {
+    // return const Center(
+    //   child: Text('hello world'),
+    // );
+    List items = [
+      '1',
+      '2',
+    ];
+    return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return getCard(); //Text('index $index');
+        });
+  }
+
+  Widget getCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListTile(
+          title: Row(
+            children: <Widget>[
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 0, 81, 255),
+                  borderRadius: BorderRadius.circular(60 / 2),
+                  image: const DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        "https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const <Widget>[
+                  Text('Christina ',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 10),
+                  Text('@Christy20', style: TextStyle(color: Colors.grey)),
+                ],
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 100),
+              //   child: MaterialButton(
+              //     onPressed: () {},
+              //     color: Colors.red,
+              //   ),
+              // ),
+
+              Padding(
+                padding: const EdgeInsets.only(left: 100),
+                child: MaterialButton(
+                  minWidth: double.minPositive,
+                  height: 30,
+                  onPressed: () {},
+                  color: const Color.fromARGB(255, 255, 0, 0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Text(
+                    "Block",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -307,3 +451,15 @@ final List<AdminTweetModel> Tweets = [
       //time: "3m",
       twitterHandle: "@Hassan212"),
 ];
+
+class User {
+  final String name;
+  final String userName;
+  final String profilePic;
+  User({required this.name, required this.userName, required this.profilePic});
+  static User fromJson(json) => User(
+        name: json['name'],
+        userName: json['username'],
+        profilePic: json['profilePic'],
+      );
+}

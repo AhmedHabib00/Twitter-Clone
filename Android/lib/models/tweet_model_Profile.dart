@@ -1,4 +1,6 @@
 // ignore: unused_import
+// ignore_for_file: file_names, unused_import, duplicate_ignore
+
 import 'package:flutter/material.dart';
 
 class TweetModel {
