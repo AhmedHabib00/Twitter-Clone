@@ -11,7 +11,7 @@ router.get('/:userId',auth, async (req, res) => {
 
     const user = await User.findById(req.params.userId);
     if (!user) return res.status(404).send('user not found');
-
+    if (req.user._id != user._id) return res.status(401).send('Access Denied :user token doesnt match userId in req params');
     try{
         const result = await getNotificationsMongo(req.params.userId);
         return res.status(200).status(200).send(result);
