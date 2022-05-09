@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const User = require('../User/userSchema');
-const {getNotifications} = require('./notifications');
+const {getNotifications,getNotificationsMongo} = require('./notifications');
 const auth=require('../middleware/auth');
 
 router.get('/:userId',auth, async (req, res) => {
@@ -13,7 +13,7 @@ router.get('/:userId',auth, async (req, res) => {
     if (!user) return res.status(404).send('user not found');
 
     try{
-        const result = await getNotifications(req.params.userId);
+        const result = await getNotificationsMongo(req.params.userId);
         return res.status(200).status(200).send(result);
     }
     catch(err){

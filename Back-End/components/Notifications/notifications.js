@@ -53,6 +53,18 @@ const getNotifications = async function getNotifications(userId) {
   
   
 };
+const getNotificationsMongo = async function getNotificationsMongo(userId) {
+    try{
+    const notifications = await Notification.find({to:userId});
+    console.log(notifications);
+    return notifications;
+    }
+    catch(err){
+        console.log(err);
+        return err;
+    }
+    
+  };
 ///////////////////////////////////////////////////////////////////////
 const SendNotificationToUser = async function SendNotificationToUser(notification) {
 
@@ -108,11 +120,11 @@ const SendNotificationToUser = async function SendNotificationToUser(notificatio
     // accessing token as its returned as
     // we will make array of tokens as if user is logged in in mobile and web
     // at same time so to send to both
-    const tokensValue = [];// tokenSnapshot.val()[Object.keys(tokenSnapshot.val())[0]].token;
+    const tokensArray = [];
   
     const size = Object.keys(tokenSnapshot.val()).length;
     for (let i = 0; i < size; i += 1) {
-      tokensValue.push(tokenSnapshot.val()[Object.keys(tokenSnapshot.val())[i]].token);
+        tokensArray.push(tokenSnapshot.val()[Object.keys(tokenSnapshot.val())[i]].token);
     }
 
     const payload = {
@@ -121,7 +133,7 @@ const SendNotificationToUser = async function SendNotificationToUser(notificatio
         body: newNotification.body,
         icon: newNotification.icon,
       },
-      data: { // real data must be sent ( whole notification)
+      data: { 
         sender:from,
         to,
         recieverName,
@@ -138,7 +150,7 @@ const SendNotificationToUser = async function SendNotificationToUser(notificatio
     
     // so now we have token of reciever and we just need to send
     try{
-        const response = await FIREBASE_MESSAGING.sendToDevice(tokensValue, payload);
+        const response = await FIREBASE_MESSAGING.sendToDevice(tokensArray, payload);
         console.log(response);
     }
     catch(err)
@@ -158,7 +170,7 @@ const createLikeNotification = async function createLikeNotification (tweetId, l
       if (tweet) {
         reciever = tweet.postedBy;
       } else {
-        return 'tweet not found';
+        return false;
       }
       const recieverInfo = await User.findById(reciever);
       const senderInfo = await User.findById(likingUserId);
@@ -166,16 +178,18 @@ const createLikeNotification = async function createLikeNotification (tweetId, l
         // checking sender != reciever as we cant notify that you liked yourself
         let senderName = senderInfo.username;
         let recieverName = recieverInfo.username;
-        const newNotification = new Notification({
-          from: likingUserId,
-          senderName,
-          to: reciever, 
-          recieverName,
-          reason: 'like',
-          entityId : tweetId,
-          //senderImageUrl: senderInfo.profilePic,
-        });
-        
+        const data = {
+            from: likingUserId,
+            senderName,
+            to: reciever, 
+            recieverName,
+            reason: 'like',
+            entityId : tweetId,
+            senderProfilePic: senderInfo.profilePic,
+          };
+        const newNotification = new Notification(data);
+        await Notification.deleteOne(data).catch(err=>console.log(err));
+        await newNotification.save();
         senderName = senderName === undefined ? null : senderName;
         recieverName = recieverName === undefined ? null : recieverName;
   
@@ -188,15 +202,15 @@ const createLikeNotification = async function createLikeNotification (tweetId, l
           id: id.toString(),
           reason: newNotification.reason,
           entityId: newNotification.entityId.toString(),
-          //senderImageUrl: senderInfo.profilePic,
+          senderProfilePic: senderInfo.profilePic.toString(),
         };
-        await SaveNotification(firebaseNotification); 
+        //await SaveNotification(firebaseNotification); 
         await SendNotificationToUser(firebaseNotification); 
       }
-    return 'success';
+    return true;
     } catch (err) {
      console.log(err);
-     return 'failure';
+     return false;
     }
   };
 const createBlockNotification = async function createBlockNotification (blockedUserId,AdminId,blockDuration)  {
@@ -208,21 +222,21 @@ const createBlockNotification = async function createBlockNotification (blockedU
         reciever = user;
       } else {
         console.log('user Not Found');
-        return 'user not found';
+        return false;
       }
       const admin = await User.findById(AdminId);
       let sender; // the admin
-      if (admin && admin.role =='Admin') {
+      if (admin ) {
         sender = admin;
       } else {
         console.log('admin Not Found');
-        return  'admin not found';
+        return  false;
       }
      
         
     let senderName = sender.username;
     let recieverName = reciever.username;
-    const newNotification = new Notification({
+    const data ={
         from: AdminId,
         senderName,
         to: blockedUserId, 
@@ -230,9 +244,11 @@ const createBlockNotification = async function createBlockNotification (blockedU
         reason: 'block',
         blockDuration,
         //entityId : tweetId,
-        //senderImageUrl: senderInfo.profilePic,
-    });
-        
+        //senderProfilePic: senderInfo.profilePic,
+    }
+        const newNotification = new Notification(data);
+        Notification.deleteOne(data).catch(err=>console.log(err));
+        await newNotification.save();
         senderName = senderName === undefined ? null : senderName;
         recieverName = recieverName === undefined ? null : recieverName;
   
@@ -248,13 +264,13 @@ const createBlockNotification = async function createBlockNotification (blockedU
           //entityId: newNotification.entityId.toString(),
           //senderImageUrl: senderInfo.profilePic,
         };
-        await SaveNotification(firebaseNotification); 
+        //await SaveNotification(firebaseNotification); 
         await SendNotificationToUser(firebaseNotification);
-        return 'success';
+        return true;
     
     } catch (err) {
      console.log(err);
-     return 'failure';
+     return false;
     }
   };
 const createFollowerTweetingNotification = async function createFollowerTweetingNotification (tweetingUserId,tweetId)  {
@@ -265,29 +281,32 @@ const createFollowerTweetingNotification = async function createFollowerTweeting
         if (senderInfo) {
             sender = senderInfo._id;
         } else {
-            return 'user not found';
+            return false;
         }
         const tweet = await Tweet.findById(tweetId);
         if (!tweet) {
-            return 'tweet not found';
+            return false;
         }
         let recievers = senderInfo.followers;
         for (i=0; i< recievers.length;i++)
         {
             const recieverInfo= await User.findById(recievers[i]);
-            if (!recieverInfo) return 'user not found';
+            if (!recieverInfo) return false;
             let senderName = senderInfo.username;
             let recieverName = recieverInfo.username;
             console.log(recieverName);
-            const newNotification = new Notification({
+            const data ={
                 from: sender,
                 senderName,
                 to: recievers[i]._id, 
                 recieverName,
                 reason: 'follower tweeted',
                 entityId : tweetId,
-                //senderImageUrl: senderInfo.profilePic,
-                });
+                senderProfilePic: senderInfo.profilePic,
+                };
+            const newNotification = new Notification(data);
+            Notification.deleteOne(data).catch(err=>console.log(err));
+            await newNotification.save();
             senderName = senderName === undefined ? null : senderName;
             recieverName = recieverName === undefined ? null : recieverName;
     
@@ -300,22 +319,22 @@ const createFollowerTweetingNotification = async function createFollowerTweeting
             id: id.toString(),
             reason: newNotification.reason,
             entityId: newNotification.entityId.toString(),
-            //senderImageUrl: senderInfo.profilePic,
+            senderProfilePic: senderInfo.profilePic.toString(),
             };
-            await SaveNotification(firebaseNotification); 
+            //await SaveNotification(firebaseNotification); 
             await SendNotificationToUser(firebaseNotification);
         }
-        return 'success';
+        return true;
     } catch (err) {
             console.log(err);
-            return 'failure';
+            return false;
     }
   };
   //createLikeNotification("6260a395711f5ce89d8b54b0","6248c3b66ad307b6e8623c57");
-  //result = getNotifications("6257129df18fcd7147c6c825");
-  //result = getNotifications("6248c3b66ad307b6e8623c57");
+  //result = getNotificationsMongo("6257129df18fcd7147c6c825");
+  //result = getNotificationsMongo("6248c3b66ad307b6e8623c57");
   //createBlockNotification("6248c3b66ad307b6e8623c57","6249921db35e4fa55a5da228","2 days");
   //createFollowerTweetingNotification("6249921db35e4fa55a5da228","6260a395711f5ce89d8b54b0");
   module.exports = {
-    createLikeNotification, createBlockNotification, createFollowerTweetingNotification,getNotifications
+    createLikeNotification, createBlockNotification, createFollowerTweetingNotification,getNotifications ,getNotificationsMongo
   };  
