@@ -71,16 +71,15 @@ function Start({ setIsLoggedIn, setisAdmin }) {
             <div className={styles['buttons-group']}>
               <GoogleLogin
                 clientId={configData.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="Sign in with Google"
+                buttonText="Sign up with Google"
                 onSuccess={onGoogleSuccess}
                 onFailure={onGoogleFailure}
                 className={styles['signup-tweet-google']}
               />
               <FacebookLogin
-                appId="976671369716072"
+                appId={configData.REACT_APP_FACEBOOK_APP_ID}
                 autoLoad={false}
-                fields="name,email,picture"
-                scope="public_profile,email,user_friends"
+                fields="name,email"
                 callback={responseFacebook}
                 textButton=" Sign up with Facebook"
                 icon={(
