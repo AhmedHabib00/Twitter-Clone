@@ -50,21 +50,8 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     setisAdmin(adminEvent);
     navigate('/');
   };
-  // const handleGoogleAuth = () => {
-  //   // (async () => {
-  //   //   const response = await authGoogle();
-  //   //   if (response.status === 201) {
-  //   //     const token = response.data['x-auth-token'];
-  //   //     localStorage.setItem('token', token);
-  //   //     // localStorage.setItem('logged', true);
-  //   //     // localStorage.setItem('admin', false);
-  //   //     // const logged = localStorage.getItem('logged');
-  //   //     // const admin = localStorage.getItem('admin');
-  //   //     // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
-  //   //   }
-  //   // })();
-  // };
   const responseFacebook = (response) => {
+    console.log(response);
     // Login failed
     if (response.status === 'unknown') {
       return false;
@@ -90,7 +77,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 className={styles['signup-tweet-google']}
               />
               <FacebookLogin
-                appId="535545001481656"
+                appId="976671369716072"
                 autoLoad={false}
                 fields="name,email,picture"
                 scope="public_profile,email,user_friends"
