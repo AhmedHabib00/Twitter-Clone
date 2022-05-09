@@ -104,11 +104,11 @@ router.get('/users', auth, async (req, res, next) =>{
         { $project: { 
             "_id": 0,
             "id": "$_id", 
-            "name": 1,
-             "username": 1,
+            "name": {$ifNull: ["$name", ""]},
+             "username": {$ifNull: ["$username", ""]},
              "description": {$ifNull: ["$description", ""]}, 
              "profilePic": 1,
-             "banned": 1,
+             "banned": {$ifNull: ["$banned", false]},
              "role": 1
         }},
         { '$facet'    : {
@@ -355,7 +355,7 @@ router.get('/statistics/noJoined', auth, async (req, res) =>{
                 "name": "Dec",
                 "count": noJoined[11]
                 }
-        ]
+            ]
         }
         
     });
