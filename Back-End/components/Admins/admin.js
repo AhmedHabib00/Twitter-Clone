@@ -8,6 +8,7 @@ const { ObjectId, Admin } = require('mongodb');
 const auth = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {createBlockNotification} = require('../Notifications/notifications')
 
 // Test || Token || - TO-DELETE
 router.get('/gToken/:id',async(req,res)=>{
@@ -94,15 +95,28 @@ router.get('/users', auth, async (req, res, next) =>{
             break;
     }
 
-    
-    usersData = await userSchema.find({
-        "role":"User",
-        "banned": banned,
-        "username": {$regex:  ".*"+search+".*", $options:"si"} 
-    },
-        '_id name username description profilePic banned role',
-    ).limit(limit).skip(size*(page-1)).sort('createdAt');
-    
+    usersData = await userSchema.aggregate([
+        { $match: {
+            "role":"User",
+            "banned": banned,
+            "username": {$regex:  ".*"+search+".*", $options:"si"} 
+        }},
+        { $project: { 
+            "_id": 0,
+            "id": "$_id", 
+            "name": 1,
+             "username": 1,
+             "description": {$ifNull: ["$description", ""]}, 
+             "profilePic": 1,
+             "banned": 1,
+             "role": 1
+        }},
+        { '$facet'    : {
+            data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
+        } }
+    ]
+    ).sort('createdAt');
+        
     // Count no. of users
     countUsers = await userSchema.count({
         "role":"User",
@@ -404,7 +418,7 @@ router.get('/statistics/noAgeUsers', auth, async (req, res) =>{
     });
 });
 
-// GET: admins/statistics/noMostFollowed -> Retrive no. of users age intervalsRetrive no. of users age intervals
+// GET: admins/statistics/noMostFollowed -> Retrive most users has followers
 router.get('/statistics/noMostFollowed', auth, async (req, res) =>{
     if (req.user.role != "Admin") {
         return res.status(403).send("Access denied");
@@ -721,7 +735,7 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
     const start_date = new Date();
     const end_date =  new Date(req.body.end_date);
 
-    if (end_date <= start_date) {
+    if (!req.body.end_date || end_date <= start_date) {
         return res.status(500).send("Invalid Date");
     }
     
@@ -735,12 +749,24 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
         return res.status(500).send("Not Authorized Admin id.");
     }
 
+    const diffTime = Math.abs(end_date - start_date);
+    const durationInDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
     // banned user contents
     bannedUser.banned = true;
     bannedUser.bannedBy = ObjectId(req.params.id);
     bannedUser.bannedStartDate = start_date;
     bannedUser.bannedEndDate = end_date;
     bannedUser.save();
+
+    let statusNotif = await createBlockNotification(req.params.target_user_id, req.params.id, durationInDays);
+    
+    if (!statusNotif) {
+        return res.status(500).send({
+            "reason": "Error in notification."
+        })
+    }
+
     return res.status(200).send({
         "Ban": true,
         "bannedUser": ObjectId(req.params.target_user_id),
