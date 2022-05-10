@@ -74,7 +74,8 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
         //console.log(name,location)
         //const token = jwt.sign({ _id: user.userProfileId})
         return res.status(200).send({
-            "name":name,
+            "displayName":name,
+            "username":user.username,
             "location":location,
             "description":description,
             "Birthdate":birthDate,
