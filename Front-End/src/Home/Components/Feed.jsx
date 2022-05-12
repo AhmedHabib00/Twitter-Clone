@@ -30,6 +30,7 @@ function Feed({ data, isReplying }) {
             noOfReplies={post.noOfReplies}
             noOfRetweets={post.noOfRetweets}
             isReplying={isReplying}
+            url={post.url}
           />
         ))
 
@@ -51,6 +52,7 @@ Feed.propTypes = {
     isRetweeted: PropTypes.bool.isRequired,
     noOfReplies: PropTypes.number.isRequired,
     noOfRetweets: PropTypes.number.isRequired,
+    url: PropTypes.string.isRequired,
   })).isRequired,
   isReplying: PropTypes.bool,
 

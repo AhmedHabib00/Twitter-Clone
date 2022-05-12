@@ -11,7 +11,7 @@ import ImageBox from './ImageBox';
 import GetUsersArray from '../../Services/tweetpageServices';
 
 function PostBody({
-  id, content, URLs, userName, isReplying, switchEnabled, onReplyButtonClick,
+  id, content, URLs, userName, displayName, isReplying, url, switchEnabled, onReplyButtonClick,
 }) {
   const navigate = useNavigate();
   const [userSelectionPopUp, setUserSelectionPopUp] = useState(false);
@@ -102,9 +102,9 @@ function PostBody({
         <div>
           <User
             profileid={id}
-            displayname="Neha"
+            displayname={displayName}
             username={userName}
-            url="https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg"
+            url={url}
             isButtonActive
             hasCheckbox
             isButtonDisabled
@@ -146,6 +146,8 @@ PostBody.propTypes = {
   switchEnabled: PropTypes.bool,
   userName: PropTypes.string.isRequired,
   onReplyButtonClick: PropTypes.func,
+  displayName: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 PostBody.defaultProps = {

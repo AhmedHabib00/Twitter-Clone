@@ -147,6 +147,15 @@ img {
 
 .blue-text {
   color: #1d9bf0;
+  cursor: pointer;
+}
+
+.profile-img {
+  vertical-align: middle;
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  padding: 10px;
 }
 
 /* .imagediv {

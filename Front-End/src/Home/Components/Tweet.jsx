@@ -66,6 +66,7 @@ function Tweet() {
         isRetweeted={postData.isRetweeted}
         noOfReplies={postData.noOfReplies}
         noOfRetweets={postData.noOfRetweets}
+        url={postData.url}
       />
       )}
 

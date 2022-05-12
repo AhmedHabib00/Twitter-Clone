@@ -18,7 +18,7 @@ import { handleLikes } from '../../Services/postServices';
 
 function PostFooter({
   id, displayName, userName, URLs, isLiked, noOfLike,
-  isRetweeted, noOfRetweets, noOfReplies, content,
+  isRetweeted, noOfRetweets, noOfReplies, content, url,
 }) {
   const [retweetEl, setRetweetEl] = useState(null);
   const [shareEl, setShareEl] = useState(null);
@@ -59,7 +59,7 @@ function PostFooter({
       <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
         <div>
           <div className={styles.postbody} key={id}>
-            <PostHeader displayName={displayName} userName={userName} />
+            <PostHeader displayName={displayName} userName={userName} url={url} />
             <PostBody
               id={id}
               URLs={URLs}
@@ -67,6 +67,8 @@ function PostFooter({
               isReplying
               switchEnabled
               userName={userName}
+              displayName={displayName}
+              url={url}
               onReplyButtonClick={handleButtonOnClickReplying}
             />
           </div>
@@ -164,6 +166,7 @@ PostFooter.propTypes = {
   noOfRetweets: PropTypes.number.isRequired,
   noOfReplies: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 
 };
 export default PostFooter;
