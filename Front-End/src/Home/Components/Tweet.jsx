@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useParams, useNavigate } from 'react-router-dom';
-import RepeatIcon from '@mui/icons-material/Repeat';
 import Feed from './Feed';
 import feedStyles from './Feed.module.css';
 import styles from './Tweet.module.css';
 import UsersFeed from '../../Components/ListofUsers/UsersFeed';
 import User from '../../Components/ListofUsers/User';
 import PopupPage from './PopupPage';
-import GetUsersArray, { GetRelpiesArray } from '../../Services/tweetpageServices';
+import GetUsersArray, { GetPost, GetRepliesArray } from '../../Services/tweetpageServices';
 import Post from './Post';
 
 /**
@@ -28,13 +27,17 @@ function Tweet() {
   useEffect(() => {
     (async () => {
       const usersArray = await GetUsersArray();
-      const repliesArray = await GetRelpiesArray(id);
+      const post = await GetPost(id);
+      const repliesArray = await GetRepliesArray(id);
       if (usersArray.status === 200) {
         setListOfUsers(usersArray.data);
       }
+      if (post.status === 200) {
+        console.log(post.data);
+        setPostData(post.data);
+      }
       if (repliesArray.status === 200) {
-        setRepliesData(repliesArray.data.Replies);
-        setPostData(repliesArray.data.post);
+        setRepliesData(repliesArray.data);
       }
     })();
   }, []);
@@ -53,7 +56,7 @@ function Tweet() {
       { postData
       && (
       <Post
-        id={postData.id}
+        id={id}
         displayName={postData.displayName}
         userName={postData.userName}
         content={postData.content}
@@ -93,12 +96,6 @@ function Tweet() {
           />
         </div>
       </PopupPage>
-      <RepeatIcon
-        className={styles.postgreen}
-        fontSize="small"
-        aria-controls="retweet"
-        onClick={() => setUserSelectionPopUp(true)}
-      />
 
     </div>
   );
