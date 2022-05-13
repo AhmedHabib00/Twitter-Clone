@@ -124,6 +124,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
             userName: results[i].postedBy.username,
             displayName: results[i].postedBy.name,
             content: contentTemp,
+            url: results[i].postedBy.profilePic,
             URLs:urls,
             isLiked:Liked,
             isRetweeted:Retweeted,
@@ -158,47 +159,40 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
     theUser=req.user._id;
     TheTweet=req.params.id;
 
-    const projection ={ "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
-    const projection2 ={"_id":0,"name":1,"username":1};
-
-    try{
-        var results= await tweet.findOne({_id:TheTweet},projection)
-        }
-        catch(error)
-        {
-            return res.sendStatus(400);
-        }
-        if(!results)
-        {
-            return res.status(400).send("tweet not found");
-        }
-
+    finalArray=[]
+    const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
     
-    //Checking if the tweet is retweeted by the current user.
-    var Retweeted=false       
-    findRetweet=await tweet.find({retweetInfo:TheTweet,postedBy:theUser}).select("_id") 
+    var results = await tweet.findOne({"_id":TheTweet},projection)
+    .populate("postedBy")
+    .populate("retweeters")
+    .populate("likes")  
     .catch(error => {
         console.log(error);
-        return res.sendStatus(400);
-    })       
-    if(findRetweet.length!=0)
-        Retweeted=true
+        return res.status(400).send("error: problem with finding the tweet.")
+    })
+    if (!results) return res.status(400).send('No tweet found')
 
     
+    if(results._id)
+    { 
+            Liked=false
+            Retweeted=false
  
-    //Checking if the tweet is liked by current user.  
-        var Liked=false     
-        var foundLike= await user.find({_id:theUser,likes:{ $all:TheTweet}},{new:true})
-        .catch(error => {
-            console.log(error);
-            return res.sendStatus(400);
-        })
+            //Checking if the tweet is liked by the current user.
+            var userLiked=results.likes.some(item => item._id == theUser)
+            if(userLiked)
+                Liked=true
+               
+            //Checking if the tweet is retweeted by the current user.
+            var userRetweeted=results.retweeters.some(item => item._id == theUser)
+            if(userRetweeted)
+                Retweeted=true
+    }
+    else
+    {
+        return res.status(400).send("the tweet id is null");
+    }   
 
-        if(foundLike.length!=0)
-            Liked=true
-
-
-    var theId=results["postedBy"]
     var tempMedia=results["media"]
     var gifTemp=results["gifs"]
     var urls=[]
@@ -223,22 +217,12 @@ router.get("/SingleTweet/:id",auth,async (req,res)=>{
     if(results["content"])
              contentTemp=results["content"];
 
-
-    var results2 = await user.findById(theId,projection2)
-    .catch(error => {
-        console.log(error);
-        return res.sendStatus(400);
-    })
-    if(results2==null)
-    {
-        return res.status(400).send("the user who posted this tweet is not found.")
-    }
-
     const Obj= ({
         id:results["_id"],
-        userName: results2["username"],
-        displayName: results2["name"],
+        userName: results.postedBy.username,
+        displayName: results.postedBy.name,
         content: contentTemp,
+        url: results.postedBy.profilePic,
         URLs:urls,
         isLiked:Liked,
         isRetweeted:Retweeted,
@@ -349,6 +333,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             userName: results[i].postedBy.username,
             displayName: results[i].postedBy.name,
             content: contentTemp,
+            url: results[i].postedBy.profilePic,
             URLs:urls,
             isLiked:Liked,
             isRetweeted:Retweeted,
@@ -766,6 +751,11 @@ router.post("/",multer.any(),auth,async function(req,res,next){
 //  })
 
 
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////Liking and unliking posts:
 router.put("/:id/like",auth,async(req,res)=>{
     var userInfo=null;
@@ -917,8 +907,9 @@ router.post("/:id/retweet",auth,async(req,res)=>{
                 numberLikes:0,
                 numberReplies:0,
                 numberRetweets:0,
-                gifs:""
-
+                gifs:"",
+                replyTo:[],
+                replyingUsers:[]
             });
     
             userTweet.save(async function(err,theRetweet){
@@ -1119,6 +1110,7 @@ try {
            userName: results[i].postedBy.username,
            displayName: results[i].postedBy.name,
            content: contentTemp,
+           url: results[i].postedBy.profilePic,
            URLs:urls,
            isLiked:Liked,
            isRetweeted:Retweeted,
