@@ -907,8 +907,9 @@ router.post("/:id/retweet",auth,async(req,res)=>{
                 numberLikes:0,
                 numberReplies:0,
                 numberRetweets:0,
-                gifs:""
-
+                gifs:"",
+                replyTo:[],
+                replyingUsers:[]
             });
     
             userTweet.save(async function(err,theRetweet){
