@@ -19,7 +19,8 @@ const userProfileRoute = require('./components/UserProfile/userProfile');
 const postRoute = require('./components/Tweets/tweets');
 //Admins
 const admins = require('./components/Admins/admin');
-var cors = require('cors');
+//notifications
+const notifications = require('./components/Notifications/notificationsRoute');
 
 var  multer = require('multer');
 var cors = require('cors');
@@ -60,6 +61,8 @@ app.use ('/forgotPassword',forgotPassword);
 
 // Admins end points
 app.use("/admins", admins)
+//notifications
+app.use ("/myNotifications",notifications);
 
 // Test
 app.use('/__test__',express.static('__test__'));

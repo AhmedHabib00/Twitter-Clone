@@ -162,7 +162,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         
         const user = await User.findById(req.params.userProfileId);    
         const tweetss = user.tweets;
+        console.log(tweetss)
         const numbOfTweets = tweetss.length;
+        console.log(numbOfTweets)
 
         const usertweets = [];
 
@@ -170,14 +172,15 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         {
             const tempTweet = await Tweet.findById(tweetss[i].toString());
             const likesOnTweet = tempTweet.likes.length;
-            const repliesOnTweet = tempTweet.replyTo.length;
+            //const repliesOnTweet = tempTweet.replies.length;
             const tweetRetweets = tempTweet.retweeters.length;
+            console.log(likesOnTweet);
             if(!tempTweet.likes){
                 likesOnTweet = 0;
             }
-            if(!tempTweet.replyTo){
-                repliesOnTweet = 0;
-            }
+            // if(!tempTweet.replyTo){
+            //     repliesOnTweet = 0;
+            // }
             if(!tempTweet.retweeters){
                 tweetRetweets = 0;
             }
@@ -186,10 +189,11 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
                 "content":tempTweet.content,
                 "Posted By":user.name,
                 "likes":likesOnTweet,
-                "replies":repliesOnTweet,
+                //"replies":repliesOnTweet,
                 "retweets":tweetRetweets,
             }
             usertweets.push(tweetObject);
+            console.log(tweetObject);
         }
 
 
@@ -212,6 +216,7 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         return res.status(200).send({filteredTweets});
     }
     catch (err){
+        console.log(err)
         return res.status(400).send("User has no tweets.")
     }
 

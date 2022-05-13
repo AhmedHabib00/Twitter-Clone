@@ -40,6 +40,28 @@ passport.use(new FacebookStrategy({
     }
 ));
 
+router.post("/facebook", async (req, res) => {
+  if (!req.body.email || req.body.name) return res.status(400).send('request body undefined');    
+  var user = await User.findOne({ email:req.body.email});
+        if (!user) {
+          const uniqueUsername = await createUniqueUsername(email);
+            user = new User({
+              name: req.body.name,
+              email: req.body.email,
+              //googleId: profile.user.id,
+              username:uniqueUsername
+            });
+            await user.save() 
+        } 
+
+        const newToken = user.generateJWT();
+        return res.status(201).header('x-auth-token',newToken).send({
+          message:'User Registeration Successful!',
+          data: {userId: user._id,role:user.role},
+          "x-auth-token":newToken
+        }); 
+   
+})
 router.post("/google", async (req, res) => {
   if (!req.body.tokenId) return res.status(400).send('Provide Google tokenId');
   const  token   = req.body.tokenId
@@ -121,7 +143,7 @@ router.post("/google", async (req, res) => {
 
 
 
-router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+//router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 router.get('/facebook/secrets', passport.authenticate('facebook', { failureMessage: true }),async function(req, res) {
     // Successful authentication.
     var user = await User.findOne({$or:[{facebookId: req.user.id },{ email:req.user.emails[0].value}]});
