@@ -1109,6 +1109,7 @@ try {
            userName: results[i].postedBy.username,
            displayName: results[i].postedBy.name,
            content: contentTemp,
+           url: results[i].postedBy.profilePic,
            URLs:urls,
            isLiked:Liked,
            isRetweeted:Retweeted,
