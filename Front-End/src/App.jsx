@@ -65,6 +65,7 @@ function App() {
       <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
+      {/* <Route path="TweetBox" element={<Settings />} /> */}
     </>
   );
   const selectingRoute = () => {

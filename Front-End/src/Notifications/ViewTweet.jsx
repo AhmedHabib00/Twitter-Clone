@@ -14,7 +14,7 @@ import Post from '../Home/Components/Post';
 function ViewTweet() {
 //   const navigate = useNavigate();
   const location = useLocation();
-  const postidpassed = location.state.postid;
+  const postidpassed = location.state.entityId;
   // console.log(location.state.postid);
   const [data, setData] = useState();
   useEffect(() => {
