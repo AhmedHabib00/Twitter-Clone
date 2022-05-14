@@ -19,11 +19,11 @@ function NotiFeed({ data }) {
           //   <button className={styles.feedbox2} type="button">
           <NotiContent
             id={content.id}
-            postid={content.postid}
+            entityId={content.entityId}
             profileid={content.profileid}
-            displayname={content.displayname}
+            senderName={content.senderName}
             content={content.content}
-            notitype={content.notitype}
+            reason={content.reason}
             date={content.date}
           />
           //   </button>
@@ -39,10 +39,10 @@ function NotiFeed({ data }) {
 NotiFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    displayname: PropTypes.string.isRequired,
+    senderName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
 
-    notitype: PropTypes.string.isRequired,
+    reason: PropTypes.string.isRequired,
   })).isRequired,
 };
 export default NotiFeed;
