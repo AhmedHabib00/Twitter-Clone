@@ -536,5 +536,47 @@
       "email": "ahmed@gmail.com",
       "id": 10
     }
-  ]
+  ],
+  "NotiData":[
+    {
+        "id":1,
+        "postid":1,
+        "displayname": "Asmaa",
+        "content":"Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it. Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it",
+        "notitype":"like"
+    },
+    {
+      "id":2,
+      "postid":3,
+      "displayname": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "notitype":"missed"  
+   },
+    {
+        "id":3,
+        "postid":2,
+        "displayname": "Ahmed ",
+        "content":"Hello this is my first trial to create json file and request it.",
+        "notitype":"retweet"   
+     },
+    {
+        "id":4,
+        "profileid":1,
+        "displayname": "Esraa",
+        "notitype":"followed"  
+         
+     },
+     {
+        "id":5,
+        "displayname": "yara35",
+        "date": "March 22,2022",
+        "notitype":"login"   
+     },
+     {
+        "id":6,
+        "content": "Ramadan is Expected to be on Saturday the 2nd of April.",
+        "notitype":"news"   
+     }
+    
+]
 }
