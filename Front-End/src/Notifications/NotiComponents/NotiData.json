@@ -1,42 +1,46 @@
 [
     {
         "id":1,
-        "postid":1,
-        "displayname": "Asmaa",
+        "entityId":1,
+        "senderName": "Asmaa",
         "content":"Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it. Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it",
-        "notitype":"like"
+        "reason":"like"
     },
     {
+      "id":7,
+      "reason":"block"  
+   },
+    {
       "id":2,
-      "postid":3,
-      "displayname": "Noha",
+      "entityId":3,
+      "senderName": "Noha",
       "content": "Happy birthday Melissa! Much love as always. Enjoy!",
-      "notitype":"missed"  
+      "reason":"missed"  
    },
     {
         "id":3,
-        "postid":2,
-        "displayname": "Ahmed ",
+        "entityId":2,
+        "senderName": "Ahmed ",
         "content":"Hello this is my first trial to create json file and request it.",
-        "notitype":"retweet"   
+        "reason":"retweet"   
      },
     {
         "id":4,
         "profileid":1,
-        "displayname": "Esraa",
-        "notitype":"followed"  
+        "senderName": "Esraa",
+        "reason":"followed"  
          
      },
      {
         "id":5,
-        "displayname": "yara35",
+        "senderName": "yara35",
         "date": "March 22,2022",
-        "notitype":"login"   
+        "reason":"login"   
      },
      {
         "id":6,
         "content": "Ramadan is Expected to be on Saturday the 2nd of April.",
-        "notitype":"news"   
+        "reason":"news"   
      }
     
 ]
