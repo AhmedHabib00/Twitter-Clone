@@ -55,8 +55,9 @@ function User({
               className={styles['checkbox-button']}
               type="checkbox"
               disabled={isButtonDisabled}
-              onClick={() => {
-                onButtonClick(profileid);
+              checked={isButtonClicked}
+              onChange={() => {
+                onButtonClick(profileid, !isButtonClicked);
                 isClicked = true;
                 setIsButtonClicked(!isButtonClicked);
               }}
@@ -82,7 +83,7 @@ function User({
 }
 
 User.propTypes = {
-  profileid: PropTypes.number.isRequired,
+  profileid: PropTypes.string.isRequired,
   displayname: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -91,7 +92,7 @@ User.propTypes = {
   buttonStyleClicked: PropTypes.string,
   isButtonActive: PropTypes.bool,
   onButtonClick: PropTypes.func,
-  onProfileClick: PropTypes.func.isRequired,
+  onProfileClick: PropTypes.func,
   hasCheckbox: PropTypes.bool.isRequired,
   isButtonDisabled: PropTypes.bool,
 };
@@ -103,6 +104,7 @@ User.defaultProps = {
   description: '',
   isButtonDisabled: false,
   onButtonClick: function tempFunc() {},
+  onProfileClick: function tempFunc() {},
 };
 
 export default User;

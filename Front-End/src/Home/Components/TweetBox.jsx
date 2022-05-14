@@ -17,7 +17,9 @@ import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
  * (local images or gifs).
  * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
  */
-function TweetBox({ replyId, placeHolder, boxId }) {
+function TweetBox({
+  replyId, placeHolder, boxId, users,
+}) {
   const navigate = useNavigate();
   const inputFile = createRef();
   const [query, setQuery] = useState('');
@@ -131,7 +133,9 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 
     if (value !== '' || images.length !== 0) {
       (async () => {
-        await PostTweet({ value, images, replyId });
+        await PostTweet({
+          value, images, replyId, users,
+        });
       })();
       navigate('/');
     }
@@ -226,14 +230,16 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.number,
+  replyId: PropTypes.string,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
+  users: PropTypes.arrayOf(PropTypes.string),
 };
 
 TweetBox.defaultProps = {
-  replyId: -1,
+  replyId: '',
   placeHolder: '',
+  users: [],
 };
 
 export default TweetBox;

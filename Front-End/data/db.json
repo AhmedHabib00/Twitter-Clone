@@ -1,51 +1,141 @@
 {
-  "ListofUsers":{
+  "usersList": [
+    {
+      "id": "1",
+      "displayName": "Mohamed Ahmed",
+      "userName": "mohdFarag5",
+      "url": "https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg",
+      "active": true
+    },
+    {
+      "id": "2",
+      "displayName": "Ali Official",
+      "userName": "ALI_MUSIC_DANCE",
+      "url": "https://pbs.twimg.com/profile_images/1461273013064978433/sHQoxJSy_400x400.jpg",
+      "active": true
+    },
+    {
+      "id": "3",
+      "displayName": "Asmaa Lotfy",
+      "userName": "Asmaalotfy90",
+      "url": "https://pbs.twimg.com/profile_images/591841817768910849/ztHfOcXj_400x400.jpg",
+      "active": true
+    },
+    {
+      "id": "4",
+      "displayName": "Sarah",
+      "userName": "sarahhabel",
+      "url": "https://pbs.twimg.com/profile_images/1385349738/web_400x400.jpg",
+      "active": true
+    },
+    {
+      "id": "5",
+      "displayName": "Mohamed Salah",
+      "userName": "MoSalah",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "active": true
+    }
+  ],"post": {
+    "id": "100",
+    "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+    "userName": "Noha Tarek El-Boghdady",
+    "displayName": "Noha",
+    "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+    "URLs": [
+      "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+      "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+    ],
+    "isLiked": true,
+    "isRetweeted": true,
+    "noOfLike": 300,
+    "noOfReplies": 0,
+    "noOfRetweets": 1
+  },
+  "Replies": [
+      {
+        "id": "1",
+        "userName": "Noha Tarek El-Boghdady",
+        "displayName": "Noha",
+        "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+        "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+        "URLs": [
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+        ],
+        "isLiked": true,
+        "isRetweeted": true,
+        "noOfLike": 300,
+        "noOfReplies": 0,
+        "noOfRetweets": 1
+      },
+      {
+        "id": "2",
+        "userName": "Amr Zayed",
+        "displayName": "Amora",
+        "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+        "content": "Hello this is my second trial to create json file and request it. doinvcjewds",
+        "URLs": [
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+          "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+        ],
+        "isLiked": false,
+        "isRetweeted": true,
+        "noOfLike": 200,
+        "noOfReplies": 250,
+        "noOfRetweets": 500
+      }
+    ]
+  ,
+  "ListofUsers": {
     "pages": 2,
     "UsersList": [
       {
-          "id": 1,
-          "displayName": "Mohamed Ahmed",
-          "userName": "mohdFarag5",
-          "description": "Photographer Filmmaker Artist",
-          "url": "https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg",
-          "active": true
-          
+        "id": 1,
+        "displayName": "Mohamed Ahmed",
+        "userName": "mohdFarag5",
+        "description": "Photographer Filmmaker Artist",
+        "url": "https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg",
+        "active": true
       },
       {
-          "id": 2,
-          "displayName": "Ali Official",
-          "userName": "ALI_MUSIC_DANCE",
-          "description": "Band 💥 It is a musicality that crosses over funk and jazz and soul and latin music with hip hop.",
-          "url": "https://pbs.twimg.com/profile_images/1461273013064978433/sHQoxJSy_400x400.jpg",
-          "active": false
-          
+        "id": 2,
+        "displayName": "Ali Official",
+        "userName": "ALI_MUSIC_DANCE",
+        "description": "Band 💥 It is a musicality that crosses over funk and jazz and soul and latin music with hip hop.",
+        "url": "https://pbs.twimg.com/profile_images/1461273013064978433/sHQoxJSy_400x400.jpg",
+        "active": false
       },
       {
-          "id": 3,
-          "displayName": "Asmaa Lotfy",
-          "userName": "Asmaalotfy90",
-          "description": "Painter , Dreamer and illustration Artist ",
-          "url": "https://pbs.twimg.com/profile_images/591841817768910849/ztHfOcXj_400x400.jpg",
-          "active": false        
+        "id": 3,
+        "displayName": "Asmaa Lotfy",
+        "userName": "Asmaalotfy90",
+        "description": "Painter , Dreamer and illustration Artist ",
+        "url": "https://pbs.twimg.com/profile_images/591841817768910849/ztHfOcXj_400x400.jpg",
+        "active": false
       },
       {
-          "id": 4,
-          "displayName": "Sarah",
-          "userName": "sarahhabel",
-          "description": "maybe she's born with it. maybe it's Habelline.",
-          "url": "https://pbs.twimg.com/profile_images/1385349738/web_400x400.jpg",
-          "active": true
+        "id": 4,
+        "displayName": "Sarah",
+        "userName": "sarahhabel",
+        "description": "maybe she's born with it. maybe it's Habelline.",
+        "url": "https://pbs.twimg.com/profile_images/1385349738/web_400x400.jpg",
+        "active": true
       },
       {
-          "id": 5,
-          "displayName": "Mohamed Salah",
-          "userName": "MoSalah",
-          "description": "Footballer for Liverpool FC.",
-          "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
-          "active": false
-  
+        "id": 5,
+        "displayName": "Mohamed Salah",
+        "userName": "MoSalah",
+        "description": "Footballer for Liverpool FC.",
+        "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+        "active": false
       }
-  ]
+    ]
   },
   "Tweet": [
     {
@@ -58,10 +148,11 @@
   ],
   "posts": [
     {
-      "id": 1,
+      "id": "1",
       "userName": "Noha Tarek El-Boghdady",
       "displayName": "Noha",
       "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
       "URLs": [
         "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
         "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
@@ -75,9 +166,10 @@
       "noOfRetweets": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "userName": "Amr Zayed",
       "displayName": "Amora",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
       "content": "Hello this is my second trial to create json file and request it. doinvcjewds",
       "URLs": [
         "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
@@ -92,9 +184,10 @@
       "noOfRetweets": 500
     },
     {
-      "id": 3,
+      "id": "3",
       "userName": "Abdulrehman",
       "displayName": "Abdulrehman Soliman",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
       "content": "Hello this is my last trial to create json file and request it.",
       "URLs": [
         "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
@@ -107,6 +200,125 @@
       "noOfLike": 100,
       "noOfReplies": 15,
       "noOfRetweets": 5
+    },{
+      "id": "4",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },{
+      "id": "5",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },{
+      "id": "6",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },{
+      "id": "7",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },{
+      "id": "8",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },{
+      "id": "9",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
+    },{
+      "id": "10",
+      "userName": "Noha Tarek El-Boghdady",
+      "displayName": "Noha",
+      "content": "Happy birthday Melissa! Much love as always. Enjoy!",
+      "url": "https://pbs.twimg.com/profile_images/1413262723312402432/vYWQ8LL8_400x400.jpg",
+      "URLs": [
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319",
+        "https://media.istockphoto.com/photos/make-decision-which-way-to-go-walking-on-directional-sign-on-asphalt-picture-id1138420319"
+      ],
+      "isLiked": true,
+      "isRetweeted": true,
+      "noOfLike": 300,
+      "noOfReplies": 0,
+      "noOfRetweets": 1
     }
   ],
   "loginEmail": [],
@@ -606,6 +818,22 @@
       "emailOrUsername": "noha",
       "password": "123",
       "id": 73
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "emailOrUsername": "adminUser",
+      "password": "689",
+      "id": 74
+    },
+    {
+      "headers": {
+        "content-type": "application/json"
+      },
+      "emailOrUsername": "erdgfhdtgf",
+      "password": "guyhijk",
+      "id": 75
     }
   ],
   "signup": [

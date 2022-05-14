@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import BlockSharpIcon from '@mui/icons-material/BlockSharp';
 import { Menu, MenuList } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import styles from './Post.module.css';
 
-function PostHeader({ displayname, username }) {
+function PostHeader({ displayName, userName, url }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handelOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -22,14 +22,18 @@ function PostHeader({ displayname, username }) {
       <div className={styles.postheadertext}>
         <h3>
           <div className={styles.postavatar}>
-            <AccountCircleIcon />
-            {displayname}
+            <img
+              className={styles['profile-img']}
+              alt=""
+              src={url}
+            />
+            {displayName}
             {' '}
             <span className={styles.postheaderSpecial}>
               {true && <VerifiedIcon className={styles.postbadge} />}
               {' '}
               @
-              {username}
+              {userName}
             </span>
             <MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
             <Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
@@ -40,7 +44,7 @@ function PostHeader({ displayname, username }) {
                   <p className={styles.label}>
                     {' '}
                     Mute @
-                    {displayname}
+                    {displayName}
                   </p>
                 </div>
               </MenuList>
@@ -51,7 +55,7 @@ function PostHeader({ displayname, username }) {
                   <p className={styles.label}>
                     {' '}
                     Block @
-                    {displayname}
+                    {displayName}
                   </p>
                 </div>
               </MenuList>
@@ -65,8 +69,9 @@ function PostHeader({ displayname, username }) {
 }
 
 PostHeader.propTypes = {
-  displayname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 
 };
 export default PostHeader;
