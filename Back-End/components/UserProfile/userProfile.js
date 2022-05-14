@@ -12,6 +12,7 @@ const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
 const uuid = require("uuid")
 const uuidv1 = uuid.v1
+const {check ,validationResult} = require('express-validator');
 
 // creats new data of the user profile .(profile picture soon to be added)
 /*router.post('/profile_settings',(req,res) => {
@@ -43,6 +44,7 @@ const multer = Multer({
     storage: Multer.memoryStorage(),
     limits: {
         fileSize:5 * 1024 * 1024
+
     }
 });
 
@@ -94,7 +96,8 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
         //console.log(name,location)
         //const token = jwt.sign({ _id: user.userProfileId})
         return res.status(200).send({
-            "name":name,
+            "displayName":name,
+            "username":user.username,
             "location":location,
             "description":description,
             "Birthdate":birthDate,
@@ -110,7 +113,15 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
 
 //edits the existing values of a specific user in the database
 
-router.patch('/:userProfileId/profile_settings', async (req,res) => {
+router.patch('/:userProfileId/profile_settings', [
+    check('birthdate','birthdate must bein the form YYYY/MM/DD')
+    .isDate()
+],async (req,res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
@@ -214,7 +225,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         
         const user = await User.findById(req.params.userProfileId);    
         const tweetss = user.tweets;
+        console.log(tweetss)
         const numbOfTweets = tweetss.length;
+        console.log(numbOfTweets)
 
         const usertweets = [];
 
@@ -227,9 +240,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
             if(!tempTweet.likes){
                 likesOnTweet = 0;
             }
-            if(!tempTweet.replyTo){
-                repliesOnTweet = 0;
-            }
+            // if(!tempTweet.replyTo){
+            //     repliesOnTweet = 0;
+            // }
             if(!tempTweet.retweeters){
                 tweetRetweets = 0;
             }
@@ -238,10 +251,11 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
                 "content":tempTweet.content,
                 "Posted By":user.username,
                 "likes":likesOnTweet,
-                "replies":repliesOnTweet,
+                //"replies":repliesOnTweet,
                 "retweets":tweetRetweets,
             }
             usertweets.push(tweetObject);
+            console.log(tweetObject);
         }
 
 

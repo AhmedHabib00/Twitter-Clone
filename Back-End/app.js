@@ -3,31 +3,68 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const app = express();
 const databse = require('./database');
-var  multer = require('multer')
+const session = require('express-session');
+const mongoose= require('./database');
 
+var  multer = require('multer');
+var cors = require('cors');
+app.use(cors({origin: '*'}));
+
+const port = process.env.PORT || 3000;
+
+
+app.use(bodyParser.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(bodyParser.json());
+
+// SignUp and Auth
+const signUp = require('./components/Auth/signupRoute');
+const login = require('./components/Auth/loginRoute');
+const oAuth = require('./components/Auth/OAuthRoute');
+const forgotPassword = require('./components/Auth/forgotPasswordRoute');
+// Users  
+var users = require('./components/User/user');
+//user profile 
+const userProfileRoute = require('./components/UserProfile/userProfile');
+//tweets 
+const postRoute = require('./components/Tweets/tweets');
+//Admins
+const admins = require('./components/Admins/admin');
+//notifications
+const notifications = require('./components/Notifications/notificationsRoute');
+
+app.use('/uploads',express.static('uploads'));
+
+app.use('/imgUploads',express.static('imgUploads'));
 
 
-const userProfileRoute = require('./components/UserProfile/userProfile')
-/*var storage = multer.diskStorage({
-    destination: (req,file,cb) => {
-        cb(null,'uploads')
-    },
-    filename: (req,file,cb) =>{
-        cb(null,file.fieldname + '-' + Date.now())
-    }
-})
+// Users endpoints
+app.use('/users', users);
 
-var upload = multer({storage:storage});*/
-
+//User Profile endpoints
 app.use('/user', userProfileRoute);
 
-app.listen(3000,function(){
-    console.log("Server is up and running on port 3000");
-});
+//tweets endpoints
+app.use("/tweets", postRoute);
 
-module.exports = app;
+//signUp and auth endpoints
+app.use ('/signUp',signUp);
+app.use ('/login',login);
+app.use ('/auth',oAuth);
+app.use ('/forgotPassword',forgotPassword);
+
+// Admins end points
+app.use("/admins", admins)
+//notifications
+app.use ("/myNotifications",notifications);
+
+// Test
+app.use('/__test__',express.static('__test__'));
+
+const server = app.listen(port,()=>
+    console.log(`app is running on port ${port}`));
+
+module.exports = server
