@@ -1,6 +1,5 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 
@@ -11,13 +10,16 @@ import SearchBar from '../../Components/SearchBar/SearchBar';
 
 import styles from './TweetBox.module.css';
 import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
+import getUserInfo from '../../Services/UserServices';
 
 /**
  * This components takes a text input from user and a maximum of 4 media items
  * (local images or gifs).
  * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
  */
-function TweetBox({ replyId, placeHolder, boxId }) {
+function TweetBox({
+  replyId, placeHolder, boxId, users,
+}) {
   const navigate = useNavigate();
   const inputFile = createRef();
   const [images, setImages] = useState([]);
@@ -29,6 +31,13 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [imageId, setImageId] = useState(0);
   const [wordsCount, setWordsCount] = useState(0);
   const [isEnabled, setIsEnabled] = useState(true);
+  const [userInfo, setUserInfo] = useState();
+
+  useEffect(() => {
+    (async () => {
+      setUserInfo(await getUserInfo(localStorage.userId));
+    })();
+  }, []);
 
   const onSearchChange = (value) => {
     let url;
@@ -126,7 +135,9 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 
     if (value !== '' || images.length !== 0) {
       (async () => {
-        await PostTweet({ value, images, replyId });
+        await PostTweet({
+          value, images, replyId, users,
+        });
       })();
       navigate('/');
     }
@@ -139,7 +150,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     else setIsEnabled(true);
   };
   return (
-    <div id="Tweet-box">
+    <div data-testid="Tweet-box" id="Tweet-box">
       <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         <div className={styles['inner-gif']}>
           <SearchBar searchValue={onSearchChange} placeHolder="Search for GIFs" delay={2000} />
@@ -160,7 +171,7 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 
       <div className={styles['tweet-box']}>
         <a href="#top" className={styles['icon-button']}>
-          <AccountCircleIcon className={styles.icon} />
+          {userInfo && <img src={userInfo['Profile Picture']} className={styles.icon} alt="" />}
         </a>
         <div className={styles['text-area']}>
           <div>
@@ -224,11 +235,13 @@ TweetBox.propTypes = {
   replyId: PropTypes.string,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
+  users: PropTypes.arrayOf(PropTypes.string),
 };
 
 TweetBox.defaultProps = {
   replyId: '',
   placeHolder: '',
+  users: [],
 };
 
 export default TweetBox;

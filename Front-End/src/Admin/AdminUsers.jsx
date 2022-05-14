@@ -5,11 +5,11 @@ import {
   blockUser, getListofUsers, deleteUser, unBlockUser,
 } from '../Services/adminServices';
 import styles from './AdminUsers.module.css';
-import UsersFeed from '../Components/ListofUsers/UsersFeed';
 import SearchBar from '../Components/SearchBar/SearchBar';
 import PopupPage from '../Home/Components/PopupPage';
 import DatePicker from '../Start/SignUp/Components/DatePicker';
 import validateDate from './dateValidation';
+import UsersFeed from '../Components/ListofUsers/UsersFeed';
 
 function AdminUsers({ state, enableStyleSwitching }) {
   const [pages, setPages] = useState(3);
@@ -125,7 +125,7 @@ function AdminUsers({ state, enableStyleSwitching }) {
   };
 
   return (
-    <div className={styles['admin-users']}>
+    <div data-testid="adminUsers-div" className={styles['admin-users']}>
       <PopupPage SetTrigger={setOpenDeleteUser} trigger={openDeleteUser}>
         <div className={styles['user-popup']}>
           <div className={styles['user-popup-text']}>

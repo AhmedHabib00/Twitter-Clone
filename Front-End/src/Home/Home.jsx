@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-
+import React, {
+  useState, useEffect,
+} from 'react';
 import Feed from './Components/Feed';
 import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
 import GetPostsArray from '../Services/postServices';
 
 function Home() {
-  const [postData, setPostData] = useState();
+  const [postData, setPostData] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const resp = await GetPostsArray();
-      if (resp.status === 200) {
-        setPostData(resp.data);
+      const postsResp = await GetPostsArray(0);
+      if (postsResp.status === 200) {
+        setPostData(postsResp.data);
       }
     })();
   }, []);

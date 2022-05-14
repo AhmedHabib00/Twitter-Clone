@@ -177,3 +177,14 @@
   width: 100%;
   height: auto;
 }
+
+.block-icon {
+  color: black;
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}

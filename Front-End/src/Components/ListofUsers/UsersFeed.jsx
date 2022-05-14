@@ -43,8 +43,8 @@ function UsersFeed({
 UsersFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
     description: PropTypes.string,
     profilePic: PropTypes.string.isRequired,
     banned: PropTypes.bool,

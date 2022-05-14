@@ -21,7 +21,6 @@ import navStyles from './Navbar/Navbar.module.css';
  * The navbar is not scrollable
  */
 function Foundation({ setIsLoggedIn, userInfo }) {
-  console.log(userInfo['Profile Picture']);
   const pages = getUserPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
