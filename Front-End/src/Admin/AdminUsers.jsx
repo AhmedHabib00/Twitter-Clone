@@ -71,7 +71,7 @@ function AdminUsers({ state }) {
   };
 
   return (
-    <div className={styles['admin-users']}>
+    <div data-testid="adminUsers-div" className={styles['admin-users']}>
       <PopupPage SetTrigger={setOpenDeleteUser} trigger={openDeleteUser}>
         <div className={styles['user-popup']}>
           <div className={styles['user-popup-text']}>

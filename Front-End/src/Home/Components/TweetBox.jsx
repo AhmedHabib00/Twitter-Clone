@@ -148,7 +148,7 @@ function TweetBox({
     else setIsEnabled(true);
   };
   return (
-    <div id="Tweet-box">
+    <div data-testid="Tweet-box" id="Tweet-box">
       <PopupPage trigger={isGifOpen} SetTrigger={setIsGifOpen} widthpercentage={40}>
         <div className={styles['inner-gif']}>
           <SearchBar searchValue={setQuery} placeHolder="Search for GIFs" />

@@ -21,7 +21,7 @@ function PostHeader({ displayName, userName, url }) {
     <div className={styles.postheader}>
       <div className={styles.postheadertext}>
         <h3>
-          <div className={styles.postavatar}>
+          <div data-testid="post-avatar-render-test" className={styles.postavatar}>
             <img
               className={styles['profile-img']}
               alt=""
