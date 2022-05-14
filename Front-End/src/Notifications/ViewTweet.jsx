@@ -18,12 +18,15 @@ function ViewTweet() {
   // console.log(location.state.postid);
   const [data, setData] = useState();
   useEffect(() => {
-    axios.get('http://localhost:8000/posts')
-      .then((resp) => {
-        setData(resp.data);
-      }).catch((error) => {
-        console.log(error);
-      });
+    (async () => {
+      axios.get('http://localhost:8000/posts')
+        .then((resp) => {
+          setData(resp.data);
+          console.log(`res: ${resp.data}`);
+        }).catch((error) => {
+          console.log(error);
+        });
+    })();
   }, []);
   return (
     <div className={Notistyles.notifications}>
