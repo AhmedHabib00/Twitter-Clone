@@ -41,6 +41,7 @@ function AdminUsers({ state, enableStyleSwitching }) {
     if (!usersData.length) {
       (async () => {
         const resp = await getListofUsers(currentPage, state, searchVal);
+        console.log(resp);
         setPages(resp.length);
         setListOfUsers(resp.Info[0].data);
       })();
