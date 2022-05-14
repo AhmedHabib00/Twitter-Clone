@@ -11,6 +11,7 @@ import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
 import configData from '../config/production.json';
+import { facebookAuth } from '../Services/accountServices';
 
 export const axiosApiCall = (url, method, body = {}) => axios({
   method,
@@ -36,6 +37,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     ).then((res) => {
       const token = res.data['x-auth-token'];
       localStorage.setItem('token', token);
+      localStorage.setItem('userId', res.data.data.userId);
       setIsLoggedIn(true);
       // Save the JWT inside a cookie
       Cookie.set('token', token);
@@ -56,10 +58,21 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     if (response.status === 'unknown') {
       return false;
     }
+    const { email } = response;
+    const { name } = response;
+    (async () => {
+      const resp = await facebookAuth({ name, email });
+      if (resp.status === 201) {
+        console.log(resp);
+        const token = resp.data['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', resp.data.data.userId);
+        setIsLoggedIn(true);
+      }
+    })();
 
     return response;
   };
-
   return (
     <div id="start-page">
       <div className={styles.container}>
