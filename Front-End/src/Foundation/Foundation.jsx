@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
@@ -21,6 +21,7 @@ import navStyles from './Navbar/Navbar.module.css';
  * The navbar is not scrollable
  */
 function Foundation({ setIsLoggedIn, userInfo }) {
+  console.log(userInfo['Profile Picture']);
   const pages = getUserPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
@@ -90,7 +91,11 @@ function Foundation({ setIsLoggedIn, userInfo }) {
                 onClick={handleLogOut}
               >
                 <div className={styles['user-menu-info']}>
-                  <AccountCircleIcon className={navStyles['nav-bar-profile']} />
+                  <img
+                    src={userInfo['Profile Picture']}
+                    className={navStyles['nav-bar-profile']}
+                    alt="profile pic"
+                  />
                   <div className={styles['user-menu-text-container']}>
                     <h1 className={styles['user-menu-text']}>
                       {(userInfo.displayName.length >= 9) ? `${userInfo.displayName.substring(0, 10)}...` : userInfo.displayName}

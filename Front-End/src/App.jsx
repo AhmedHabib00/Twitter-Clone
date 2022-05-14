@@ -38,7 +38,7 @@ function App() {
       }
     })();
     document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  }, []);
+  }, [localStorage.userId]);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
