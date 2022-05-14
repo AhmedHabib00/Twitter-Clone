@@ -14,7 +14,7 @@ import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
-import { handleLikes } from '../../Services/postServices';
+import { handelLikes, handelRetweets, handelShare } from '../../Services/postServices';
 
 function PostFooter({
   id, displayName, userName, URLs, isLiked, noOfLike,
@@ -27,12 +27,12 @@ function PostFooter({
   const [replyPopUp, setReplyPopUp] = useState(false);
   const [replyingToId, setReplyingToId] = useState([]);
 
-  const handelOpenShare = (e) => {
-    setShareEl(e.currentTarget);
-  };
-  const handelOpenRetweet = (e) => {
-    setRetweetEl(e.currentTarget);
-  };
+  // const handelOpenShare = (e) => {
+  //   setShareEl(e.currentTarget);
+  // };
+  // const handelOpenRetweet = (e) => {
+  //   setRetweetEl(e.currentTarget);
+  // };
   const handelCloseShare = () => {
     setShareEl(null);
   };
@@ -42,10 +42,10 @@ function PostFooter({
   };
   const handellikes = () => {
     if (like) {
-      handleLikes(id);
+      handelLikes(id);
       setLikeCount(likeCount - 1);
     } else {
-      handleLikes(id);
+      handelLikes(id);
       setLikeCount(likeCount + 1);
     }
     setLike(!like);
@@ -129,7 +129,7 @@ function PostFooter({
             className={styles.postgreen}
             fontSize="small"
             aria-controls="retweet"
-            onClick={handelOpenRetweet}
+            onClick={handelRetweets}
           />
           <p>{noOfRetweets}</p>
         </div>
@@ -147,7 +147,7 @@ function PostFooter({
           className={styles.postblue}
           fontSize="small"
           aria-controls="share"
-          onClick={handelOpenShare}
+          onClick={handelShare}
         />
 
       </div>
