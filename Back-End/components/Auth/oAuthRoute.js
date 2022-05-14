@@ -41,7 +41,7 @@ passport.use(new FacebookStrategy({
 ));
 
 router.post("/facebook", async (req, res) => {
-  if (!req.body.email || req.body.name) return res.status(400).send('request body undefined');    
+  if (!req.body.email || !req.body.name) return res.status(400).send('request body undefined');    
   var user = await User.findOne({ email:req.body.email});
         if (!user) {
           const uniqueUsername = await createUniqueUsername(email);
