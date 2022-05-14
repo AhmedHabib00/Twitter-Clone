@@ -16,11 +16,11 @@ const userSchema = new mongoose.Schema ({
     description: {type: String},
     profilePic: {
         type:String,
-        default:'../UserProfile/imgUploads/Default_Profile_Picture.png'
+        default:'https://storage.googleapis.com/image0001/a9d1ad40-cf10-11ec-bc51-85c07c2056ff-Default_Profile_Picture.png'
     }, // TODO:add default picture url
     coverPhoto: {
         type: String,
-        default:'../UserProfile/imgUploads/Default_Cover_Photo.jpg'
+        default:'https://storage.googleapis.com/image0001/0621cbe0-cf0f-11ec-9c8a-fd22b8475b30-Default_Cover_Photo.jpg'
     },
     location:{type: String},
     //location	
