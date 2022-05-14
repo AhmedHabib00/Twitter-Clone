@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './Feed.module.css';
 import Post from './Post';
+import GetPostsArray from '../../Services/postServices';
 
 /**
  *
@@ -11,14 +13,38 @@ import Post from './Post';
  * to display the posts in the feed component.
  */
 function Feed({ data, isReplying }) {
+  const [postData, setPostData] = useState([]);
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    setPostData(data);
+  }, [data]);
+
+  const fetchData = () => {
+    (async () => {
+      setPage(page + 1);
+      const resp = await GetPostsArray(page + 1);
+      if (resp.status === 200) {
+        setPostData([...postData, ...resp.data]);
+      }
+    })();
+    console.log('Margrita');
+  };
+
   return (
+
     <div data-testid="feed-render-test" className={styles.feed}>
+      <InfiniteScroll
+        dataLength={postData.length}
+        next={fetchData}
+        hasMore
+        loader={<h4>Loading...</h4>}
+      >
 
-      {
-        data && data.map((post) => (
-
+        {
+        postData && postData.map((post, index) => (
           <Post
-            key={post.id}
+            key={index}
             id={post.id}
             displayName={post.displayName}
             userName={post.userName}
@@ -34,12 +60,12 @@ function Feed({ data, isReplying }) {
           />
         ))
 
-    }
-
+      }
+        { console.log(postData)}
+      </InfiniteScroll>
     </div>
   );
 }
-
 Feed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
