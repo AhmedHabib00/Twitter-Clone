@@ -19,7 +19,7 @@ function ImageBox({ images, onDeleteImage, deleteEnabled }) {
     <div
       data-testid="image-box-render-test"
       id="image-box-image-canvas"
-      className={styles.image}
+      className={styles['imagebox-image']}
       key={image.id}
       style={{
         backgroundImage: `url(${image.imageUrl})`,

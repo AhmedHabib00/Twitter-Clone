@@ -379,9 +379,11 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     }
 
 
-   
+   console.log(req.body);
+//    console.log(req.files);
     if(req.body.users==null ||userInfo==null || req.body.content==null || req.files==null || req.body.gifs==null || req.body.replyId==null) //the id of the user is not found
     {
+
         return res.status(400).send("1 of the body parameters could not be read.");
         
     }

@@ -26,14 +26,13 @@ function Tweet() {
 
   useEffect(() => {
     (async () => {
-      const usersArray = await GetUsersArray();
+      const usersArray = await GetUsersArray(id);
       const post = await GetPost(id);
       const repliesArray = await GetRepliesArray(id);
       if (usersArray.status === 200) {
         setListOfUsers(usersArray.data);
       }
       if (post.status === 200) {
-        console.log(post.data);
         setPostData(post.data);
       }
       if (repliesArray.status === 200) {

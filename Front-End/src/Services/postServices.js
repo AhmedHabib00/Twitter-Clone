@@ -5,17 +5,22 @@ const { SERVER_URL } = configData;
 
 export default async function GetPostsArray(page) {
   let response = '';
-  const number = 5;
+  const number = 2;
   try {
-    response = await axios.get(`${SERVER_URL}/tweets/TimelineTweets`, {
-      headers: {
-        'x-auth-token': `${localStorage.token}`,
+    response = await axios.get(
+      `${SERVER_URL}/tweets/TimelineTweets`,
+      {
+        params: {
+          page,
+          size: number,
+        },
+        headers: {
+          'x-auth-token': `${localStorage.token}`,
+        },
       },
-      page,
-      number,
-
-    });
+    );
     // Success
+
     return (response);
   } catch (error) {
     // if (error.response) {
@@ -33,7 +38,6 @@ export default async function GetPostsArray(page) {
 }
 
 export async function handleLikes(props) {
-  console.log(props);
   let response = '';
   try {
     response = await axios.put(`${SERVER_URL}/tweets/${props}/like`, {}, {
@@ -41,7 +45,6 @@ export async function handleLikes(props) {
         'x-auth-token': localStorage.token,
       },
     });
-    console.log(localStorage.token);
     // Success
     // console.log(response);
     return (response);
@@ -122,8 +125,7 @@ export async function addToBookmark(props) {
         'x-auth-token': localStorage.token,
       },
     });
-    // Success
-    console.log(response.data.data.bookmarked);
+
     if (response.data.data.bookmarked) return (response);
     response = await axios.delete(`${SERVER_URL}/users/${localStorage.userId}/bookmarks/${props}`, {
       headers: {

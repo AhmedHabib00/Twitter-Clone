@@ -1,9 +1,16 @@
 import axios from 'axios';
+import configData from '../config/production.json';
 
-export default async function GetUsersArray() {
+const { SERVER_URL } = configData;
+
+export default async function GetUsersArray(id) {
   let response = '';
   try {
-    response = await axios.get('http://localhost:8000/usersList');
+    response = await axios.get(`http://${SERVER_URL}/tweets/repliers/${id}`, {
+      headers: {
+        'x-auth-token': `${localStorage.token}`,
+      },
+    });
     // Success
     return (response);
   } catch (error) {
@@ -21,10 +28,13 @@ export default async function GetUsersArray() {
   return response;
 }
 export async function GetPost(id) {
-  console.log(id);
   let response = '';
   try {
-    response = await axios.get('http://localhost:8000/post');
+    response = await axios.get(`http://${SERVER_URL}/tweets/SingleTweet/${id}`, {
+      headers: {
+        'x-auth-token': `${localStorage.token}`,
+      },
+    });
     // Success
     return (response);
   } catch (error) {
@@ -42,10 +52,13 @@ export async function GetPost(id) {
   return response;
 }
 export async function GetRepliesArray(id) {
-  console.log(id);
   let response = '';
   try {
-    response = await axios.get('http://localhost:8000/Replies');
+    response = await axios.get(`http://${SERVER_URL}/tweets/repliesArray/${id}`, {
+      headers: {
+        'x-auth-token': `${localStorage.token}`,
+      },
+    });
     // Success
     return (response);
   } catch (error) {

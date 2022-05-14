@@ -19,7 +19,6 @@ function AdminUsers({ state, enableStyleSwitching }) {
   const [previousState, setPreviousState] = useState('');
   const [userToDelete, setUserToDelete] = useState('');
   const [userToRemove, setUserToRemove] = useState('');
-  const [initialUserToRemove, setInitialUserToRemove] = useState('');
   const [dateError, setDateError] = useState('');
   const [date, setDate] = useState('');
   const [isBlockClicked, setIsBlockClicked] = useState(false);
@@ -35,13 +34,13 @@ function AdminUsers({ state, enableStyleSwitching }) {
   };
 
   const refreshUserList = () => {
+    setUserToRemove('');
     let usersData = [...listOfUsers];
     usersData = usersData.filter((user) => user.id !== userToRemove);
     setListOfUsers(usersData);
     if (!usersData.length) {
       (async () => {
         const resp = await getListofUsers(currentPage, state, searchVal);
-        console.log(resp);
         setPages(resp.length);
         setListOfUsers(resp.Info[0].data);
       })();
@@ -56,9 +55,7 @@ function AdminUsers({ state, enableStyleSwitching }) {
         setListOfUsers(resp.Info[0].data);
       })();
       setPreviousState(state);
-    }
-    if (initialUserToRemove !== userToRemove) {
-      setInitialUserToRemove(userToRemove);
+    } else {
       refreshUserList();
     }
   }, [state, userToRemove]);
@@ -94,6 +91,7 @@ function AdminUsers({ state, enableStyleSwitching }) {
         id: userId,
         username: userInfo.username,
       });
+      setUserToRemove('');
     } else {
       (async () => {
         await unBlockUser(userId);

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './Feed.module.css';
 import Post from './Post';
-import GetPostsArray from '../../Services/postServices';
 
 /**
  *
@@ -12,31 +11,27 @@ import GetPostsArray from '../../Services/postServices';
  * @returns map through the post array data and starts passing the post props
  * to display the posts in the feed component.
  */
-function Feed({ data, isReplying }) {
+function Feed({
+  data, isReplying, canScrollUpdate, updateData, isEndOfFeed,
+}) {
   const [postData, setPostData] = useState([]);
-  const [page, setPage] = useState(0);
 
   useEffect(() => {
     setPostData(data);
   }, [data]);
 
-  const fetchData = () => {
-    (async () => {
-      setPage(page + 1);
-      const resp = await GetPostsArray(page + 1);
-      if (resp.status === 200) {
-        setPostData([...postData, ...resp.data]);
-      }
-    })();
-  };
-
   return (
     <div data-testid="feed-render-test" className={styles.feed}>
       <InfiniteScroll
         dataLength={postData.length}
-        next={fetchData}
-        hasMore
+        next={updateData}
+        hasMore={(canScrollUpdate) ? !isEndOfFeed : false}
         loader={<h4>Loading...</h4>}
+        endMessage={(
+          <p style={{ textAlign: 'center' }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        )}
       >
 
         {
@@ -78,10 +73,15 @@ Feed.propTypes = {
     url: PropTypes.string.isRequired,
   })).isRequired,
   isReplying: PropTypes.bool,
-
+  isEndOfFeed: PropTypes.bool,
+  canScrollUpdate: PropTypes.bool,
+  updateData: PropTypes.func,
 };
 
 Feed.defaultProps = {
+  canScrollUpdate: false,
   isReplying: false,
+  isEndOfFeed: false,
+  updateData: () => {},
 };
 export default Feed;

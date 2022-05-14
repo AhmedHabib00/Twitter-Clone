@@ -52,8 +52,7 @@ function PostFooter({
   };
   const handleAddToBookmark = () => {
     (async () => {
-      const resp = await addToBookmark(id);
-      console.log(resp);
+      await addToBookmark(id);
     })();
   };
   const handleButtonOnClickReplying = (selectedUsers) => {

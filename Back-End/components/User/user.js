@@ -171,7 +171,9 @@ router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{
                         }});
                         
                     }else{
-                        throw err;
+                        res.status(200).send({"data": {
+                            "bookmarked": false
+                        }});
                     }    
                 } else {
                     throw err;  
