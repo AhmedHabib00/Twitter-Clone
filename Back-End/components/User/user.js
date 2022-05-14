@@ -165,22 +165,13 @@ router.post('/:id/bookmarks/:tweet_id', async (req, res) =>{
                         // Add tweet_id to the bookamrks list of the user
                         userData.bookmarks.push(req.params.tweet_id);
                         userData.save();
-
-                        // Check if the tweet_id not already bookmarked by the user id
-                        bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
                         
-                        if (bookmarkExistPass) {
-                            res.status(200).send({"data": {
-                                "bookmarked": true
-                            }});
-                        }else{
-                            throw err;
-                        }
-                        
-                    }else{
                         res.status(200).send({"data": {
                             "bookmarked": true
                         }});
+                        
+                    }else{
+                        throw err;
                     }    
                 } else {
                     throw err;  
