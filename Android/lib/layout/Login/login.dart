@@ -1,10 +1,10 @@
-// ignore_for_file: unused_field, unnecessary_new, non_constant_identifier_names, avoid_init_to_null, avoid_print, duplicate_ignore, unused_local_variable, prefer_typing_uninitialized_variables, unnecessary_null_comparison, unrelated_type_equality_checks
+// ignore_for_file: unused_field, unnecessary_new, non_constant_identifier_names, avoid_init_to_null, avoid_print, duplicate_ignore, unused_local_variable, prefer_typing_uninitialized_variables, unnecessary_null_comparison, unrelated_type_equality_checks, use_function_type_syntax_for_parameters, empty_constructor_bodies
 
 import 'dart:convert';
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/Admin/AdminPage.dart';
@@ -31,6 +31,7 @@ class _LoginPage extends State<LoginPage> {
   late String _email;
   bool _isLoading = false;
   late final String token = '';
+
   // final GoogleSignIn _googleSignIn = GoogleSignIn(
   //   // Optional clientId
   //   // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
@@ -39,6 +40,7 @@ class _LoginPage extends State<LoginPage> {
   //     'https://www.googleapis.com/auth/contacts.readonly',
   //   ],
   // );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -389,32 +391,35 @@ class _LoginPage extends State<LoginPage> {
     }
   }
 
-  Future GGsignIn() async {
-    await GoogleSignInApi.login();
-  }
-
-  // Future<> GGsignIn() async {
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //   print('test 1');
-
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth =
-  //       await googleUser?.authentication;
-  //   print('test 2');
-
-  //   // Create a new credential
-  //   var GoogleAuthProvider;
-  //   final credential = GoogleAuthProvider(
-  //     print('test 3'),
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-  //   //print('test 4');
-  //   // Once signed in, return the UserCredential
-  //   //return await FirebaseAuth.instance.signInWithCredential(credential);
-  //   return credential;
+  // Future GGsignIn() async {
+  //   await GoogleSignInApi.login();
+  //   final ggAuth = await result.authentication;
+  //   print(ggAuth.idToken);
+  //   print(ggAuth.accessToken);
   // }
+
+  Future GGsignIn() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    print('test 1');
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+    print('test 2');
+
+    // Create a new credential
+    var GoogleAuthProvider;
+    final credential = GoogleAuthProvider(
+      print('test 3'),
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    //print('test 4');
+    // Once signed in, return the UserCredential
+    //return await FirebaseAuth.instance.signInWithCredential(credential);
+    return credential;
+  }
 
   // // Future FBsignIn() async {
   //   await GoogleSignInAccount.login();

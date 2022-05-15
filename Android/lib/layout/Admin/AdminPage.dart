@@ -5,8 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Admin/GraphBar.dart';
 import 'package:whisper/layout/Admin/GraphPie.dart';
-import 'package:whisper/modules/AdminTweetBoxWidget.dart';
-import 'package:whisper/models/tweet_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -18,23 +16,25 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPage extends State<AdminPage> {
-  @override
-  initState() {
-    getUserData(widget.token);
-    super.initState();
-  }
-
+  List users = [];
+  bool isLoading = false;
   late var NoUser = 5;
   late var NoBan = 5;
-  late var ratioTweet = '';
-  Future NoUsers(token) async {
-    var jsonData = null;
+  late var ratioTweet = '5';
+  late var count = 5;
+  late Future<int> noUserFuture;
+  late Future<int> noBanFuture;
+  late Future<String> ratioTweetFuture;
+  late Future<int> getUSerCountFuture;
+
+  Future<int> NoUsers(token) async {
     Map mapResponse;
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        ('http://10.0.2.2:8080/admins/statistics/noUsers'),
-        //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
+        ('http://10.0.2.2:8080/admins/statistics/noUsers'
+        //  'https://www.thegrowingdeveloper.org/apiview?id=2'
+        ),
       ),
       headers: {
         'x-auth-token': token,
@@ -45,16 +45,15 @@ class _AdminPage extends State<AdminPage> {
       dataResponse = mapResponse['noUsers'];
       NoUser = dataResponse['count'];
     });
+    return NoUser;
   }
 
-  Future NoBanned(token) async {
+  Future<int> NoBanned(token) async {
     Map mapResponse;
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
         'http://10.0.2.2:8080/admins/statistics/noBanned',
-        //'https://www.thegrowingdeveloper.org/apiview?id=1',
-        //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
       ),
       headers: {'x-auth-token': token},
     );
@@ -63,16 +62,15 @@ class _AdminPage extends State<AdminPage> {
       dataResponse = mapResponse['noBanned'];
       NoBan = dataResponse['count'];
     });
+    return NoBan;
   }
 
-  Future ratioTweets(token) async {
+  Future<String> ratioTweets(token) async {
     Map mapResponse;
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
         'http://10.0.2.2:8080/admins/statistics/ratioTweets',
-        //'https://www.thegrowingdeveloper.org/apiview?id=1',
-        //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
       ),
       headers: {'x-auth-token': token},
     );
@@ -81,43 +79,63 @@ class _AdminPage extends State<AdminPage> {
       dataResponse = mapResponse['ratioTweets'];
       ratioTweet = dataResponse['count'];
     });
+    return ratioTweet;
   }
 
-  Future getUserData(token) async {
-    Map mapResponse;
-    Map dataResponse;
-    //Map info;
-    //Map dataResponse;
+  Future<int> getUserNo(token) async {
     var response = await http.get(
       Uri.parse(
-        'http://10.0.2.2:8080/admins/users/?size=1&page=4&search=&state=',
+        ('http://10.0.2.2:8080/admins/users/?size=1&page=1&search=&state='
+        //'https://www.thegrowingdeveloper.org/apiview?id=2'
+        ),
       ),
-      headers: {'x-auth-token': token},
+      headers: {
+        'x-auth-token': token,
+      },
     );
     setState(() {
-      var jsonData = json.decode(response.body);
-      // mapResponse = json.decode(response.body);
-      List dataResponse = jsonData['Info'];
-      List info = dataResponse[0]['data'];
-      Map infoName = info[0];
-      String infoname = infoName['name'];
-
-      // print('@@@@@@@@@@@@ dataResponse Start');
-      // print(dataResponse);
-      // print('@@@@@@@ dataResponse ends');
-
-      // print('@@@@@@@@@@@@ info Start');
-      // print(infoname);
-      // print('@@@@@@@ info ends');
+      count = json.decode(response.body)['count'];
+      //count = json.decode(response.body)['id'];
     });
+    return count;
+  }
+
+  Future getUser(token) async {
+    var response = await http.get(
+      Uri.parse(
+        ('http://10.0.2.2:8080/admins/users/?size=$count&page=1&search=&state='),
+      ),
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var items = json.decode(response.body)['Info'];
+      List info = items[0]['data'];
+      setState(() {
+        users = info;
+      });
+    } else {
+      setState(() {
+        users = [];
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserNo(widget.token);
+    //getUser(widget.token);
+    noUserFuture = NoUsers(widget.token);
+    noBanFuture = NoBanned(widget.token);
+    ratioTweetFuture = ratioTweets(widget.token);
+    getUSerCountFuture = getUserNo(widget.token);
   }
 
   @override
   Widget build(BuildContext context) {
-    NoUsers(widget.token);
-    NoBanned(widget.token);
-    ratioTweets(widget.token);
-    getUserData(widget.token);
+    print(widget.token);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -166,34 +184,69 @@ class _AdminPage extends State<AdminPage> {
                   mainAxisSpacing: 0,
                   crossAxisCount: 1,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 50, right: 50, top: 0, bottom: 50),
-                      child: _AdminCard(
-                        context: context,
-                        count: NoUser,
-                        icon: Icons.person,
-                        name: " No. of Users",
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 50, right: 50, top: 0, bottom: 50),
+                        child: FutureBuilder<int?>(
+                          future: noUserFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              NoUser = snapshot.data!;
+                              return _AdminCard(
+                                context: context,
+                                count: NoUser,
+                                icon: Icons.person,
+                                name: " No. of Users",
+                              );
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 50, right: 50, top: 0, bottom: 50),
-                      child: _AdminCard(
-                        context: context,
-                        count: NoBan,
-                        icon: Icons.block,
-                        name: " No. of banned Users",
+                      child: FutureBuilder<int?>(
+                        future: noBanFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            NoBan = snapshot.data!;
+                            return _AdminCard(
+                              context: context,
+                              count: NoBan,
+                              icon: Icons.block,
+                              name: " No. of banned\n Users",
+                            );
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 25, right: 50, top: 0, bottom: 50),
-                      child: _AdminCard(
-                        context: context,
-                        count: ratioTweet,
-                        icon: Icons.percent_sharp,
-                        name: " Tweets Increased by",
+                          left: 50, right: 50, top: 0, bottom: 50),
+                      child: FutureBuilder<String?>(
+                        future: ratioTweetFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            ratioTweet = snapshot.data!;
+                            return _AdminCard(
+                              context: context,
+                              count: ratioTweet,
+                              icon: Icons.percent_sharp,
+                              name: " Tweets Increased\n by",
+                            );
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        },
                       ),
                     ),
                     Padding(
@@ -211,18 +264,18 @@ class _AdminPage extends State<AdminPage> {
                             ),
                           ),
                           const SizedBox(height: 25),
-                          const Expanded(child: GraphPie())
+                          Expanded(child: GraphPie(token: widget.token))
                         ],
                       )),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 50, right: 50, bottom: 100, top: 0),
+                          left: 50, right: 50, bottom: 0, top: 0),
                       child: Container(
                           child: Column(
                         children: <Widget>[
                           Text(
-                            "Most Followed",
+                            "Most Followed Users",
                             style: TextStyle(
                               fontSize: 25,
                               color: Colors.grey[700],
@@ -237,51 +290,23 @@ class _AdminPage extends State<AdminPage> {
                   ],
                 ),
               ),
-              // Container(
-              //   child: Card(
-              //     child: FutureBuilder<List>(
-              //         future: datafuture,
-              //         //getUserData(),
-              //         builder: (context, snapshot) {
-              //           if (snapshot.hasData) {
-              //             users = snapshot.data!;
-              //             //return Container(
-              //             // child: const Center(
-              //             //   child: Text('loading...'),
-              //             // ),
-              //             return ListView.builder(
-              //               itemCount: snapshot.data?.length,
-              //               itemBuilder: (context, i) {
-              //                 return ListTile(
-              //                   title: Text(snapshot.data?[i].name),
-              //                   subtitle: Text(snapshot.data?[i].userName),
-              //                   trailing: Text(snapshot.data?[i].email),
-              //                 );
-              //               },
-              //             );
-              //             // );
-              //           } else {
-              //             //var data = (snapshot.data as List<User>).toList();
-              //             return const Center(
-              //                 child: CircularProgressIndicator());
-              //           }
-              //         }),
-              //   ),
-              // ),
-
-              // start here
-              //SingleChildScrollView(
-              //child:
               Container(
-                child: getBody(), //AdminTweetBoxWidget(Tweets, false, () {}),
-              ),
-              //),
-              // delete before
-
+                  child: FutureBuilder<int>(
+                      future: getUSerCountFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          count = snapshot.data!;
+                          getUser(widget.token);
+                          return getBody();
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      })),
               SingleChildScrollView(
                 child: Container(
-                  child: AdminTweetBoxWidget(Tweets, false, () {}),
-                ),
+                    //child: AdminTweetBoxWidget(Tweets, false, () {}),
+                    ),
               ),
             ],
           ),
@@ -291,80 +316,73 @@ class _AdminPage extends State<AdminPage> {
   }
 
   Widget getBody() {
-    // return const Center(
-    //   child: Text('hello world'),
-    // );
-    List items = [
-      '1',
-      '2',
-    ];
     return ListView.builder(
-        itemCount: items.length,
+        itemCount: users.length,
         itemBuilder: (context, index) {
-          return getCard(); //Text('index $index');
+          return getCard(users[index]); //Text('index $index');
         });
   }
 
-  Widget getCard() {
+  Widget getCard(item) {
+    var name = item['name'];
+    var userName = item['username'];
+    var profilePic = item['profilePic'];
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ListTile(
-          title: Row(
-            children: <Widget>[
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 81, 255),
-                  borderRadius: BorderRadius.circular(60 / 2),
-                  image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+      child: ListTile(
+        title: Row(
+          children: <Widget>[
+            Container(
+              width: 65,
+              height: 65,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 0, 81, 255),
+                borderRadius: BorderRadius.circular(60 / 2),
+                image: const DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    "https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                    //profilePic.toString()
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  Text('Christina ',
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 10),
-                  Text('@Christy20', style: TextStyle(color: Colors.grey)),
-                ],
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 100),
-              //   child: MaterialButton(
-              //     onPressed: () {},
-              //     color: Colors.red,
-              //   ),
-              // ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 100),
-                child: MaterialButton(
-                  minWidth: double.minPositive,
-                  height: 30,
-                  onPressed: () {},
-                  color: const Color.fromARGB(255, 255, 0, 0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Text(
-                    "Block",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Color.fromARGB(255, 255, 255, 255),
+            ),
+            const SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  name.toString(),
+                  style: const TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  userName.toString(),
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.only(left: 200, bottom: 0, top: 0),
+                  child: MaterialButton(
+                    minWidth: double.minPositive,
+                    height: 35,
+                    onPressed: () {},
+                    color: const Color.fromARGB(255, 255, 0, 0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text(
+                      "Block",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -421,36 +439,6 @@ class _AdminPage extends State<AdminPage> {
     );
   }
 }
-
-final List<AdminTweetModel> Tweets = [
-  AdminTweetModel(
-    username: " Kareem",
-    //tweet: "Lorem ipsum dolor sit amet",
-    //time: "7h",
-    twitterHandle: "@Kareem1",
-  ),
-  AdminTweetModel(
-      username: "Ahmed",
-      //tweet: "Lorem ipsum dolor sit amet",
-      //time: "3m",
-      twitterHandle: "@Ahmed28"),
-  AdminTweetModel(
-    username: " Kareem",
-    //tweet: "Lorem ipsum dolor sit amet",
-    //time: "7h",
-    twitterHandle: "@Kareem1",
-  ),
-  AdminTweetModel(
-      username: "Ahmed",
-      //tweet: "Lorem ipsum dolor sit amet",
-      //time: "3m",
-      twitterHandle: "@Ahmed28"),
-  AdminTweetModel(
-      username: "Hassan",
-      //tweet: "Lorem ipsum dolor sit amet",
-      //time: "3m",
-      twitterHandle: "@Hassan212"),
-];
 
 class User {
   final String name;

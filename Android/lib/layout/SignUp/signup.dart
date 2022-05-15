@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whisper/layout/Login/login.dart';
-//import 'package:whisper/layout//API/google_signIn_api.dart';
+import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/SignUp/VerifyEmail.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
@@ -253,7 +253,9 @@ class _SignUpPage extends State<SignUpPage> {
                       child: SignInButton.mini(
                         buttonType: ButtonType.google,
                         buttonSize: ButtonSize.small,
-                        onPressed: /*signIn*/ () {},
+                        onPressed: () {
+                          //signIn();
+                        }, //{},
                       ),
                     ),
                   ],
