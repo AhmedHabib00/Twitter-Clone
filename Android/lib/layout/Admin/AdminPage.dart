@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_unnecessary_containers, non_constant_identifier_names, unnecessary_new, avoid_print, avoid_init_to_null, unused_local_variable, duplicate_import, prefer_typing_uninitialized_variables, camel_case_types
+// ignore_for_file: file_names, avoid_unnecessary_containers, non_constant_identifier_names, unnecessary_new, avoid_print, avoid_init_to_null, unused_local_variable, duplicate_import, prefer_typing_uninitialized_variables, camel_case_types, unused_element, unnecessary_brace_in_string_interps
 
 // import 'dart:io';
 
@@ -10,7 +10,9 @@ import 'dart:convert';
 
 class AdminPage extends StatefulWidget {
   final String token;
-  const AdminPage({Key? key, required this.token}) : super(key: key);
+  final String adminToken;
+  const AdminPage({Key? key, required this.token, required this.adminToken})
+      : super(key: key);
   @override
   _AdminPage createState() => _AdminPage();
 }
@@ -25,7 +27,7 @@ class _AdminPage extends State<AdminPage> {
   late Future<int> noUserFuture;
   late Future<int> noBanFuture;
   late Future<String> ratioTweetFuture;
-  late Future<int> getUSerCountFuture;
+  late Future<int> getUserCountFuture;
 
   Future<int> NoUsers(token) async {
     Map mapResponse;
@@ -61,6 +63,14 @@ class _AdminPage extends State<AdminPage> {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse['noBanned'];
       NoBan = dataResponse['count'];
+      print('im here');
+      print(NoBan);
+      _AdminCard(
+        context: context,
+        count: NoBan,
+        icon: Icons.block,
+        name: " No. of banned\n Users",
+      );
     });
     return NoBan;
   }
@@ -122,15 +132,41 @@ class _AdminPage extends State<AdminPage> {
     }
   }
 
+  Future blockUser(token, adminToken, user_id) async {
+    Map data = {'end_date': '2023-05-28'};
+    var response = await http.post(
+      Uri.parse(
+        'http://10.0.2.2:8080/admins/${adminToken}/banning/${user_id}/',
+      ),
+      body: data,
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    setState(() {
+      print('user_id');
+      print(user_id);
+      print('adminToken');
+      print(adminToken);
+      print('admin token inside block');
+      if (response.statusCode == 200) {
+        NoBanned(widget.token);
+        print(response.body);
+        print('block was clicked');
+      } else {
+        print('block not working');
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getUserNo(widget.token);
-    //getUser(widget.token);
     noUserFuture = NoUsers(widget.token);
     noBanFuture = NoBanned(widget.token);
     ratioTweetFuture = ratioTweets(widget.token);
-    getUSerCountFuture = getUserNo(widget.token);
+    getUserCountFuture = getUserNo(widget.token);
   }
 
   @override
@@ -214,6 +250,7 @@ class _AdminPage extends State<AdminPage> {
                         future: noBanFuture,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
+                            NoBanned(widget.token);
                             NoBan = snapshot.data!;
                             return _AdminCard(
                               context: context,
@@ -292,7 +329,7 @@ class _AdminPage extends State<AdminPage> {
               ),
               Container(
                   child: FutureBuilder<int>(
-                      future: getUSerCountFuture,
+                      future: getUserCountFuture,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           count = snapshot.data!;
@@ -327,6 +364,7 @@ class _AdminPage extends State<AdminPage> {
     var name = item['name'];
     var userName = item['username'];
     var profilePic = item['profilePic'];
+    var user_id = item['id'];
     return Card(
       child: ListTile(
         title: Row(
@@ -337,11 +375,11 @@ class _AdminPage extends State<AdminPage> {
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 0, 81, 255),
                 borderRadius: BorderRadius.circular(60 / 2),
-                image: const DecorationImage(
+                image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    "https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                    //profilePic.toString()
+                    profilePic.toString(),
+                    //"https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
                   ),
                 ),
               ),
@@ -360,13 +398,24 @@ class _AdminPage extends State<AdminPage> {
                   userName.toString(),
                   style: const TextStyle(color: Colors.grey),
                 ),
+                const SizedBox(height: 10),
+                Text(
+                  user_id.toString(),
+                  style: const TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                // user_id,
                 const SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.only(left: 200, bottom: 0, top: 0),
                   child: MaterialButton(
                     minWidth: double.minPositive,
                     height: 35,
-                    onPressed: () {},
+                    onPressed: () {
+                      blockUser(widget.token, widget.adminToken, user_id);
+                      NoBanned(widget.token);
+                      print('No');
+                    },
                     color: const Color.fromARGB(255, 255, 0, 0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -444,10 +493,15 @@ class User {
   final String name;
   final String userName;
   final String profilePic;
-  User({required this.name, required this.userName, required this.profilePic});
+  final String user_id;
+  User(
+      {required this.name,
+      required this.userName,
+      required this.profilePic,
+      required this.user_id});
   static User fromJson(json) => User(
-        name: json['name'],
-        userName: json['username'],
-        profilePic: json['profilePic'],
-      );
+      name: json['name'],
+      userName: json['username'],
+      profilePic: json['profilePic'],
+      user_id: json['user_id']);
 }

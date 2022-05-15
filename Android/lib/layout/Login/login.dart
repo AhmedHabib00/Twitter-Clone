@@ -31,6 +31,7 @@ class _LoginPage extends State<LoginPage> {
   late String _email;
   bool _isLoading = false;
   late final String token = '';
+  late final String adminToken = '';
 
   // final GoogleSignIn _googleSignIn = GoogleSignIn(
   //   // Optional clientId
@@ -176,7 +177,7 @@ class _LoginPage extends State<LoginPage> {
 
                           if (formKey.currentState!.validate()) {
                             SignIn(EmailorUserController.text,
-                                PassController.text, token);
+                                PassController.text, token, adminToken);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -280,7 +281,7 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
-  SignIn(String email, String password, String token) async {
+  SignIn(String email, String password, String token, String adminToken) async {
     Map data = {'emailOrUsername': email, 'password': password};
     //var jsonData = null;
     Map mapResponse;
@@ -293,12 +294,17 @@ class _LoginPage extends State<LoginPage> {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
       token = dataResponse["x-auth-token"];
+      adminToken = dataResponse['data']['userId'];
+      print('admin token');
+      print(adminToken);
+      print(response.body);
       setState(() {
         dataResponse = mapResponse["data"];
         if (dataResponse["role"].toString() == 'Admin') {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                  builder: (BuildContext context) => AdminPage(token: token)),
+                  builder: (BuildContext context) =>
+                      AdminPage(token: token, adminToken: adminToken)),
               (Route<dynamic> route) => false);
           dataResponse = mapResponse;
           showModalBottomSheet<void>(
