@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema ({
     name: {type :String ,required :true,trim: true},
     username: { type :String ,trim: true, unique: true},
     email: { type :String ,required :true,trim: true, unique: true},
-    password: { type: String},
+    password: {type: String},
     googleId:{ type:String},
     facebookId:{ type:String},
     passwordResetOTP:{type:String,minlength: 6,maxlength: 1024},
