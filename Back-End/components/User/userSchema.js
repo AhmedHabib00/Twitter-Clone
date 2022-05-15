@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema ({
     name: {type :String ,required :true,trim: true},
     username: { type :String ,required :true,trim: true, unique: true},
     email: { type :String ,required :true,trim: true, unique: true},
-    password: { type: String ,required :true},
+    password: { type: String ,required :false},
     profilePic: {type: String}, // TODO:add default picture url
     coverPhoto: {type: String},
     birthdate:{type: Date},

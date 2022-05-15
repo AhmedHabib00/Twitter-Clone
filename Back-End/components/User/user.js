@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 
 const userSchema = require('./userSchema')
 const tweetSchema = require('../Tweets/tweetsSchema')
-const ObjectId = userSchema.ObjectId;
+
+const mongoose=require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
@@ -124,22 +126,99 @@ router.get('/:id/bookmarks', auth, async (req, res) =>{
     }
 
     // Get data by id
-    userSchema.findById(req.params.id).populate('bookmarks').exec(async (err, userData) =>{
-        try {
-            if (userData.role=="User") {
-                // return bookmarks data
-                return res.status(200).send({
-                    "count": userData.bookmarks.length,
-                    "data": userData.bookmarks
-                });
-            }else{
-                return res.status(500).send("Specefied id not an user");
+    // userData = await userSchema.findById(req.params.id).populate('bookmarks');
+    let { page, size } = req.query;
+    
+    //default value is 1 if page parameter is not given.
+    if (!page) {
+        page = 1;
+    }
+    //default value is 10 if page parameter is not given.
+    if (!size) {
+        size = 10;
+    }
+
+    //Casting the size string to integer.
+    const limit = parseInt(size);
+            
+    finalArray= []
+    
+    var user = await userSchema.findById(req.params.id).limit(limit).skip(size*(page-1))
+    .populate("bookmarks")
+    .sort({"createdAt":-1})    
+    .catch(error => {
+        console.log(error);
+        return res.status(400).send("error: problem with finding the tweets")
+    });
+
+    bookmarksList = user.bookmarks;
+    
+    if (!bookmarksList) return res.status.send('No tweets found');
+
+    for(i = 0; i < bookmarksList.length; i++){
+                
+        Liked=false;
+        Retweeted=false;
+
+        //Checking if the tweet is liked by the current user.
+        var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
+        if(userLiked) Liked = true;
+            
+        //Checking if the tweet is retweeted by the current user.
+        var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
+        if(userRetweeted) Retweeted = true;
+
+        var contentTemp="";
+        var gifTemp = bookmarksList[i]["gifs"];
+        var tempMedia = bookmarksList[i]["media"];
+        var urls=[];
+
+        if(!tempMedia || tempMedia.length == 0){
+            if(!gifTemp || gifTemp.length == 0)
+            {
+                urls=[];
+            }
+            else
+            {
+                urls.push(gifTemp);
             }
         }
-        catch(err){
-            return res.sendStatus(500);
+        else{
+            urls=tempMedia;
         }
-    })
+
+        if(bookmarksList[i]["content"])
+            contentTemp = bookmarksList[i]["content"];
+
+        var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
+
+        const Obj= ({
+                id: bookmarksList[i]["_id"],
+                userName: userTweet.username,
+                displayName: userTweet.name,
+                content: contentTemp,
+                url: userTweet.profilePic,
+                URLs: urls,
+                isLiked: Liked,
+                isRetweeted: Retweeted,
+                noOfLike: bookmarksList[i].numberLikes,
+                noOfReplies: bookmarksList[i].numberReplies,
+                noOfRetweets: bookmarksList[i].numberRetweets
+            });
+
+        finalArray.push(Obj);              
+        
+    }
+
+    if (user.role=="User") {
+        // return bookmarks data
+        return res.status(200).send({
+            "count": finalArray.length,
+            "data": finalArray
+        });
+    }else{
+        return res.status(500).send("Specefied id not an user");
+    }
 });
 
 // Allows an user to bookmark tweet : POST /users/{id}/bookmarks/{tweet_id}
@@ -152,46 +231,41 @@ router.post('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
 
     // Get data of the user who want to bookmark by id
     userSchema.findById(req.params.id).exec(async(err, userData)=>{
-        try {
-            if (userData.role=="User") {
-                // Get data of the tweet that will be bookmarked by id
-                tweetData = await tweetSchema.findById(req.params.tweet_id);
-                if (tweetData) {
-                    // Check if the tweet_id not already bookmarked by the user id
-                    bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
-        
-                    if (!bookmarkExistPass) {
-                        // Add tweet_id to the bookamrks list of the user
-                        userData.bookmarks.push(req.params.tweet_id);
-                        userData.save();
+        if (!userData) {
+            return res.status(500).send({"data": {
+                "bookmarked": false,
+                "reason": "Undefined User"
+            }});
+        }
 
-                        // Check if the tweet_id not already bookmarked by the user id
-                        bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
-                        
-                        if (bookmarkExistPass) {
-                            return res.status(200).send({"data": {
-                                "bookmarked": true
-                            }});
-                        }else{
-                            throw err;
-                        }
-                    }else{
-                        return res.status(200).send({"data": {
-                            "bookmarked": true,
-                            "reason": "Already bookmarked"
-                        }});
-                    }    
-                } else {
-                    return res.status(500).send({"data": {
+        if (userData.role=="User") {
+            // Get data of the tweet that will be bookmarked by id
+            tweetData = await tweetSchema.findById(req.params.tweet_id);
+            if (tweetData) {
+                // Check if the tweet_id not already bookmarked by the user id
+                bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)                
+                if (!bookmarkExistPass) {
+                    // Add tweet_id to the bookamrks list of the user
+                    userData.bookmarks.push(req.params.tweet_id);
+                    userData.save();
+
+                    return res.status(200).send({"data": {
+                        "bookmarked": true
+                    }});
+   
+                }else{
+                    return res.status(200).send({"data": {
                         "bookmarked": false,
-                        "reason": "Unknown tweet id"
-                    }}); 
-                }
-            }else{
-                throw err;
+                        "reason": "Already bookmarked"
+                    }});
+                }    
+            } else {
+                return res.status(500).send({"data": {
+                    "bookmarked": false,
+                    "reason": "Unknown tweet id"
+                }}); 
             }
-        } catch(err) {
-            console.log(err)
+        }else{
             return res.status(500).send({"data": {
                 "bookmarked": false
             }});
@@ -229,25 +303,19 @@ router.delete('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
                         userData.bookmarks = removeItem(userData.bookmarks, req.params.tweet_id);
                         userData.save();
                         
-                        // Check if the tweet_id not already bookmarked by the user id
-                        bookmarkExistPass = userData.bookmarks.find(bookmark => bookmark == req.params.tweet_id)
-                        
-                        if (!bookmarkExistPass) {
-                            return res.status(200).send({"data": {
-                                "bookmarked": false
-                            }}); 
-                        }else{
-                            throw err;
-                        }
+                        return res.status(200).send({"data": {
+                            "bookmarked": false
+                        }}); 
+
                     }else{
                         return res.status(200).send({"data": {
-                            "bookmarked": false,
+                            "bookmarked": true,
                             "reason": "Already unbookmarked"
                         }});
                     }
                 }else{
                     return res.status(500).send({"data": {
-                        "bookmarked": false,
+                        "bookmarked": true,
                         "reason": "Unkown tweet id"
                     }});
                 }
@@ -256,7 +324,7 @@ router.delete('/:id/bookmarks/:tweet_id', auth, async (req, res) =>{
             }
         } catch(err) {
             return res.status(500).send({"data": {
-                "bookmarked": false
+                "bookmarked": true
             }});
         }
     })
@@ -272,20 +340,17 @@ router.get('/:id/blocking', auth, async (req, res) =>{
 
     // Get data by id
     userSchema.findById(req.params.id).populate('blocks','_id name username email profilePic covorPhoto description').exec(async (err, userData) =>{
-        try {
-            if (userData.role=="User") {
+
+        if (userData.role=="User") {
                 // return blocks data
                 return res.status(200).send({
                     "count": userData.blocks.length,
                     "data": userData.blocks
             });
-            }else{
-                return res.status(500).send("Specefied id not an user");
-            }
+        }else{
+            return res.status(500).send("Specefied id not an user");
         }
-        catch(err){
-            return res.sendStatus(500);
-        }
+
     })
 });
 
