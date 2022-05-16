@@ -113,7 +113,7 @@ export async function SendRetweets(TweetId) {
 export async function addToBookmark(props) {
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/users/${localStorage.userId}/bookmarks/${props}`, {
+    response = await axios.post(`${SERVER_URL}/users/${localStorage.userId}/bookmarks/${props}`, { }, {
       headers: {
         'x-auth-token': localStorage.token,
       },

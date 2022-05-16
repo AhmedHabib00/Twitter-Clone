@@ -99,7 +99,7 @@ function App() {
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="ViewTweet" element={<ViewTweet />} />
-      <Route path="Bookmarks" element={<Bookmarks />} />
+      <Route path="Bookmarks" element={<Bookmarks username={userInfo.username} />} />
       <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />

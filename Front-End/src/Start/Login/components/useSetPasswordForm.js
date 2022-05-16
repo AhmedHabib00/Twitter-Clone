@@ -36,7 +36,7 @@ const useSetPasswordForm = (setSettingPassword, handleAfterSignin, setIsLoading)
           localStorage.setItem('token', token);
           localStorage.removeItem('temp-token');
           console.log(response);
-          // localStorage.setItem('userId', response.data.data.userId);
+          localStorage.setItem('userId', response.data.data.userId);
           setSettingPassword(false);
           setIsLoading(false);
           if (localStorage.token) {
