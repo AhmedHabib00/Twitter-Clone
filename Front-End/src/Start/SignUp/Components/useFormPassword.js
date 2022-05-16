@@ -8,9 +8,10 @@ import { signUpPassword } from '../../../Services/accountServices';
  * @param {function} setStepPassword Manages the password step status
  * @param {function} setStepUsername Manages the username selection step status
  * @param {string} userEmail used to send with password to the backend
+ * @param {function} setIsLoading used to set the state of the loader
  * @returns handleChange, values, handleSubmit, errors
  */
-const useFormPassword = (setStepPassword, setStepUsername, userEmail) => {
+const useFormPassword = (setStepPassword, setStepUsername, userEmail, setIsLoading) => {
   const [values, setValues] = useState({
     password: '',
     email: '',
@@ -28,11 +29,14 @@ const useFormPassword = (setStepPassword, setStepUsername, userEmail) => {
     e.preventDefault();
     setErrors(validatePassword(values));
     if (Object.keys(validatePassword(values)).length === 0) {
+      setIsLoading(true);
       signUpPassword(values).then((response) => {
         if (response.status === 200) {
           setStepPassword(false);
           setStepUsername(true);
+          setIsLoading(false);
         }
+        setIsLoading(false);
       });
     }
   };

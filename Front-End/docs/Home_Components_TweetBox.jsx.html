@@ -28,6 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import React, { createRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoOutlinedIcon from '@mui/icons-material/PhotoOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
@@ -37,7 +38,7 @@ import PopupPage from './PopupPage';
 import SearchBar from '../../Search/SearchBar/SearchBar';
 
 import styles from './TweetBox.module.css';
-import { PostTweet, GetGifs } from '../../Services/tweetBoxServices';
+import PostTweet from '../../Services/userServices';
 
 /**
  * This components takes a text input from user and a maximum of 4 media items
@@ -53,8 +54,6 @@ function TweetBox({ replyId, placeHolder, boxId }) {
   const [mediaDisabled, setMediaDisabled] = useState(false);
   const [gifDisabled, setGifDisabled] = useState(false);
   const [imageId, setImageId] = useState(0);
-  const [wordsCount, setWordsCount] = useState(0);
-  const [isEnabled, setIsEnabled] = useState(true);
 
   const onSearchChange = (value) => {
     let url;
@@ -135,31 +134,21 @@ function TweetBox({ replyId, placeHolder, boxId }) {
     setImageCount(imageCount + 1);
     setIsGifOpen(!isGifOpen);
     setGifs([]);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
   };
 
   const handleSendData = () => {
     const { value } = document.getElementById(`twbox-text-area-${boxId}`);
     document.getElementById(`twbox-text-area-${boxId}`).value = '';
-    document.getElementById(`twbox-text-area-${boxId}`).style.height = '53px';
     setImages([]);
     setGifs([]);
     setImageCount(0);
     setImageId(0);
     setGifDisabled(false);
     setMediaDisabled(false);
-    setWordsCount(0);
 
     if (value !== '' || images.length !== 0) {
       PostTweet({ value, images, replyId });
     }
-  };
-
-  const maxWordsNoValidation = () => {
-    const count = document.getElementById(`twbox-text-area-${boxId}`).value.length;
-    setWordsCount(count);
-    if (count > 280) setIsEnabled(false);
-    else setIsEnabled(true);
   };
   return (
     &lt;div>
@@ -188,7 +177,6 @@ function TweetBox({ replyId, placeHolder, boxId }) {
         &lt;div className={styles['text-area']}>
           &lt;div>
             &lt;textarea
-              onChange={maxWordsNoValidation}
               id={`twbox-text-area-${boxId}`}
               placeholder={placeHolder}
               className={styles['tweet-input']}
@@ -244,13 +232,13 @@ function TweetBox({ replyId, placeHolder, boxId }) {
 }
 
 TweetBox.propTypes = {
-  replyId: PropTypes.number,
+  replyId: PropTypes.string,
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
 };
 
 TweetBox.defaultProps = {
-  replyId: null,
+  replyId: '',
   placeHolder: '',
 };
 
@@ -265,13 +253,13 @@ export default TweetBox;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 19 2022 07:44:35 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

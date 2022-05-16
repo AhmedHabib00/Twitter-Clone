@@ -9,6 +9,13 @@
   max-width: 100%;
 }
 
+.loaders-container {
+  top: 60%;
+  right: 10%;
+  position: absolute;
+  z-index: 100;
+}
+
 .left-column-container {
   width: 70%;
   min-width: 425px;

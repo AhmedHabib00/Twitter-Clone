@@ -51,6 +51,7 @@ function Login({ closeLogin, handleLoginStatus }) {
           setLoginPassword={setLoginPassword}
           setForgotPassword={setForgotPassword}
           setEmail={setEmail}
+          handleAfterSignin={handleAfterSignin}
         />
         )}
         {stepLoginPassword && (

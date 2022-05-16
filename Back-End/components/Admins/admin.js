@@ -726,7 +726,6 @@ async function rangeAgesCalculator(minRangeAge=0, maxRangeAge=0, Schema) {
 
 // POST: admins/:id/banning/:target_user_id/ -> Ban a user by admin
 router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
-    
     if (req.user.role != "Admin" || req.user._id != req.params.id) {
         return res.status(403).send("Access denied");
     }
@@ -780,7 +779,6 @@ router.post('/:id/banning/:target_user_id', auth, async (req, res) =>{
 
 // DELETE: admins/:id/banning/:target_user_id/ -> unBan a user by admin
 router.delete('/:id/banning/:target_user_id', auth, async (req, res) =>{
-
     if (req.user.role != "Admin" || req.user._id != req.params.id) {
         return res.status(403).send("Access denied");
     }

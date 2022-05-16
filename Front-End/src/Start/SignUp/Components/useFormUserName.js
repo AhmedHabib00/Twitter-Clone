@@ -8,7 +8,7 @@ import { signUpUsername } from '../../../Services/accountServices';
  * @param {string} userEmail used to send with username to the backend
  * @returns handleChange, values, handleSubmit, errors
  */
-const useFormUserName = (userEmail, handleAfterSignup) => {
+const useFormUserName = (userEmail, handleAfterSignup, setIsLoading) => {
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -26,6 +26,7 @@ const useFormUserName = (userEmail, handleAfterSignup) => {
     e.preventDefault();
     setErrors(validateUsername(values));
     if (Object.keys(validateUsername(values)).length === 0) {
+      setIsLoading(true);
       signUpUsername(values).then((response) => {
         if (response.status === 201) {
           const token = localStorage.getItem('temp-token');
@@ -33,11 +34,13 @@ const useFormUserName = (userEmail, handleAfterSignup) => {
           localStorage.setItem('userId', response.data.data.userId);
           localStorage.removeItem('temp-token');
           handleAfterSignup(true, false);
+          setIsLoading(false);
         } else if (response.status === 400) {
           setErrors({
             ...errors,
             username: 'username already in use',
           });
+          setIsLoading(false);
         }
       });
     }

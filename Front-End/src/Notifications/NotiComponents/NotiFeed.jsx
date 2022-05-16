@@ -11,45 +11,38 @@ function NotiFeed({ data }) {
   return (
     <div data-testid="notifeed-render-test" className={styles.notifeed}>
 
-      {
+      <div data-testid="noticontent-render-test" className={styles.parent}>
+
+        {
         data && data.map((content) => (
-          <section className={styles.feedbox1}>
-            <button className={styles.feedbox2} type="button">
-              <NotiContent
-                id={content.id}
-                displayname={content.displayname}
-                content1={content.content1}
-                content11={content.content11}
-                content2={content.content2}
-                content22={content.content22}
-                content3={content.content3}
-                content4={content.content4}
-                content5={content.content5}
-                content55={content.content55}
-                content6={content.content6}
-                notitype={content.notitype}
-              />
-            </button>
-          </section>
+          // <section className={styles.feedbox1}>
+          //   <button className={styles.feedbox2} type="button">
+          <NotiContent
+            id={content.id}
+            entityId={content.entityId}
+            profileid={content.profileid}
+            senderName={content.senderName}
+            content={content.content}
+            reason={content.reason}
+            date={content.date}
+          />
+          //   </button>
+          // </section>
         ))
     }
+        <div className={styles.emptyspace} />
+      </div>
     </div>
+
   );
 }
 NotiFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    displayname: PropTypes.string.isRequired,
-    content1: PropTypes.string.isRequired,
-    content11: PropTypes.string.isRequired,
-    content2: PropTypes.string.isRequired,
-    content22: PropTypes.string.isRequired,
-    content3: PropTypes.string.isRequired,
-    content4: PropTypes.string.isRequired,
-    content5: PropTypes.string.isRequired,
-    content55: PropTypes.string.isRequired,
-    content6: PropTypes.string.isRequired,
-    notitype: PropTypes.string.isRequired,
+    senderName: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+
+    reason: PropTypes.string.isRequired,
   })).isRequired,
 };
 export default NotiFeed;

@@ -10,7 +10,7 @@ import styles from './ImageBox.module.css';
  * to has remove image of repective id
  */
 
-function ImageBox({ images, onDeleteImage }) {
+function ImageBox({ images, onDeleteImage, deleteEnabled }) {
   let imageWidth = 65;
   if (images.length > 1) {
     imageWidth = 33;
@@ -19,7 +19,7 @@ function ImageBox({ images, onDeleteImage }) {
     <div
       data-testid="image-box-render-test"
       id="image-box-image-canvas"
-      className={styles.image}
+      className={styles['imagebox-image']}
       key={image.id}
       style={{
         backgroundImage: `url(${image.imageUrl})`,
@@ -27,6 +27,8 @@ function ImageBox({ images, onDeleteImage }) {
         width: `${imageWidth}%`,
       }}
     >
+      {!deleteEnabled
+      && (
       <div
         id="image-box-delete-button"
         className={styles['delete-image']}
@@ -36,6 +38,7 @@ function ImageBox({ images, onDeleteImage }) {
       >
         X
       </div>
+      )}
     </div>
   );
   return (
@@ -55,6 +58,12 @@ ImageBox.propTypes = {
     id: PropTypes.number.isRequired,
     imageUrl: PropTypes.string.isRequired,
   })).isRequired,
-  onDeleteImage: PropTypes.func.isRequired,
+  deleteEnabled: PropTypes.bool,
+  onDeleteImage: PropTypes.func,
+};
+
+ImageBox.defaultProps = {
+  deleteEnabled: false,
+  onDeleteImage: function temp() {},
 };
 export default ImageBox;

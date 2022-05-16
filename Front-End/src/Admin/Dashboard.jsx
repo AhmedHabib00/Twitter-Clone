@@ -6,7 +6,10 @@ import {
 } from 'recharts';
 import NumberStat from './NumberStat';
 import styles from './Dashboard.module.css';
-import getStats from '../Services/adminServices';
+import getNoUsers, {
+  getNoJoined, getNoTweets, getRatioTweets,
+  getNoAgeUsers, getNoMostFollowed, getNoBanned,
+} from '../Services/adminServices';
 
 function Dashboard() {
   const [noUsers, setNoUsers] = useState({
@@ -30,14 +33,13 @@ function Dashboard() {
   const [ageRanges, setAgeRanges] = useState();
   useEffect(() => {
     (async () => {
-      const resp = await getStats();
-      setNoUsers(resp.statData.noUsers);
-      setNoBanned(resp.statData.noBanned);
-      setTweetsRatio(resp.statData.ratioTweets);
-      setNoMostFollowed(resp.statData.noMostFollowed);
-      setNoTweets(resp.statData.noTweets);
-      setNoJoinedUsers(resp.statData.noJoined);
-      setAgeRanges(resp.statData.noAgeUsers);
+      setNoUsers(await getNoUsers());
+      setNoBanned(await getNoBanned());
+      setTweetsRatio(await getRatioTweets());
+      setNoMostFollowed(await getNoMostFollowed());
+      setNoTweets(await getNoTweets());
+      setNoJoinedUsers(await getNoJoined());
+      setAgeRanges(await getNoAgeUsers());
     })();
   }, []);
 
@@ -46,17 +48,17 @@ function Dashboard() {
       <NumberStat
         type={noUsers.title}
         description={noUsers.interval}
-        value={noUsers.count}
+        value={noUsers.count.toString()}
       />
       <NumberStat
         type={noBanned.title}
         description={noBanned.interval}
-        value={noBanned.count}
+        value={noBanned.count.toString()}
       />
       <NumberStat
         type={tweetsRatio.title}
         description={tweetsRatio.interval}
-        value={tweetsRatio.count}
+        value={tweetsRatio.count.toString()}
       />
       { (noMostFollowed) ? (
         <div className={styles['graph-container']}>

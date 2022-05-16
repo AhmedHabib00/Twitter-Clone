@@ -42,3 +42,9 @@
   border-width: thick;
   border-color: grey;
 }
+
+.emptyspace {
+  border-top: 1px solid rgb(225 225 225 / 40%);
+  margin-bottom: 400px;
+  width: 100%;
+}

@@ -4,26 +4,26 @@ import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNone
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import '../Foundation/Navbar/Navbar';
+import styles from '../Foundation/Navbar/Navbar.module.css';
 
 const Pages = [{
   name: 'Home',
-  icon: <HomeOutlinedIcon className="nav-bar-icons" />,
+  icon: <HomeOutlinedIcon className={styles['nav-bar-icons']} />,
 },
 {
   name: 'Notifications',
-  icon: <NotificationsNoneOutlinedIcon className="nav-bar-icons" />,
+  icon: <NotificationsNoneOutlinedIcon className={styles['nav-bar-icons']} />,
 },
 {
   name: 'Search',
-  icon: <SearchRoundedIcon className="nav-bar-icons" />,
+  icon: <SearchRoundedIcon className={styles['nav-bar-icons']} />,
 },
 {
   name: 'Bookmarks',
-  icon: <BookmarkBorderIcon className="nav-bar-icons" />,
+  icon: <BookmarkBorderIcon className={styles['nav-bar-icons']} />,
 }, {
   name: 'Settings',
-  icon: <SettingsOutlinedIcon className="nav-bar-icons" />,
+  icon: <SettingsOutlinedIcon className={styles['nav-bar-icons']} />,
 },
 ];
 

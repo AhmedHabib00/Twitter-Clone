@@ -4,18 +4,17 @@ import PropTypes from 'prop-types';
 
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
 import getUserPages from '../Home/NavItems';
-import SearchBar from '../Search/SearchBar/SearchBar';
+import SearchBar from '../Components/SearchBar/SearchBar';
 import PopupPage from '../Home/Components/PopupPage';
 import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
-import './Navbar/Navbar.css';
-
+import navStyles from './Navbar/Navbar.module.css';
 /**
  * The main layout for a normal user that logs in.
  * It displays the navbar, opened page, widgets.
@@ -34,6 +33,8 @@ function Foundation({ setIsLoggedIn, userInfo }) {
   };
 
   const onNavItemClick = (id) => {
+    if (id !== 'Search')document.getElementById('SearchBar').style.visibility = 'visible';
+
     document.getElementById(openedPage).style.setProperty('font-weight', '400');
     document.getElementById(id).style.setProperty('font-weight', 'bolder');
     setOpenedPage(id);
@@ -57,7 +58,7 @@ function Foundation({ setIsLoggedIn, userInfo }) {
                     to={`/${page.name}`}
                     key={page.name}
                     onClick={() => onNavItemClick(page.name)}
-                    className={`foundation-a-tag ${(page.name === 'Search') ? 'disable-nav-item' : ''}`}
+                    className={[navStyles['foundation-a-tag'], navStyles[(page.name === 'Search') ? 'disable-nav-item' : '']].join(' ')}
                   >
                     <div id={page.name}>
                       <NavItem title={page.name}>
@@ -68,19 +69,18 @@ function Foundation({ setIsLoggedIn, userInfo }) {
                 ))}
                 <button
                   type="button"
-                  className="tweet-button whisp-button-text"
+                  className={[navStyles['tweet-button'], navStyles['whisp-button-text']].join(' ')}
                   onClick={() => setIsPopupTweetOpen(true)}
                 >
                   Whisp
-
                 </button>
                 <button
                   type="button"
                   aria-label="save"
-                  className="tweet-button whisp-button-icon"
+                  className={[navStyles['tweet-button'], navStyles['whisp-button-icon']].join(' ')}
                   onClick={() => setIsPopupTweetOpen(true)}
                 >
-                  <HistoryEduIcon className="feather-icon" />
+                  <HistoryEduIcon className={navStyles['feather-icon']} />
                 </button>
               </div>
               <div
@@ -90,7 +90,11 @@ function Foundation({ setIsLoggedIn, userInfo }) {
                 onClick={handleLogOut}
               >
                 <div className={styles['user-menu-info']}>
-                  <AccountCircleIcon className="nav-bar-profile" />
+                  <img
+                    src={userInfo['Profile Picture']}
+                    className={navStyles['nav-bar-profile']}
+                    alt="profile pic"
+                  />
                   <div className={styles['user-menu-text-container']}>
                     <h1 className={styles['user-menu-text']}>
                       {(userInfo.displayName.length >= 9) ? `${userInfo.displayName.substring(0, 10)}...` : userInfo.displayName}
@@ -114,8 +118,8 @@ function Foundation({ setIsLoggedIn, userInfo }) {
           <TweetBox placeHolder="What's happening" boxId="foundation" />
         </PopupPage>
 
-        <div className={styles['foundation-widget']}>
-          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
+        <div className={styles['foundation-widget']} id="SearchBar">
+          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={2000} />
         </div>
 
       </div>

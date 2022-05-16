@@ -8,9 +8,10 @@ import signUpInfo from '../../../Services/accountServices';
  * @param {string} date The birthdate of the user
  * @param {function} setStepOne Manages the status of the first step
  * @param {function} setStepVerify Manages the verification step status
+ * @param {function} setIsLoading used to set the state of the loader
  * @returns handleChange, values, handleSubmit, errors,
  */
-const useForm = (date, setStepOne, setStepVerify) => {
+const useForm = (date, setStepOne, setStepVerify, setIsLoading) => {
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -42,11 +43,13 @@ const useForm = (date, setStepOne, setStepVerify) => {
     }
     console.log(errors);
     if (Object.keys(validateInfo(values)).length === 0) {
+      setIsLoading(true);
       signUpInfo({
         ...values,
         birthdate: date,
       }).then((response) => {
         if (response.status === 201) {
+          setIsLoading(false);
           setStepOne(false);
           setStepVerify(true);
         } else if (response.status === 400) {
@@ -54,6 +57,7 @@ const useForm = (date, setStepOne, setStepVerify) => {
             ...errors,
             email: 'User already registered',
           });
+          setIsLoading(false);
         }
       });
     }
