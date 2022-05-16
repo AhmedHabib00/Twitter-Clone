@@ -27,7 +27,7 @@ const bucket = storage.bucket(process.env.GCS_BUCKET);
 
 
 ////////////////////////////////////////////////////////////////////Getting array of replies for a single tweet.
-router.get("/repliesArray/:id",auth,async (req,res)=>{
+router.get("/:id/repliesArray",auth,async (req,res)=>{
 
 
     try {
@@ -154,7 +154,7 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
 
 
 //////////////////////////////////////////////////////////////////////////////////Getting single tweet endpoint
-router.get("/SingleTweet/:id",auth,async (req,res)=>{
+router.get("/:id/SingleTweet",auth,async (req,res)=>{
 
     theUser=req.user._id;
     TheTweet=req.params.id;
@@ -1137,7 +1137,7 @@ catch (error) {
 })
 
 /////////////////////////////////////////////////////////////////////////////Retrieve possible repliers:
-router.get("/repliers/:id",auth,async(req,res)=>{
+router.get("/:id/repliers",auth,async(req,res)=>{
     //replyTo array: ba5tar users mo3ayana a reply leeha.
     //urersrepliers array:el users di.
     //fel endpoint di 3ayza id el tweet el ana ba-reply leeha directly
@@ -1179,15 +1179,15 @@ router.get("/repliers/:id",auth,async(req,res)=>{
     usersArray=[]
 
     //pushing the direct parent tweet:
-    const Obj0= ({
-        id:theUsers.postedBy.id,
-        displayName: theUsers.postedBy.name,
-        userName: theUsers.postedBy.username,
-        url: theUsers.postedBy.profilePic,
-        active:true
-       });
+//     const Obj0= ({
+//         id:theUsers.postedBy.id,
+//         displayName: theUsers.postedBy.name,
+//         userName: theUsers.postedBy.username,
+//         url: theUsers.postedBy.profilePic,
+//         active:true
+//        });
 
-    usersArray.push(Obj0)
+//     usersArray.push(Obj0)
 
 
     for(p=0;p<theUsers.replyingUsers.length;p++)
@@ -1208,7 +1208,7 @@ router.get("/repliers/:id",auth,async(req,res)=>{
     }
     if(usersArray.length==0)
     {
-        res.status(400).send("no users available to reply to.")
+        res.status(200).send("no users available to reply to.")
     }
     else
     {
