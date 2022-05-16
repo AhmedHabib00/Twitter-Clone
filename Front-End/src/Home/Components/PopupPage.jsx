@@ -17,7 +17,6 @@ function PopupPage({
     if (isCloseEnabled) {
       if (toClose) {
         SetTrigger(false);
-        document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
       }
       toClose = true;
     }
@@ -25,7 +24,6 @@ function PopupPage({
 
   const handleCloseIcon = () => {
     SetTrigger(false);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   };
   const childClick = () => {
     toClose = false;
@@ -57,7 +55,7 @@ function PopupPage({
         {children}
       </div>
     </div>
-  ) : '';
+  ) : (<>{ document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll')}</>);
 }
 
 PopupPage.propTypes = {

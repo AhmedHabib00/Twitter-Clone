@@ -118,7 +118,6 @@ function TweetBox({
     setImageCount(imageCount + 1);
     setIsGifOpen(!isGifOpen);
     setGifs([]);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
   };
 
   const handleSendData = () => {
@@ -137,9 +136,10 @@ function TweetBox({
       (async () => {
         await PostTweet({
           value, images, replyId, users,
+        }).then(() => {
+          navigate('/');
         });
       })();
-      navigate('/');
     }
   };
 

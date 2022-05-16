@@ -119,8 +119,6 @@ function PostBody({
         </div>
       </PopupPage>
       <div>
-        {imagePopUp
-              && document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
         {images[0] && (
         <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
           <Carousel>
