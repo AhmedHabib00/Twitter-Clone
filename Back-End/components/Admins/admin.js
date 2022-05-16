@@ -103,9 +103,8 @@ router.get('/users', auth, async (req, res, next) =>{
         }},
         { $project: { 
             "_id": 0,
-            "id": "$_id",
-            "name": 0,
-            "displayName": {$ifNull: ["$name", ""]},
+            "id": "$_id", 
+            "displayName": "$name",
              "username": {$ifNull: ["$username", ""]},
              "description": {$ifNull: ["$description", ""]}, 
              "profilePic": 1,

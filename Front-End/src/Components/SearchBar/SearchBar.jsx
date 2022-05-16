@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import styles from './SearchBar.module.css';
@@ -8,15 +8,10 @@ import styles from './SearchBar.module.css';
  * @param {string} searchValue function passed from parent that gets the searched
  * value on value change
  */
-function SearchBar({ placeHolder, searchValue, delay }) {
-  const [query, setQuery] = useState('');
-  useEffect(() => {
-    const timeOutId = setTimeout(() => searchValue(query), delay);
-    return () => clearTimeout(timeOutId);
-  }, [query]);
+function SearchBar({ placeHolder, searchValue }) {
   const updateText = () => {
     const { value } = document.getElementsByClassName(styles['searchbar-input'])[0];
-    setQuery(value);
+    searchValue(value);
   };
   return (
     <div className={styles.searchbar}>
@@ -29,6 +24,5 @@ function SearchBar({ placeHolder, searchValue, delay }) {
 SearchBar.propTypes = {
   placeHolder: PropTypes.string.isRequired,
   searchValue: PropTypes.func.isRequired,
-  delay: PropTypes.number.isRequired,
 };
 export default SearchBar;

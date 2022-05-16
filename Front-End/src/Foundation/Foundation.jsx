@@ -29,7 +29,11 @@ function Foundation({ setIsLoggedIn, userInfo }) {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
   }, [openedPage]);
   const onSearchChange = (value) => {
-    console.log(value);
+    navigate('/Search', {
+      state: {
+        dataFiltered: value,
+      },
+    });
   };
 
   const onNavItemClick = (id) => {
@@ -119,7 +123,7 @@ function Foundation({ setIsLoggedIn, userInfo }) {
         </PopupPage>
 
         <div className={styles['foundation-widget']} id="SearchBar">
-          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={2000} />
+          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={500} enableDelay={false} />
         </div>
 
       </div>
