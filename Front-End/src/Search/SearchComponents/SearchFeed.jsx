@@ -12,8 +12,6 @@ import Post from '../../Home/Components/Post';
  * to display posts in the feed component.
  */
 function SearchFeed({ data, dataType }) {
-  console.log(dataType);
-
   if (dataType) {
     return (
       <div data-testid="feed-render-test" className={styles.notifeed}>
@@ -21,11 +19,13 @@ function SearchFeed({ data, dataType }) {
           {
             data && data.map((content) => (
               <SearchUser
+                key={content.id}
                 profileid={content.id}
                 displayname={content.displayName}
                 username={content.userName}
                 description={content.description}
                 url={content.url}
+                isButtonActive={content.active}
               />
             ))
             }
@@ -64,12 +64,13 @@ function SearchFeed({ data, dataType }) {
 }
 SearchFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
-    profileid: PropTypes.number.isRequired,
-    displayname: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    displayName: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired,
   })).isRequired,
-  dataType: PropTypes.string.isRequired,
+  dataType: PropTypes.bool.isRequired,
 };
 export default SearchFeed;

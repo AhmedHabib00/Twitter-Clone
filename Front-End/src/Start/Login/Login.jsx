@@ -6,10 +6,23 @@ import PropTypes from 'prop-types';
 import styles from './Login.module.css';
 import LoginStepOne from './LoginStepOne';
 import LoginPassword from './LoginPassword';
+import ForgotPassword from './ForgotPassword';
+import VerifyForgotPasswordCode from './VerifyForgotPasswordCode';
+import SetPassword from './SetPassword';
+
+/**
+ * This Function manages Login and its states.
+ * @param {boolean} closeLogin boolen to close signup modal
+ * @param {function} handleLoginStatus function to manage authorization
+ * @returns Login modal
+ */
 
 function Login({ closeLogin, handleLoginStatus }) {
   const [stepOne, setStepOne] = useState(true);
   const [stepLoginPassword, setLoginPassword] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [verifyCode, setVerifyCode] = useState(false);
+  const [settingPassword, setSettingPassword] = useState(false);
   const [email, setEmail] = useState(' ');
   const handleAfterSignin = (logged, admin) => {
     handleLoginStatus(logged, admin);
@@ -36,6 +49,7 @@ function Login({ closeLogin, handleLoginStatus }) {
         <LoginStepOne
           setStepOne={setStepOne}
           setLoginPassword={setLoginPassword}
+          setForgotPassword={setForgotPassword}
           setEmail={setEmail}
         />
         )}
@@ -46,6 +60,28 @@ function Login({ closeLogin, handleLoginStatus }) {
           handleAfterSignin={handleAfterSignin}
         />
         )}
+        {forgotPassword && (
+        <ForgotPassword
+          setForgotPassword={setForgotPassword}
+          setVerifyCode={setVerifyCode}
+          setEmail={setEmail}
+        />
+        )}
+        {verifyCode
+         && (
+         <VerifyForgotPasswordCode
+           setVerifyCode={setVerifyCode}
+           email={email}
+           setSettingPassword={setSettingPassword}
+         />
+         )}
+        {settingPassword
+         && (
+         <SetPassword
+           setSettingPassword={setSettingPassword}
+           handleAfterSignin={handleAfterSignin}
+         />
+         )}
       </div>
     </div>
   );

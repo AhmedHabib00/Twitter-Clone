@@ -8,9 +8,16 @@ import { Button } from '@mui/material';
 import styles from './LoginPassword.module.css';
 import usePasswordForm from './components/usePasswordForm';
 
+/**
+ * In this function the user will type his password
+ * @param {function}  handleAfterSignin used to manage the username selection step status
+ * @param {string}  email used to be able to send the password to the backend with it
+ * @returns Password form
+ */
+
 function LoginPassword({ email, handleAfterSignin }) {
   const {
-    handleChange, values, handleSubmit,
+    handleChange, values, handleSubmit, errors,
   } = usePasswordForm(email, handleAfterSignin);
   const [fieldvalues, setfieldvalues] = useState({
     password: '',
@@ -30,19 +37,19 @@ function LoginPassword({ email, handleAfterSignin }) {
       >
         <div className={styles.body}>
           <h1 className={styles.title}>Create your account</h1>
-          <label className="start-modals-form-label" htmlFor="email">
+          <label className="start-modals-form-label" htmlFor="emailOrUsername">
             <input
               data-testid="input-email"
               className="start-modals-form-input"
-              type="email"
+              type="text"
               id="email"
-              name="email"
+              name="emailOrUsername"
               placeholder=" "
               value={email}
               disabled="true"
               onChange={handleChange}
             />
-            <span>Email</span>
+            <span>Email or Username</span>
           </label>
           <label htmlFor="password">
             <input
@@ -67,6 +74,8 @@ function LoginPassword({ email, handleAfterSignin }) {
             </div>
 
           </label>
+          {errors.password
+           && <p className="start-modals-form-errors">{errors.password}</p>}
           <div className="start-modals-button-container">
             <Button
               id="next-button"
@@ -80,13 +89,6 @@ function LoginPassword({ email, handleAfterSignin }) {
           </div>
         </div>
       </form>
-      <div className={styles['login-text']}>
-        <p className={styles['dont-have-acount']}>
-          Don&apos;t have an account?
-          <span className={styles['login-text-span']}> Sign up</span>
-        </p>
-      </div>
-
     </div>
   );
 }

@@ -27,9 +27,9 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import axios from 'axios';
+import configData from '../config/production.json';
 
-// const { SERVER_URL } = 'http://localhost:8000';
-
+const { SERVER_URL } = configData;
 /**
  * This function is used to post the name email and birthdate
  * to the backend
@@ -42,7 +42,7 @@ export default async function signUpInfo(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/signup', {
+    response = await axios.post(`${SERVER_URL}/signup`, {
       name,
       email,
       birthdate,
@@ -88,13 +88,18 @@ export async function signUpCode(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/verification', {
+    response = await axios.patch(`${SERVER_URL}/verifyEmail`, {
+      headers: {
+        'content-type': 'application/json',
+      },
       code,
       email,
 
     });
     // Success
     // console.log(response);
+    const { token } = response.headers['x-auth-token'];
+    localStorage.setItem('token', token);
     return (response);
   } catch (error) {
     if (error.response) {
@@ -121,9 +126,7 @@ export async function signUpCode(props) {
     return (response);
   }
 }
-const bcrypt = require('bcryptjs');
 
-const salt = bcrypt.genSaltSync(10);
 /**
  * This function is used to post the password and email
  * to the backend after encryption
@@ -135,10 +138,12 @@ export async function signUpPassword(props) {
     password, email,
   } = props;
   let response = '';
-  const hash = bcrypt.hashSync(password, salt);
   try {
-    response = await axios.post('http://localhost:8000/Password', {
-      password: hash,
+    response = await axios.patch(`${SERVER_URL}/setPassword`, {
+      headers: {
+        Authorization: `x-auth-token ${localStorage.token}`,
+      },
+      password,
       email,
 
     });
@@ -182,7 +187,10 @@ export async function signUpUsername(props) {
   } = props;
   let response = '';
   try {
-    response = await axios.post('http://localhost:8000/username', {
+    response = await axios.post(`${SERVER_URL}/setUsername`, {
+      headers: {
+        Authorization: `x-auth-token ${localStorage.token}`,
+      },
       username,
       email,
 

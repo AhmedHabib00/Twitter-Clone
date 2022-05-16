@@ -71,6 +71,14 @@
   left: 70%;
 }
 
+.tweetfollowbutton::after {
+  content: "Follow";
+}
+
+.tweetfollowbutton:hover {
+  background-color: rgb(18 18 18);
+}
+
 .tweetfollowingbutton {
   display: block;
   background-color: rgb(255 255 255);
@@ -80,7 +88,7 @@
   border-color: rgb(225 225 225 / 40%);
   border-radius: 15px;
   height: 31px;
-  width: 90px;
+  width: fit-content;
   color: #000;
   cursor: pointer;
   position: relative;
@@ -88,22 +96,70 @@
   left: 70%;
 }
 
-.tweetfollowingbuttonhover {
-  content: "Unfollow";
-  display: block;
+.tweetfollowingbutton::after {
+  content: "Following";
+}
+
+.tweetfollowingbutton:hover {
   background-color: rgb(244 33 46 10%);
-  font-size: 14px !important;
-  font-weight: bold;
-  border: solid 2px;
   border-color: rgb(253 201 206);
+  color: #f00;
+}
+
+.tweetfollowingbutton:hover::after {
+  content: "Unfollow";
+}
+
+.tweetblockbutton {
+  display: block;
+  background-color: #fee8ea;
+  font-size: 15px !important;
+  padding: 0 15px;
+  font-weight: bold;
   border-radius: 15px;
   height: 31px;
-  width: 90px;
-  color: #f00;
+  width: fit-content;
+  color: #f52f3c;
+  border-width: 1px;
+  border-color: #e71725;
   cursor: pointer;
   position: relative;
   top: -40px;
   left: 70%;
+}
+
+.tweetblockbutton::after {
+  content: "Block";
+}
+
+.tweetblockbutton:hover {
+  background-color: #ffa2aa;
+}
+
+.tweetunblockbutton {
+  display: block;
+  background-color: #e71725;
+  font-size: 15px !important;
+  font-weight: bold;
+  border-radius: 15px;
+  height: 31px;
+  width: 75px;
+  color: #fff4f4;
+  border-width: 1px;
+  border-color: #e71725;
+  cursor: pointer;
+  position: relative;
+  top: -40px;
+  left: 70%;
+}
+
+.tweetunblockbutton::after {
+  content: "Unblock";
+}
+
+.tweetunblockbutton:hover {
+  background-color: #b5131e;
+  color: #fed2d5;
 }
 
 .login-news {

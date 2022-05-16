@@ -1,16 +1,18 @@
 import { useState } from 'react';
-
+import validateEmail from './validateEmail';
 /**
  * This function is used to manage the first step in the signup form and apply
  * validations.
  * @param {function} setStepOne Manages the status of the first step
- * @param {function} setStepVerify Manages the verification step status
+ * @param {function} setEmail Sets the user email or username
+ * @param {function} setLoginPassword handles authorization
  * @returns handleChange, values, handleSubmit, errors,
  */
 const useLoginForm = (setStepOne, setEmail, setLoginPassword) => {
   const [values, setValues] = useState({
-    email: '',
+    emailOrUsername: '',
   });
+  const [errors, setErrors] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({
@@ -20,13 +22,16 @@ const useLoginForm = (setStepOne, setEmail, setLoginPassword) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStepOne(false);
-    setLoginPassword(true);
-    setEmail(values.email);
+    setErrors(validateEmail(values));
+    if (Object.keys(validateEmail(values)).length === 0) {
+      setStepOne(false);
+      setLoginPassword(true);
+      setEmail(values.emailOrUsername);
+    }
   };
 
   return {
-    handleChange, values, handleSubmit,
+    handleChange, values, handleSubmit, errors,
   };
 };
 

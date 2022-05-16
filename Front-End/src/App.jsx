@@ -6,7 +6,6 @@ import {
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
 import Bookmarks from './Bookmarks/Bookmarks';
-import Profile from './Profile/Profile';
 import Settings from './Settings/Settings';
 import Home from './Home/Home';
 import Start from './Start/Start';
@@ -16,6 +15,7 @@ import Dashboard from './Admin/Dashboard';
 import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
 import ViewTweet from './Notifications/ViewTweet';
+import Tweet from './Home/Components/Tweet';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,11 +26,12 @@ function App() {
   useEffect(() => {
     setIsLoggedIn(JSON.parse(logged));
     setisAdmin(JSON.parse(admin));
+    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   }, [logged, admin]);
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation />;
+        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
       }
       return <Foundation setIsLoggedIn={setIsLoggedIn} setisAdmin={setisAdmin} />;
     }
@@ -62,7 +63,7 @@ function App() {
       <Route path="Notifications" element={<Notifications />} />
       <Route path="ViewTweet" element={<ViewTweet />} />
       <Route path="Bookmarks" element={<Bookmarks />} />
-      <Route path="Profile" element={<Profile />} />
+      <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
     </>
