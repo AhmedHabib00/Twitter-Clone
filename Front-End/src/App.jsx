@@ -22,32 +22,57 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
-  const [role, setRole] = useState();
-  useEffect(() => {
-    (async () => {
-      if (localStorage.token) {
-        setIsLoggedIn(true);
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  const updateRoutes = (isLogged) => {
+    setIsLoggedIn(isLogged);
+    if (isLogged) {
+      (async () => {
         const resp = await getClientRole();
-        setRole(resp.role);
         if (resp.role === 'Admin') {
           setIsAdmin(true);
         } else {
           setIsAdmin(false);
+          setIsBlocked(resp.blocked);
           if (!userInfo) {
             setUserInfo(await getUserInfo(localStorage.userId));
           }
         }
-      }
-    })();
-  }, [localStorage.userId]);
+      })();
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.token) {
+      updateRoutes(true);
+    } else {
+      updateRoutes(false);
+    }
+  }, []);
+
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} />;
+        return (
+          <AdminFoundation
+            setIsLoggedIn={updateRoutes}
+          />
+        );
       }
-      return <Foundation setIsLoggedIn={setIsLoggedIn} userInfo={(userInfo) || undefined} />;
+      return (
+        <Foundation
+          setIsLoggedIn={updateRoutes}
+          userInfo={(userInfo) || undefined}
+          isBlocked={isBlocked}
+        />
+      );
     }
-    return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setIsAdmin} />;
+    return (
+      <Start
+        setIsLoggedIn={updateRoutes}
+        setisAdmin={setIsAdmin}
+      />
+    );
   };
 
   const mainPath = () => {
@@ -92,12 +117,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        {role && (
         <Route path="/" element={mainPage()}>
           {selectingRoute()}
           <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
-        )}
         <Route path="*" element={<div />} />
       </Routes>
     </Router>

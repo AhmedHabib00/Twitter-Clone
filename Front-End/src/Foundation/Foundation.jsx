@@ -20,7 +20,7 @@ import navStyles from './Navbar/Navbar.module.css';
  * It displays the navbar, opened page, widgets.
  * The navbar is not scrollable
  */
-function Foundation({ setIsLoggedIn, userInfo }) {
+function Foundation({ setIsLoggedIn, userInfo, isBlocked }) {
   const pages = getUserPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
@@ -37,7 +37,7 @@ function Foundation({ setIsLoggedIn, userInfo }) {
   };
 
   const onNavItemClick = (id) => {
-    if (id !== 'Search')document.getElementById('SearchBar').style.visibility = 'visible';
+    if (id !== 'Search') document.getElementById('SearchBar').style.visibility = 'visible';
 
     document.getElementById(openedPage).style.setProperty('font-weight', '400');
     document.getElementById(id).style.setProperty('font-weight', 'bolder');
@@ -45,10 +45,9 @@ function Foundation({ setIsLoggedIn, userInfo }) {
   };
 
   const handleLogOut = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.clear();
-    navigate('/');
+    setIsLoggedIn(false);
   };
   return (
     <div className={styles['found-margins']}>
@@ -119,7 +118,11 @@ function Foundation({ setIsLoggedIn, userInfo }) {
         </div>
 
         <PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
-          <TweetBox placeHolder="What's happening" boxId="foundation" />
+          <TweetBox
+            placeHolder="What's happening"
+            boxId="foundation"
+            canTweet={!isBlocked}
+          />
         </PopupPage>
 
         <div className={styles['foundation-widget']} id="SearchBar">
@@ -140,6 +143,7 @@ Foundation.propTypes = {
     displayName: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
   }),
+  isBlocked: PropTypes.bool,
 };
 
 Foundation.defaultProps = {
@@ -150,6 +154,7 @@ Foundation.defaultProps = {
     displayName: '',
     username: '',
   },
+  isBlocked: false,
 };
 
 export default Foundation;

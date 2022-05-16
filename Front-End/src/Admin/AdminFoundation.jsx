@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Link, Outlet, useNavigate, useLocation,
+  Link, Outlet, useLocation,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -16,25 +16,28 @@ import NavItem from '../Foundation/Navbar/NavItem';
  */
 function AdminFoundation({ setIsLoggedIn }) {
   const pages = getAdminPages();
-  const navigate = useNavigate();
   const location = useLocation();
-  const [openedPage, setOpenedPage] = useState(location.pathname.substring(1));
+  const [openedPage, setOpenedPage] = useState();
 
   useEffect(() => {
-    document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+    setOpenedPage(location.pathname.substring(1));
+    if (document.getElementById(openedPage)) {
+      document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+    }
   }, [openedPage]);
 
   const onNavItemClick = (id) => {
-    document.getElementById(openedPage).style.setProperty('font-weight', '400');
-    document.getElementById(id).style.setProperty('font-weight', 'bolder');
-    setOpenedPage(id);
+    if (document.getElementById(openedPage)) {
+      document.getElementById(openedPage).style.setProperty('font-weight', '400');
+      document.getElementById(id).style.setProperty('font-weight', 'bolder');
+      setOpenedPage(id);
+    }
   };
 
   const handleLogOut = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.clear();
-    navigate('/');
+    setIsLoggedIn(false);
   };
   return (
     <div className={styles['admin-foundation']} id="admin-foundation">
