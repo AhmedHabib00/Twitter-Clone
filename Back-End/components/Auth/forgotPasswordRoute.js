@@ -70,8 +70,12 @@ router.post('/newPassword',[validatePassword],auth, async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedpPassword = await bcrypt.hash (req.body.password,salt);
     const result =  await User.updateOne({ _id: req.user._id },{$set:{password:hashedpPassword}});
+    const user = await User.findOne({_id:req.user._id});
     if (result.matchedCount ==1){
-        return res.status(200).send('password re-set successfuly');
+        return res.status(200).send({
+            message:'password reset successfuly',
+            data: {userId: user._id,role:user.role},
+        });
     }
     return res.status(400).send('password reset failed');
 });

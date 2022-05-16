@@ -145,7 +145,7 @@ router.post("/google", async (req, res) => {
 router.get('/getRole',auth, async (req, res) => {
   const user =  await User.findOne({ _id: req.user._id});
   if (user){
-    return res.status(200).send({"role":user.role });
+    return res.status(200).send({"role":user.role,"blocked" :user.banned});
   }
     return res.status(400).send( "user not found");
 
