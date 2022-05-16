@@ -6,3 +6,9 @@
 .feed::-webkit-scrollbar {
   display: none;
 }
+
+.loader-container {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}

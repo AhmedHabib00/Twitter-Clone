@@ -32,6 +32,7 @@ function TweetBox({
   const [wordsCount, setWordsCount] = useState(0);
   const [isEnabled, setIsEnabled] = useState(true);
   const [userInfo, setUserInfo] = useState();
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
     (async () => {
@@ -118,7 +119,6 @@ function TweetBox({
     setImageCount(imageCount + 1);
     setIsGifOpen(!isGifOpen);
     setGifs([]);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow', 'scroll');
   };
 
   const handleSendData = () => {
@@ -137,9 +137,12 @@ function TweetBox({
       (async () => {
         await PostTweet({
           value, images, replyId, users,
+        }).then(() => {
+          navigate('/');
         });
       })();
-      navigate('/');
+    } else {
+      setErrorMessage('There is No content');
     }
   };
 
@@ -225,6 +228,7 @@ function TweetBox({
               </button>
             </div>
           </div>
+          {errorMessage && <b className={styles['tweetbox-error']}>{errorMessage}</b>}
         </div>
       </div>
     </div>

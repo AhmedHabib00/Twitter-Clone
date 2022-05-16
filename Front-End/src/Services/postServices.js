@@ -5,7 +5,7 @@ const { SERVER_URL } = configData;
 
 export default async function GetPostsArray(page) {
   let response = '';
-  const number = 2;
+  const number = 10;
   try {
     response = await axios.get(
       `${SERVER_URL}/tweets/TimelineTweets`,
@@ -74,20 +74,13 @@ export async function handleLikes(props) {
   }
 }
 
-export async function handleRetweets(props) {
-  const {
-    isRetweeted,
-    noOfRetweets,
-  } = props;
+export async function SendRetweets(TweetId) {
   let response = '';
   try {
-    response = await axios.patch(`${SERVER_URL}/posts`, {
+    response = await axios.post(`${SERVER_URL}/tweets/${TweetId}/retweet`, {}, {
       headers: {
-        'content-type': 'application/json',
+        'x-auth-token': localStorage.token,
       },
-      isRetweeted,
-      noOfRetweets,
-
     });
     // Success
     // console.log(response);

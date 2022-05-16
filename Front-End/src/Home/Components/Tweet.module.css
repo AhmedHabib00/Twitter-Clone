@@ -31,3 +31,8 @@
   color: black;
   background-color: rgb(198 195 195);
 }
+
+.loader-container {
+  justify-content: center;
+  display: flex;
+}

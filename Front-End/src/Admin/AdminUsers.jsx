@@ -63,7 +63,6 @@ function AdminUsers({ state, enableStyleSwitching }) {
   const handleClosePopup = () => {
     setOpenDeleteUser(false);
     setIsBlockClicked(false);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   };
 
   const handleDeleteCLick = (userId) => {
@@ -94,8 +93,9 @@ function AdminUsers({ state, enableStyleSwitching }) {
       setUserToRemove('');
     } else {
       (async () => {
-        await unBlockUser(userId);
-        setUserToRemove(userId);
+        await unBlockUser(userId).then(() => {
+          setUserToRemove(userId);
+        });
       })();
     }
   };
@@ -104,10 +104,11 @@ function AdminUsers({ state, enableStyleSwitching }) {
     const response = validateDate(date);
     if (response.status === 200) {
       (async () => {
-        await blockUser(userToDelete.id, date);
+        await blockUser(userToDelete.id, date).then(() => {
+          setUserToRemove(userToDelete.id);
+        });
       })();
       handleClosePopup();
-      setUserToRemove(userToDelete.id);
     } else {
       setDateError(response.error);
     }

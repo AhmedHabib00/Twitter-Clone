@@ -6,7 +6,7 @@ const { SERVER_URL } = configData;
 export default async function GetUsersArray(id) {
   let response = '';
   try {
-    response = await axios.get(`http://${SERVER_URL}/tweets/repliers/${id}`, {
+    response = await axios.get(`${SERVER_URL}/tweets/${id}/repliers`, {
       headers: {
         'x-auth-token': `${localStorage.token}`,
       },
@@ -30,7 +30,7 @@ export default async function GetUsersArray(id) {
 export async function GetPost(id) {
   let response = '';
   try {
-    response = await axios.get(`http://${SERVER_URL}/tweets/SingleTweet/${id}`, {
+    response = await axios.get(`${SERVER_URL}/tweets/${id}/SingleTweet`, {
       headers: {
         'x-auth-token': `${localStorage.token}`,
       },
@@ -54,7 +54,7 @@ export async function GetPost(id) {
 export async function GetRepliesArray(id) {
   let response = '';
   try {
-    response = await axios.get(`http://${SERVER_URL}/tweets/repliesArray/${id}`, {
+    response = await axios.get(`${SERVER_URL}/tweets/${id}/repliesArray`, {
       headers: {
         'x-auth-token': `${localStorage.token}`,
       },

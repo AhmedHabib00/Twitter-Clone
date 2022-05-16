@@ -79,7 +79,10 @@ function PostBody({
           className={styles.postheaderdescription}
           role="button"
           tabIndex={0}
-          onClick={() => navigate(`/tweet/${id}`)}
+          onClick={() => {
+            console.log('rendering');
+            navigate(`/tweet/${id};}`);
+          }}
         >
           <p>{content}</p>
         </div>
@@ -119,8 +122,6 @@ function PostBody({
         </div>
       </PopupPage>
       <div>
-        {imagePopUp
-              && document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
         {images[0] && (
         <ImagePopUp name="body" trigger={imagePopUp} setTrigger={setImagePopUp}>
           <Carousel>

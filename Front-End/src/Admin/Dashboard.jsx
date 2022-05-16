@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   BarChart, CartesianGrid, XAxis, YAxis,
   Tooltip, Legend, Bar, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie,
+  LineChart, Line, PieChart, Pie, Cell,
 } from 'recharts';
 import NumberStat from './NumberStat';
 import styles from './Dashboard.module.css';
@@ -10,8 +10,11 @@ import getNoUsers, {
   getNoJoined, getNoTweets, getRatioTweets,
   getNoAgeUsers, getNoMostFollowed, getNoBanned,
 } from '../Services/adminServices';
+import Loader from '../Components/Loader/Loader';
 
 function Dashboard() {
+  const COLORS = ['#bfef45', '#800000', '#808000', '#f58231', '#134e40',
+    '#3cb44b', '#42d4f4', '#4363d8', '#911eb4', '#f032e6'];
   const [noUsers, setNoUsers] = useState({
     title: '',
     interval: '',
@@ -30,6 +33,7 @@ function Dashboard() {
   const [noMostFollowed, setNoMostFollowed] = useState();
   const [noTweets, setNoTweets] = useState();
   const [noJoinedUsers, setNoJoinedUsers] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const [ageRanges, setAgeRanges] = useState();
   useEffect(() => {
     (async () => {
@@ -39,7 +43,7 @@ function Dashboard() {
       setNoMostFollowed(await getNoMostFollowed());
       setNoTweets(await getNoTweets());
       setNoJoinedUsers(await getNoJoined());
-      setAgeRanges(await getNoAgeUsers());
+      setAgeRanges(await getNoAgeUsers().then(setIsLoading(false)));
     })();
   }, []);
 
@@ -151,12 +155,23 @@ function Dashboard() {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                fill="#0099FF"
                 label
-              />
+              >
+                {ageRanges.stats.map((entry, index) => (
+                  <Cell
+                    key={COLORS[index % COLORS.length]}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
             </PieChart>
           </ResponsiveContainer>
 
+        </div>
+      ) : ''}
+      {(isLoading) ? (
+        <div className={[styles['graph-container'], styles['loader-container']].join(' ')}>
+          <Loader dimension={70} />
         </div>
       ) : ''}
     </div>

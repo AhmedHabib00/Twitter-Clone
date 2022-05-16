@@ -14,7 +14,7 @@ import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
-import { handleLikes, addToBookmark } from '../../Services/postServices';
+import { handleLikes, addToBookmark, SendRetweets } from '../../Services/postServices';
 
 function PostFooter({
   id, displayName, userName, URLs, isLiked, noOfLike,
@@ -26,13 +26,15 @@ function PostFooter({
   const [likeCount, setLikeCount] = useState(noOfLike);
   const [replyPopUp, setReplyPopUp] = useState(false);
   const [replyingToId, setReplyingToId] = useState([]);
+  const [retweet, setRetweet] = useState(isRetweeted);
+  const [retweetCount, setRetweetCount] = useState(noOfRetweets);
 
   const handelOpenShare = (e) => {
     setShareEl(e.currentTarget);
   };
-  const handelOpenRetweet = (e) => {
-    setRetweetEl(e.currentTarget);
-  };
+  // const handleRetweet = () => {
+  //   SendRetweets(id);
+  // };
   const handelCloseShare = () => {
     setShareEl(null);
   };
@@ -50,6 +52,7 @@ function PostFooter({
     }
     setLike(!like);
   };
+
   const handleAddToBookmark = () => {
     (async () => {
       await addToBookmark(id);
@@ -58,6 +61,16 @@ function PostFooter({
   const handleButtonOnClickReplying = (selectedUsers) => {
     const updateArrayOfIds = selectedUsers.map((user) => (user.id));
     setReplyingToId(updateArrayOfIds);
+  };
+  const handelRetweeets = () => {
+    if (retweet) {
+      SendRetweets(id);
+      setRetweetCount(retweetCount - 1);
+    } else {
+      SendRetweets(id);
+      setRetweetCount(retweetCount + 1);
+    }
+    setRetweet(!retweet);
   };
   return (
     <div>
@@ -133,9 +146,9 @@ function PostFooter({
             className={styles.postgreen}
             fontSize="small"
             aria-controls="retweet"
-            onClick={handelOpenRetweet}
+            onClick={handelRetweeets}
           />
-          <p>{noOfRetweets}</p>
+          <p>{retweetCount}</p>
         </div>
         <div className={styles.like}>
           <FavoriteBorderIcon
