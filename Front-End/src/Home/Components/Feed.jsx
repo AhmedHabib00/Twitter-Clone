@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './Feed.module.css';
 import Post from './Post';
+import Loader from '../../Components/Loader/Loader';
 
 /**
  *
@@ -26,7 +27,7 @@ function Feed({
         dataLength={postData.length}
         next={updateData}
         hasMore={(canScrollUpdate) ? !isEndOfFeed : false}
-        loader={<h4>Loading...</h4>}
+        loader={<div className={styles['loader-container']}><Loader dimension={30} /></div>}
         endMessage={(
           <p style={{ textAlign: 'center' }}>
             <b>Yay! You have seen it all</b>

@@ -27,7 +27,7 @@ const bucket = storage.bucket(process.env.GCS_BUCKET);
 
 
 ////////////////////////////////////////////////////////////////////Getting array of replies for a single tweet.
-router.get("/repliesArray/:id",auth,async (req,res)=>{
+router.get("/:id/repliesArray",auth,async (req,res)=>{
 
 
     try {
@@ -154,11 +154,11 @@ router.get("/repliesArray/:id",auth,async (req,res)=>{
 
 
 //////////////////////////////////////////////////////////////////////////////////Getting single tweet endpoint
-router.get("/SingleTweet/:id",auth,async (req,res)=>{
+router.get("/:id/SingleTweet",auth,async (req,res)=>{
 
     theUser=req.user._id;
     TheTweet=req.params.id;
-
+    console.log(TheTweet)
     finalArray=[]
     const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
     
@@ -1139,7 +1139,7 @@ catch (error) {
 })
 
 /////////////////////////////////////////////////////////////////////////////Retrieve possible repliers:
-router.get("/repliers/:id",auth,async(req,res)=>{
+router.get("/:id/repliers",auth,async(req,res)=>{
     //replyTo array: ba5tar users mo3ayana a reply leeha.
     //urersrepliers array:el users di.
     //fel endpoint di 3ayza id el tweet el ana ba-reply leeha directly
@@ -1181,15 +1181,15 @@ router.get("/repliers/:id",auth,async(req,res)=>{
     usersArray=[]
 
     //pushing the direct parent tweet:
-    const Obj0= ({
-        id:theUsers.postedBy.id,
-        displayName: theUsers.postedBy.name,
-        userName: theUsers.postedBy.username,
-        url: theUsers.postedBy.profilePic,
-        active:true
-       });
+    // const Obj0= ({
+    //     id:theUsers.postedBy.id,
+    //     displayName: theUsers.postedBy.name,
+    //     userName: theUsers.postedBy.username,
+    //     url: theUsers.postedBy.profilePic,
+    //     active:true
+    //    });
 
-    usersArray.push(Obj0)
+    // usersArray.push(Obj0)
 
 
     for(p=0;p<theUsers.replyingUsers.length;p++)

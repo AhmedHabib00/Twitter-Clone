@@ -79,7 +79,10 @@ function PostBody({
           className={styles.postheaderdescription}
           role="button"
           tabIndex={0}
-          onClick={() => navigate(`/tweet/${id}`)}
+          onClick={() => {
+            console.log('rendering');
+            navigate(`/tweet/${id};}`);
+          }}
         >
           <p>{content}</p>
         </div>

@@ -32,6 +32,7 @@ function TweetBox({
   const [wordsCount, setWordsCount] = useState(0);
   const [isEnabled, setIsEnabled] = useState(true);
   const [userInfo, setUserInfo] = useState();
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
     (async () => {
@@ -140,6 +141,8 @@ function TweetBox({
           navigate('/');
         });
       })();
+    } else {
+      setErrorMessage('There is No content');
     }
   };
 
@@ -225,6 +228,7 @@ function TweetBox({
               </button>
             </div>
           </div>
+          {errorMessage && <b className={styles['tweetbox-error']}>{errorMessage}</b>}
         </div>
       </div>
     </div>

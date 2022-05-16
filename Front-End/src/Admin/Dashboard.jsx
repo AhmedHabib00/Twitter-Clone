@@ -10,6 +10,7 @@ import getNoUsers, {
   getNoJoined, getNoTweets, getRatioTweets,
   getNoAgeUsers, getNoMostFollowed, getNoBanned,
 } from '../Services/adminServices';
+import Loader from '../Components/Loader/Loader';
 
 function Dashboard() {
   const COLORS = ['#bfef45', '#800000', '#808000', '#f58231', '#134e40',
@@ -32,6 +33,7 @@ function Dashboard() {
   const [noMostFollowed, setNoMostFollowed] = useState();
   const [noTweets, setNoTweets] = useState();
   const [noJoinedUsers, setNoJoinedUsers] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const [ageRanges, setAgeRanges] = useState();
   useEffect(() => {
     (async () => {
@@ -41,7 +43,7 @@ function Dashboard() {
       setNoMostFollowed(await getNoMostFollowed());
       setNoTweets(await getNoTweets());
       setNoJoinedUsers(await getNoJoined());
-      setAgeRanges(await getNoAgeUsers());
+      setAgeRanges(await getNoAgeUsers().then(setIsLoading(false)));
     })();
   }, []);
 
@@ -165,6 +167,11 @@ function Dashboard() {
             </PieChart>
           </ResponsiveContainer>
 
+        </div>
+      ) : ''}
+      {(isLoading) ? (
+        <div className={[styles['graph-container'], styles['loader-container']].join(' ')}>
+          <Loader dimension={70} />
         </div>
       ) : ''}
     </div>
