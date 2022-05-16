@@ -270,7 +270,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             return res.status(400).send("error: problem with finding the tweets")
         })
         if (!results) return res.status.send('No tweets found')
-        console.log(results.length)
+       
 
 
     for(i=0;i<results.length;i++)
@@ -279,8 +279,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
           continue;
         
   
-        //do not view reply as a tweet. go to next iteration.             
-        console.log(results[i]["replyTo"])
+
         if(results[i]._id)
        { 
            Liked=false
