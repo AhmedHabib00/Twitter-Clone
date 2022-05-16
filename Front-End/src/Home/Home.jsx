@@ -16,7 +16,6 @@ function Home() {
       const postsResp = await GetPostsArray(1);
       if (postsResp.status === 200 && postsResp.data !== 'no tweets found') {
         setPostData(postsResp.data);
-        console.log(postsResp.data);
       } else {
         setisEndOfFeed(true);
       }
