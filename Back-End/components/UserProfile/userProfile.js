@@ -6,8 +6,12 @@ const User = require('../User/userSchema');
 const Tweet = require('../Tweets/tweetsSchema');
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth');
-const multer = require('multer');
+const Multer = require('multer');
 const path = require('path');
+const { format } = require("util");
+const { Storage } = require("@google-cloud/storage");
+const uuid = require("uuid")
+const uuidv1 = uuid.v1
 const {check ,validationResult} = require('express-validator');
 
 // creats new data of the user profile .(profile picture soon to be added)
@@ -34,14 +38,35 @@ const {check ,validationResult} = require('express-validator');
     
 });*/
 
-const imgStorage=multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null,'./imgUploads')
-    },
-    filename:(req,file,cb) => {
-    cb (null,Date.now()+"_"+file.originalname);
+const storage = new Storage({projectId: process.env.GCLOUD_PROJECT, credentials: {client_email: process.env.GCLOUD_CLIENT_EMAIL, private_key: process.env.GCLOUD_PRIVATE_KEY}})
+
+const multer = Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+        fileSize:5 * 1024 * 1024
+
     }
 });
+
+const bucket = storage.bucket(process.env.GCS_BUCKET)
+
+/*const maxImgSize = 8*1024*1024;
+
+let processFile = Multer({
+    storage: Multer.memoryStorage(),
+    limits: { fileSize: maxSize },
+  }).single("file");
+let processFileMiddleware = util.promisify(processFile);
+module.exports = processFileMiddleware;
+
+const multer = Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    },
+  });
+  
+
 
 const fileFilter = (req, file, cb) => {
     // reject a file
@@ -51,21 +76,18 @@ const fileFilter = (req, file, cb) => {
       cb(null, false);
     }
   };
-
-const upload = multer ({
-    storage:imgStorage,
-    fileFilter: fileFilter
-}).single('Picture')
+  // A bucket is a container for objects (files).
+const {Storage}=require('@google-cloud/storage');
+const storage = new Storage({projectId:process.env.GCLOUD_PROJECT,credentials:{client_email:process.env.GCLOUD_CLIENT_EMAIL,private_key:process.env.GCLOUD_PRIVATE_KEY}});
+const bucket = storage.bucket(process.env.GCS_BUCKET);*/
 
 //gets data from the database about a single user
 router.get('/:userProfileId/profile_settings', async(req,res) => {
 
-
-
     try{
         const user = await User.findById(req.params.userProfileId);
         // console.log(user);
-        const name = user.name;
+        const name = user.username;
         const location = user.location;
         const description = user.description;
         const birthDate = user.birthdate;
@@ -112,31 +134,72 @@ router.patch('/:userProfileId/profile_settings', [
 
 });
 
-router.patch('/:userProfileId/profilePicture',upload,async (req,res) => {
+router.patch('/:userProfileId/profilePicture',multer.any(),async (req,res) => {
+    // console.log(req);
+    var mediaTemp = ""
+    const newfilename = uuidv1() + "-" + req.files[0].originalname;
+    const blob = bucket.file(newfilename);
+    const blobStream = blob.createWriteStream({resumable:false});
+    //console.log(blobStream);
+    try{
+            blobStream.on('finish', () => {
+                 publicUrl = format(`https://storage.googleapis.com/${process.env.GCS_BUCKET}/${blob.name}`);
+            });
+            mediaTemp = format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+            blobStream.end(req.files[0].buffer);
+    }
+    
+    catch (err){
+        //console.log(err)
+        // console.log(req.files)
+        return res.status(400).send("Couldnot find ID")
+    }
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
-            {$set:{profilePic:req.file.path}});
-        return res.status(200).send("Updated profile picture successfully");
+            {$set:{profilePic:mediaTemp}});
+            return res.status(200).send("Updated Profile picture successfully");
     }
-    catch (err){
-        return res.status(400).send("Couldnot find ID")
+    catch(err){
+        console.log(err)
+        //console.log(req.files.originalname)
+        return res.status(400).send("Error Uploading Image, Please make sure its the right format and no more than 5MB")
     }
 
 });
 
 
-router.patch('/:userProfileId/coverPhoto',upload,async (req,res) => {
+router.patch('/:userProfileId/coverPhoto',multer.any(),async (req,res) => {
+    // console.log(req);
+    var mediaTemp = ""
+    const newfilename = uuidv1() + "-" + req.files[0].originalname;
+    const blob = bucket.file(newfilename);
+    const blobStream = blob.createWriteStream({resumable:false});
+    //console.log(blobStream);
+    try{
+            blobStream.on('finish', () => {
+                 publicUrl = format(`https://storage.googleapis.com/${process.env.GCS_BUCKET}/${blob.name}`);
+            });
+            mediaTemp = format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
+            blobStream.end(req.files[0].buffer);
+    }
+    
+    catch (err){
+        //console.log(err)
+        // console.log(req.files)
+        return res.status(400).send("Couldnot find ID")
+    }
     try{
         const updateUserProfile = await User.updateOne(
             {_id: req.params.userProfileId},
-            {$set:{coverPhoto:req.file.path}});
-        return res.status(200).send("Updated cover photo successfully");
+            {$set:{coverPhoto:mediaTemp}});
+            return res.status(200).send("Updated cover photo successfully");
     }
-    catch (err){
-        return res.status(400).send("Couldnot find ID")
+    catch(err){
+        console.log(err)
+        //console.log(req.files.originalname)
+        return res.status(400).send("Error Uploading Image, Please make sure its the right format and no more than 5MB")
     }
-
 });
 
 
@@ -171,10 +234,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         for(var i = numbOfTweets-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(tweetss[i].toString());
-            const likesOnTweet = tempTweet.likes.length;
-            //const repliesOnTweet = tempTweet.replies.length;
-            const tweetRetweets = tempTweet.retweeters.length;
-            console.log(likesOnTweet);
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             if(!tempTweet.likes){
                 likesOnTweet = 0;
             }
@@ -187,7 +249,7 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
             const tweetObject = {
                 "tweet ID":tempTweet._id,
                 "content":tempTweet.content,
-                "Posted By":user.name,
+                "Posted By":user.username,
                 "likes":likesOnTweet,
                 //"replies":repliesOnTweet,
                 "retweets":tweetRetweets,
@@ -203,9 +265,9 @@ router.get('/:userProfileId', async(req,res) => {//for pagination after route ty
         const startIndex = (pageNumber - 1) * pageSize
         const endIndex =  pageNumber * pageSize
 
-        console.log(pageNumber)
-        console.log(startIndex)
-        console.log(endIndex)
+        // console.log(pageNumber)
+        // console.log(startIndex)
+        // console.log(endIndex)
         let filteredTweets
         if(usertweets.length > pageSize) {
            filteredTweets = usertweets.slice(startIndex, endIndex)
@@ -237,9 +299,9 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
         for(var i = numbofreplies-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(replies[i].toString());
-            const likesOnTweet = tempTweet.likes.length;
-            const repliesOnTweet = tempTweet.replyTo.length;
-            const tweetRetweets = tempTweet.retweeters.length;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             const tweetposter = await User.findById(tempTweet.postedBy.toString())
 
             if(!tempTweet.likes){
@@ -254,7 +316,7 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
             const tweetObject = {
                 "type":"Reply",
                 "content":tempTweet.content,
-                "Posted By":tweetposter.name,
+                "Posted By":tweetposter.username,
                 "likes":likesOnTweet,
                 "replies":repliesOnTweet,
                 "retweets":tweetRetweets,
@@ -266,9 +328,9 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
         for(var i = numbOfTweets-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(tweetss[i].toString());
-            const likesOnTweet = tempTweet.likes.length;
-            const repliesOnTweet = tempTweet.replyTo.length;
-            const tweetRetweets = tempTweet.retweeters.length;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             const tweetposter = await User.findById(tempTweet.postedBy.toString())
 
             if(!tempTweet.likes){
@@ -282,7 +344,7 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
             }
             const tweetObject = {
                 "content":tempTweet.content,
-                "Posted By":tweetposter.name,
+                "Posted By":tweetposter.username,
                 "likes":likesOnTweet,
                 "replies":repliesOnTweet,
                 "retweets":tweetRetweets,
@@ -295,9 +357,9 @@ router.get('/:userProfileId/with_replies', async(req,res) => {
         const startIndex = (pageNumber - 1) * pageSize
         const endIndex =  pageNumber * pageSize
 
-        console.log(pageNumber)
-        console.log(startIndex)
-        console.log(endIndex)
+        // console.log(pageNumber)
+        // console.log(startIndex)
+        // console.log(endIndex)
         let filteredTweetsAndreplies
         if(usertweetsAndreplies.length > pageSize) {
             filteredTweetsAndreplies = usertweetsAndreplies.slice(startIndex, endIndex)
@@ -326,9 +388,9 @@ router.get('/:userProfileId/likes', async(req,res) => {
         for(var i = numbOfLikedTweets-1; i >= 0;i--)
         {
             const tempTweet = await Tweet.findById(likedtweets[i].toString());
-            const likesOnTweet = tempTweet.likes.length;
-            const repliesOnTweet = tempTweet.replyTo.length;
-            const tweetRetweets = tempTweet.retweeters.length;
+            var likesOnTweet = tempTweet.numberLikes;
+            var repliesOnTweet = tempTweet.numberReplies;
+            var tweetRetweets = tempTweet.numberRetweets;
             const tweetposter = await User.findById(tempTweet.postedBy.toString())
             if(!tempTweet.likes){
                 likesOnTweet = 0;
@@ -341,7 +403,7 @@ router.get('/:userProfileId/likes', async(req,res) => {
             }
             const tweetObject = {
                 "content":tempTweet.content,
-                "Posted By":tweetposter.name,
+                "Posted By":tweetposter.username,
                 "likes":likesOnTweet,
                 "replies":repliesOnTweet,
                 "retweets":tweetRetweets,
@@ -354,9 +416,9 @@ router.get('/:userProfileId/likes', async(req,res) => {
         const startIndex = (pageNumber - 1) * pageSize
         const endIndex =  pageNumber * pageSize
 
-        console.log(pageNumber)
-        console.log(startIndex)
-        console.log(endIndex)
+        // console.log(pageNumber)
+        // console.log(startIndex)
+        // console.log(endIndex)
         let filteredlikes
         if(userLikes.length > pageSize) {
             filteredlikes = userLikes.slice(startIndex, endIndex)
