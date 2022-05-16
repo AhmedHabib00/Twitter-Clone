@@ -72,8 +72,8 @@ function SearchBar() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      <header>
         <div style={{ width: 350 }}>
           <ReactSearchAutocomplete
             className={styles.searchbartop}

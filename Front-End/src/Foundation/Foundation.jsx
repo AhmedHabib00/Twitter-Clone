@@ -1,5 +1,7 @@
 import { React, useState, useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+  Link, Outlet, useNavigate,
+} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -10,12 +12,12 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
 import getUserPages from '../Home/NavItems';
-import SearchBar from '../Search/SearchBar/SearchBar';
 import PopupPage from '../Home/Components/PopupPage';
 import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
 import './Navbar/Navbar.css';
+import SearchBar from '../Components/Searchbar/Searchbar';
 /**
  * The main layout for a normal user that logs in.
  * It displays the navbar, opened page, widgets.
@@ -30,7 +32,11 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
   }, [openedPage]);
   const onSearchChange = (value) => {
-    console.log(value);
+    navigate('/Search', {
+      state: {
+        dataFiltered: value,
+      },
+    });
   };
 
   const onNavItemClick = (id) => {
@@ -121,7 +127,7 @@ function Foundation({ setIsLoggedIn, setisAdmin }) {
         </PopupPage>
 
         <div className={styles['foundation-widget']} id="SearchBar">
-          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" />
+          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={500} enableDelay={false} />
         </div>
 
       </div>
