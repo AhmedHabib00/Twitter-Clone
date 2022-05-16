@@ -30,6 +30,7 @@ function Home() {
       if (resp.status === 200) {
         if (resp.data !== 'no tweets found') {
           setPostData([...postData, ...resp.data]);
+          console.log(resp.data);
         } else {
           setisEndOfFeed(true);
         }

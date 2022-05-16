@@ -241,7 +241,6 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
 
     try {
         let { page, size } = req.query;
-    
         //default value is 1 if page parameter is not given.
         if (!page) {
             page = 1;
@@ -250,6 +249,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         if (!size) {
             size = 10;
         }
+        console.log(size)
 
         //Casting the size string to integer.
         const limit = parseInt(size);

@@ -5,8 +5,9 @@ const { SERVER_URL } = configData;
 
 export default async function GetPostsArray(page) {
   let response = '';
-  const number = 10;
+  const number = 5;
   try {
+    console.log(`${SERVER_URL}/tweets/TimelineTweets`);
     response = await axios.get(
       `${SERVER_URL}/tweets/TimelineTweets`,
       {

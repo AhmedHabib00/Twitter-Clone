@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+  Link, Outlet, useNavigate, useLocation,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import styles from './AdminFoundation.module.css';
@@ -15,7 +17,8 @@ import NavItem from '../Foundation/Navbar/NavItem';
 function AdminFoundation({ setIsLoggedIn }) {
   const pages = getAdminPages();
   const navigate = useNavigate();
-  const [openedPage, setOpenedPage] = useState('users');
+  const location = useLocation();
+  const [openedPage, setOpenedPage] = useState(location.pathname.substring(1));
 
   useEffect(() => {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');

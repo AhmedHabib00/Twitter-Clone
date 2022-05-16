@@ -22,11 +22,13 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
+  const [role, setRole] = useState();
   useEffect(() => {
     (async () => {
       if (localStorage.token) {
         setIsLoggedIn(true);
         const resp = await getClientRole();
+        setRole(resp.role);
         if (resp.role === 'Admin') {
           setIsAdmin(true);
         } else {
@@ -90,11 +92,13 @@ function App() {
   return (
     <Router>
       <Routes>
+        {role && (
         <Route path="/" element={mainPage()}>
           {selectingRoute()}
           <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
-        <Route path="*" element={<Navigate to={mainPath()} />} />
+        )}
+        <Route path="*" element={<div />} />
       </Routes>
     </Router>
   );
