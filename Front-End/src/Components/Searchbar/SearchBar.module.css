@@ -1,0 +1,34 @@
+.searchbar {
+  display: flex;
+  margin: 5px;
+  height: 40px;
+  border: 1px solid gray;
+  background-color: white;
+  border-radius: 50px;
+  box-sizing: border-box;
+}
+
+.searchbar-icon {
+  stroke-width: 0.001;
+  margin: auto;
+}
+
+.searchbar-input {
+  flex-grow: 1;
+  margin-right: 15px;
+  border: 0;
+  outline: 0;
+}
+
+.searchbar-input:focus + .searchbar-icon {
+  color: rgb(29 155 240);
+}
+
+.searchbar-input:focus {
+  border: 0;
+  outline: 0;
+}
+
+.searchbar:focus-within {
+  border: 2px solid rgb(29 155 240);
+}
