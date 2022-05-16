@@ -12,6 +12,7 @@ import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
 import configData from '../config/production.json';
 import { facebookAuth } from '../Services/accountServices';
+import Loader from '../Components/Loader/Loader';
 
 export const axiosApiCall = (url, method, body = {}) => axios({
   method,
@@ -27,8 +28,10 @@ export const axiosApiCall = (url, method, body = {}) => axios({
 function Start({ setIsLoggedIn, setisAdmin }) {
   const [signup, setSignup] = useState(false);
   const [login, setLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const onGoogleSuccess = (response) => {
+    setIsLoading(true);
     const { tokenId } = response;
     axiosApiCall(
       '/auth/google',
@@ -39,6 +42,8 @@ function Start({ setIsLoggedIn, setisAdmin }) {
       localStorage.setItem('token', token);
       localStorage.setItem('userId', res.data.data.userId);
       setIsLoggedIn(true);
+      setIsLoading(false);
+
       // Save the JWT inside a cookie
       Cookie.set('token', token);
     }).catch((err) => {
@@ -53,9 +58,10 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     navigate('/');
   };
   const responseFacebook = (response) => {
-    console.log(response);
+    setIsLoading(true);
     // Login failed
     if (response.status === 'unknown') {
+      setIsLoading(false);
       return false;
     }
     const { email } = response;
@@ -68,6 +74,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', resp.data.data.userId);
         setIsLoggedIn(true);
+        setIsLoading(false);
       }
     })();
 
@@ -75,6 +82,9 @@ function Start({ setIsLoggedIn, setisAdmin }) {
   };
   return (
     <div id="start-page">
+      <div className={styles['loaders-container']}>
+        {isLoading && <Loader />}
+      </div>
       <div className={styles.container}>
         <div className={styles['right-column-container']}>
           <div className={styles['right-group']}>

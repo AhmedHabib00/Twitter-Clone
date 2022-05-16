@@ -7,9 +7,10 @@ import { searchEmail } from '../../../Services/accountServices';
  * @param {function} setVerifyCode Manages the verification code modal
  * @param {function} setEmail Sets the user email or username
  * @param {function} setForgotPassword Manages the status of the forgot password modal
+ * @param {function} setIsLoading used to set the state of the loader
  * @returns handleChange, values, handleSubmit, errors,
  */
-const useForgetPasswordForm = (setEmail, setForgotPassword, setVerifyCode) => {
+const useForgetPasswordForm = (setEmail, setForgotPassword, setVerifyCode, setIsLoading) => {
   const [values, setValues] = useState({
     emailOrUsername: '',
   });
@@ -25,17 +26,21 @@ const useForgetPasswordForm = (setEmail, setForgotPassword, setVerifyCode) => {
     e.preventDefault();
     setErrors(validateEmail(values));
     if (Object.keys(validateEmail(values)).length === 0) {
+      setIsLoading(true);
       searchEmail(values).then((response) => {
         if (response.status === 200 || response.status === 201) {
           setEmail(values.emailOrUsername);
           setForgotPassword(false);
           setVerifyCode(true);
+          setIsLoading(false);
         } else if (response.status === 404) {
           setErrors({
             ...errors,
             emailOrUsername: 'User not found',
           });
+          setIsLoading(false);
         }
+        setIsLoading(false);
       });
     }
   };

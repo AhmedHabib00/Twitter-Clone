@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import { GoogleLogin } from 'react-google-login';
@@ -8,7 +8,8 @@ import axios from 'axios';
 import useLoginForm from './components/useLoginForm';
 import styles from './LoginStepOne.module.css';
 import configData from '../../config/production.json';
-import { getClientRole } from '../../Services/accountServices';
+import { facebookAuth, getClientRole } from '../../Services/accountServices';
+import Loader from '../../Components/Loader/Loader';
 
 export const axiosApiCall = (url, method, body = {}) => axios({
   method,
@@ -29,10 +30,12 @@ export const axiosApiCall = (url, method, body = {}) => axios({
 function LoginStepOne({
   setStepOne, setLoginPassword, setEmail, setForgotPassword, handleAfterSignin,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors,
   } = useLoginForm(setStepOne, setEmail, setLoginPassword);
   const onGoogleSuccess = (response) => {
+    setIsLoading(true);
     const { tokenId } = response;
     axiosApiCall(
       '/auth/google',
@@ -41,6 +44,8 @@ function LoginStepOne({
     ).then((res) => {
       const token = res.data['x-auth-token'];
       localStorage.setItem('token', token);
+      localStorage.setItem('userId', res.data.data.userId);
+      setIsLoading(false);
       (async () => {
         if (localStorage.token) {
           const resp = await getClientRole();
@@ -61,16 +66,44 @@ function LoginStepOne({
   };
   const onGoogleFailure = () => {};
   const responseFacebook = (response) => {
-    console.log(response);
+    setIsLoading(true);
     // Login failed
     if (response.status === 'unknown') {
+      setIsLoading(false);
       return false;
     }
+    const { email } = response;
+    const { name } = response;
+    (async () => {
+      const resp = await facebookAuth({ name, email });
+      if (resp.status === 201) {
+        console.log(resp);
+        const token = resp.data['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', resp.data.data.userId);
+        setIsLoading(false);
+        (async () => {
+          if (localStorage.token) {
+            const res = await getClientRole();
+            console.log(res);
+            document.body.style.overflowY = 'scroll';
+            if (res.role === 'Admin') {
+              handleAfterSignin(true, true);
+            } else {
+              handleAfterSignin(true, false);
+            }
+          }
+        })();
+      }
+    })();
 
     return response;
   };
   return (
     <div id="login-modal-step-one">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <div className={styles.body}>
         <h1>Sign in to Whisper</h1>
         <GoogleLogin
