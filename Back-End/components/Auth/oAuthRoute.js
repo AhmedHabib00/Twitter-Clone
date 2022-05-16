@@ -41,8 +41,6 @@ passport.use(new FacebookStrategy({
 ));
 
 router.post("/facebook", async (req, res) => {
-  console.log(req.body.email)
-  console.log(req.body.name)
   if (!req.body.email || !req.body.name) return res.status(400).send('request body undefined');    
   var user = await User.findOne({ email:req.body.email});
         if (!user) {
@@ -172,7 +170,7 @@ router.get('/facebook/secrets', passport.authenticate('facebook', { failureMessa
 router.get('/getRole',auth, async (req, res) => {
   const user =  await User.findOne({ _id: req.user._id});
   if (user){
-    return res.status(200).send({"role":user.role });
+    return res.status(200).send({"role":user.role,"blocked" :user.banned});
   }
     return res.status(400).send( "user not found");
 
