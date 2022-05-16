@@ -260,7 +260,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
         
-        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1))
+        var results = await tweet.find({replyTo:[]},projection).limit(limit).skip(size*(page-1))
         .populate("postedBy")
         .populate("retweeters")
         .populate("likes")
@@ -270,20 +270,17 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             return res.status(400).send("error: problem with finding the tweets")
         })
         if (!results) return res.status.send('No tweets found')
-        
+        console.log(results.length)
 
 
     for(i=0;i<results.length;i++)
        {
-        if (!results[i])
-            continue;
-
+        if (!results[i])   
+          continue;
+        
   
-        //do not view reply as a tweet. go to next iteration.   
-        if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length==0) 
-       {
-
-
+        //do not view reply as a tweet. go to next iteration.             
+        console.log(results[i]["replyTo"])
         if(results[i]._id)
        { 
            Liked=false
@@ -346,7 +343,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         finalArray.push(Obj)
               
         }
-    }
+    
         if(finalArray.length==0)
         {
             return res.status(200).send("no tweets found"); 
@@ -358,6 +355,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         return res.status(400).send("problem with page parameters size/number");
     }
 })
+
 
 //////////////////////////////////////////////////////////////////////////////Posting and replying
 router.post("/",multer.any(),auth,async function(req,res,next){
