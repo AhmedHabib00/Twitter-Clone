@@ -42,9 +42,9 @@ function Feed({ data, isReplying }) {
       >
 
         {
-        postData && postData.map((post, index) => (
+        postData && postData.map((post) => (
           <Post
-            key={index}
+            key={post.id}
             id={post.id}
             displayName={post.displayName}
             userName={post.userName}

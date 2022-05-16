@@ -5,7 +5,7 @@ import styles from './Search.module.css';
 import PostData from '../Home/Components/PostData.json';
 import UsersData from '../Home/Components/UsersData.json';
 import GetPostsArray, { GetUsersArray } from '../Services/searchServices';
-import SearchBar from '../Components/Searchbar/Searchbar';
+import SearchBar from '../Components/SearchBar/Searchbar';
 
 /**
  *

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getListofUsers } from '../Services/adminServices';
 import styles from './AdminUsers.module.css';
 import UsersFeed from '../Components/ListofUsers/UsersFeed';
-import SearchBar from '../Components/SearchBar/SearchBar';
+import SearchBar from '../Components/SearchBar/Searchbar';
 import PopupPage from '../Home/Components/PopupPage';
 
 function AdminUsers({ state }) {

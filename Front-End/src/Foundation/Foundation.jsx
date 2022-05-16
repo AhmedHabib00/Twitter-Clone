@@ -16,7 +16,7 @@ import PopupPage from '../Home/Components/PopupPage';
 import TweetBox from '../Home/Components/TweetBox';
 
 import styles from './Foundation.module.css';
-import SearchBar from '../Components/Searchbar/Searchbar';
+import SearchBar from '../Components/SearchBar/Searchbar';
 import navStyles from './Navbar/Navbar.module.css';
 /**
  * The main layout for a normal user that logs in.
