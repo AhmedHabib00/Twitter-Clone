@@ -5,7 +5,7 @@ import {
   blockUser, getListofUsers, deleteUser, unBlockUser,
 } from '../Services/adminServices';
 import styles from './AdminUsers.module.css';
-import SearchBar from '../Components/SearchBar/Searchbar';
+import SearchBar from '../Components/SearchBar/SearchBar';
 import PopupPage from '../Home/Components/PopupPage';
 import DatePicker from '../Start/SignUp/Components/DatePicker';
 import validateDate from './dateValidation';

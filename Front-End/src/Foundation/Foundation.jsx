@@ -9,7 +9,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Navbar from './Navbar/Navbar';
 import NavItem from './Navbar/NavItem';
 import getUserPages from '../Home/NavItems';
-import SearchBar from '../Components/SearchBar/Searchbar';
+import SearchBar from '../Components/SearchBar/SearchBar';
 import PopupPage from '../Home/Components/PopupPage';
 import TweetBox from '../Home/Components/TweetBox';
 
