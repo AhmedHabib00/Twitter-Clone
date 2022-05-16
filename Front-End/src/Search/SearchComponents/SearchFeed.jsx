@@ -38,24 +38,24 @@ function SearchFeed({ data, dataType }) {
     <div data-testid="feed-render-test" className={styles.notifeed}>
       <div className={styles.parent} id="FeedContainer">
         {
-                        data && data.map((content) => (
-                          <Post
-                            id={content.id}
-                            displayname={content.displayName}
-                            username={content.userName}
-                            content={content.content}
-                            img1={content.img1}
-                            img2={content.img2}
-                            img3={content.img3}
-                            img4={content.img4}
-                            isLiked={content.isLiked}
-                            noOfLike={content.noOfLike}
-                            isRetweeted={content.isRetweeted}
-                            noOfReplies={content.noOfReplies}
-                            noOfRetweets={content.noOfRetweets}
-                          />
-                        ))
-                    }
+          data && data.map((content) => (
+            <Post
+              id={content.id}
+              displayname={content.displayName}
+              username={content.userName}
+              content={content.content}
+              img1={content.img1}
+              img2={content.img2}
+              img3={content.img3}
+              img4={content.img4}
+              isLiked={content.isLiked}
+              noOfLike={content.noOfLike}
+              isRetweeted={content.isRetweeted}
+              noOfReplies={content.noOfReplies}
+              noOfRetweets={content.noOfRetweets}
+            />
+          ))
+      }
         <div className={styles.emptyspace} />
       </div>
     </div>
