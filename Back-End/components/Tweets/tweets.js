@@ -262,7 +262,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         
         var results = await tweet.find({replyTo:[]},projection).limit(limit).skip(size*(page-1))
         .populate("postedBy")
-        .populate("retweetInfo")
+        .populate({path:"retweetInfo",populate:{path:"postedBy"}})
         .populate("retweeters")
         .populate("likes")
         .sort({"createdAt":-1})    
@@ -271,7 +271,6 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             return res.status(400).send("error: problem with finding the tweets")
         })
         if (!results) return res.status.send('No tweets found')
-
         
     for(i=0;i<results.length;i++)
        {
@@ -320,7 +319,7 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
                      contentTemp2=results[i].retweetInfo[0].content;
 
             const Obj2= ({
-                id:results[i]["_id"],
+                id:results[i].retweetInfo[0]._id,
                 userName: results[i].retweetInfo[0].postedBy.username,
                 displayName: results[i].retweetInfo[0].postedBy.name,
                 content: contentTemp2,
