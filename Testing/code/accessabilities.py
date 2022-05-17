@@ -53,13 +53,39 @@ image_3_css_selector = "img[src$='imagejklm3.png']"
 image_4_css_selector = "img[src$='imagenopq4.png']"
 image_5_css_selector = "img[src$='imagerstu5.png']"
 images_in_tweetbox_id = 'image-box-image-canvas'
+feed_page_id='feed'
 
+#Profile
+profile_navbar='profile'
+profile_edit_button='edit_profile'
+profile_name_textbox='name'
+profile_bio_textbox='bio'
+profile_save_changes='save-changes'
+profile_name_error_limitation='name-error'
+profile_close_edit='close'
+profile_discard_changes='discard-changes'
+profile_add_photo_cover='add-cover'
+profile_add_photo_profile='add-profile'
+profile_apply_photo='apply'
+profile_photo_open='photo'
+profile_cover_open='cover'
+profile_remove_cover_photo='remove-cover'
+
+#SETTINGS
+Settings_navbar='Settings'
+Settings_account_info='account-info'
+Settings_change_password='change-password'
+Settings_current_password='current-password'
+Settings_new_password='new-password'
+Settings_confirm_password='confirm-password'
+Settings_confirm_password_error='confirm-error'
+Settings_save_pass_change='save-password'
+Settings_password_error='invalid-password'
+
+#chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
+#chrome_driver = "D:\Whisper-Testing\Testing\code\drivers/chromedriver.exe"
+chrome_driver = "../drivers/chromedriver.exe"
 email = 'testingwhisper2@gmail.com'
 password = 'BnSuliman@1'
 password_1 = 'whispertest2'
 username = 'BnSuliman@1'
-
-#IMPORTANT FOR DEVOPS AND TESTING
-chrome_driver = '/chromedriver/chromedriver'
-#chrome_driver = '..\drivers\chromedriver.exe'
-
