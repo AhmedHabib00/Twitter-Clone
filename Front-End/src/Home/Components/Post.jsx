@@ -28,18 +28,11 @@ import PostBody from './PostBody';
 function Post({
   id, displayName, userName, content, URLs, isLiked, noOfLike,
   isRetweeted, noOfRetweets, noOfReplies, isReplying, url,
-  isBlocked, whoRetweeted,
 }) {
   return (
     <div data-testid="post-render-test" className={styles.post} id="post">
       <div className={styles.postbody}>
-        <PostHeader
-          displayName={displayName}
-          userName={userName}
-          url={url}
-          whoRetweeted={whoRetweeted}
-          id={id}
-        />
+        <PostHeader displayName={displayName} userName={userName} url={url} />
         <PostBody
           id={id}
           content={content}
@@ -61,7 +54,6 @@ function Post({
           noOfRetweets={noOfRetweets}
           noOfReplies={noOfReplies}
           url={url}
-          isBlocked={isBlocked}
         />
       </div>
     </div>
@@ -81,14 +73,10 @@ Post.propTypes = {
   noOfReplies: PropTypes.number.isRequired,
   isReplying: PropTypes.bool,
   url: PropTypes.string.isRequired,
-  isBlocked: PropTypes.bool,
-  whoRetweeted: PropTypes.string,
 };
 
 Post.defaultProps = {
   isReplying: false,
-  isBlocked: false,
-  whoRetweeted: '',
 };
 
 export default Post;

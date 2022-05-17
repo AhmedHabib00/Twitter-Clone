@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Menu, MenuList } from '@mui/material';
+import { Menu, MenuList } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined';
@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment, faBookmark,
 } from '@fortawesome/free-regular-svg-icons';
-import { useNavigate } from 'react-router';
 import styles from './Post.module.css';
 import PopupPage from './PopupPage';
 import TweetBox from './TweetBox';
@@ -20,9 +19,7 @@ import { handleLikes, addToBookmark, SendRetweets } from '../../Services/postSer
 function PostFooter({
   id, displayName, userName, URLs, isLiked, noOfLike,
   isRetweeted, noOfRetweets, noOfReplies, content, url,
-  isBlocked,
 }) {
-  const navigate = useNavigate();
   const [retweetEl, setRetweetEl] = useState(null);
   const [shareEl, setShareEl] = useState(null);
   const [like, setLike] = useState(isLiked);
@@ -35,7 +32,9 @@ function PostFooter({
   const handelOpenShare = (e) => {
     setShareEl(e.currentTarget);
   };
-
+  // const handleRetweet = () => {
+  //   SendRetweets(id);
+  // };
   const handelCloseShare = () => {
     setShareEl(null);
   };
@@ -45,16 +44,13 @@ function PostFooter({
   };
   const handellikes = () => {
     if (like) {
-      handleLikes(id).then(() => {
-        setLikeCount(likeCount - 1);
-        setLike(!like);
-      });
+      handleLikes(id);
+      setLikeCount(likeCount - 1);
     } else {
-      handleLikes(id).then(() => {
-        setLikeCount(likeCount + 1);
-        setLike(!like);
-      });
+      handleLikes(id);
+      setLikeCount(likeCount + 1);
     }
+    setLike(!like);
   };
 
   const handleAddToBookmark = () => {
@@ -68,25 +64,20 @@ function PostFooter({
   };
   const handelRetweeets = () => {
     if (retweet) {
-      SendRetweets(id).then(() => {
-        setRetweetCount(retweetCount - 1);
-        setRetweet(!retweet);
-        navigate('/');
-      });
+      SendRetweets(id);
+      setRetweetCount(retweetCount - 1);
     } else {
-      SendRetweets(id).then(() => {
-        setRetweetCount(retweetCount + 1);
-        setRetweet(!retweet);
-        navigate('/');
-      });
+      SendRetweets(id);
+      setRetweetCount(retweetCount + 1);
     }
+    setRetweet(!retweet);
   };
   return (
     <div>
       <PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
         <div>
           <div className={styles.postbody} key={id}>
-            <PostHeader id={id} displayName={displayName} userName={userName} url={url} />
+            <PostHeader displayName={displayName} userName={userName} url={url} />
             <PostBody
               id={id}
               URLs={URLs}
@@ -99,7 +90,7 @@ function PostFooter({
               onReplyButtonClick={handleButtonOnClickReplying}
             />
           </div>
-          <TweetBox replyId={id} users={replyingToId} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} canTweet={!isBlocked} />
+          <TweetBox replyId={id} users={replyingToId} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} />
         </div>
       </PopupPage>
       <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
@@ -150,36 +141,31 @@ function PostFooter({
         </div>
 
         <div className={styles.like}>
-          <Button disabled={isBlocked}>
-            <RepeatIcon
-              style={(retweet) ? { color: 'rgb(18 180 26)' } : { color: 'rgb(0 0 0)' }}
-              className={styles.postgreen}
-              fontSize="small"
-              aria-controls="retweet"
-              onClick={handelRetweeets}
-            />
-          </Button>
+          <RepeatIcon
+            style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
+            className={styles.postgreen}
+            fontSize="small"
+            aria-controls="retweet"
+            onClick={handelRetweeets}
+          />
           <p>{retweetCount}</p>
         </div>
         <div className={styles.like}>
-          <Button disabled={isBlocked}>
-            <FavoriteBorderIcon
-              style={(like) ? { color: '#f02896' } : { color: 'rgb(0 0 0)' }}
-              className={styles.postpink}
-              fontSize="small"
-              onClick={handellikes}
-            />
-          </Button>
+          <FavoriteBorderIcon
+            style={(like) ? { color: '#f02896' } : { color: '' }}
+            className={styles.postpink}
+            fontSize="small"
+            onClick={handellikes}
+          />
           <p>{likeCount}</p>
         </div>
-        <Button disabled={isBlocked}>
-          <IosShareOutlinedIcon
-            className={styles.postblue}
-            fontSize="small"
-            aria-controls="share"
-            onClick={handelOpenShare}
-          />
-        </Button>
+
+        <IosShareOutlinedIcon
+          className={styles.postblue}
+          fontSize="small"
+          aria-controls="share"
+          onClick={handelOpenShare}
+        />
 
       </div>
     </div>
@@ -198,11 +184,6 @@ PostFooter.propTypes = {
   noOfReplies: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
-  isBlocked: PropTypes.bool,
-};
 
-PostFooter.defaultProps = {
-  isBlocked: false,
 };
-
 export default PostFooter;

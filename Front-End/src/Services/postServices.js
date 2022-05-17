@@ -110,7 +110,6 @@ export async function SendRetweets(TweetId) {
     return (response);
   }
 }
-
 export async function addToBookmark(props) {
   let response = '';
   try {
@@ -126,42 +125,6 @@ export async function addToBookmark(props) {
         'x-auth-token': localStorage.token,
       },
     });
-    return response;
-  } catch (error) {
-    if (error.response) {
-      /*
-          * The request was made and the server responded with a
-          * status code that falls out of the range of 2xx
-          */
-      //   console.log(error.response.data);
-      //   console.log(error.response.status);
-      //   console.log(error.response.headers);
-      return (error.response);
-    } if (error.request) {
-      /*
-          * The request was made but no response was received, `error.request`
-          * is an instance of XMLHttpRequest in the browser and an instance
-          * of http.ClientRequest in Node.js
-          */
-    //   console.log(error.request);
-    } else {
-      // Something happened in setting up the request and triggered an Error
-    //   console.log('Error', error.message);
-    }
-    // console.log(error);
-    return (response);
-  }
-}
-
-export async function blockUser(props) {
-  let response = '';
-  try {
-    response = await axios.post(`${SERVER_URL}/users/${localStorage.userId}/blocking/${props}`, { }, {
-      headers: {
-        'x-auth-token': localStorage.token,
-      },
-    });
-
     return response;
   } catch (error) {
     if (error.response) {
