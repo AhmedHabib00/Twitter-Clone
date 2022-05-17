@@ -8,6 +8,7 @@ import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './StepPassword.module.css';
 import useFormPassword from './Components/useFormPassword';
+import Loader from '../../Components/Loader/Loader';
 
 /**
  * In this function the user will type his password
@@ -17,6 +18,7 @@ import useFormPassword from './Components/useFormPassword';
  * @returns Password form
  */
 function StepPassword({ setStepPassword, setStepUsername, email }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [fieldvalues, setfieldvalues] = useState({
     password: '',
     showPassword: false,
@@ -29,9 +31,12 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
   };
   const {
     handleChange, values, handleSubmit, errors,
-  } = useFormPassword(setStepPassword, setStepUsername, email);
+  } = useFormPassword(setStepPassword, setStepUsername, email, setIsLoading);
   return (
     <div data-testid="password" id="sign-up-modal-step-password">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <div className={styles.header}>
         <div className={styles['password-logo']}>
           <TwitterIcon className="start-modals-icon-size" />
@@ -87,6 +92,7 @@ function StepPassword({ setStepPassword, setStepUsername, email }) {
             variant="outlined"
             className="start-modals-button"
             type="submit"
+            disabled={isLoading}
           >
             Sign Up
           </Button>

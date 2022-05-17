@@ -4,7 +4,10 @@ import configData from '../config/production.json';
 const { SERVER_URL } = configData;
 
 export async function PostTweet(props) {
-  const { images, value, replyId } = props;
+  console.log(props);
+  const {
+    images, value, replyId, usersList,
+  } = props;
   const formData = new FormData();
   formData.append('content', value);
   formData.append('replyId', replyId);
@@ -14,6 +17,11 @@ export async function PostTweet(props) {
   }
   if (images.length !== 0 && images[0].type !== 'gif') {
     formData.append('gifs', '');
+  }
+  if (usersList) {
+    formData.append('users', usersList);
+  } else {
+    formData.append('users', []);
   }
   images.forEach((image) => {
     if (image.type === 'img') {

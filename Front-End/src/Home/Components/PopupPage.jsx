@@ -10,14 +10,13 @@ import styles from './PopupPage.module.css';
  * @param {Function} SetTrigger setter for trigger
  */
 function PopupPage({
-  trigger, children, SetTrigger, widthpercentage, isCloseEnabled,
+  trigger, children, SetTrigger, widthpercentage, isCloseEnabled, isUserSelector,
 }) {
   let toClose = true;
   const closePopup = () => {
     if (isCloseEnabled) {
       if (toClose) {
         SetTrigger(false);
-        document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
       }
       toClose = true;
     }
@@ -25,11 +24,11 @@ function PopupPage({
 
   const handleCloseIcon = () => {
     SetTrigger(false);
-    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
   };
   const childClick = () => {
     toClose = false;
   };
+
   return (trigger) ? (
     <div role="button" tabIndex={0} className={styles['popup-page']} onClick={closePopup}>
       {document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'hidden')}
@@ -41,11 +40,22 @@ function PopupPage({
         onClick={childClick}
         style={{ width: `${widthpercentage}%` }}
       >
-        <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
+
+        {(isUserSelector)
+          ? (
+            <div className={styles['horizontal-align']}>
+              <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
+              <h2 className={styles['tweet-header']}>Replying to</h2>
+              <button type="button" className={styles['button-style']} onClick={handleCloseIcon}>Done</button>
+            </div>
+          ) : (
+            <CloseIcon className={styles['close-btn']} onClick={handleCloseIcon} />
+          )}
+
         {children}
       </div>
     </div>
-  ) : '';
+  ) : (<>{ document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll')}</>);
 }
 
 PopupPage.propTypes = {
@@ -54,11 +64,13 @@ PopupPage.propTypes = {
   SetTrigger: PropTypes.func.isRequired,
   widthpercentage: PropTypes.number,
   isCloseEnabled: PropTypes.bool,
+  isUserSelector: PropTypes.bool,
 };
 
 PopupPage.defaultProps = {
   widthpercentage: 50,
   isCloseEnabled: true,
+  isUserSelector: false,
 };
 
 export default PopupPage;

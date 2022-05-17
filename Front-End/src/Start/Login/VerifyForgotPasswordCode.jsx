@@ -1,8 +1,9 @@
-import React from 'react';
+import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import styles from './VerifyForgetPasswordCode.module.css';
 import useVerifyCodeForm from './components/useVerifyCodeForm';
+import Loader from '../../Components/Loader/Loader';
 /**
  * This function is used to make a verification code form for the forgot
  * my password process
@@ -13,11 +14,15 @@ import useVerifyCodeForm from './components/useVerifyCodeForm';
  */
 
 function VerifyForgotPasswordCode({ email, setVerifyCode, setSettingPassword }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors,
-  } = useVerifyCodeForm(email, setVerifyCode, setSettingPassword);
+  } = useVerifyCodeForm(email, setVerifyCode, setSettingPassword, setIsLoading);
   return (
     <div className={styles['forgot-password-container']} id="login-modal-verify-code">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <form
         className={styles['forgot-password-form']}
         onSubmit={handleSubmit}
@@ -58,6 +63,7 @@ function VerifyForgotPasswordCode({ email, setVerifyCode, setSettingPassword }) 
               variant="outlined"
               className={styles['forgot-password-button']}
               type="submit"
+              disabled={isLoading}
             >
               Verify
             </Button>

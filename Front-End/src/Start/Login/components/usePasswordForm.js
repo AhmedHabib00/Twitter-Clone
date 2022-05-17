@@ -7,9 +7,10 @@ import validatePassword from './validatePassword';
  * @param {function} setStepPassword Manages the password step status
  * @param {function} setStepUsername Manages the username selection step status
  * @param {string} userEmail used to send with password to the backend
+ * @param {function} setIsLoading used to set the state of the loader
  * @returns handleChange, values, handleSubmit, errors
  */
-const usePasswordForm = (userEmail, handleAfterSignin) => {
+const usePasswordForm = (userEmail, handleAfterSignin, setIsLoading) => {
   const [values, setValues] = useState({
     emailOrUsername: '',
     password: '',
@@ -27,11 +28,13 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
     e.preventDefault();
     setErrors(validatePassword(values));
     if (Object.keys(validatePassword(values)).length === 0) {
+      setIsLoading(true);
       LoginPassword(values).then((response) => {
         if (response.status === 200 || response.status === 201) {
           const token = response.data['x-auth-token'];
           localStorage.setItem('token', token);
           localStorage.setItem('userId', response.data.data.userId);
+          setIsLoading(false);
           (async () => {
             if (localStorage.token) {
               const resp = await getClientRole();
@@ -48,7 +51,9 @@ const usePasswordForm = (userEmail, handleAfterSignin) => {
             ...errors,
             password: 'Invalid email or username or password',
           });
+          setIsLoading(false);
         }
+        setIsLoading(false);
       });
     }
   };

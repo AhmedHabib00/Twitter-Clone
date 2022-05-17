@@ -1,9 +1,9 @@
 import React from 'react';
-import './Navbar.css';
 import PropTypes from 'prop-types';
 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Link } from 'react-router-dom';
+import styles from './Navbar.module.css';
 /**
  * custom navbar component that fits the theme of twitter
  * @param {element} children elements to show in the navbar
@@ -12,9 +12,9 @@ import { Link } from 'react-router-dom';
  */
 function Navbar({ children, onTwIconClick, route }) {
   return (
-    <div className="nav-bar-main">
-      <Link to={route} className="nav-bar-tw-icon-link" onClick={() => onTwIconClick(route)}>
-        <TwitterIcon className="tw-icon" />
+    <div className={styles['nav-bar-main']}>
+      <Link to={route} className={styles['nav-bar-tw-icon-link']} onClick={() => onTwIconClick(route)}>
+        <TwitterIcon className={styles['tw-icon']} />
 
       </Link>
       {children}

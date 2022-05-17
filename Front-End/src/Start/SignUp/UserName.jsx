@@ -1,9 +1,10 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './UserName.module.css';
 import useFormUserName from './Components/useFormUserName';
+import Loader from '../../Components/Loader/Loader';
 
 /**
  * In this function the user will type his username
@@ -12,11 +13,15 @@ import useFormUserName from './Components/useFormUserName';
  */
 
 function UserName({ email, handleAfterSignup }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors,
-  } = useFormUserName(email, handleAfterSignup);
+  } = useFormUserName(email, handleAfterSignup, setIsLoading);
   return (
     <div id="sign-up-modal-step-username">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <div className={styles.header}>
         <div className={styles['username-logo']}>
           <TwitterIcon className="start-modals-icon-size" />
@@ -61,6 +66,8 @@ function UserName({ email, handleAfterSignup }) {
             variant="outlined"
             className="start-modals-button"
             type="submit"
+            disabled={isLoading}
+
           >
             Next
           </Button>

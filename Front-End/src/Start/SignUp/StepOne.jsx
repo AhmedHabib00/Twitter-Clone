@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import DatePicker from './Components/DatePicker';
 import styles from './StepOne.module.css';
 import useForm from './Components/useForm';
+import Loader from '../../Components/Loader/Loader';
 
 /**
  * This is the first state in the signup form in which the user will
@@ -22,15 +23,22 @@ function StepOne({
   handleCloseSignup, setEmail, setStepOne,
   setStepVerify,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [date, setDate] = useState('');
+  const today = new Date();
+  const endYear = today.getFullYear();
+  const startYear = endYear - 120;
   const {
     handleChange, values, handleSubmit, errors,
-  } = useForm(date, setStepOne, setStepVerify);
+  } = useForm(date, setStepOne, setStepVerify, setIsLoading);
   useEffect(() => {
     setEmail(values.email);
   });
   return (
     <div data-testid="step-one" id="sign-up-modal-step-one">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <div className="start-modals-header">
         <div>
           <IconButton onClick={() => {
@@ -86,7 +94,8 @@ function StepOne({
               onChange={handleChange}
             />
             <span>Email</span>
-            {errors.email
+          </label>
+          {errors.email
              && (
              <p
                className="start-modals-form-errors"
@@ -95,14 +104,13 @@ function StepOne({
                {errors.email}
              </p>
              )}
-          </label>
           <div className={styles['date-container']}>
             <h3>Date of birth</h3>
             <p className={styles['signup-form-text']}>
               This will not be shown publicly. Confirm your own age,
               even if this account is for a business, a pet, or something else.
             </p>
-            <DatePicker setDate={setDate} />
+            <DatePicker setDate={setDate} endYear={endYear} startYear={startYear} />
           </div>
           {errors.birthdate
            && (
@@ -121,6 +129,7 @@ function StepOne({
             variant="outlined"
             className="start-modals-button"
             type="submit"
+            disabled={isLoading}
           >
             Next
           </Button>

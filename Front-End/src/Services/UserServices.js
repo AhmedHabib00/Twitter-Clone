@@ -20,3 +20,21 @@ export default async function getUserInfo(id) {
     return (error);
   }
 }
+
+export async function getBookMarks() {
+  let response = '';
+  try {
+    response = await axios.get(
+      `${SERVER_URL}/users/${localStorage.userId}/bookmarks`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    );
+    // Success
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
