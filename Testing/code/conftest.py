@@ -5,7 +5,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import accessabilities
 
 
-def driver():
+def start_driver():
     # initializing webdriver
     caps = DesiredCapabilities().CHROME
     caps["pageLoadStrategy"] = "none"
@@ -14,7 +14,7 @@ def driver():
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
     # DEVOPS TO WORK IN LINUX
-    chrome_options.add_argument('--headless')
+    #chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     # END ADDING OPTIONS BY DEVOPS
@@ -24,5 +24,5 @@ def driver():
     driver.get('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/')
     return driver
 
-def teardown(driver):
+def end_driver(driver):
     driver.quit()
