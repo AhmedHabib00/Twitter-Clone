@@ -41,7 +41,7 @@ function LoginPassword({ email, handleAfterSignin }) {
         onSubmit={handleSubmit}
       >
         <div className={styles.body}>
-          <h1 className={styles.title}>Create your account</h1>
+          <h1 className={styles.title}>Enter your password</h1>
           <label className="start-modals-form-label" htmlFor="emailOrUsername">
             <input
               data-testid="input-email"

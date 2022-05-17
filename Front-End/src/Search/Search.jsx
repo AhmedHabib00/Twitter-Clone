@@ -15,6 +15,9 @@ function Search() {
   const [postData, setpostData] = useState();
   const [isPeopleTab, setIsPeopleTab] = useState(true);
   useEffect(() => {
+    if (false) {
+      setpostData();
+    }
     document.getElementById('SearchBar').style.visibility = 'hidden';
     if (location.state !== null) {
       setSearchVal([...location.state.dataFiltered]);
@@ -26,7 +29,7 @@ function Search() {
     (async () => {
       const resp = await GetUsersArray(Val);
       console.log(resp);
-      // m7tagen na5od el array of users mn el resp w n7otaha fe el state setter el commented t7t bs
+      // set post data from the response of the api call
       // setpostData();
     })();
   };
