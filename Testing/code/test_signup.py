@@ -1,10 +1,10 @@
-import accessabilities
+from conftest import accessabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 import time
-from conftest import start_driver
-from conftest import end_driver
+from conftest.conftest import start_driver
+from conftest.conftest import end_driver
 
 
 class TestSignupPage:
