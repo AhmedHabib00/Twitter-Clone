@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Link, Outlet, useLocation,
+  Link, Outlet, useLocation, useNavigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -17,6 +17,7 @@ import NavItem from '../Foundation/Navbar/NavItem';
 function AdminFoundation({ setIsLoggedIn }) {
   const pages = getAdminPages();
   const location = useLocation();
+  const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ function AdminFoundation({ setIsLoggedIn }) {
     localStorage.removeItem('token');
     localStorage.clear();
     setIsLoggedIn(false);
+    navigate('/');
   };
   return (
     <div className={styles['admin-foundation']} id="admin-foundation">

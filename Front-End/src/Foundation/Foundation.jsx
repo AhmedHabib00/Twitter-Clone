@@ -48,6 +48,7 @@ function Foundation({ setIsLoggedIn, userInfo, isBlocked }) {
     localStorage.removeItem('token');
     localStorage.clear();
     setIsLoggedIn(false);
+    navigate('/');
   };
   return (
     <div className={styles['found-margins']}>
