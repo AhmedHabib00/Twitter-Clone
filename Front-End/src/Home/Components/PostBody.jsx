@@ -82,7 +82,6 @@ function PostBody({
           role="button"
           tabIndex={0}
           onClick={() => {
-            console.log(`/tweet/${id}`);
             navigate(`/tweet/${id}`);
           }}
         >
