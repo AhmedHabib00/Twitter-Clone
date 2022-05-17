@@ -270,6 +270,13 @@
   .right-group {
     margin-bottom: 10%;
   }
+
+  .loaders-container {
+    top: 50%;
+    right: 30%;
+    position: absolute;
+    z-index: 100;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -289,5 +296,20 @@
 
   .right-column-container {
     min-width: 100px;
+  }
+}
+
+@media screen and (max-width: 586px) {
+  .loaders-container {
+    right: 50%;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .loaders-container {
+    top: 50%;
+    right: 40%;
+    position: absolute;
+    z-index: 100;
   }
 }
