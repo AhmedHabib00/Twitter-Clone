@@ -96,11 +96,11 @@ function App() {
   );
   const userRoutes = () => (
     <>
-      <Route path="Home" element={<Home />} />
+      <Route path="Home" element={<Home isBlocked={isBlocked} />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="ViewTweet" element={<ViewTweet />} />
       <Route path="Bookmarks" element={<Bookmarks username={userInfo.username} />} />
-      <Route path="tweet/:id" element={<Tweet />} />
+      <Route path="tweet/:id" element={<Tweet isBlocked={isBlocked} />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
     </>
