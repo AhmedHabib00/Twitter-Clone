@@ -32,7 +32,6 @@ gmail_password = 'This,is,purely,for,testing'
 gmail_first_email_in_inbox_id = ':28'
 whisp_verification_email_text_class_name = 'a3s aiL'
 
-
 # sign in page ids
 sample_username = '@testusername'
 sample_email = 'test_email@gmail.com'
@@ -57,7 +56,7 @@ user_not_found_error = 'forgot-password-emailor-username-error'
 # Home page ids
 sample_text = 'this is a test done by testing team'
 text_exceed_limit = 'limitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimitlimit'
-tweet_box_id ='twbox-text-area-home'
+tweet_box_id = 'twbox-text-area-home'
 whisp_button_id = 'twbox-submit'
 select_image_button = '#Tweet-box > div > div > div.TweetBox_text-area-icons__JlZNF > div.TweetBox_media-icons__Glmzm > div:nth-child(1) > svg'
 post_body_class_name = 'Post_postbody__oRteY'
@@ -67,10 +66,43 @@ image_3_css_selector = "img[src$='imagejklm3.png']"
 image_4_css_selector = "img[src$='imagenopq4.png']"
 image_5_css_selector = "img[src$='imagerstu5.png']"
 images_in_tweetbox_id = 'image-box-image-canvas'
+feed_page_id = 'feed'
 
 chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
+# chrome_driver = "..\drivers\chromedriver.exe"
 email = 'testingwhisper2@gmail.com'
 password = 'BnSuliman@1'
 username = '@YasmeenZaki13'
 admin_username = 'adminUser'
 admin_password = '12345#Aa'
+
+# Profile
+profile_navbar = 'profile'
+profile_edit_button = 'edit_profile'
+profile_name_textbox = 'name'
+profile_bio_textbox = 'bio'
+profile_save_changes = 'save-changes'
+profile_name_error_limitation = 'name-error'
+profile_close_edit = 'close'
+profile_discard_changes = 'discard-changes'
+profile_add_photo_cover = 'add-cover'
+profile_add_photo_profile = 'add-profile'
+profile_apply_photo = 'apply'
+profile_photo_open = 'photo'
+profile_cover_open = 'cover'
+profile_remove_cover_photo = 'remove-cover'
+
+# SETTINGS
+Settings_navbar = 'Settings'
+Settings_account_info = 'account-info'
+Settings_change_password = 'change-password'
+Settings_current_password = 'current-password'
+Settings_new_password = 'new-password'
+Settings_confirm_password = 'confirm-password'
+Settings_confirm_password_error = 'confirm-error'
+Settings_save_pass_change = 'save-password'
+Settings_password_error = 'invalid-password'
+
+# chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
+# chrome_driver = "D:\Whisper-Testing\Testing\code\drivers/chromedriver.exe"
+

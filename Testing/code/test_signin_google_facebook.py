@@ -1,8 +1,7 @@
 import time
-import accessabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import conftest
+import accessabilities, conftest
 
 
 def test_signup_google():
