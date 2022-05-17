@@ -33,7 +33,8 @@ class _GraphPie extends State<GraphPie> {
   Future<int> GraphPieApi(token) async {
     http.Response response;
     response = await http.get(
-      Uri.parse('http://10.0.2.2:8080/admins/statistics/noAgeUsers'
+      Uri.parse(
+          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noAgeUsers'
           //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
           ),
       headers: {'x-auth-token': token},

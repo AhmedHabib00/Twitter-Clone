@@ -5,6 +5,7 @@ import 'package:whisper/layout/Admin/GraphPie.dart';
 import 'package:whisper/layout/WelcomePage/WelcomePage.dart';
 import 'package:whisper/layout/UserProfile/profile_layout.dart';
 import 'package:whisper/layout/Admin/AdminPage.dart';
+import 'package:whisper/layout/googletest.dart';
 import 'package:whisper/models/date_time_format.dart';
 import 'layout/Timeline/Timeline.dart';
 
@@ -13,8 +14,7 @@ void main() async {
     const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
-      //ProfilePage(),
-      //AdminPage(),
+      //SignInDemo(),
     ),
   );
 }

@@ -29,8 +29,8 @@ class _TimelinePageState extends State<TimelinePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.token);
     print('token is here');
+    print(widget.token);
     var token = '';
     return SafeArea(
       child: Scaffold(

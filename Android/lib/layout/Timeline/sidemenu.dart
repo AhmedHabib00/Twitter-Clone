@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 //import '../../screens/Settings/settingspage.dart';
 //import '../../screens/home/Timeline.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
 import 'package:whisper/layout/UserProfile/profile_layout.dart';
+import 'package:whisper/layout/WelcomePage/WelcomePage.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  clientId:
+      '508981250586-5vrqquhhgimntmj4rosvpfq0npcbmdrb.apps.googleusercontent.com', //web
+  //'http://508981250586-ba6eepc9h6b4kgbe26s61uql25ppdlf3.apps.googleusercontent.com/', //android
+);
 
 class SideMenu extends StatefulWidget {
   final String token;
+
   const SideMenu({Key? key, required this.token}) : super(key: key);
 
   @override
@@ -14,6 +23,21 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
+  GoogleSignInAccount? _currentUser;
+  final String _contactText = '';
+  late String? GoogleTokenId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    _googleSignIn.signInSilently();
+  }
+
   @override
   Widget build(BuildContext context) {
     var token = '';
@@ -162,7 +186,15 @@ class _SideMenuState extends State<SideMenu> {
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
                   title: const Text('Logout'),
-                  onTap: () {},
+                  onTap: () {
+                    Future<void> _handleSignOut() => _googleSignIn.disconnect();
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const WelcomePage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

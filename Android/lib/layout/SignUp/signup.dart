@@ -1,15 +1,21 @@
 // ignore_for_file: sized_box_for_whitespace, avoid_print, duplicate_ignore, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:whisper/layout/Login/login.dart';
-import 'package:whisper/layout//API/google_signIn_api.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/SignUp/VerifyEmail.dart';
+import 'package:whisper/layout/Timeline/Timeline.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  clientId:
+      '508981250586-5vrqquhhgimntmj4rosvpfq0npcbmdrb.apps.googleusercontent.com', //web
+);
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -24,10 +30,19 @@ class _SignUpPage extends State<SignUpPage> {
   TextEditingController EmailController = new TextEditingController();
   TextEditingController dateinput = TextEditingController();
   IconData? get icon => null;
+  GoogleSignInAccount? _currentUser;
+  final String _contactText = '';
+  late String? GoogleTokenId = '';
+  late final String token = '';
+  late final String adminToken = '';
 
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      _currentUser = account;
+    });
+    _googleSignIn.signInSilently();
     super.initState();
   }
 
@@ -246,16 +261,14 @@ class _SignUpPage extends State<SignUpPage> {
                     Expanded(
                       child: SignInButton.mini(
                         buttonType: ButtonType.facebook,
-                        onPressed: /*signIn2*/ () {},
+                        onPressed: _handleSignOut,
                       ),
                     ),
                     Expanded(
                       child: SignInButton.mini(
                         buttonType: ButtonType.google,
                         buttonSize: ButtonSize.small,
-                        onPressed: () {
-                          //signIn();
-                        }, //{},
+                        onPressed: _handleSignIn,
                       ),
                     ),
                   ],
@@ -268,7 +281,11 @@ class _SignUpPage extends State<SignUpPage> {
     );
   }
 
-  SignUpp(String name, String email, String birthdate) async {
+  SignUpp(
+    String name,
+    String email,
+    String birthdate,
+  ) async {
     Map data = {'name': name, 'email': email, 'birthdate': birthdate};
     var jsonData = null;
     Map mapResponse;
@@ -344,11 +361,104 @@ class _SignUpPage extends State<SignUpPage> {
     }
   }
 
-  // Future signIn() async {
-  //   await GoogleSignInApi.login();
-  // }
+  Future _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+      var account = await _googleSignIn.signIn();
+      var googleKey = await account?.authentication;
+      GoogleTokenId = googleKey?.idToken;
+    } catch (error) {
+      print(error);
+    }
+    print('Google TokenId');
+    print(GoogleTokenId);
+    GSignIn(token, GoogleTokenId!);
+  }
 
-  // Future signIn2() async {
-  //   await GoogleSignInApi.login();
-  // }
+  Future GSignIn(String token, String GoogleTokenId) async {
+    Map data = {'tokenId': GoogleTokenId};
+    Map mapResponse;
+    Map dataResponse;
+    var response = await http.post(
+        Uri.parse(
+            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/auth/google"),
+        body: data);
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      mapResponse = json.decode(response.body);
+      dataResponse = mapResponse;
+      token = dataResponse["x-auth-token"];
+      //adminToken = dataResponse['data']['userId'];
+      print('admin token');
+      //print(adminToken);
+      print(response.body);
+      setState(() {
+        dataResponse = mapResponse["data"];
+        {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      TimelinePage(token: token)), // testpage
+              (Route<dynamic> route) => false);
+          dataResponse = mapResponse;
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 200,
+                color: const Color.fromARGB(0, 255, 255, 255),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        dataResponse["message"].toString(),
+                        style: const TextStyle(
+                          color: Color(0xff0095FF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      });
+    } else if (response.statusCode == 400) {
+      setState(() {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      response.body,
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
+    }
+  }
 }
+
+Future<void> _handleSignOut() => _googleSignIn.disconnect();

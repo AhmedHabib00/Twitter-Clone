@@ -7,8 +7,6 @@ import 'package:whisper/layout/Admin/GraphBar.dart';
 import 'package:whisper/layout/Admin/GraphPie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/layout/WelcomePage/WelcomePage.dart';
 
 class AdminPage extends StatefulWidget {
@@ -39,7 +37,7 @@ class _AdminPage extends State<AdminPage> {
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        ('http://10.0.2.2:8080/admins/statistics/noUsers'),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
       ),
       headers: {
         'x-auth-token': token,
@@ -58,7 +56,7 @@ class _AdminPage extends State<AdminPage> {
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        'http://10.0.2.2:8080/admins/statistics/noBanned',
+        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noBanned',
       ),
       headers: {'x-auth-token': token},
     );
@@ -75,7 +73,7 @@ class _AdminPage extends State<AdminPage> {
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        'http://10.0.2.2:8080/admins/statistics/ratioTweets',
+        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/ratioTweets',
       ),
       headers: {'x-auth-token': token},
     );
@@ -91,7 +89,7 @@ class _AdminPage extends State<AdminPage> {
     Map data = {'end_date': '2023-05-28'};
     var response = await http.post(
       Uri.parse(
-        'http://10.0.2.2:8080/admins/${adminToken}/banning/${user_id}/',
+        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${adminToken}/banning/${user_id}/',
       ),
       body: data,
       headers: {
@@ -110,7 +108,7 @@ class _AdminPage extends State<AdminPage> {
   Future unblockUser(token, adminToken, user_id) async {
     var response = await http.delete(
       Uri.parse(
-        'http://10.0.2.2:8080/admins/${adminToken}/banning/${user_id}/',
+        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${adminToken}/banning/${user_id}/',
       ),
       headers: {
         'x-auth-token': token,
@@ -128,7 +126,7 @@ class _AdminPage extends State<AdminPage> {
   Future<int> getUserNo(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://10.0.2.2:8080/admins/users/?size=1&page=1&search=&state='),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=1&page=1&search=&state='),
       ),
       headers: {
         'x-auth-token': token,
@@ -144,7 +142,7 @@ class _AdminPage extends State<AdminPage> {
     //await Future.delayed(const Duration(seconds: 2));
     var response = await http.get(
       Uri.parse(
-        ('http://10.0.2.2:8080/admins/users/?size=$count&page=1&search=&state='),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$count&page=1&search=&state='),
       ),
       headers: {
         'x-auth-token': token,
@@ -166,7 +164,7 @@ class _AdminPage extends State<AdminPage> {
   Future<int> getUserBannedNo(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://10.0.2.2:8080/admins/users/?size=1&page=1&search=&state=Banned'),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=1&page=1&search=&state=Banned'),
       ),
       headers: {
         'x-auth-token': token,
@@ -182,7 +180,7 @@ class _AdminPage extends State<AdminPage> {
     //await Future.delayed(const Duration(seconds: 2));
     var response = await http.get(
       Uri.parse(
-        ('http://10.0.2.2:8080/admins/users/?size=$countBanned&page=1&search=&state=Banned'),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$countBanned&page=1&search=&state=Banned'),
       ),
       headers: {
         'x-auth-token': token,
@@ -248,39 +246,33 @@ class _AdminPage extends State<AdminPage> {
                 ),
               ],
             ),
-            title: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const WelcomePage()), // testpage
-                    );
-                  },
-                  icon: Image.asset(
-                    "lib/shared/Assets/twitterlogoB.png",
-                    scale: 10,
+            title: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const WelcomePage()), // testpage
+                      );
+                    },
+                    icon: Image.asset(
+                      "lib/shared/Assets/twitterlogoB.png",
+                      scale: 10,
+                    ),
+                    iconSize: 20.0,
                   ),
-                  iconSize: 20.0,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 75),
-                  child: Text(
+                  const Text(
                     "Admin Home",
                     style: TextStyle(
                       fontSize: 25,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            // title: const Text(
-            //   "Admin Home",
-            //   style: TextStyle(
-            //     fontSize: 25,
-            //   ),
-            // ),
             centerTitle: true,
           ),
           body: TabBarView(
@@ -347,7 +339,7 @@ class _AdminPage extends State<AdminPage> {
                               context: context,
                               count: ratioTweet,
                               icon: Icons.percent_sharp,
-                              name: " Tweets Increased\n by",
+                              name: " Tweets\nIncreased by",
                             );
                           } else {
                             return const Center(
@@ -443,7 +435,7 @@ class _AdminPage extends State<AdminPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 12, right: 12, top: 25, bottom: 25),
+                  left: 10, right: 10, top: 25, bottom: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -465,7 +457,7 @@ class _AdminPage extends State<AdminPage> {
             Container(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 100, right: 0, top: 50, bottom: 25),
+                    left: 75, right: 0, top: 50, bottom: 25),
                 child: Row(
                   children: [
                     Text(
@@ -492,74 +484,82 @@ class _AdminPage extends State<AdminPage> {
   }
 
   Widget getCard(item) {
-    var name = item['name'];
+    var name = item['displayName'];
     var userName = item['username'];
     var profilePic = item['profilePic'];
     var user_id = item['id'];
-    return Card(
-      child: ListTile(
-        title: Row(
-          children: <Widget>[
-            Container(
-              width: 65,
-              height: 65,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 0, 81, 255),
-                borderRadius: BorderRadius.circular(60 / 2),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    profilePic.toString(),
-                    //"https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Card(
+        child: ListTile(
+          title: Row(
+            children: <Widget>[
+              Container(
+                width: 65,
+                height: 65,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 0, 81, 255),
+                  borderRadius: BorderRadius.circular(60 / 2),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      profilePic.toString(),
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  name.toString(),
-                  style: const TextStyle(
-                      fontSize: 17, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  userName.toString(),
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                //const SizedBox(height: 10),
-                // Text(
-                //   user_id.toString(),
-                //   style: const TextStyle(
-                //       fontSize: 17, fontWeight: FontWeight.bold),
-                // ),
-                //const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.only(left: 200, bottom: 0, top: 0),
-                  child: MaterialButton(
-                    minWidth: double.minPositive,
-                    height: 35,
-                    onPressed: () {
-                      // blockUser(widget.token, widget.adminToken, user_id);
-                    },
-                    color: const Color.fromARGB(255, 255, 0, 0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Text(
-                      "Ban",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
+              const SizedBox(width: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    name.toString().length > 22
+                        ? name.toString().substring(0, 22) + '...'
+                        : name.toString(),
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                )
-              ],
-            ),
-          ],
+                  const SizedBox(height: 5),
+                  Text(
+                    userName.toString(),
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  //const SizedBox(height: 10),
+                  // Text(
+                  //   user_id.toString(),
+                  //   style: const TextStyle(
+                  //       fontSize: 17, fontWeight: FontWeight.bold),
+                  // ),
+                  const SizedBox(height: 5),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 150, bottom: 0, top: 0),
+                    child: MaterialButton(
+                      minWidth: double.minPositive,
+                      height: 35,
+                      onPressed: () {
+                        blockUser(widget.token, widget.adminToken, user_id);
+                      },
+                      color: const Color.fromARGB(255, 255, 0, 0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Text(
+                        "Ban",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -574,7 +574,7 @@ class _AdminPage extends State<AdminPage> {
   }
 
   Widget getCardBanned(itemBanned) {
-    var nameBanned = itemBanned['name'];
+    var nameBanned = itemBanned['displayName'];
     var userNameBanned = itemBanned['username'];
     var profilePicBanned = itemBanned['profilePic'];
     var user_idBanned = itemBanned['id'];
@@ -619,7 +619,7 @@ class _AdminPage extends State<AdminPage> {
                 // ),
                 //const SizedBox(height: 5),
                 Padding(
-                  padding: const EdgeInsets.only(left: 200, bottom: 0, top: 0),
+                  padding: const EdgeInsets.only(left: 150, bottom: 0, top: 0),
                   child: MaterialButton(
                     minWidth: double.minPositive,
                     height: 35,
