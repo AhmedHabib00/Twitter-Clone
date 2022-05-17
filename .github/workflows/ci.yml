@@ -15,11 +15,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     
-    - name: Setup Testing Env.
-      run: make build_test
+    #- name: Setup Testing Env.
+      #run: make build_test
     
-    - name: Give Access
-      run: sudo chmod 666 /var/run/docker.sock
+    #- name: Give Access
+      #run: sudo chmod 666 /var/run/docker.sock
     
     #- name: Run Tests
       #run: make run_test
