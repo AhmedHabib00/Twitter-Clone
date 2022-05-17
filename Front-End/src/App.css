@@ -23,6 +23,13 @@ body {
   }
 }
 
+.modal-loaders-container {
+  top: 45%;
+  right: 48%;
+  position: absolute;
+  z-index: 100;
+}
+
 .app-header {
   background-color: #282c34;
   min-height: 100vh;

@@ -47,6 +47,7 @@ body {
 
 .user-menu-info {
   display: flex;
+  width: 87%;
 }
 
 .user-menu:hover {

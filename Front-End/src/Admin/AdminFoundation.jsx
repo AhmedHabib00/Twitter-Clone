@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+  Link, Outlet, useLocation, useNavigate,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import styles from './AdminFoundation.module.css';
-
+import navStyles from '../Foundation/Navbar/Navbar.module.css';
 import Navbar from '../Foundation/Navbar/Navbar';
 import getAdminPages from './AdminNavitems';
 import NavItem from '../Foundation/Navbar/NavItem';
@@ -14,23 +16,29 @@ import NavItem from '../Foundation/Navbar/NavItem';
  */
 function AdminFoundation({ setIsLoggedIn }) {
   const pages = getAdminPages();
+  const location = useLocation();
   const navigate = useNavigate();
-  const [openedPage, setOpenedPage] = useState('users');
+  const [openedPage, setOpenedPage] = useState();
 
   useEffect(() => {
-    document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+    setOpenedPage(location.pathname.substring(1));
+    if (document.getElementById(openedPage)) {
+      document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+    }
   }, [openedPage]);
 
   const onNavItemClick = (id) => {
-    document.getElementById(openedPage).style.setProperty('font-weight', '400');
-    document.getElementById(id).style.setProperty('font-weight', 'bolder');
-    setOpenedPage(id);
+    if (document.getElementById(openedPage)) {
+      document.getElementById(openedPage).style.setProperty('font-weight', '400');
+      document.getElementById(id).style.setProperty('font-weight', 'bolder');
+      setOpenedPage(id);
+    }
   };
 
   const handleLogOut = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.clear();
+    setIsLoggedIn(false);
     navigate('/');
   };
   return (
@@ -42,7 +50,7 @@ function AdminFoundation({ setIsLoggedIn }) {
               <Link
                 to={`/${page.url}`}
                 key={page.url}
-                className="foundation-a-tag"
+                className={navStyles['foundation-a-tag']}
               >
                 <div
                   id={page.url}

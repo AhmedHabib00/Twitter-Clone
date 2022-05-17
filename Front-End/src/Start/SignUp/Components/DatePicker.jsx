@@ -16,15 +16,12 @@ const formatDate = (date) => {
   return [year, month, day].join('-');
 };
 
-function DatePicker({ setDate }) {
+function DatePicker({ setDate, endYear, startYear }) {
   const [dateOfBirth, setDateOfBirth] = useState({
     day: '',
     month: '',
     year: '',
   });
-  const today = new Date();
-  const endYear = today.getFullYear();
-  const startYear = endYear - 120;
   const newDate = formatDate(dateOfBirth);
   useEffect(() => {
     setDate(newDate);
@@ -106,4 +103,6 @@ export default DatePicker;
 
 DatePicker.propTypes = {
   setDate: PropTypes.func.isRequired,
+  endYear: PropTypes.number.isRequired,
+  startYear: PropTypes.number.isRequired,
 };

@@ -1,8 +1,9 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './ForgotPassword.module.css';
 import useForgetPasswordForm from './components/useForgotPasswordForm';
+import Loader from '../../Components/Loader/Loader';
 /**
  * This function is used to make a email or username form for the forgot
  * my password process
@@ -13,11 +14,15 @@ import useForgetPasswordForm from './components/useForgotPasswordForm';
  */
 
 function ForgotPassword({ setForgotPassword, setEmail, setVerifyCode }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors,
-  } = useForgetPasswordForm(setEmail, setForgotPassword, setVerifyCode);
+  } = useForgetPasswordForm(setEmail, setForgotPassword, setVerifyCode, setIsLoading);
   return (
     <div className={styles['forgot-password-container']} id="login-modal-forgot-password">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <form
         className={styles['forgot-password-form']}
         onSubmit={handleSubmit}
@@ -53,6 +58,7 @@ function ForgotPassword({ setForgotPassword, setEmail, setVerifyCode }) {
               variant="outlined"
               className={styles['forgot-password-button']}
               type="submit"
+              disabled={isLoading}
             >
               Search
             </Button>

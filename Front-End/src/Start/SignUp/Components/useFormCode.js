@@ -8,9 +8,10 @@ import { signUpCode } from '../../../Services/accountServices';
  * @param {function} setStepPassword Manages the password step status
  * @param {function} setStepVerify Manages the verification step status
  * @param {string} userEmail used to send with code to the backend
+ * @param {function} setIsLoading used to set the state of the loader
  * @returns handleChange, values, handleSubmit, errors
  */
-const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
+const useFormCode = (setStepPassword, setStepVerify, userEmail, setIsLoading) => {
   const [values, setValues] = useState({
     code: '',
     email: '',
@@ -28,17 +29,20 @@ const useFormCode = (setStepPassword, setStepVerify, userEmail) => {
     e.preventDefault();
     setErrors(validateCode(values));
     if (Object.keys(validateCode(values)).length === 0) {
+      setIsLoading(true);
       signUpCode(values).then((response) => {
         if (response.status === 200) {
           const token = response.data['x-auth-token'];
           localStorage.setItem('temp-token', token);
           setStepVerify(false);
           setStepPassword(true);
+          setIsLoading(false);
         } else if (response.status === 400) {
           setErrors({
             ...errors,
             code: 'Incorrect verification code - Registeration session expired',
           });
+          setIsLoading(false);
         }
       });
     }
