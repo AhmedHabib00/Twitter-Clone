@@ -105,11 +105,11 @@ router.get('/users', auth, async (req, res, next) =>{
             "_id": 0,
             "id": "$_id", 
             "displayName": "$name",
-             "username": {$ifNull: ["$username", ""]},
-             "description": {$ifNull: ["$description", ""]}, 
-             "profilePic": 1,
-             "banned": {$ifNull: ["$banned", false]},
-             "role": 1
+            "username": {$ifNull: ["$username", ""]},
+            "description": {$ifNull: ["$description", ""]}, 
+            "profilePic": 1,
+            "banned": {$ifNull: ["$banned", false]},
+            "role": 1
         }},
         { '$facet'    : {
             data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
