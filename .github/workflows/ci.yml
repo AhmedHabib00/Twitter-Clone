@@ -4,8 +4,8 @@ on:
   push:
     branches: [ main ]
   
-  pull_request:
-    branches: [ main ]
+  #pull_request:
+    #branches: [ main ]
 
 jobs:
   test:
@@ -21,13 +21,13 @@ jobs:
     - name: Give Access
       run: sudo chmod 666 /var/run/docker.sock
     
-    - name: Run Tests
-      run: make run_test
+    #- name: Run Tests
+      #run: make run_test
 
 
   deploy:
     runs-on: ubuntu-18.04
-    needs: test
+    #needs: test
     steps:
       - name: Checkout Latest Repo
         uses: actions/checkout@master
