@@ -18,7 +18,7 @@ import getUserInfo from '../../Services/UserServices';
  * it uses gif's developer GET api, search, to get an array of gifs as the user types characters.
  */
 function TweetBox({
-  replyId, placeHolder, boxId, users,
+  replyId, placeHolder, boxId, users, canTweet,
 }) {
   const navigate = useNavigate();
   const inputFile = createRef();
@@ -222,7 +222,7 @@ function TweetBox({
                 type="submit"
                 className={styles['tweet-icons-button']}
                 onClick={handleSendData}
-                disabled={!isEnabled}
+                disabled={!isEnabled || !canTweet}
               >
                 whisp
               </button>
@@ -240,12 +240,14 @@ TweetBox.propTypes = {
   placeHolder: PropTypes.string,
   boxId: PropTypes.string.isRequired,
   users: PropTypes.arrayOf(PropTypes.string),
+  canTweet: PropTypes.bool,
 };
 
 TweetBox.defaultProps = {
   replyId: '',
   placeHolder: '',
   users: [],
+  canTweet: true,
 };
 
 export default TweetBox;

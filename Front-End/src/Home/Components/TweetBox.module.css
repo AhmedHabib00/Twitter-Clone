@@ -7,6 +7,7 @@
   /* font-size: 45px !important; */
   width: 50px;
   height: 50px;
+  border-radius: 50px;
 }
 
 /* stylelint-disable-next-line selector-no-vendor-prefix */
@@ -30,12 +31,13 @@
 }
 
 .icon-button {
+  padding: 0 8px;
   padding-top: 10px;
 }
 
 .text-area {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;

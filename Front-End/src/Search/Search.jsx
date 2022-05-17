@@ -2,64 +2,83 @@ import { useState, React, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import SearchFeed from './SearchComponents/SearchFeed';
 import styles from './Search.module.css';
-import PostData from '../Home/Components/PostData.json';
-import SearchBar from './SearchBar/SearchBar';
-import UsersData from '../Home/Components/UsersData.json';
+import GetPostsArray, { GetUsersArray } from '../Services/searchServices';
+import SearchBar from '../Components/SearchBar/SearchBar';
 
 /**
  *
  * @returns shows everything in the search component
-
  */
 function Search() {
-  // const navigate = useNavigate();
   const location = useLocation();
-  const [passedData, setpassedData] = useState(UsersData);
-  const { dataFiltered } = location.state || { dataFiltered: '' };
+  const [searchVal, setSearchVal] = useState();
+  const [postData, setpostData] = useState();
+  const [isPeopleTab, setIsPeopleTab] = useState(true);
   useEffect(() => {
     document.getElementById('SearchBar').style.visibility = 'hidden';
-    // document.getElementById("SearchBar").remove();
-
-    // if(location.state !== null){
-    //   console.log("theree")
-    //   setpassedData();
-    // }
-
     if (location.state !== null) {
-      setpassedData([...location.state.dataFiltered]);
+      setSearchVal([...location.state.dataFiltered]);
     }
-  }, [dataFiltered]);
+  }, []);
 
-  const [dataType, setdataType] = useState(true);
-  const handlePeople = () => {
-    if (dataFiltered !== '') {
-      setpassedData(dataFiltered);
-    } else {
-      setpassedData(UsersData);
-    }
-    setdataType(true);
+  const handleSearchPeople = (Val) => {
+    console.log(Val);
+    (async () => {
+      const resp = await GetUsersArray(Val);
+      console.log(resp);
+      // m7tagen na5od el array of users mn el resp w n7otaha fe el state setter el commented t7t bs
+      // setpostData();
+    })();
   };
 
-  const handleWhispers = () => {
-    setpassedData(PostData);
-    setdataType(false);
+  const handleSearchWhisps = (Val) => {
+    (async () => {
+      const resp = await GetPostsArray(Val);
+      console.log(resp);
+      // m7tagen na5od el array of posts mn el resp w n7otaha fe el state setter el commented t7t bs
+      // setpostData();
+    })();
   };
 
   return (
     <div className={styles.notifications}>
       <section className={styles.header1}>
-        <SearchBar placeHolder="Search Twitter" className={styles.searchbartop} />
+        {searchVal && (
+        <SearchBar
+          searchValue={(isPeopleTab) ? handleSearchPeople
+            : handleSearchWhisps}
+          placeHolder="Search Whisper"
+          enableDelay={false}
+        />
+        )}
       </section>
       {/* <br></br> */}
       <section className={styles.flex1}>
-        <button className={styles['flex-container']} type="button" onClick={handlePeople}>People</button>
-        <button className={styles['flex-container']} type="button" onClick={handleWhispers}>Whispers</button>
+        <button
+          className={styles['flex-container']}
+          type="button"
+          onClick={() => {
+            setIsPeopleTab(true);
+            handleSearchPeople(searchVal);
+          }}
+        >
+          People
+
+        </button>
+        <button
+          className={styles['flex-container']}
+          type="button"
+          onClick={() => {
+            setIsPeopleTab(false);
+            handleSearchWhisps(searchVal);
+          }}
+        >
+          Whispers
+
+        </button>
       </section>
-      {/* <div> //ai
-        <h1>helloooooo</h1>
-      </div> */}
       <div>
-        <SearchFeed className={styles.notifeed} data={passedData} dataType={dataType} />
+        {postData && <SearchFeed className="notifeed" data={postData} dataType={isPeopleTab} />}
       </div>
     </div>
 

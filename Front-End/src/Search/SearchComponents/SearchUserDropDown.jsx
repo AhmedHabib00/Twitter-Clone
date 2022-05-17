@@ -1,12 +1,5 @@
 import React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import FlashOnRoundedIcon from '@mui/icons-material/FlashOnRounded';
-// import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-// import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-// import TwitterIcon from '@mui/icons-material/Twitter';
-// import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
-// import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PropTypes from 'prop-types';
 // import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';

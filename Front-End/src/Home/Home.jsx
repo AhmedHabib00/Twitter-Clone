@@ -16,7 +16,6 @@ function Home() {
       const postsResp = await GetPostsArray(1);
       if (postsResp.status === 200 && postsResp.data !== 'no tweets found') {
         setPostData(postsResp.data);
-        console.log(postsResp.data);
       } else {
         setisEndOfFeed(true);
       }
@@ -30,6 +29,7 @@ function Home() {
       if (resp.status === 200) {
         if (resp.data !== 'no tweets found') {
           setPostData([...postData, ...resp.data]);
+          console.log(resp.data);
         } else {
           setisEndOfFeed(true);
         }

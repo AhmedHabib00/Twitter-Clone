@@ -22,30 +22,57 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
-  useEffect(() => {
-    (async () => {
-      if (localStorage.token) {
-        setIsLoggedIn(true);
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  const updateRoutes = (isLogged) => {
+    setIsLoggedIn(isLogged);
+    if (isLogged) {
+      (async () => {
         const resp = await getClientRole();
         if (resp.role === 'Admin') {
           setIsAdmin(true);
         } else {
           setIsAdmin(false);
+          setIsBlocked(resp.blocked);
           if (!userInfo) {
             setUserInfo(await getUserInfo(localStorage.userId));
           }
         }
-      }
-    })();
-  }, [localStorage.userId]);
+      })();
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.token) {
+      updateRoutes(true);
+    } else {
+      updateRoutes(false);
+    }
+  }, []);
+
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} />;
+        return (
+          <AdminFoundation
+            setIsLoggedIn={updateRoutes}
+          />
+        );
       }
-      return <Foundation setIsLoggedIn={setIsLoggedIn} userInfo={(userInfo) || undefined} />;
+      return (
+        <Foundation
+          setIsLoggedIn={updateRoutes}
+          userInfo={(userInfo) || undefined}
+          isBlocked={isBlocked}
+        />
+      );
     }
-    return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setIsAdmin} />;
+    return (
+      <Start
+        setIsLoggedIn={updateRoutes}
+        setisAdmin={setIsAdmin}
+      />
+    );
   };
 
   const mainPath = () => {
@@ -72,7 +99,7 @@ function App() {
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="ViewTweet" element={<ViewTweet />} />
-      <Route path="Bookmarks" element={<Bookmarks />} />
+      <Route path="Bookmarks" element={<Bookmarks username={userInfo.username} />} />
       <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
@@ -94,7 +121,7 @@ function App() {
           {selectingRoute()}
           <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
-        <Route path="*" element={<Navigate to={mainPath()} />} />
+        <Route path="*" element={<div />} />
       </Routes>
     </Router>
   );

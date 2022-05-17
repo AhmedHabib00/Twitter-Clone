@@ -20,7 +20,7 @@ import navStyles from './Navbar/Navbar.module.css';
  * It displays the navbar, opened page, widgets.
  * The navbar is not scrollable
  */
-function Foundation({ setIsLoggedIn, userInfo }) {
+function Foundation({ setIsLoggedIn, userInfo, isBlocked }) {
   const pages = getUserPages();
   const navigate = useNavigate();
   const [openedPage, setOpenedPage] = useState('Home');
@@ -29,11 +29,15 @@ function Foundation({ setIsLoggedIn, userInfo }) {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
   }, [openedPage]);
   const onSearchChange = (value) => {
-    console.log(value);
+    navigate('/Search', {
+      state: {
+        dataFiltered: value,
+      },
+    });
   };
 
   const onNavItemClick = (id) => {
-    if (id !== 'Search')document.getElementById('SearchBar').style.visibility = 'visible';
+    if (id !== 'Search') document.getElementById('SearchBar').style.visibility = 'visible';
 
     document.getElementById(openedPage).style.setProperty('font-weight', '400');
     document.getElementById(id).style.setProperty('font-weight', 'bolder');
@@ -41,9 +45,9 @@ function Foundation({ setIsLoggedIn, userInfo }) {
   };
 
   const handleLogOut = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.clear();
+    setIsLoggedIn(false);
     navigate('/');
   };
   return (
@@ -115,11 +119,15 @@ function Foundation({ setIsLoggedIn, userInfo }) {
         </div>
 
         <PopupPage trigger={isPopupTweetOpen} SetTrigger={setIsPopupTweetOpen}>
-          <TweetBox placeHolder="What's happening" boxId="foundation" />
+          <TweetBox
+            placeHolder="What's happening"
+            boxId="foundation"
+            canTweet={!isBlocked}
+          />
         </PopupPage>
 
         <div className={styles['foundation-widget']} id="SearchBar">
-          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={2000} />
+          <SearchBar searchValue={onSearchChange} placeHolder="Search Twitter" delay={500} enableDelay={false} />
         </div>
 
       </div>
@@ -136,6 +144,7 @@ Foundation.propTypes = {
     displayName: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
   }),
+  isBlocked: PropTypes.bool,
 };
 
 Foundation.defaultProps = {
@@ -146,6 +155,7 @@ Foundation.defaultProps = {
     displayName: '',
     username: '',
   },
+  isBlocked: false,
 };
 
 export default Foundation;

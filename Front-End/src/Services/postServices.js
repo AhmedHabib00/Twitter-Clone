@@ -5,7 +5,7 @@ const { SERVER_URL } = configData;
 
 export default async function GetPostsArray(page) {
   let response = '';
-  const number = 10;
+  const number = 5;
   try {
     response = await axios.get(
       `${SERVER_URL}/tweets/TimelineTweets`,
@@ -113,7 +113,7 @@ export async function SendRetweets(TweetId) {
 export async function addToBookmark(props) {
   let response = '';
   try {
-    response = await axios.post(`${SERVER_URL}/users/${localStorage.userId}/bookmarks/${props}`, {
+    response = await axios.post(`${SERVER_URL}/users/${localStorage.userId}/bookmarks/${props}`, { }, {
       headers: {
         'x-auth-token': localStorage.token,
       },

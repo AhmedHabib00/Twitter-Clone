@@ -21,7 +21,7 @@ function UsersFeed({
             <User
               key={content.id}
               profileid={content.id}
-              displayname={content.name}
+              displayname={content.displayName}
               username={content.username}
               description={content.description}
               url={content.profilePic}
@@ -44,7 +44,7 @@ UsersFeed.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    userName: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     description: PropTypes.string,
     profilePic: PropTypes.string.isRequired,
     banned: PropTypes.bool,
