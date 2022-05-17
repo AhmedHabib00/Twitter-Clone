@@ -34,7 +34,6 @@ function Feed({
           </p>
         )}
       >
-
         {
         postData && postData.map((post) => (
           <Post

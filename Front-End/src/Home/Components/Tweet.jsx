@@ -21,7 +21,7 @@ function Tweet() {
   const navigate = useNavigate();
   const [replyingToId, setReplyingToId] = useState([]);
   const [userSelectionPopUp, setUserSelectionPopUp] = useState(false);
-  const [listOfUsers, setListOfUsers] = useState([]);
+  const [listOfUsers, setListOfUsers] = useState();
   const [repliesData, setRepliesData] = useState([]);
   const [postData, setPostData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -31,16 +31,18 @@ function Tweet() {
       const usersArray = await GetUsersArray(id);
       const repliesArray = await GetRepliesArray(id).then(setIsLoading(false));
       if (usersArray.status === 200) {
-        setListOfUsers(usersArray.data);
+        if (usersArray.data !== 'no users available to reply to.') {
+          setListOfUsers(usersArray.data);
+        }
       }
       if (post.status === 200) {
         setPostData(post.data);
       }
       if (repliesArray.status === 200) {
-        if (repliesArray.data !== 'no replies found') { setRepliesData(repliesArray.data); }
+        if (repliesArray.data !== 'no replies found') { setRepliesData(repliesArray.data); } else { setRepliesData([]); }
       }
     })();
-  }, []);
+  }, [id]);
   const handleButtonOnClickReplying = (event) => {
     const tempReplyingToId = [...replyingToId];
     tempReplyingToId.push(event);
@@ -58,7 +60,7 @@ function Tweet() {
             {postData
           && (
           <Post
-            id={id}
+            id={postData.id}
             displayName={postData.displayName}
             userName={postData.userName}
             content={postData.content}
@@ -81,22 +83,26 @@ function Tweet() {
               isUserSelector
             >
               <div>
+                {postData && (
                 <User
                   profileid={id}
-                  displayname="Neha"
-                  username="Noha Tarek EL-Boghdady"
-                  url="https://pbs.twimg.com/profile_images/1476639100895588365/1UyMRgI6_400x400.jpg"
+                  displayname={postData.displayName}
+                  username={postData.userName}
+                  url={postData.url}
                   isButtonActive
                   hasCheckbox
                   isButtonDisabled
                 />
+                )}
                 <hr />
                 <h2 className={styles['tweet-header']}>Others in this conversation</h2>
+                {listOfUsers && (
                 <UsersFeed
                   data={listOfUsers}
                   onButtonClick={handleButtonOnClickReplying}
                   hasCheckbox
                 />
+                )}
               </div>
             </PopupPage>
           </div>
