@@ -91,7 +91,6 @@ img {
 }
 
 .postblue {
-  color: rgb(0 0 0);
   border-radius: 25px;
   padding: 10px;
 }
@@ -107,7 +106,7 @@ img {
 }
 
 .postgreen:hover {
-  color: rgb(18 180 26) !important;
+  color: rgb(18 180 26);
   background-color: rgb(204 238 196);
 }
 
@@ -118,7 +117,7 @@ img {
 
 .postpink:hover {
   color: #f02896;
-  background-color: rgb(235 217 229) !important;
+  background-color: rgb(235 217 229);
 }
 
 .dropdown-content {
@@ -158,20 +157,8 @@ img {
   border-radius: 40px;
 }
 
-.who-retweeted-container {
-  margin-left: 10%;
-  margin-top: 8px;
-  margin-bottom: -15px;
-}
-
-.who-retweeted-icon {
-  padding-top: 5px;
-  color: rgb(83 100 113);
-}
-
-.who-retweeted {
-  color: rgb(83 100 113);
-  font-weight: 500;
-  font-size: 15px;
-  margin: 5px;
-}
+/* .imagediv {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 10px;
+} */

@@ -224,7 +224,7 @@ function TweetBox({
                 onClick={handleSendData}
                 disabled={!isEnabled || !canTweet}
               >
-                whisper
+                whisp
               </button>
             </div>
           </div>
