@@ -1,12 +1,10 @@
-from conftest import accessabilities, conftest
+import accessabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from conftest.conftest import start_driver
-from conftest.conftest import end_driver
+from conftest import end_driver
 import pyautogui
 import os
 import time
-import pytest
 from test_homepage import TestHomePage
 
 
@@ -144,7 +142,7 @@ class TestProfilePage:
             pass
 
         try:
-            assert (driver.find_element(By.CSS_SELECTOR,accessabilities.image_1_css_selector).is_displayed())
+            assert (driver.find_element(By.CSS_SELECTOR, accessabilities.image_1_css_selector).is_displayed())
         except NoSuchElementException:
             pass
 
@@ -196,7 +194,8 @@ class TestProfilePage:
             pass
 
         try:
-            assert ((driver.find_element(By.CSS_SELECTOR,accessabilities.image_1_css_selector).is_displayed()) is False)
+            assert ((driver.find_element(By.CSS_SELECTOR,
+                                         accessabilities.image_1_css_selector).is_displayed()) is False)
         except NoSuchElementException:
             pass
 

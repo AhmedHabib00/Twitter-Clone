@@ -1,12 +1,8 @@
-from conftest import accessabilities, conftest
+import accessabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from conftest.conftest import start_driver
-from conftest.conftest import end_driver
-import pyautogui
-import os
+from conftest import end_driver
 import time
-import pytest
 from test_homepage import TestHomePage
 
 
@@ -27,7 +23,8 @@ class TestSettingsPage:
 
         try:
             driver.find_element(By.ID, accessabilities.Settings_current_password).click()
-            driver.find_element(By.ID, accessabilities.Settings_current_password).send_keys(accessabilities.sign_in_password_textbox_id)
+            driver.find_element(By.ID, accessabilities.Settings_current_password).send_keys(
+                accessabilities.sign_in_password_textbox_id)
         except NoSuchElementException:
             pass
 
