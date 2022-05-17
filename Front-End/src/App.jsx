@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import Foundation from './Foundation/Foundation';
 import Notifications from './Notifications/Notifications';
+import ViewTweet from './Notifications/ViewTweet';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Settings from './Settings/Settings';
 import Home from './Home/Home';
@@ -12,7 +13,6 @@ import Start from './Start/Start';
 import AdminFoundation from './Admin/AdminFoundation';
 import AdminUsers from './Admin/AdminUsers';
 import Dashboard from './Admin/Dashboard';
-import BlockedUsers from './Admin/AdminBlocked';
 import Search from './Search/Search';
 import { getClientRole } from './Services/accountServices';
 import Tweet from './Home/Components/Tweet';
@@ -22,31 +22,57 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
-  useEffect(() => {
-    (async () => {
-      if (localStorage.token) {
-        setIsLoggedIn(true);
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  const updateRoutes = (isLogged) => {
+    setIsLoggedIn(isLogged);
+    if (isLogged) {
+      (async () => {
         const resp = await getClientRole();
         if (resp.role === 'Admin') {
           setIsAdmin(true);
         } else {
           setIsAdmin(false);
+          setIsBlocked(resp.blocked);
           if (!userInfo) {
             setUserInfo(await getUserInfo(localStorage.userId));
           }
         }
-      }
-    })();
-    document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
-  });
+      })();
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.token) {
+      updateRoutes(true);
+    } else {
+      updateRoutes(false);
+    }
+  }, []);
+
   const mainPage = () => {
     if (isLoggedIn) {
       if (isAdmin) {
-        return <AdminFoundation setIsLoggedIn={setIsLoggedIn} />;
+        return (
+          <AdminFoundation
+            setIsLoggedIn={updateRoutes}
+          />
+        );
       }
-      return <Foundation setIsLoggedIn={setIsLoggedIn} userInfo={(userInfo) || undefined} />;
+      return (
+        <Foundation
+          setIsLoggedIn={updateRoutes}
+          userInfo={(userInfo) || undefined}
+          isBlocked={isBlocked}
+        />
+      );
     }
-    return <Start setIsLoggedIn={setIsLoggedIn} setisAdmin={setIsAdmin} />;
+    return (
+      <Start
+        setIsLoggedIn={updateRoutes}
+        setisAdmin={setIsAdmin}
+      />
+    );
   };
 
   const mainPath = () => {
@@ -60,9 +86,9 @@ function App() {
   };
   const adminRoutes = () => (
     <>
-      <Route path="users" element={<AdminUsers />} />
+      <Route path="users" element={<AdminUsers state="" enableStyleSwitching={false} />} />
       <Route path="dashboard" element={<Dashboard />} />
-      <Route path="blocked-users" element={<BlockedUsers />} />
+      <Route path="blocked-users" element={<AdminUsers state="Banned" />} />
     </>
   );
   const startRoutes = () => (
@@ -72,7 +98,8 @@ function App() {
     <>
       <Route path="Home" element={<Home />} />
       <Route path="Notifications" element={<Notifications />} />
-      <Route path="Bookmarks" element={<Bookmarks />} />
+      <Route path="ViewTweet" element={<ViewTweet />} />
+      <Route path="Bookmarks" element={<Bookmarks username={userInfo.username} />} />
       <Route path="tweet/:id" element={<Tweet />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
@@ -90,11 +117,11 @@ function App() {
   return (
     <Router>
       <Routes>
-
         <Route path="/" element={mainPage()}>
-          <Route path="" element={<Navigate to={mainPath()} />} />
           {selectingRoute()}
+          <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
+        <Route path="*" element={<div />} />
       </Routes>
     </Router>
   );

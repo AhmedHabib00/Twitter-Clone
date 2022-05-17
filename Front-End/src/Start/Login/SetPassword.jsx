@@ -8,6 +8,7 @@ import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './SetPassword.module.css';
 import useSetPasswordForm from './components/useSetPasswordForm';
+import Loader from '../../Components/Loader/Loader';
 /**
  * This function is used to make a set password form for the forgot
  * my password process
@@ -17,9 +18,10 @@ import useSetPasswordForm from './components/useSetPasswordForm';
  */
 
 function SetPassword({ setSettingPassword, handleAfterSignin }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors1, errors2,
-  } = useSetPasswordForm(setSettingPassword, handleAfterSignin);
+  } = useSetPasswordForm(setSettingPassword, handleAfterSignin, setIsLoading);
   const [fieldvalues, setfieldvalues] = useState({
     password: '',
     showPassword: false,
@@ -32,6 +34,9 @@ function SetPassword({ setSettingPassword, handleAfterSignin }) {
   };
   return (
     <div className={styles['forgot-password-container']} id="login-modal-set-new-password">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <form
         className={styles['forgot-password-form']}
         onSubmit={handleSubmit}
@@ -116,6 +121,7 @@ function SetPassword({ setSettingPassword, handleAfterSignin }) {
               variant="outlined"
               className={styles['forgot-password-button']}
               type="submit"
+              disabled={isLoading}
             >
               Verify
             </Button>

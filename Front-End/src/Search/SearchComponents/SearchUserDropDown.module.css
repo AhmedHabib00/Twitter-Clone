@@ -1,0 +1,312 @@
+.parent {
+  position: relative;
+  float: left;
+  text-align: center;
+  min-height: 150px;
+  width: 278px;
+  display: "inline-block";
+}
+
+.postavatar {
+  font-size: 15px !important;
+  line-height: normal;
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.description {
+  display: block;
+  font-size: 15px;
+  font-weight: 450;
+  width: 60px;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  top: -65px;
+  left: 75px;
+  height: auto;
+  padding-top: 20px;
+}
+
+.username {
+  font-size: 15px;
+  font-weight: 350;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  top: -50px;
+  left: 70px;
+  height: auto;
+  padding-top: 20px;
+}
+
+.tweetfollowbutton {
+  display: block;
+  background-color: rgb(0 0 0);
+  font-size: 15px !important;
+  font-weight: bold;
+  border-radius: 15px;
+  height: 31px;
+  width: 75px;
+  color: #edf7fe;
+  cursor: pointer;
+  position: relative;
+  top: -40px;
+  left: 70%;
+}
+
+.tweetfollowingbutton {
+  display: block;
+  background-color: rgb(255 255 255);
+  font-size: 14px !important;
+  font-weight: bold;
+  border: solid 2px;
+  border-color: rgb(225 225 225 / 40%);
+  border-radius: 15px;
+  height: 31px;
+  width: 90px;
+  color: #000;
+  cursor: pointer;
+  position: relative;
+  top: -40px;
+  left: 70%;
+}
+
+.tweetfollowingbuttonhover {
+  content: "Unfollow";
+  display: block;
+  background-color: rgb(244 33 46 10%);
+  font-size: 14px !important;
+  font-weight: bold;
+  border: solid 2px;
+  border-color: rgb(253 201 206);
+  border-radius: 15px;
+  height: 31px;
+  width: 90px;
+  color: #f00;
+  cursor: pointer;
+  position: relative;
+  top: -40px;
+  left: 70%;
+}
+
+.login-news {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: 20px;
+  height: auto;
+  padding-top: 20px;
+}
+
+.content2 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: 55px;
+  width: 450px;
+  height: auto;
+  padding-bottom: 10px;
+}
+
+.wrapper2 {
+  flex: auto;
+  height: max-content !important;
+  width: 100%;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  flex-flow: auto;
+  font-weight: bold;
+  align-items: flex-start;
+}
+
+.wrapper {
+  background-color: white;
+  height: 100px !important;
+  margin: 0%;
+  cursor: pointer;
+  border: none;
+  border-top: 1px solid rgb(225 225 225 / 40%);
+  font-weight: bold;
+  display: flex;
+  flex-flow: row wrap;
+  text-align: left;
+}
+
+.wrapper > * {
+  flex: 0 0 100%;
+}
+
+.wrapper:hover {
+  background-color: #e9ebec;
+  height: 100px !important;
+  border-width: thin;
+  border-color: rgb(230 230 230);
+}
+
+.content1111 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  top: 40px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.content11 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+  white-space: nowrap;
+}
+
+.content22 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 80px;
+  left: 43px;
+  width: 100%;
+  height: auto;
+  white-space: nowrap;
+}
+
+.content3 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: 8px;
+  width: 100%;
+  height: auto;
+}
+
+.content4 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 50px;
+  left: 28px;
+  width: 100%;
+  height: auto;
+}
+
+.content5 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 20px;
+  left: 45px;
+  width: 100%;
+  height: auto;
+  white-space: pre;
+}
+
+.content55 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+  white-space: pre;
+}
+
+.content6 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  width: 100%;
+  height: auto;
+  white-space: pre;
+}
+
+.like-icon {
+  color: rgb(249 24 128);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.retweet-icon {
+  color: rgb(0 186 124);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.missed-icon {
+  color: rgb(121 75 196);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.followed-icon {
+  color: rgb(29 155 240);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.login-icon {
+  color: rgb(29 155 240);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.news-icon {
+  color: rgb(29 155 240);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}

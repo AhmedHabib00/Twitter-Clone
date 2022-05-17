@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import { Button } from '@mui/material';
 import styles from './LoginPassword.module.css';
 import usePasswordForm from './components/usePasswordForm';
+import Loader from '../../Components/Loader/Loader';
 
 /**
  * In this function the user will type his password
@@ -16,9 +17,10 @@ import usePasswordForm from './components/usePasswordForm';
  */
 
 function LoginPassword({ email, handleAfterSignin }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors,
-  } = usePasswordForm(email, handleAfterSignin);
+  } = usePasswordForm(email, handleAfterSignin, setIsLoading);
   const [fieldvalues, setfieldvalues] = useState({
     password: '',
     showPassword: false,
@@ -31,12 +33,15 @@ function LoginPassword({ email, handleAfterSignin }) {
   };
   return (
     <div className={styles['password-container']} id="login-modal-step-password">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <form
         className={styles['signup-form']}
         onSubmit={handleSubmit}
       >
         <div className={styles.body}>
-          <h1 className={styles.title}>Create your account</h1>
+          <h1 className={styles.title}>Enter your password</h1>
           <label className="start-modals-form-label" htmlFor="emailOrUsername">
             <input
               data-testid="input-email"
@@ -92,6 +97,7 @@ function LoginPassword({ email, handleAfterSignin }) {
               variant="outlined"
               className={styles['singin-button']}
               type="submit"
+              disabled={isLoading}
             >
               Log in
             </Button>

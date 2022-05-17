@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import { React } from 'react';
-import './Navbar.css';
+import styles from './Navbar.module.css';
 /**
  * Button that displays an icon and text.
  * Usually used for the navbar component
@@ -10,9 +10,9 @@ import './Navbar.css';
  */
 function NavItem({ title, children }) {
   return (
-    <div className="nav-item nav-item-dimensions">
+    <div className={[styles['nav-item'], styles['nav-item-dimensions']].join(' ')}>
       {children}
-      <p className="nav-item-text">{title}</p>
+      <p className={styles['nav-item-text']}>{title}</p>
     </div>
   );
 }

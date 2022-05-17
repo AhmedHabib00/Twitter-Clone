@@ -1,9 +1,13 @@
-@media screen & (max-width: 900px) {
+@media screen and (max-width: 900px) {
   .post {
     display: flex;
     align-items: flex-start;
     padding-bottom: 10px;
   }
+}
+
+#mydiv {
+  overflow: visible;
 }
 
 .postbody {
@@ -35,6 +39,10 @@ img {
   padding: 5px;
 }
 
+.trail {
+  overflow: hidden;
+}
+
 .postfooter {
   display: flex;
   justify-content: space-between;
@@ -63,7 +71,7 @@ img {
 }
 
 .postavatar {
-  padding: 0 10px;
+  /* padding: 0 10px; */
   text-align: left;
 }
 
@@ -130,6 +138,23 @@ img {
 .retweet {
   min-width: 750px;
   min-height: 750px;
+}
+
+.postbody-switching {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.blue-text {
+  color: #1d9bf0;
+  cursor: pointer;
+}
+
+.profile-img {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
 }
 
 /* .imagediv {

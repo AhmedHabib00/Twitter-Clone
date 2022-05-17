@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import IconButton from '@mui/material/IconButton';
 import { Button } from '@mui/material';
@@ -6,23 +6,28 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PropTypes from 'prop-types';
 import styles from './VerifyEmail.module.css';
 import useFormCode from './Components/useFormCode';
+import Loader from '../../Components/Loader/Loader';
 /**
  * In this function the user will type his verification code
- * @param {function}  handleGoToStepOne [used to manage the back arrow to step one]
- * @param {function}  setStepPassword [used to manage the password step status]
- * @param {function}  setStepVerify [used to manage the verification code step status]
- * @param {string}  email [used to be able to send the password to the backend with it]
+ * @param {function}  handleGoToStepOne used to manage the back arrow to step one
+ * @param {function}  setStepPassword used to manage the password step status
+ * @param {function}  setStepVerify used to manage the verification code step status
+ * @param {string}  email used to be able to send the password to the backend with it
  * @returns Verfication email form
  */
 
 function VerifyEmail({
   handleGoToStepOne, setStepPassword, setStepVerify, email,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleChange, values, handleSubmit, errors,
-  } = useFormCode(setStepPassword, setStepVerify, email);
+  } = useFormCode(setStepPassword, setStepVerify, email, setIsLoading);
   return (
     <div data-testid="verify-email" id="sign-up-modal-step-verify">
+      <div className="modal-loaders-container">
+        {isLoading && <Loader />}
+      </div>
       <div className="start-modals-header">
         <div className={styles['close-signup']}>
           <IconButton onClick={handleGoToStepOne}>
@@ -74,6 +79,8 @@ function VerifyEmail({
             variant="outlined"
             className="start-modals-button"
             type="submit"
+            disabled={isLoading}
+
           >
             Next
           </Button>

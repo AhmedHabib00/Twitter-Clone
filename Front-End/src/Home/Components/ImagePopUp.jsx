@@ -22,14 +22,13 @@ function ImagePopUp({ trigger, setTrigger, children }) {
           className={styles['close-btn']}
           onClick={() => {
             setTrigger(false);
-            document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll');
           }}
         />
         {children}
       </div>
     </div>
 
-  ) : '';
+  ) : (<>{ document.getElementsByTagName('body')[0].style.setProperty('overflow-y', 'scroll')}</>);
 }
 
 ImagePopUp.propTypes = {

@@ -10,157 +10,124 @@
   position: relative;
   float: left;
   text-align: center;
-  min-height: 100px;
+  min-height: 150px;
   width: 278px;
+  display: "inline-block";
 }
 
-.display-name {
-  font-size: 15px;
+/*
+.retweet-icon {
+  color: rgb(0 186 124);
+  font-size: 30px !important;
   line-height: normal;
-  position: absolute;
-  top: 50px;
-  left: -70px;
+  position: relative;
+  top: 5px;
+  left: 5px;
   width: 100%;
   height: auto;
-}
+} */
 
 .postavatar {
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
-  left: -75px;
-  width: 100%;
-  height: auto;
-}
-
-.content1 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 50px;
   left: 20px;
   width: 100%;
   height: auto;
 }
 
-.content11 {
+.display-name {
   font-size: 15px;
   font-weight: 400;
   line-height: normal;
-  position: absolute;
-  top: 80px;
-  left: 43px;
-  width: 100%;
+  position: relative;
+  text-align: left;
+  left: 55px;
   height: auto;
-  white-space: nowrap;
+  padding-top: 20px;
+}
+
+.login-news {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: 20px;
+  height: auto;
+  padding-top: 20px;
 }
 
 .content2 {
   font-size: 15px;
   font-weight: 400;
   line-height: normal;
-  position: absolute;
-  top: 50px;
-  left: 40px;
-  width: 100%;
+  position: relative;
+  text-align: left;
+  left: 55px;
+  width: 450px;
   height: auto;
+  padding-bottom: 10px;
 }
 
-.content22 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 80px;
-  left: 43px;
+.wrapper2 {
+  flex: auto;
+  height: max-content !important;
   width: 100%;
-  height: auto;
-  white-space: nowrap;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  flex-flow: auto;
+  font-weight: bold;
+  align-items: flex-start;
 }
 
-.content3 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 50px;
-  left: 8px;
+.wrapper {
+  background-color: white;
+  height: max-content !important;
   width: 100%;
-  height: auto;
+  margin: 0%;
+  cursor: pointer;
+  border: none;
+  border-top: 1px solid rgb(225 225 225 / 40%);
+  font-weight: bold;
+  display: flex;
+  flex-flow: row wrap;
+  text-align: left;
 }
 
-.content4 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 50px;
-  left: 28px;
-  width: 100%;
-  height: auto;
+.wrapper > * {
+  flex: 1 100%;
 }
 
-.content5 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 20px;
-  left: 45px;
-  width: 100%;
-  height: auto;
-  white-space: pre;
-}
+.wrapper:hover {
+  background-color: #e9ebec;
 
-.content55 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  left: 10px;
+  /* border-radius: 21px; */
+  height: max-content !important;
   width: 100%;
-  height: auto;
-  white-space: pre;
-}
-
-.content6 {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: normal;
-  position: absolute;
-  top: 20px;
-  left: 40px;
-  width: 100%;
-  height: auto;
-  white-space: pre;
+  border-width: thin;
+  border-color: rgb(230 230 230);
 }
 
 .like-icon {
   color: rgb(249 24 128);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
   height: auto;
-
-  /* position: absolute;
-  text-align: left;
-  bottom: 0;
-  height: auto; */
-
-  /* vertical-align: top; */
 }
 
 .retweet-icon {
   color: rgb(0 186 124);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -171,7 +138,7 @@
   color: rgb(121 75 196);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -182,7 +149,7 @@
   color: rgb(29 155 240);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -193,7 +160,7 @@
   color: rgb(29 155 240);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;
@@ -204,7 +171,18 @@
   color: rgb(29 155 240);
   font-size: 30px !important;
   line-height: normal;
-  position: absolute;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.block-icon {
+  color: black;
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
   top: 15px;
   left: 10px;
   width: 100%;

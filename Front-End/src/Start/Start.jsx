@@ -11,6 +11,8 @@ import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
 import configData from '../config/production.json';
+import { facebookAuth } from '../Services/accountServices';
+import Loader from '../Components/Loader/Loader';
 
 export const axiosApiCall = (url, method, body = {}) => axios({
   method,
@@ -26,8 +28,10 @@ export const axiosApiCall = (url, method, body = {}) => axios({
 function Start({ setIsLoggedIn, setisAdmin }) {
   const [signup, setSignup] = useState(false);
   const [login, setLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const onGoogleSuccess = (response) => {
+    setIsLoading(true);
     const { tokenId } = response;
     axiosApiCall(
       '/auth/google',
@@ -36,7 +40,10 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     ).then((res) => {
       const token = res.data['x-auth-token'];
       localStorage.setItem('token', token);
+      localStorage.setItem('userId', res.data.data.userId);
       setIsLoggedIn(true);
+      setIsLoading(false);
+
       // Save the JWT inside a cookie
       Cookie.set('token', token);
     }).catch((err) => {
@@ -50,31 +57,34 @@ function Start({ setIsLoggedIn, setisAdmin }) {
     setisAdmin(adminEvent);
     navigate('/');
   };
-  // const handleGoogleAuth = () => {
-  //   // (async () => {
-  //   //   const response = await authGoogle();
-  //   //   if (response.status === 201) {
-  //   //     const token = response.data['x-auth-token'];
-  //   //     localStorage.setItem('token', token);
-  //   //     // localStorage.setItem('logged', true);
-  //   //     // localStorage.setItem('admin', false);
-  //   //     // const logged = localStorage.getItem('logged');
-  //   //     // const admin = localStorage.getItem('admin');
-  //   //     // handleLoginStatus(JSON.parse(logged), JSON.parse(admin));
-  //   //   }
-  //   // })();
-  // };
   const responseFacebook = (response) => {
+    setIsLoading(true);
     // Login failed
     if (response.status === 'unknown') {
+      setIsLoading(false);
       return false;
     }
+    const { email } = response;
+    const { name } = response;
+    (async () => {
+      const resp = await facebookAuth({ name, email });
+      if (resp.status === 201) {
+        console.log(resp);
+        const token = resp.data['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', resp.data.data.userId);
+        setIsLoggedIn(true);
+        setIsLoading(false);
+      }
+    })();
 
     return response;
   };
-
   return (
     <div id="start-page">
+      <div className={styles['loaders-container']}>
+        {isLoading && <Loader />}
+      </div>
       <div className={styles.container}>
         <div className={styles['right-column-container']}>
           <div className={styles['right-group']}>
@@ -84,16 +94,15 @@ function Start({ setIsLoggedIn, setisAdmin }) {
             <div className={styles['buttons-group']}>
               <GoogleLogin
                 clientId={configData.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="Sign in with Google"
+                buttonText="Sign up with Google"
                 onSuccess={onGoogleSuccess}
                 onFailure={onGoogleFailure}
                 className={styles['signup-tweet-google']}
               />
               <FacebookLogin
-                appId="535545001481656"
+                appId={configData.REACT_APP_FACEBOOK_APP_ID}
                 autoLoad={false}
-                fields="name,email,picture"
-                scope="public_profile,email,user_friends"
+                fields="name,email"
                 callback={responseFacebook}
                 textButton=" Sign up with Facebook"
                 icon={(
