@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema ({
     description: {type: String},
     profilePic: {
         type:String,
-        default:'https://storage.googleapis.com/image0001/a9d1ad40-cf10-11ec-bc51-85c07c2056ff-Default_Profile_Picture.png'
+        default:'https://storage.googleapis.com/image0001/defaultProfilePicture%20(1).png'
     }, // TODO:add default picture url
     coverPhoto: {
         type: String,
