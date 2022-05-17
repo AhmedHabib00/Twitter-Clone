@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import Feed from './Feed';
 import feedStyles from './Feed.module.css';
 import styles from './Tweet.module.css';
@@ -16,7 +16,7 @@ import Loader from '../../Components/Loader/Loader';
  *
  * @returns Tweet Page initial layout
  */
-function Tweet() {
+function Tweet({ isBlocked }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [replyingToId, setReplyingToId] = useState([]);
@@ -26,6 +26,7 @@ function Tweet() {
   const [postData, setPostData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const post = await GetPost(id);
       const usersArray = await GetUsersArray(id);
@@ -71,10 +72,18 @@ function Tweet() {
             noOfReplies={postData.noOfReplies}
             noOfRetweets={postData.noOfRetweets}
             url={postData.url}
+            isBlocked={isBlocked}
           />
           )}
 
-            {repliesData && <Feed className={feedStyles.feed} data={repliesData} isReplying />}
+            {repliesData && (
+            <Feed
+              className={feedStyles.feed}
+              data={repliesData}
+              isReplying
+              isBlocked={isBlocked}
+            />
+            )}
 
             <PopupPage
               trigger={userSelectionPopUp}
@@ -111,4 +120,13 @@ function Tweet() {
 
   );
 }
+
+Tweet.propTypes = {
+  isBlocked: PropTypes.bool,
+};
+
+Tweet.defaultProps = {
+  isBlocked: false,
+};
+
 export default Tweet;
