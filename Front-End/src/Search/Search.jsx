@@ -15,6 +15,7 @@ function Search() {
   const [postData, setpostData] = useState();
   const [isPeopleTab, setIsPeopleTab] = useState(true);
   useEffect(() => {
+    if (false) { setpostData(); }
     document.getElementById('SearchBar').style.visibility = 'hidden';
     if (location.state !== null) {
       setSearchVal([...location.state.dataFiltered]);
