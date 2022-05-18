@@ -22,9 +22,11 @@ function SearchBar({
     const { value } = document.getElementsByClassName(styles['searchbar-input'])[0];
     setQuery(value);
   };
+
   const EnterPressed = () => {
     searchValue(query);
   };
+
   return (
     <div className={styles.searchbar}>
       <SearchOutlinedIcon className={styles['searchbar-icon']} />

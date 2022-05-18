@@ -33,8 +33,10 @@ function PostBody({
       (async () => {
         const usersArray = await GetUsersArray(id);
         if (usersArray.status === 200) {
-          setListOfUsers(usersArray.data);
-          setSelectedUsers(usersArray.data);
+          if (usersArray.data !== 'no users available to reply to.') {
+            setListOfUsers(usersArray.data);
+            setSelectedUsers(usersArray.data);
+          }
         }
       })();
     }
@@ -80,8 +82,7 @@ function PostBody({
           role="button"
           tabIndex={0}
           onClick={() => {
-            console.log('rendering');
-            navigate(`/tweet/${id};}`);
+            navigate(`/tweet/${id}`);
           }}
         >
           <p>{content}</p>
