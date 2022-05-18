@@ -62,13 +62,29 @@ router.get('/', async (req, res, next) =>{
             search = "";
         }
 
-        usersData = await userSchema.find({
-            "role":"User",
-            "username": {$regex:  ".*"+search+".*", $options:"si"} 
-        },
-            '_id name username description profilePic role',
-        ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
-        
+    
+
+        usersData = await userSchema.aggregate([
+            { $match: {
+                "role":"User",
+                "username": {$regex:  ".*"+search+".*", $options:"si"} 
+            }},
+            { $project: { 
+                "_id": 0,
+                "id": "$_id", 
+                "displayName": "$name",
+                "username": {$ifNull: ["$username", ""]},
+                "description": {$ifNull: ["$description", ""]}, 
+                "profilePic": 1,
+                "banned": {$ifNull: ["$banned", false]},
+                "role": 1
+            }},
+            { '$facet'    : {
+                data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
+            } }
+        ]
+        ).sort('createdAt');
+    
         noUsers = await userSchema.count({
             "role":"User",
             "username": {$regex:  ".*"+search+".*", $options:"i"}
@@ -86,6 +102,7 @@ router.get('/', async (req, res, next) =>{
         res.sendStatus(500).send("Error");
     }
 });
+
 // Information of a single user by the ID : GET /users/:id
 router.get('/:id', async (req, res) =>{
     try{
@@ -355,7 +372,7 @@ router.get('/:id/blocking', auth, async (req, res) =>{
 });
 
 // Allows an user to block another user : POST /users/{source_user_id}/blocking/{target_user_id}
-router.post('/:source_user_id/blocking/:target_user_id', auth, async (req, res) =>{
+router.post('/:source_user_id/blocking/:target_tweet_id', auth, async (req, res) =>{
 
     // Authrization
     if (req.user.role != "User" || req.user._id != req.params.source_user_id) {
@@ -363,72 +380,65 @@ router.post('/:source_user_id/blocking/:target_user_id', auth, async (req, res) 
     }
 
     // Get data of the user who want to block by id
-    try {
-        // Get data of the user that will be followed from body request by target_user_id
-        sourceUserData = await userSchema.findById(req.params.source_user_id);
-        targetUserData = await userSchema.findById(req.params.target_user_id);
 
-        if (!sourceUserData || !targetUserData) {
-            return res.status(500).send({"data": {
-                "blocking": false,
-                "reason": "Unknown specified id"
-            }}); 
-        }
+    // Get data of the user that will be followed from body request by target_user_id
+    sourceUserData = await userSchema.findById(req.params.source_user_id);
+    targetTweetData = await tweetSchema.findById(req.params.target_tweet_id);
 
-        if (sourceUserData.role == "User" && targetUserData.role == "User") {
-            // Check if the source_user_id not already blocking the target_user_id
+    if (!sourceUserData || !targetTweetData) {
+        return res.status(500).send({"data": {
+            "blocking": false,
+            "reason": "Unknown specified id"
+        }}); 
+    }
 
-            blockExistPass = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id)
+    target_user_id = targetTweetData.postedBy
+    targetUserData = await userSchema.findById(targetTweetData.postedBy);
 
-            // Check if user is the same as target_user
-            selfPass = req.params.source_user_id == req.params.target_user_id
-            
-            if (!selfPass) {
-                if (!blockExistPass) {
+    if (sourceUserData.role == "User" && targetUserData.role == "User") {
 
-                    // Delete follow relation between source_user_id and target_user_id
-                    // Delete followers
-                    targetUserData.followers = removeItem(targetUserData.followers, req.params.source_user_id);
-                    await userSchema.updateOne({"_id":req.params.target_user_id},{"followers":targetUserData.followers});
+        // Check if the source_user_id not already blocking the target_user_id
+        blockExistPass = sourceUserData.blocks.find(blocking => blocking == target_user_id)
 
-                    // Delete following
-                    sourceUserData.following = removeItem(sourceUserData.following, req.params.target_user_id);
-                    // Add target_user_id to the block list of the user
-                    sourceUserData.blocks.push(req.params.target_user_id);
-                    await userSchema.updateOne({"_id":req.params.source_user_id},{"following":sourceUserData.following,"blocks": sourceUserData.blocks});
+        // Check if user is the same as target_user
+        selfPass = req.params.source_user_id == target_user_id
+        
+        if (!selfPass) {
+            if (!blockExistPass) {
 
-                    blockExistPass = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id)
-                    
-                    if (blockExistPass) {
-                        return res.status(200).send({"data": {
-                            "blocking": true
-                        }});
-                    }else{
-                        throw err;
-                    }   
-                }else{
-                    return res.status(200).send({"data": {
-                        "blocking": true,
-                        "reason": "Already blocked."
-                    }});
-                }
+                // Delete follow relation between source_user_id and target_user_id
+                // Delete followers
+                targetUserData.followers = removeItem(targetUserData.followers, req.params.source_user_id);
+                await userSchema.updateOne({"_id": target_user_id},{"followers":targetUserData.followers});
+
+                // Delete following
+                sourceUserData.following = removeItem(sourceUserData.following, target_user_id);
+                // Add target_user_id to the block list of the user
+                sourceUserData.blocks.push(target_user_id);
+                await userSchema.updateOne({"_id":req.params.source_user_id},{"following":sourceUserData.following,"blocks": sourceUserData.blocks});
+                
+                return res.status(200).send({"data": {
+                    "blocking": true
+                }});
+
             }else{
-                return res.status(500).send({"data": {
+                return res.status(200).send({"data": {
                     "blocking": false,
-                    "reason": "Same target_user_id and source_user_id"
+                    "reason": "Already blocked."
                 }});
             }
         }else{
             return res.status(500).send({"data": {
                 "blocking": false,
-                "reason": "Not auth. user"
+                "reason": "Same target_user_id and source_user_id"
             }});
-        }            
-    } catch(err) {
+        }
+    }else{
         return res.status(500).send({"data": {
             "blocking": false,
+            "reason": "Not auth. user"
         }});
-    }
+    }            
 });
 
 // Allows an user to unblock user : DEL /users/{source_user_id}/blocking/{target_user_id}

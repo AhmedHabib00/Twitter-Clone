@@ -239,8 +239,9 @@ router.get("/:id/SingleTweet",auth,async (req,res)=>{
 ///////////////////////////////////////////////////////////////////////////////////Getting timeline tweets endpoint:
 router.get("/TimelineTweets",auth,async (req,res)=>{
 
-    try {
+   try{ 
         let { page, size } = req.query;
+    
         //default value is 1 if page parameter is not given.
         if (!page) {
             page = 1;
@@ -249,19 +250,19 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         if (!size) {
             size = 10;
         }
-        console.log(size)
 
         //Casting the size string to integer.
         const limit = parseInt(size);
-
+        
         const theUser=req.user._id;
-       
+ 
         
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
         
-        var results = await tweet.find({},projection).limit(limit).skip(size*(page-1))
+        var results = await tweet.find({replyTo:[]},projection).limit(limit).skip(size*(page-1))
         .populate("postedBy")
+        .populate({path:"retweetInfo",populate:{path:"postedBy"}})
         .populate("retweeters")
         .populate("likes")
         .sort({"createdAt":-1})    
@@ -271,21 +272,75 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         })
         if (!results) return res.status.send('No tweets found')
         
-
-
     for(i=0;i<results.length;i++)
        {
-        if (!results[i])
-            continue;
-
+        if (!results[i])   
+          continue;
+        console.log(results[i])
   
-        //do not view reply as a tweet. go to next iteration.   
-        if(results[i]["replyTo"]==undefined || results[i]["replyTo"]==null || results[i]["replyTo"].length==0) 
-       {
+        if(results[i].retweetInfo)
+        {
+        if(results[i].retweetInfo.length !=0)
+           {
+                if(results[i]._id)
+            { 
+                Liked2=false     
+                //Checking if the tweet is liked by the current user.
+                var userLiked2=results[i].retweetInfo[0].likes.some(item => item._id == theUser)
+                if(userLiked2)
+                    Liked2=true
+            }
+            else
+            {
+                res.sendStatus(400).send("one of the tweets' ids is null");
+            }  
 
+            var contentTemp2="";
+            var gifTemp2=results[i].retweetInfo[0].gifs;
+            var tempMedia2=results[i].retweetInfo[0].media;
+            var urls2=[]
+            if(!tempMedia2 || tempMedia2.length==0)
+            {
+                if(!gifTemp2 || gifTemp2.length==0)
+                {
+                    urls2=[];
+                }
+                else
+                {
+                    urls2.push(gifTemp2);
+                }
+            }
+            else
+            {
+                urls2=tempMedia2;
+            }
+        
+            if(results[i].retweetInfo[0].content)
+                     contentTemp2=results[i].retweetInfo[0].content;
 
-        if(results[i]._id)
+            const Obj2= ({
+                id:results[i].retweetInfo[0]._id,
+                userName: results[i].retweetInfo[0].postedBy.username,
+                displayName: results[i].retweetInfo[0].postedBy.name,
+                content: contentTemp2,
+                url: results[i].retweetInfo[0].postedBy.profilePic,
+                URLs:urls2,
+                isLiked:Liked2,
+                isRetweeted:true,
+                noOfLike:results[i].retweetInfo[0].numberLikes,
+                noOfReplies:results[i].retweetInfo[0].numberReplies,
+                noOfRetweets:results[i].retweetInfo[0].numberRetweets,
+                whoRetweeted:results[i].postedBy.username
+               }); 
+
+               finalArray.push(Obj2)
+            }
+        
+        
+      else  
        { 
+           if(results[i]._id)
+          { 
            Liked=false
            Retweeted=false
 
@@ -341,11 +396,10 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             noOfReplies:results[i].numberReplies,
             noOfRetweets:results[i].numberRetweets,
            });
-
-
         finalArray.push(Obj)
               
         }
+    }
     }
         if(finalArray.length==0)
         {
@@ -353,12 +407,13 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         }
         return res.status(200).send(finalArray); 
 
+        
     }
+    
     catch (error) {
         return res.status(400).send("problem with page parameters size/number");
     }
 })
-
 //////////////////////////////////////////////////////////////////////////////Posting and replying
 router.post("/",multer.any(),auth,async function(req,res,next){
     //A tweet can have content or images or gifs, but it can not be empty 
