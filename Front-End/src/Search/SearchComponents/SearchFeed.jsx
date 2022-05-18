@@ -11,21 +11,19 @@ import Post from '../../Home/Components/Post';
  * @returns map through the post array data and starts passing the posts props
  * to display posts in the feed component.
  */
-function SearchFeed({ data, dataType }) {
+function SearchFeed({ postData, dataType, usersData }) {
   if (dataType) {
     return (
       <div data-testid="feed-render-test" className={styles.notifeed}>
         <div className={styles.parent}>
           {
-            data && data.map((content) => (
+            usersData && usersData.map((searchVal) => (
               <SearchUser
-                key={content.id}
-                profileid={content.id}
-                displayname={content.displayName}
-                username={content.userName}
-                description={content.description}
-                url={content.url}
-                isButtonActive={content.active}
+                id={searchVal.id}
+                name={searchVal.name}
+                username={searchVal.username}
+                description={searchVal.description}
+                profilePic={searchVal.profilePic}
               />
             ))
             }
@@ -38,21 +36,20 @@ function SearchFeed({ data, dataType }) {
     <div data-testid="feed-render-test" className={styles.notifeed}>
       <div className={styles.parent} id="FeedContainer">
         {
-          data && data.map((content) => (
+          postData && postData.map((post) => (
             <Post
-              id={content.id}
-              displayname={content.displayName}
-              username={content.userName}
-              content={content.content}
-              img1={content.img1}
-              img2={content.img2}
-              img3={content.img3}
-              img4={content.img4}
-              isLiked={content.isLiked}
-              noOfLike={content.noOfLike}
-              isRetweeted={content.isRetweeted}
-              noOfReplies={content.noOfReplies}
-              noOfRetweets={content.noOfRetweets}
+              key={post.id}
+              id={post.id}
+              displayName={post.displayName}
+              userName={post.userName}
+              content={post.content}
+              URLs={post.URLs}
+              isLiked={post.isLiked}
+              noOfLike={post.noOfLike}
+              isRetweeted={post.isRetweeted}
+              noOfReplies={post.noOfReplies}
+              noOfRetweets={post.noOfRetweets}
+              url={post.url}
             />
           ))
       }
@@ -63,13 +60,25 @@ function SearchFeed({ data, dataType }) {
   );
 }
 SearchFeed.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+  postData: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     userName: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isLiked: PropTypes.bool.isRequired,
+    noOfLike: PropTypes.number.isRequired,
+    isRetweeted: PropTypes.bool.isRequired,
+    noOfReplies: PropTypes.number.isRequired,
+    noOfRetweets: PropTypes.number.isRequired,
     url: PropTypes.string.isRequired,
-    active: PropTypes.bool.isRequired,
+  })).isRequired,
+  usersData: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    profilePic: PropTypes.string.isRequired,
   })).isRequired,
   dataType: PropTypes.bool.isRequired,
 };

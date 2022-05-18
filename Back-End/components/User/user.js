@@ -62,12 +62,27 @@ router.get('/', async (req, res, next) =>{
             search = "";
         }
 
-        usersData = await userSchema.find({
-            "role":"User",
-            "username": {$regex:  ".*"+search+".*", $options:"si"} 
-        },
-            '_id name username description profilePic role',
-        ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
+        usersData = await userSchema.aggregate([
+            { $match: {
+                "role":"User",
+                "username": {$regex:  "."+search+".", $options:"si"},
+                "banned":false
+            }},
+            { $project: { 
+                "_id": 0,
+                "id": "$_id", 
+                "displayName": "$name",
+                "username": {$ifNull: ["$username", ""]},
+                "description": {$ifNull: ["$description", ""]}, 
+                "profilePic": 1,
+                "banned": {$ifNull: ["$banned", false]},
+                "role": 1
+            }},
+            { '$facet'    : {
+                data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
+            } }
+        ]
+        ).sort('createdAt');
         
         noUsers = await userSchema.count({
             "role":"User",

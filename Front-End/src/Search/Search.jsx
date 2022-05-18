@@ -15,9 +15,6 @@ function Search() {
   const [postData, setpostData] = useState();
   const [isPeopleTab, setIsPeopleTab] = useState(true);
   useEffect(() => {
-    if (false) {
-      setpostData();
-    }
     document.getElementById('SearchBar').style.visibility = 'hidden';
     if (location.state !== null) {
       setSearchVal([...location.state.dataFiltered]);
@@ -28,7 +25,11 @@ function Search() {
     console.log(Val);
     (async () => {
       const resp = await GetUsersArray(Val);
-      console.log(resp);
+      // console.log(resp);
+      // console.log(resp.data);
+      // console.log(resp.data.data);
+      console.log(resp.data.Info.data);
+      setSearchVal(resp.data.Info.data);
       // set post data from the response of the api call
       // setpostData();
     })();
@@ -38,6 +39,7 @@ function Search() {
     (async () => {
       const resp = await GetPostsArray(Val);
       console.log(resp);
+      setpostData(resp.data);
       // m7tagen na5od el array of posts mn el resp w n7otaha fe el state setter el commented t7t bs
       // setpostData();
     })();
@@ -46,14 +48,12 @@ function Search() {
   return (
     <div className={styles.notifications}>
       <section className={styles.header1}>
-        {searchVal && (
         <SearchBar
           searchValue={(isPeopleTab) ? handleSearchPeople
             : handleSearchWhisps}
           placeHolder="Search Whisper"
           enableDelay={false}
         />
-        )}
       </section>
       {/* <br></br> */}
       <section className={styles.flex1}>
@@ -81,7 +81,7 @@ function Search() {
         </button>
       </section>
       <div>
-        {postData && <SearchFeed className="notifeed" data={postData} dataType={isPeopleTab} />}
+        {(postData || searchVal) && <SearchFeed className="notifeed" data={postData} usersData={searchVal} dataType={isPeopleTab} />}
       </div>
     </div>
 

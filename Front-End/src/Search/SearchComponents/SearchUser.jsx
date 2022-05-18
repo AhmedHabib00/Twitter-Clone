@@ -12,20 +12,20 @@ import styles from './SearchUser.module.css';
  * @param {String} displayname    User display name (user first and second name).
  * @param {String} username       User username.
  * @param {String} description    User's bio.
- * @param {String} url
+ * @param {String} profilePic
  *
  /**
  return list of searched users
  */
 
 function SearchUser({
-  profileid, displayname, username, description, url, buttonStyle,
+  profileid, name, username, description, profilePic, buttonStyle, id,
   buttonStyleClicked, isButtonActive,
 }) {
   const navigate = useNavigate();
   let isClicked = false;
   const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
-
+  console.log(id);
   const handleOpenProfile = () => {
     if (!isClicked) {
       navigate('/Profile', {
@@ -43,13 +43,13 @@ function SearchUser({
       <div className={styles.wrapper2}>
         <img
           alt=""
-          src={url}
+          src={profilePic}
           style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
         />
 
         {/* <AccountCircleIcon /> */}
         <div className={styles.postavatar}>
-          <b>{displayname}</b>
+          <b>{name}</b>
         </div>
 
       </div>
@@ -86,11 +86,12 @@ function SearchUser({
 }
 
 SearchUser.propTypes = {
-  profileid: PropTypes.number.isRequired,
-  displayname: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  profilePic: PropTypes.string.isRequired,
+  profileid: PropTypes.number.isRequired,
   buttonStyle: PropTypes.string,
   buttonStyleClicked: PropTypes.string,
   isButtonActive: PropTypes.bool,

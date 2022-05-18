@@ -63,7 +63,7 @@ function SearchBar() {
             displayname={item.displayName}
             username={item.userName}
             description={item.description}
-            url={item.url}
+            profilePic={item.profilePic}
           />
           <div className={styles.emptyspace} />
         </div>
