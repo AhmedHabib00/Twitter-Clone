@@ -430,16 +430,13 @@ class _LoginPage extends State<LoginPage> {
         Uri.parse(
             "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/auth/google"),
         body: data);
-    print(response.body);
-    print(response.statusCode);
+    // print(response.body);
+    //print(response.statusCode);
     if (response.statusCode == 201) {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
       token = dataResponse["x-auth-token"];
       adminToken = dataResponse['data']['userId'];
-      print('admin token');
-      print(adminToken);
-      print(response.body);
       setState(() {
         dataResponse = mapResponse["data"];
         if (dataResponse["role"].toString() == 'Admin') {
