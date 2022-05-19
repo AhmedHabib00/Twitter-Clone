@@ -20,7 +20,7 @@ class EmailFieldValidator {
   EmailFieldValidator(String? value);
 
   static String? validate(String value) {
-    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 . @ ]+$').hasMatch(value)) {
+    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 . @ # ]+$').hasMatch(value)) {
       return "Enter correct Email or Username";
     } else {
       return null;
@@ -32,7 +32,7 @@ class PassFieldValidator {
   PassFieldValidator(String? value);
 
   static String? validate(String value) {
-    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 $ #]+$').hasMatch(value)) {
+    if (value.isEmpty || !RegExp(r'^[a-z A-Z 0-9 $ # @]+$').hasMatch(value)) {
       return "Enter correct Password";
     } else {
       return null;

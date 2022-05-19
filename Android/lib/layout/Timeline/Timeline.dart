@@ -1,13 +1,12 @@
 // ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable, avoid_print, unused_element, prefer_typing_uninitialized_variables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
-//import 'package:whisper/modules/tweetBoxWidget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:whisper/modules/tweetBoxWidget.dart';
+import 'dart:io';
 
 const TextStyle _textStyle = TextStyle(
   fontSize: 40,
@@ -29,12 +28,16 @@ class _TimelinePageState extends State<TimelinePage> {
 
   var scaffoldkey = GlobalKey<ScaffoldState>();
   List listOfTweets = [];
-  List URLss = [];
+  late List URLss = [];
   var URLs;
+  var URLsEmpty;
   late Future<String> countFuture;
   late var count = '';
   var token = '';
   bool scaffoldKey = false;
+  bool isRetweeted = false;
+  bool iscommented = false;
+  bool isLiked = false;
 
   Future getTweet(token) async {
     var response = await http.get(
@@ -85,7 +88,7 @@ class _TimelinePageState extends State<TimelinePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 75,
+          toolbarHeight: 50,
           elevation: 1,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           leading: InkWell(
@@ -112,7 +115,7 @@ class _TimelinePageState extends State<TimelinePage> {
                 "lib/shared/Assets/twitterlogoB.png",
                 scale: 20,
               ),
-              iconSize: 55.0,
+              iconSize: 40.0,
             ),
             IconButton(
               onPressed: () {},
@@ -145,17 +148,18 @@ class _TimelinePageState extends State<TimelinePage> {
           child: const Icon(Icons.add),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
           showSelectedLabels: false,
           showUnselectedLabels: false,
           items: [
             BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.home),
                 label: 'News Feed',
-                backgroundColor: Colors.black),
+                backgroundColor: Color.fromARGB(255, 2, 0, 0)),
             BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.search),
                 label: 'Search',
-                backgroundColor: Colors.black),
+                backgroundColor: Color.fromARGB(255, 0, 0, 0)),
             BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.microphone),
                 label: 'Spaces',
@@ -213,90 +217,196 @@ class _TimelinePageState extends State<TimelinePage> {
     var userName = item['userName'];
     var profilePic = item['url'];
     var content = item['content'];
+    var noOfLike = item['noOfLike'];
+    var noOfReplies = item['noOfReplies'];
+    var noOfRetweets = item['noOfRetweets'];
+    //var isLiked = item['isLiked'];
+    //print(isLiked);
+    // bool isRetweeted = false;
+    // bool iscommented = false;
     List URLss = item['URLs'];
-    if (URLss.isEmpty) {
-      URLs = URLss;
-    } else {
-      URLs = URLss[0];
-    }
-    return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: Card(
-        child: ListTile(
-          title: Row(
-            children: <Widget>[
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 81, 255),
-                  borderRadius: BorderRadius.circular(60 / 2),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      profilePic.toString(),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Text(
-                        name.toString().length > 20
-                            ? name.toString().substring(0, 20) + '' // + '...'
-                            : name.toString(),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        userName.toString().length > 8
-                            ? '@' + userName.toString().substring(0, 8) + '...'
-                            : '@' + userName.toString(),
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    content.toString(),
-                    style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    width: 275,
-                    height: 200,
 
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: NetworkImage(
-                          URLs.toString(),
-                        ),
-                      ),
-                    ),
-
-                    // child: Image.network(
-                    //   URLs.toString(),
-                    //   fit: BoxFit.contain,
-                    // ),
-                  ),
-                  const SizedBox(height: 5),
-                ],
-              ),
-            ],
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(200)),
+            child: Image.network(
+              profilePic.toString(),
+              width: 60,
+            ),
           ),
         ),
-      ),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                      name.toString().length > 15
+                          ? name.toString().substring(0, 15) + ''
+                          : name.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                        "@${userName.toString().length > 11 ? userName.toString().substring(0, 11) + '..' : userName.toString()}"),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+                child: Text(content.toString()),
+              ),
+              URLss.isEmpty
+                  ? SizedBox.shrink()
+                  : Column(
+                      children: [
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            child: Image.network(
+                              URLss[0].toString(),
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                WidgetSpan(
+                                    child: iscommented
+                                        ? FaIcon(
+                                            FontAwesomeIcons.comment,
+                                            size: 17,
+                                            color:
+                                                Color.fromARGB(255, 0, 60, 255),
+                                          )
+                                        : FaIcon(
+                                            FontAwesomeIcons.comment,
+                                            size: 17,
+                                            //color: Colors.green,
+                                          )),
+                                TextSpan(text: "  $noOfReplies"),
+                              ],
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (iscommented == true) {
+                              iscommented = false;
+                              noOfReplies += 1;
+                            } else {
+                              iscommented = true;
+                              noOfReplies -= 1;
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                  child: isRetweeted
+                                      ? FaIcon(
+                                          FontAwesomeIcons.retweet,
+                                          size: 17,
+                                          color: Colors.green,
+                                        )
+                                      : FaIcon(
+                                          FontAwesomeIcons.retweet,
+                                          size: 17,
+                                          //color: Colors.green,
+                                        )),
+                              TextSpan(
+                                text: '  ${noOfRetweets.toString()}',
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (isRetweeted == false) {
+                              isRetweeted = true;
+                              noOfRetweets += 1;
+                            } else {
+                              isRetweeted = false;
+                              noOfRetweets -= 1;
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: isLiked
+                                    ? FaIcon(
+                                        FontAwesomeIcons.solidHeart,
+                                        size: 17,
+                                        color: Colors.redAccent,
+                                      )
+                                    : FaIcon(
+                                        FontAwesomeIcons.heart,
+                                        size: 17,
+                                      ),
+                              ),
+                              TextSpan(text: '  ${noOfLike.toString()}')
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (isLiked == false) {
+                              isLiked = true;
+                              noOfLike += 1;
+                            } else {
+                              isLiked = false;
+                              noOfLike -= 1;
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
+          ),
+        ))
+      ],
     );
   }
 }
