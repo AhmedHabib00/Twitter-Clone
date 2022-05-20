@@ -62,8 +62,6 @@ router.get('/', async (req, res, next) =>{
             search = "";
         }
 
-    
-
         usersData = await userSchema.aggregate([
             { $match: {
                 "role":"User",
@@ -173,57 +171,63 @@ router.get('/:id/bookmarks', auth, async (req, res) =>{
     if (!bookmarksList) return res.status.send('No tweets found');
 
     for(i = 0; i < bookmarksList.length; i++){
+        
+        try{          
+            Liked=false;
+            Retweeted=false;
+
+            //Checking if the tweet is liked by the current user.
+            var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
+            if(userLiked) Liked = true;
                 
-        Liked=false;
-        Retweeted=false;
+            //Checking if the tweet is retweeted by the current user.
+            var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
+            if(userRetweeted) Retweeted = true;
 
-        //Checking if the tweet is liked by the current user.
-        var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
-        if(userLiked) Liked = true;
+            var contentTemp="";
+            var gifTemp = bookmarksList[i]["gifs"];
+            var tempMedia = bookmarksList[i]["media"];
+            var urls=[];
+
+            if(!tempMedia || tempMedia.length == 0){
+                if(!gifTemp || gifTemp.length == 0)
+                {
+                    urls=[];
+                }
+                else
+                {
+                    urls.push(gifTemp);
+                }
+            }
+            else{
+                urls=tempMedia;
+            }
+
+            if(bookmarksList[i]["content"])
+                contentTemp = bookmarksList[i]["content"];
+
+            var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
             
-        //Checking if the tweet is retweeted by the current user.
-        var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
-        if(userRetweeted) Retweeted = true;
-
-        var contentTemp="";
-        var gifTemp = bookmarksList[i]["gifs"];
-        var tempMedia = bookmarksList[i]["media"];
-        var urls=[];
-
-        if(!tempMedia || tempMedia.length == 0){
-            if(!gifTemp || gifTemp.length == 0)
-            {
-                urls=[];
-            }
-            else
-            {
-                urls.push(gifTemp);
-            }
+            const Obj= ({
+                    id: bookmarksList[i]["_id"],
+                    userName: userTweet.username,
+                    displayName: userTweet.name,
+                    content: contentTemp,
+                    url: userTweet.profilePic,
+                    URLs: urls,
+                    isLiked: Liked,
+                    isRetweeted: Retweeted,
+                    noOfLike: bookmarksList[i].numberLikes,
+                    noOfReplies: bookmarksList[i].numberReplies,
+                    noOfRetweets: bookmarksList[i].numberRetweets
+                });
+                
+            finalArray.push(Obj);
         }
-        else{
-            urls=tempMedia;
+        catch(err){
+            
         }
 
-        if(bookmarksList[i]["content"])
-            contentTemp = bookmarksList[i]["content"];
-
-        var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
-
-        const Obj= ({
-                id: bookmarksList[i]["_id"],
-                userName: userTweet.username,
-                displayName: userTweet.name,
-                content: contentTemp,
-                url: userTweet.profilePic,
-                URLs: urls,
-                isLiked: Liked,
-                isRetweeted: Retweeted,
-                noOfLike: bookmarksList[i].numberLikes,
-                noOfReplies: bookmarksList[i].numberReplies,
-                noOfRetweets: bookmarksList[i].numberRetweets
-            });
-
-        finalArray.push(Obj);              
         
     }
 
@@ -522,6 +526,61 @@ router.get('/:id/followers', async (req, res) =>{
         }
         catch(err){
             return res.sendStatus(500);
+        }
+    })
+});
+
+
+// List of users who are followers of the user ID : GET /users/{id}/followers
+router.get('/:source_user_id/following/:target_user_id', auth, async (req, res) =>{
+
+    // Authrization
+    if (req.user.role != "User" || req.user._id != req.params.source_user_id) {
+        return res.status(403).send("Access denied");
+    }
+
+    // Get data of the user who want to follow by id
+    userSchema.findById(req.params.source_user_id).exec(async (err, sourceUserData)=>{
+        try {
+            // Get data of the user that will be followed from body request by target_user_id
+            userSchema.findById(req.params.target_user_id).exec(async(err, targetUserData)=>{
+                try {
+
+                    if (!sourceUserData || !targetUserData) {
+                        return res.status(500).send({"data": {
+                            "following": false,
+                            "reason": "Unknown specified id"
+                        }}); 
+                    }
+
+                    if (sourceUserData.role == "User" && targetUserData.role == "User") {
+                        // Check if the source_user_id not already follow the target_user_id
+                        followingExistPass = sourceUserData.following.find(following => following == req.params.target_user_id)
+                        followerExistPass = targetUserData.followers.find(follower => follower == req.params.source_user_id)
+
+                            if (followerExistPass && followingExistPass) {
+                                return res.status(200).send({"data": {
+                                    "following": true
+                                }});
+                            }else{
+                                return res.status(200).send({"data": {
+                                    "following": false
+                                }});
+                            }
+
+                    }else{
+                        throw err;
+                    }
+                } catch(err) {
+                    return res.status(500).send({"data": {
+                        "following": false
+                    }});
+                }
+            });
+        } catch(err) {
+            return res.status(500).send({"data": {
+                "following": false
+            }});
         }
     })
 });
