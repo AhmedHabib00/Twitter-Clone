@@ -1,14 +1,9 @@
 // ignore_for_file: unused_field, unnecessary_new, non_constant_identifier_names, avoid_init_to_null, avoid_print, duplicate_ignore, unused_local_variable, prefer_typing_uninitialized_variables, unnecessary_null_comparison, unrelated_type_equality_checks, use_function_type_syntax_for_parameters, empty_constructor_bodies
-
 import 'dart:convert';
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:whisper/layout/Admin/AdminPage.dart';
-//import 'package:whisper/layout/Admin/test.dart';
-//import 'package:whisper/layout/API/google_signIn_api.dart';
 import 'package:whisper/layout/SignUp/signup.dart';
 import 'package:whisper/layout/Login/FogotPass.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
@@ -35,7 +30,7 @@ class _LoginPage extends State<LoginPage> {
   late String _email;
   bool _isLoading = false;
   late final String token = '';
-  late final String adminToken = '';
+  late final String userId = '';
   GoogleSignInAccount? _currentUser;
   final String _contactText = '';
   late String? GoogleTokenId = '';
@@ -186,7 +181,7 @@ class _LoginPage extends State<LoginPage> {
 
                           if (formKey.currentState!.validate()) {
                             SignIn(EmailorUserController.text,
-                                PassController.text, token, adminToken);
+                                PassController.text, token, userId);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -266,16 +261,13 @@ class _LoginPage extends State<LoginPage> {
                           child: SignInButton.mini(
                             buttonType: ButtonType.facebook,
                             onPressed: _handleSignOut,
-                            //GGsignIn //signInwithGoogle //() => null,
                           ),
                         ),
                         Expanded(
                           child: SignInButton.mini(
                             buttonType: ButtonType.google,
                             buttonSize: ButtonSize.small,
-                            onPressed:
-                                // login();
-                                _handleSignIn,
+                            onPressed: _handleSignIn,
 
                             //() {},
                           ),
@@ -292,7 +284,7 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
-  SignIn(String email, String password, String token, String adminToken) async {
+  SignIn(String email, String password, String token, String userId) async {
     Map data = {'emailOrUsername': email, 'password': password};
     //var jsonData = null;
     Map mapResponse;
@@ -305,78 +297,76 @@ class _LoginPage extends State<LoginPage> {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
       token = dataResponse["x-auth-token"];
-      adminToken = dataResponse['data']['userId'];
-      print('admin token');
-      print(adminToken);
+      userId = dataResponse['data']['userId'];
+      print('userId');
+      print(userId);
       print(response.body);
-      setState(() {
-        dataResponse = mapResponse["data"];
-        if (dataResponse["role"].toString() == 'Admin') {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      AdminPage(token: token, adminToken: adminToken)),
-              (Route<dynamic> route) => false);
-          dataResponse = mapResponse;
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 200,
-                color: const Color.fromARGB(0, 255, 255, 255),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
-                      Text(
-                        ('Admin login successful'),
-                        style: TextStyle(
-                          color: Color(0xff0095FF),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+      dataResponse = mapResponse["data"];
+      if (dataResponse["role"].toString() == 'Admin') {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    AdminPage(token: token, userId: userId)),
+            (Route<dynamic> route) => false);
+        dataResponse = mapResponse;
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: const <Widget>[
+                    Text(
+                      ('Admin login successful'),
+                      style: TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            },
-          );
-        } else {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      TimelinePage(token: token)), // testpage
-              (Route<dynamic> route) => false);
-          dataResponse = mapResponse;
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 200,
-                color: const Color.fromARGB(0, 255, 255, 255),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        dataResponse["message"].toString(),
-                        style: const TextStyle(
-                          color: Color(0xff0095FF),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+              ),
+            );
+          },
+        );
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    TimelinePage(token: token, userId: userId)),
+            (Route<dynamic> route) => false);
+        dataResponse = mapResponse;
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: 200,
+              color: const Color.fromARGB(0, 255, 255, 255),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      dataResponse["message"].toString(),
+                      style: const TextStyle(
+                        color: Color(0xff0095FF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            },
-          );
-        }
-      });
+              ),
+            );
+          },
+        );
+      }
     } else if (response.statusCode == 400) {
       setState(() {
         showModalBottomSheet<void>(
@@ -419,10 +409,10 @@ class _LoginPage extends State<LoginPage> {
     }
     print('Google TokenId');
     print(GoogleTokenId);
-    GSignIn(token, adminToken, GoogleTokenId!);
+    GSignIn(token, userId, GoogleTokenId!);
   }
 
-  Future GSignIn(String token, String adminToken, String GoogleTokenId) async {
+  Future GSignIn(String token, String userId, String GoogleTokenId) async {
     Map data = {'tokenId': GoogleTokenId};
     Map mapResponse;
     Map dataResponse;
@@ -436,14 +426,14 @@ class _LoginPage extends State<LoginPage> {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
       token = dataResponse["x-auth-token"];
-      adminToken = dataResponse['data']['userId'];
+      userId = dataResponse['data']['userId'];
       setState(() {
         dataResponse = mapResponse["data"];
         if (dataResponse["role"].toString() == 'Admin') {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      AdminPage(token: token, adminToken: adminToken)),
+                      AdminPage(token: token, userId: userId)),
               (Route<dynamic> route) => false);
           dataResponse = mapResponse;
           showModalBottomSheet<void>(
@@ -475,7 +465,7 @@ class _LoginPage extends State<LoginPage> {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      TimelinePage(token: token)), // testpage
+                      TimelinePage(token: token, userId: userId)), // testpage
               (Route<dynamic> route) => false);
           dataResponse = mapResponse;
           showModalBottomSheet<void>(

@@ -11,8 +11,8 @@ import 'package:whisper/layout/WelcomePage/WelcomePage.dart';
 
 class AdminPage extends StatefulWidget {
   final String token;
-  final String adminToken;
-  const AdminPage({Key? key, required this.token, required this.adminToken})
+  final String userId;
+  const AdminPage({Key? key, required this.token, required this.userId})
       : super(key: key);
   @override
   _AdminPage createState() => _AdminPage();
@@ -20,6 +20,7 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPage extends State<AdminPage> {
   List users = [];
+  //late var usersBanned;
   List usersBanned = [];
   late var NoUser = 5;
   late var NoBan = 5;
@@ -85,11 +86,11 @@ class _AdminPage extends State<AdminPage> {
     return ratioTweet;
   }
 
-  Future blockUser(token, adminToken, user_id) async {
+  Future blockUser(token, userId, user_id) async {
     Map data = {'end_date': '2023-05-28'};
     var response = await http.post(
       Uri.parse(
-        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${adminToken}/banning/${user_id}/',
+        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${userId}/banning/${user_id}/',
       ),
       body: data,
       headers: {
@@ -105,10 +106,10 @@ class _AdminPage extends State<AdminPage> {
     });
   }
 
-  Future unblockUser(token, adminToken, user_id) async {
+  Future unblockUser(token, userId, user_id) async {
     var response = await http.delete(
       Uri.parse(
-        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${adminToken}/banning/${user_id}/',
+        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${userId}/banning/${user_id}/',
       ),
       headers: {
         'x-auth-token': token,
@@ -139,7 +140,7 @@ class _AdminPage extends State<AdminPage> {
   }
 
   Future getUser(token) async {
-    //await Future.delayed(const Duration(seconds: 2));
+    //await Future.delayed(const Duration(seconds: 3));
     var response = await http.get(
       Uri.parse(
         ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$count&page=1&search=&state='),
@@ -177,7 +178,7 @@ class _AdminPage extends State<AdminPage> {
   }
 
   Future getUserBanned(token) async {
-    //await Future.delayed(const Duration(seconds: 2));
+    //await Future.delayed(const Duration(seconds: 3));
     var response = await http.get(
       Uri.parse(
         ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$countBanned&page=1&search=&state=Banned'),
@@ -194,7 +195,7 @@ class _AdminPage extends State<AdminPage> {
       });
     } else {
       setState(() {
-        usersBanned = [''];
+        usersBanned = [];
       });
     }
   }
@@ -475,7 +476,7 @@ class _AdminPage extends State<AdminPage> {
     );
   }
 
-  Widget getBody() {
+  dynamic getBody() {
     return ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
@@ -483,7 +484,7 @@ class _AdminPage extends State<AdminPage> {
         });
   }
 
-  Widget getCard(item) {
+  dynamic getCard(item) {
     var name = item['displayName'];
     var userName = item['username'];
     var profilePic = item['profilePic'];
@@ -541,7 +542,7 @@ class _AdminPage extends State<AdminPage> {
                       minWidth: double.minPositive,
                       height: 35,
                       onPressed: () {
-                        blockUser(widget.token, widget.adminToken, user_id);
+                        blockUser(widget.token, widget.userId, user_id);
                       },
                       color: const Color.fromARGB(255, 255, 0, 0),
                       shape: RoundedRectangleBorder(
@@ -565,15 +566,15 @@ class _AdminPage extends State<AdminPage> {
     );
   }
 
-  Widget getBodyBanned() {
+  dynamic getBodyBanned() {
     return ListView.builder(
         itemCount: usersBanned.length,
-        itemBuilder: (context, index) {
-          return getCardBanned(usersBanned[index]); //Text('index $index');
+        itemBuilder: (context, index2) {
+          return getCardBanned(usersBanned[index2]); //Text('index $index');
         });
   }
 
-  Widget getCardBanned(itemBanned) {
+  dynamic getCardBanned(itemBanned) {
     var nameBanned = itemBanned['displayName'];
     var userNameBanned = itemBanned['username'];
     var profilePicBanned = itemBanned['profilePic'];
@@ -624,8 +625,7 @@ class _AdminPage extends State<AdminPage> {
                     minWidth: double.minPositive,
                     height: 35,
                     onPressed: () {
-                      unblockUser(
-                          widget.token, widget.adminToken, user_idBanned);
+                      unblockUser(widget.token, widget.userId, user_idBanned);
                     },
                     color: const Color.fromARGB(255, 255, 0, 0),
                     shape: RoundedRectangleBorder(

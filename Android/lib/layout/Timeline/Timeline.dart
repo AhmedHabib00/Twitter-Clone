@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable, avoid_print, unused_element, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable, avoid_print, unused_element, prefer_typing_uninitialized_variables, unnecessary_new, unused_local_variable, deprecated_member_use
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 
 const TextStyle _textStyle = TextStyle(
   fontSize: 40,
@@ -17,7 +15,9 @@ const TextStyle _textStyle = TextStyle(
 
 class TimelinePage extends StatefulWidget {
   final String token;
-  const TimelinePage({Key? key, required this.token}) : super(key: key);
+  final String userId;
+  const TimelinePage({Key? key, required this.token, required this.userId})
+      : super(key: key);
 
   @override
   State<TimelinePage> createState() => _TimelinePageState();
@@ -25,19 +25,32 @@ class TimelinePage extends StatefulWidget {
 
 class _TimelinePageState extends State<TimelinePage> {
   final scrollController = ScrollController();
+  TextEditingController tweetController = new TextEditingController();
 
   var scaffoldkey = GlobalKey<ScaffoldState>();
   List listOfTweets = [];
   late List URLss = [];
+  late String images = '';
+  late String content = 'Android first post';
+  late String gifs = '';
+  late String replyId = '';
+  late List users = [];
   var URLs;
-  var URLsEmpty;
   late Future<String> countFuture;
+  late Future<String> profilePictureFuture;
   late var count = '';
   var token = '';
   bool scaffoldKey = false;
-  bool isRetweeted = false;
-  bool iscommented = false;
-  bool isLiked = false;
+
+  //late String images = '';
+  // late String gifs = '';
+  //late String replyId = '';
+  //late List userss = [];
+
+  // bool isRetweeted = false;
+  // bool iscommented = false;
+  // bool isLiked = false;
+  late var profilePicture = '';
 
   Future getTweet(token) async {
     var response = await http.get(
@@ -73,18 +86,71 @@ class _TimelinePageState extends State<TimelinePage> {
     if (response.statusCode == 200) {
       var items = json.decode(response.body);
       count = items[0]['id'];
+      print(count);
     }
     return count;
   }
+
+  Future<String> getProfileInfo(token) async {
+    var response = await http.get(
+      Uri.parse(
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+      ),
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var items = json.decode(response.body);
+      print(response.statusCode);
+      print(response.body);
+      profilePicture = items['Profile Picture'];
+      print(profilePicture);
+    }
+    return profilePicture;
+  }
+
+  // Future<List> tweetPost(
+  //   //String images,
+  //   List content,
+  //   //String gifs,
+  //   //String replyId,
+  //   List users,
+  //   String token,
+  // ) async {
+  //   var data = {
+  //     content: ['$content'],
+  //     //'images': '',
+  //     //'gifs':
+  //     // 'https://i0.wp.com/voonze.com/wp-content/uploads/2020/07/img_5f2162a15c4d1.gif?h=250&ssl=1',
+  //     users: [],
+  //     //'replyId': '',
+  //   };
+  //   // print(images);
+  //   print(content);
+  //   // print(gifs);
+  //   //print(replyId);
+  //   print(users);
+  //   var response = await http.post(
+  //       Uri.parse(
+  //           'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/'),
+  //       body: data,
+  //       headers: {"x-auth-token": token});
+  //   print(response.body);
+  //   return users;
+  // }
 
   @override
   void initState() {
     super.initState();
     countFuture = getTweetcount(widget.token);
+    profilePictureFuture = getProfileInfo(widget.token);
   }
 
   @override
   Widget build(BuildContext context) {
+    //print(userss);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -92,14 +158,23 @@ class _TimelinePageState extends State<TimelinePage> {
           elevation: 1,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           leading: InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://previews.123rf.com/images/koblizeek/koblizeek2001/koblizeek200100050/138262629-usuario-miembro-de-perfil-de-icono-de-hombre-vector-de-s%C3%ADmbolo-perconal-sobre-fondo-blanco-aislado-.jpg'),
-                radius: 16,
-              ),
-            ),
+            child: FutureBuilder<String>(
+                future: profilePictureFuture,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    profilePicture = snapshot.data!;
+                    return Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          profilePicture.toString(),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                })),
             onTap: () {
               scaffoldkey.currentState?.openDrawer();
             },
@@ -133,46 +208,61 @@ class _TimelinePageState extends State<TimelinePage> {
               if (snapshot.hasData) {
                 count = snapshot.data!;
                 getTweet(widget.token);
-                //return SingleChildScrollView(child: TweetBoxWidgety());
                 return getTweetBody();
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
             })),
-        drawer: SideMenu(token: token),
+        drawer: SideMenu(token: token, userId: widget.userId),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue,
-          onPressed: () {
+          onPressed: () async {
             openAddTweetDialog();
           },
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.local_fire_department_sharp),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color.fromARGB(255, 0, 0, 0),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: [
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.home),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BottomNavigationBar(
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            showSelectedLabels: false,
+            showUnselectedLabels: true,
+            items: [
+              BottomNavigationBarItem(
+                icon: FaIcon(
+                  FontAwesomeIcons.home,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  size: 25,
+                ),
                 label: 'News Feed',
-                backgroundColor: Color.fromARGB(255, 2, 0, 0)),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.search),
-                label: 'Search',
-                backgroundColor: Color.fromARGB(255, 0, 0, 0)),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.microphone),
-                label: 'Spaces',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.bell),
-                label: 'Notifications',
-                backgroundColor: Colors.black),
-            BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.envelope),
-                label: 'Inbox',
-                backgroundColor: Color.fromARGB(255, 0, 0, 0)),
-          ],
+                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              ),
+              BottomNavigationBarItem(
+                  icon: FaIcon(
+                    FontAwesomeIcons.search,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    size: 25,
+                  ),
+                  label: 'Search',
+                  backgroundColor: Color.fromARGB(255, 255, 255, 255)),
+              BottomNavigationBarItem(
+                  icon: FaIcon(
+                    FontAwesomeIcons.bell,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    size: 25,
+                  ),
+                  label: 'Notifications',
+                  backgroundColor: Color.fromARGB(255, 255, 255, 255)),
+              BottomNavigationBarItem(
+                  icon: FaIcon(
+                    FontAwesomeIcons.envelope,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    size: 25,
+                  ),
+                  label: 'Inbox',
+                  backgroundColor: Color.fromARGB(255, 255, 255, 255)),
+            ],
+          ),
         ),
       ),
     );
@@ -185,23 +275,49 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 
   Future openAddTweetDialog() => showDialog(
+        context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Your comment',
+            'Add Tweet',
           ),
           content: TextField(
+            controller: tweetController,
             decoration: InputDecoration(
-              hintText: "Enter your comment",
+              hintText: "What's happening?",
             ),
           ),
           actions: [
             TextButton(
-              onPressed: () {},
-              child: Text('submit'),
+              onPressed: () async {
+                var request = http.MultipartRequest(
+                  'POST',
+                  Uri.parse(
+                      'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/'),
+                );
+                //Header....
+                request.headers['x-auth-token'] = widget.token;
+                print(widget.token);
+
+                request.fields['content'] = tweetController.text;
+                request.fields['replyId'] = replyId.toString();
+                request.fields['gifs'] = gifs.toString();
+                request.fields['users'] = users.toString();
+                // request.files.add(http.MultipartFile.fromBytes(
+                //   'images',
+                //   [],
+                //   filename: 'some-file-name.jpg',
+                //   contentType: MediaType("image", "jpg"),
+                //));
+                var response = await request.send();
+                print(response.stream);
+                print(response.statusCode);
+                final res = await http.Response.fromStream(response);
+                print(res.body);
+              },
+              child: Text('Tweet'),
             ),
           ],
         ),
-        context: context,
       );
 
   Widget getTweetBody() {
@@ -220,10 +336,9 @@ class _TimelinePageState extends State<TimelinePage> {
     var noOfLike = item['noOfLike'];
     var noOfReplies = item['noOfReplies'];
     var noOfRetweets = item['noOfRetweets'];
-    //var isLiked = item['isLiked'];
-    //print(isLiked);
-    // bool isRetweeted = false;
-    // bool iscommented = false;
+    var isLiked = item['isLiked'];
+    var isRetweeted = item['isRetweeted'];
+    bool iscommented = false;
     List URLss = item['URLs'];
 
     return Row(
@@ -410,3 +525,5 @@ class _TimelinePageState extends State<TimelinePage> {
     );
   }
 }
+
+MediaType(String s, String basename) {}

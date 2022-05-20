@@ -22,6 +22,7 @@ class setUsername extends StatefulWidget {
 class _setUsername extends State<setUsername> {
   final formKey = GlobalKey<FormState>();
   TextEditingController setUsernameController = new TextEditingController();
+  final String userId = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +160,8 @@ class _setUsername extends State<setUsername> {
       setState(() {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (BuildContext context) => TimelinePage(token: token)),
+                builder: (BuildContext context) =>
+                    TimelinePage(token: token, userId: userId)),
             (Route<dynamic> route) => false);
         showModalBottomSheet<void>(
           context: context,

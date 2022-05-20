@@ -35,7 +35,7 @@ class _SignUpPage extends State<SignUpPage> {
   late String? GoogleTokenId = '';
   late final String token = '';
   late final String adminToken = '';
-
+  late final String userId = '';
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
@@ -399,7 +399,7 @@ class _SignUpPage extends State<SignUpPage> {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      TimelinePage(token: token)), // testpage
+                      TimelinePage(token: token, userId: userId)), // testpage
               (Route<dynamic> route) => false);
           dataResponse = mapResponse;
           showModalBottomSheet<void>(

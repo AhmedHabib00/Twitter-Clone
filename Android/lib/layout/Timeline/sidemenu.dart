@@ -1,29 +1,51 @@
-// ignore_for_file: unused_element
-
+// ignore_for_file: unused_element, unnecessary_string_interpolations, unnecessary_brace_in_string_interps
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-//import '../../screens/Settings/settingspage.dart';
-//import '../../screens/home/Timeline.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
 import 'package:whisper/layout/UserProfile/profile_layout.dart';
 import 'package:whisper/layout/WelcomePage/WelcomePage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SideMenu extends StatefulWidget {
   final String token;
-  const SideMenu({Key? key, required this.token}) : super(key: key);
+  final String userId;
+  const SideMenu({Key? key, required this.token, required this.userId})
+      : super(key: key);
 
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
 
 class _SideMenuState extends State<SideMenu> {
+  late var profilePicture = '';
+  late var profileDisplayName = '';
+  late var profileUsername = '';
+  late Future<String> profilePictureFuture;
+
+  Future<String> getProfileInfo(token) async {
+    var response = await http.get(
+      Uri.parse(
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+      ),
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var items = json.decode(response.body);
+      profilePicture = items['Profile Picture'];
+      profileDisplayName = items['displayName'];
+      profileUsername = items['username'];
+    }
+    return profilePicture;
+  }
+
   @override
   void initState() {
     super.initState();
+    profilePictureFuture = getProfileInfo(widget.token);
   }
 
-  final String _googleSignIn = '';
   @override
   Widget build(BuildContext context) {
     var token = '';
@@ -44,20 +66,34 @@ class _SideMenuState extends State<SideMenu> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        const SizedBox(
+                        SizedBox(
                           width: 70,
                           height: 70,
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                'https://previews.123rf.com/images/koblizeek/koblizeek2001/koblizeek200100050/138262629-usuario-miembro-de-perfil-de-icono-de-hombre-vector-de-s%C3%ADmbolo-perconal-sobre-fondo-blanco-aislado-.jpg'),
-                          ),
+                          child: FutureBuilder<String>(
+                              future: profilePictureFuture,
+                              builder: ((context, snapshot) {
+                                if (snapshot.hasData) {
+                                  profilePicture = snapshot.data!;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(9.0),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        profilePicture.toString(),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              })),
                         ),
                         const SizedBox(
                           height: 0,
                         ),
-                        const Text(
-                          'Eizaldin Tarik',
-                          style: TextStyle(
+                        Text(
+                          '${profileDisplayName}',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
                             color: Colors.black,
@@ -66,9 +102,9 @@ class _SideMenuState extends State<SideMenu> {
                         const SizedBox(
                           height: 1,
                         ),
-                        const Text(
-                          '@EizaldinT',
-                          style: TextStyle(
+                        Text(
+                          '$profileUsername',
+                          style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 15,
                           ),
@@ -79,7 +115,7 @@ class _SideMenuState extends State<SideMenu> {
                         Row(
                           children: const [
                             Text(
-                              '31 ',
+                              '2 ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -90,7 +126,7 @@ class _SideMenuState extends State<SideMenu> {
                               width: 15,
                             ),
                             Text(
-                              '2 ',
+                              '1 ',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -109,7 +145,8 @@ class _SideMenuState extends State<SideMenu> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => TimelinePage(token: token))),
+                          builder: (context) => TimelinePage(
+                              token: token, userId: widget.userId))),
                 ),
                 ListTile(
                   leading: const Icon(Icons.person),
