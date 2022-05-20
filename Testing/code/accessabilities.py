@@ -103,6 +103,29 @@ Settings_confirm_password_error = 'confirm-error'
 Settings_save_pass_change = 'save-password'
 Settings_password_error = 'invalid-password'
 
+
+# Bookmarks
+bookmarks_share_button = '#post > div > div:nth-child(3) > div > button > svg'
+bookmarks_option = '#share > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiMenu-paper.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-177ic5c > ul > ul > div'
+bookmarks_navbar_button = '#Bookmarks > div > p'
+bookmarked_tweet_options = '#post > div > div:nth-child(1) > div > h3 > div > svg'
+bookmark_remove_tweet = 'remove-bookmark'
+bookmark_tweet_body = '#post > div > div:nth-child(2) > div:nth-child(1)'
+
+# Admin
+admin_block_button_id = 'followbutton'
+admin_unblock_button_id = 'followbutton'
+admin_first_account_shown = '#admin-foundation > div.AdminUsers_admin-users__ifX2F > div.UsersFeed_notifeed__Y\+Pcx > div > div:nth-child(1) > div.User_text-container__\+qAfN > b'
+admin_month_id = 'month'
+admin_day_id = 'day'
+admin_year_id = 'year'
+admin_block_page_button = '#popup-page-children > div > button'
+admin_blocked_users_button = '#blocked-users > div > p'
+admin_users_button = '#users > div > p'
+admin_search_bar = 'searchbar-input-element'
+admin_homepage_test = 'twbox-text-area-home'
+
+
 # chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
 # chrome_driver = "D:\Whisper-Testing\Testing\code\drivers/chromedriver.exe"
 

@@ -5,46 +5,14 @@ import pyautogui
 import os
 import time
 import pytest
-from conftest import start_driver
 from conftest import end_driver
+from conftest import sign_in
 
 
 class TestHomePage:
-    def sign_in(self):
-        driver = start_driver()
-        # LOGIN
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_button_id).click()
-        except NoSuchElementException:
-            pass
-
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_email_textbox_id).send_keys(
-                accessabilities.username)
-        except NoSuchElementException:
-            pass
-
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_next_button).click()
-        except NoSuchElementException:
-            pass
-
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_password_textbox_id).send_keys(
-                accessabilities.password)
-        except NoSuchElementException:
-            pass
-
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_login_button_id).click()
-        except NoSuchElementException:
-            pass
-        return driver
-
     def test_tweetbox_text_image_combinations_1(self):
         # SIGN IN
-        driver = TestHomePage.sign_in(self)
-
+        driver = sign_in()
         # case 1
 
         try:
@@ -93,7 +61,7 @@ class TestHomePage:
 
     def test_tweetbox_text_image_combinations_2(self):
         # SIGN IN
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
         # case 3
         try:
             driver.find_element(By.CSS_SELECTOR, accessabilities.select_image_button).click()
@@ -194,7 +162,7 @@ class TestHomePage:
 
     def image_exceeding_limit(self):
         # SIGN IN
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
         # FIRST IMAGE
         try:
             driver.find_element(By.CSS_SELECTOR, accessabilities.select_image_button).click()
