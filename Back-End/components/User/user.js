@@ -62,8 +62,6 @@ router.get('/', async (req, res, next) =>{
             search = "";
         }
 
-    
-
         usersData = await userSchema.aggregate([
             { $match: {
                 "role":"User",
@@ -173,57 +171,63 @@ router.get('/:id/bookmarks', auth, async (req, res) =>{
     if (!bookmarksList) return res.status.send('No tweets found');
 
     for(i = 0; i < bookmarksList.length; i++){
+        
+        try{          
+            Liked=false;
+            Retweeted=false;
+
+            //Checking if the tweet is liked by the current user.
+            var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
+            if(userLiked) Liked = true;
                 
-        Liked=false;
-        Retweeted=false;
+            //Checking if the tweet is retweeted by the current user.
+            var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
+            if(userRetweeted) Retweeted = true;
 
-        //Checking if the tweet is liked by the current user.
-        var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
-        if(userLiked) Liked = true;
+            var contentTemp="";
+            var gifTemp = bookmarksList[i]["gifs"];
+            var tempMedia = bookmarksList[i]["media"];
+            var urls=[];
+
+            if(!tempMedia || tempMedia.length == 0){
+                if(!gifTemp || gifTemp.length == 0)
+                {
+                    urls=[];
+                }
+                else
+                {
+                    urls.push(gifTemp);
+                }
+            }
+            else{
+                urls=tempMedia;
+            }
+
+            if(bookmarksList[i]["content"])
+                contentTemp = bookmarksList[i]["content"];
+
+            var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
             
-        //Checking if the tweet is retweeted by the current user.
-        var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
-        if(userRetweeted) Retweeted = true;
-
-        var contentTemp="";
-        var gifTemp = bookmarksList[i]["gifs"];
-        var tempMedia = bookmarksList[i]["media"];
-        var urls=[];
-
-        if(!tempMedia || tempMedia.length == 0){
-            if(!gifTemp || gifTemp.length == 0)
-            {
-                urls=[];
-            }
-            else
-            {
-                urls.push(gifTemp);
-            }
+            const Obj= ({
+                    id: bookmarksList[i]["_id"],
+                    userName: userTweet.username,
+                    displayName: userTweet.name,
+                    content: contentTemp,
+                    url: userTweet.profilePic,
+                    URLs: urls,
+                    isLiked: Liked,
+                    isRetweeted: Retweeted,
+                    noOfLike: bookmarksList[i].numberLikes,
+                    noOfReplies: bookmarksList[i].numberReplies,
+                    noOfRetweets: bookmarksList[i].numberRetweets
+                });
+                
+            finalArray.push(Obj);
         }
-        else{
-            urls=tempMedia;
+        catch(err){
+            
         }
 
-        if(bookmarksList[i]["content"])
-            contentTemp = bookmarksList[i]["content"];
-
-        var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
-
-        const Obj= ({
-                id: bookmarksList[i]["_id"],
-                userName: userTweet.username,
-                displayName: userTweet.name,
-                content: contentTemp,
-                url: userTweet.profilePic,
-                URLs: urls,
-                isLiked: Liked,
-                isRetweeted: Retweeted,
-                noOfLike: bookmarksList[i].numberLikes,
-                noOfReplies: bookmarksList[i].numberReplies,
-                noOfRetweets: bookmarksList[i].numberRetweets
-            });
-
-        finalArray.push(Obj);              
         
     }
 
