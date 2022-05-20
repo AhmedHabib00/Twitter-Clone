@@ -29,7 +29,7 @@
             ],
 
             "links":["backend", "frontend"],
-            "memory":10
+            "memory":100
         }
        
     ]
