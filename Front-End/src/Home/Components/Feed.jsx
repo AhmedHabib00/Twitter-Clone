@@ -13,7 +13,7 @@ import Loader from '../../Components/Loader/Loader';
  * to display the posts in the feed component.
  */
 function Feed({
-  data, isReplying, canScrollUpdate, updateData, isEndOfFeed,
+  data, isReplying, canScrollUpdate, updateData, isEndOfFeed, isBlocked,
 }) {
   const [postData, setPostData] = useState([]);
 
@@ -50,6 +50,8 @@ function Feed({
             noOfRetweets={post.noOfRetweets}
             isReplying={isReplying}
             url={post.url}
+            isBlocked={isBlocked}
+            whoRetweeted={post.whoRetweeted}
           />
         ))
 
@@ -71,11 +73,13 @@ Feed.propTypes = {
     noOfReplies: PropTypes.number.isRequired,
     noOfRetweets: PropTypes.number.isRequired,
     url: PropTypes.string.isRequired,
+    whoRetweeted: PropTypes.string,
   })).isRequired,
   isReplying: PropTypes.bool,
   isEndOfFeed: PropTypes.bool,
   canScrollUpdate: PropTypes.bool,
   updateData: PropTypes.func,
+  isBlocked: PropTypes.bool,
 };
 
 Feed.defaultProps = {
@@ -83,5 +87,6 @@ Feed.defaultProps = {
   isReplying: false,
   isEndOfFeed: false,
   updateData: () => {},
+  isBlocked: false,
 };
 export default Feed;

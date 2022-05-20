@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './NotiFeed.module.css';
 import NotiContent from './NotiContent';
@@ -8,13 +8,18 @@ import NotiContent from './NotiContent';
  * to display the notifications in the feed component.
  */
 function NotiFeed({ data }) {
+  const [allData, setAllData] = useState([]);
+
+  useEffect(() => {
+    setAllData(data);
+  }, [data]);
   return (
     <div data-testid="notifeed-render-test" className={styles.notifeed}>
 
       <div data-testid="noticontent-render-test" className={styles.parent}>
 
         {
-        data && data.map((content) => (
+        allData && allData.map((content) => (
           // <section className={styles.feedbox1}>
           //   <button className={styles.feedbox2} type="button">
           <NotiContent
@@ -25,6 +30,9 @@ function NotiFeed({ data }) {
             content={content.content}
             reason={content.reason}
             date={content.date}
+            blockDuration={content.blockDuration}
+            from={content.from}
+            to={content.to}
           />
           //   </button>
           // </section>
@@ -41,8 +49,10 @@ NotiFeed.propTypes = {
     id: PropTypes.number.isRequired,
     senderName: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-
+    blockDuration: PropTypes.string.isRequired,
     reason: PropTypes.string.isRequired,
+    from: PropTypes.number.isRequired,
+    to: PropTypes.number.isRequired,
   })).isRequired,
 };
 export default NotiFeed;

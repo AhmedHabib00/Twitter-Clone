@@ -1,16 +1,23 @@
 [
     {
         "id":1,
+        "form":1,
+        "to":1,
         "entityId":1,
         "senderName": "Asmaa",
-        "content":"Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it Hello this is my first trial to create json file and request it. Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it Hello this is my first trial to create json file and request itHello this is my first trial to create json file and request it",
+        "content":"Hello this is my first trial to create json file and request it",
         "reason":"like"
     },
     {
+      "form":2,
+      "to":1,
       "id":7,
-      "reason":"block"  
+      "reason":"block",
+      "blockDuration":"2 days."
    },
     {
+      "form":3,
+      "to":1,
       "id":2,
       "entityId":3,
       "senderName": "Noha",
@@ -18,6 +25,8 @@
       "reason":"missed"  
    },
     {
+      "form":4,
+      "to":1,
         "id":3,
         "entityId":2,
         "senderName": "Ahmed ",
@@ -25,6 +34,8 @@
         "reason":"retweet"   
      },
     {
+      "form":5,
+      "to":1,
         "id":4,
         "profileid":1,
         "senderName": "Esraa",
@@ -32,12 +43,14 @@
          
      },
      {
+      "to":1,
         "id":5,
         "senderName": "yara35",
         "date": "March 22,2022",
         "reason":"login"   
      },
      {
+      "to":1,
         "id":6,
         "content": "Ramadan is Expected to be on Saturday the 2nd of April.",
         "reason":"news"   

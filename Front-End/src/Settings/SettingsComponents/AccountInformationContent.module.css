@@ -1,0 +1,152 @@
+/* @media screen & (max-width: 900px) {
+  .noticontent {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 10px;
+  }
+} */
+
+.parent {
+  position: relative;
+  float: left;
+  text-align: center;
+  min-height: 0;
+  width: 278px;
+  display: "inline-block";
+}
+
+/*
+    .retweet-icon {
+      color: rgb(0 186 124);
+      font-size: 30px !important;
+      line-height: normal;
+      position: relative;
+      top: 5px;
+      left: 5px;
+      width: 100%;
+      height: auto;
+    } */
+
+.postavatar {
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.title1 {
+  font-size: 15px;
+  color: rgb(20 25 29);
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: -10px;
+  height: auto;
+  padding-top: 20px;
+}
+
+.title2 {
+  font-size: 13px;
+  color: rgb(89 105 118);
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: 0;
+  height: auto;
+  padding-top: 0;
+}
+
+.login-news {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: 20px;
+  height: auto;
+  padding-top: 20px;
+}
+
+.content2 {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  text-align: left;
+  left: 55px;
+  width: 450px;
+  height: auto;
+  padding-bottom: 10px;
+}
+
+.wrapper2 {
+  flex: auto;
+  height: max-content !important;
+  width: 100%;
+  margin: auto;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  flex-flow: auto;
+  font-weight: bold;
+  align-items: flex-start;
+}
+
+.wrapper {
+  background-color: white;
+  height: max-content !important;
+  width: 100%;
+  margin: 0%;
+  cursor: pointer;
+  border: none;
+  border-top: 1px solid rgb(225 225 225 / 40%);
+  font-weight: bold;
+  display: flex;
+  flex-flow: row wrap;
+  text-align: left;
+}
+
+.wrapper > * {
+  flex: 1 100%;
+}
+
+.wrapper:hover {
+  background-color: #e9ebec;
+
+  /* border-radius: 21px; */
+  height: max-content !important;
+  width: 100%;
+  border-width: thin;
+  border-color: rgb(230 230 230);
+}
+
+.retweet-icon {
+  color: rgb(83 100 113);
+  font-size: 30px !important;
+  line-height: normal;
+  position: relative;
+  top: 15px;
+  left: 10px;
+  width: 100%;
+  height: auto;
+  font-weight: 100;
+  transform: scale(0.8);
+}
+
+.arrow {
+  color: rgb(83 100 113);
+  font-size: 25px !important;
+  line-height: normal;
+  position: relative;
+  top: 25px;
+  left: 550px;
+  width: 100%;
+  height: auto;
+  font-weight: lighter;
+  transform: scale(0.8);
+}

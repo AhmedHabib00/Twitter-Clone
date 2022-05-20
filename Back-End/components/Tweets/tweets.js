@@ -259,9 +259,8 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
         
         finalArray=[]
         const projection = { "_id": 1,"media":1,"gifs":1,"content":1,"postedBy":1,"likes":1,"retweeters":1,"replyTo":1,"numberLikes":1,"numberReplies":1,"numberRetweets":1};
-        var user1=await user.findOne({id:theUser}).select({"blocks":1})
-        console.log(user1.blocks)
-        var results = await tweet.find({replyTo:[],postedBy:{$nin:user1["blocks"]}},projection).limit(limit).skip(size*(page-1))
+        
+        var results = await tweet.find({replyTo:[]},projection).limit(limit).skip(size*(page-1))
         .populate("postedBy")
         .populate({path:"retweetInfo",populate:{path:"postedBy"}})
         .populate("retweeters")
@@ -272,13 +271,12 @@ router.get("/TimelineTweets",auth,async (req,res)=>{
             return res.status(400).send("error: problem with finding the tweets")
         })
         if (!results) return res.status.send('No tweets found')
-
         
     for(i=0;i<results.length;i++)
        {
         if (!results[i])   
           continue;
-        // console.log(results[i])
+        console.log(results[i])
   
         if(results[i].retweetInfo)
         {
@@ -441,6 +439,11 @@ router.post("/",multer.any(),auth,async function(req,res,next){
     {
         return res.status(400).send("1 of the body parameters could not be read.");
         
+    }
+    //checking if a tweet has no images,content,gifs.
+    if(req.body.content.length==0 && req.body.gifs.length==0 && req.files.length==0)
+    {
+        return res.status(400).send("can not post an empty tweet.");
     }
     
     //prevent the user from posting if he is banned.

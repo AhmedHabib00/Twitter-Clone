@@ -62,13 +62,27 @@ router.get('/', async (req, res, next) =>{
             search = "";
         }
 
-        usersData = await userSchema.find({
-            "role":"User",
-            "username": {$regex:  ".*"+search+".*", $options:"si"} 
-        },
-            '_id name username description profilePic role',
-        ).limit(limit).skip(size*(page-1)).sort( 'createdAt' )
-        
+        usersData = await userSchema.aggregate([
+            { $match: {
+                "role":"User",
+                "username": {$regex:  ".*"+search+".*", $options:"si"} 
+            }},
+            { $project: { 
+                "_id": 0,
+                "id": "$_id", 
+                "displayName": "$name",
+                "username": {$ifNull: ["$username", ""]},
+                "description": {$ifNull: ["$description", ""]}, 
+                "profilePic": 1,
+                "banned": {$ifNull: ["$banned", false]},
+                "role": 1
+            }},
+            { '$facet'    : {
+                data: [ { $skip: size*(page-1) }, { $limit: limit } ] // add projection here wish you re-shape the docs
+            } }
+        ]
+        ).sort('createdAt');
+    
         noUsers = await userSchema.count({
             "role":"User",
             "username": {$regex:  ".*"+search+".*", $options:"i"}
@@ -86,6 +100,7 @@ router.get('/', async (req, res, next) =>{
         res.sendStatus(500).send("Error");
     }
 });
+
 // Information of a single user by the ID : GET /users/:id
 router.get('/:id', async (req, res) =>{
     try{
@@ -156,57 +171,63 @@ router.get('/:id/bookmarks', auth, async (req, res) =>{
     if (!bookmarksList) return res.status.send('No tweets found');
 
     for(i = 0; i < bookmarksList.length; i++){
+        
+        try{          
+            Liked=false;
+            Retweeted=false;
+
+            //Checking if the tweet is liked by the current user.
+            var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
+            if(userLiked) Liked = true;
                 
-        Liked=false;
-        Retweeted=false;
+            //Checking if the tweet is retweeted by the current user.
+            var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
+            if(userRetweeted) Retweeted = true;
 
-        //Checking if the tweet is liked by the current user.
-        var userLiked = bookmarksList[i].likes.some(item => item._id == req.params.id)
-        if(userLiked) Liked = true;
+            var contentTemp="";
+            var gifTemp = bookmarksList[i]["gifs"];
+            var tempMedia = bookmarksList[i]["media"];
+            var urls=[];
+
+            if(!tempMedia || tempMedia.length == 0){
+                if(!gifTemp || gifTemp.length == 0)
+                {
+                    urls=[];
+                }
+                else
+                {
+                    urls.push(gifTemp);
+                }
+            }
+            else{
+                urls=tempMedia;
+            }
+
+            if(bookmarksList[i]["content"])
+                contentTemp = bookmarksList[i]["content"];
+
+            var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
             
-        //Checking if the tweet is retweeted by the current user.
-        var userRetweeted = bookmarksList[i].retweeters.some(item => item._id == req.params.id)
-        if(userRetweeted) Retweeted = true;
-
-        var contentTemp="";
-        var gifTemp = bookmarksList[i]["gifs"];
-        var tempMedia = bookmarksList[i]["media"];
-        var urls=[];
-
-        if(!tempMedia || tempMedia.length == 0){
-            if(!gifTemp || gifTemp.length == 0)
-            {
-                urls=[];
-            }
-            else
-            {
-                urls.push(gifTemp);
-            }
+            const Obj= ({
+                    id: bookmarksList[i]["_id"],
+                    userName: userTweet.username,
+                    displayName: userTweet.name,
+                    content: contentTemp,
+                    url: userTweet.profilePic,
+                    URLs: urls,
+                    isLiked: Liked,
+                    isRetweeted: Retweeted,
+                    noOfLike: bookmarksList[i].numberLikes,
+                    noOfReplies: bookmarksList[i].numberReplies,
+                    noOfRetweets: bookmarksList[i].numberRetweets
+                });
+                
+            finalArray.push(Obj);
         }
-        else{
-            urls=tempMedia;
+        catch(err){
+            
         }
 
-        if(bookmarksList[i]["content"])
-            contentTemp = bookmarksList[i]["content"];
-
-        var userTweet = await userSchema.findById(bookmarksList[i].postedBy);
-
-        const Obj= ({
-                id: bookmarksList[i]["_id"],
-                userName: userTweet.username,
-                displayName: userTweet.name,
-                content: contentTemp,
-                url: userTweet.profilePic,
-                URLs: urls,
-                isLiked: Liked,
-                isRetweeted: Retweeted,
-                noOfLike: bookmarksList[i].numberLikes,
-                noOfReplies: bookmarksList[i].numberReplies,
-                noOfRetweets: bookmarksList[i].numberRetweets
-            });
-
-        finalArray.push(Obj);              
         
     }
 
@@ -355,88 +376,73 @@ router.get('/:id/blocking', auth, async (req, res) =>{
 });
 
 // Allows an user to block another user : POST /users/{source_user_id}/blocking/{target_user_id}
-router.post('/:source_user_id/blocking/:target_user_id', auth, async (req, res) =>{
-    
+router.post('/:source_user_id/blocking/:target_tweet_id', auth, async (req, res) =>{
+
     // Authrization
     if (req.user.role != "User" || req.user._id != req.params.source_user_id) {
         return res.status(403).send("Access denied");
     }
 
     // Get data of the user who want to block by id
-    try {
-        // Get data of the user that will be followed from body request by target_user_id
-        sourceUserData = await userSchema.findById(req.params.source_user_id);
-        tweet = await tweetSchema.findById((req.params.target_user_id));
 
-        if (!tweet) {
-            return res.status(500).send({"data": {
-                "blocking": false,
-                "reason": "Unknown specified tweet id"
-            }}); 
-        }
-        targetUserData = await userSchema.findById(tweet.postedBy);
+    // Get data of the user that will be followed from body request by target_user_id
+    sourceUserData = await userSchema.findById(req.params.source_user_id);
+    targetTweetData = await tweetSchema.findById(req.params.target_tweet_id);
 
-        if (!sourceUserData || !targetUserData) {
-            return res.status(500).send({"data": {
-                "blocking": false,
-                "reason": "Unknown specified id"
-            }}); 
-        }
+    if (!sourceUserData || !targetTweetData) {
+        return res.status(500).send({"data": {
+            "blocking": false,
+            "reason": "Unknown specified id"
+        }}); 
+    }
 
-        if (sourceUserData.role == "User" && targetUserData.role == "User") {
-            // Check if the source_user_id not already blocking the target_user_id
+    target_user_id = targetTweetData.postedBy
+    targetUserData = await userSchema.findById(targetTweetData.postedBy);
 
-            blockExistPass = sourceUserData.blocks.find(blocking => blocking == tweet.postedBy)
+    if (sourceUserData.role == "User" && targetUserData.role == "User") {
 
-            // Check if user is the same as target_user
-            selfPass = req.params.source_user_id == tweet.postedBy
-            
-            if (!selfPass) {
-                if (!blockExistPass) {
+        // Check if the source_user_id not already blocking the target_user_id
+        blockExistPass = sourceUserData.blocks.find(blocking => blocking == target_user_id)
 
-                    // Delete follow relation between source_user_id and target_user_id
-                    // Delete followers
-                    targetUserData.followers = removeItem(targetUserData.followers, req.params.source_user_id);
-                    await userSchema.updateOne({"_id":tweet.postedBy},{"followers":targetUserData.followers});
+        // Check if user is the same as target_user
+        selfPass = req.params.source_user_id == target_user_id
+        
+        if (!selfPass) {
+            if (!blockExistPass) {
 
-                    // Delete following
-                    sourceUserData.following = removeItem(sourceUserData.following, tweet.postedBy);
-                    // Add target_user_id to the block list of the user
-                    sourceUserData.blocks.push(tweet.postedBy);
-                    await userSchema.updateOne({"_id":req.params.source_user_id},{"following":sourceUserData.following,"blocks": sourceUserData.blocks});
+                // Delete follow relation between source_user_id and target_user_id
+                // Delete followers
+                targetUserData.followers = removeItem(targetUserData.followers, req.params.source_user_id);
+                await userSchema.updateOne({"_id": target_user_id},{"followers":targetUserData.followers});
 
-                    blockExistPass = sourceUserData.blocks.find(blocking => blocking == tweet.postedBy)
-                    
-                    if (blockExistPass) {
-                        return res.status(200).send({"data": {
-                            "blocking": true
-                        }});
-                    }else{
-                        throw err;
-                    }   
-                }else{
-                    return res.status(200).send({"data": {
-                        "blocking": true,
-                        "reason": "Already blocked."
-                    }});
-                }
+                // Delete following
+                sourceUserData.following = removeItem(sourceUserData.following, target_user_id);
+                // Add target_user_id to the block list of the user
+                sourceUserData.blocks.push(target_user_id);
+                await userSchema.updateOne({"_id":req.params.source_user_id},{"following":sourceUserData.following,"blocks": sourceUserData.blocks});
+                
+                return res.status(200).send({"data": {
+                    "blocking": true
+                }});
+
             }else{
-                return res.status(500).send({"data": {
+                return res.status(200).send({"data": {
                     "blocking": false,
-                    "reason": "Same target_user_id and source_user_id"
+                    "reason": "Already blocked."
                 }});
             }
         }else{
             return res.status(500).send({"data": {
                 "blocking": false,
-                "reason": "Not auth. user"
+                "reason": "Same target_user_id and source_user_id"
             }});
-        }            
-    } catch(err) {
+        }
+    }else{
         return res.status(500).send({"data": {
             "blocking": false,
+            "reason": "Not auth. user"
         }});
-    }
+    }            
 });
 
 // Allows an user to unblock user : DEL /users/{source_user_id}/blocking/{target_user_id}
@@ -450,15 +456,7 @@ router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res
     try {
         // Get data of the target_user_id
         sourceUserData = await userSchema.findById(req.params.source_user_id);
-        tweet = await tweetSchema.findById((req.params.target_user_id));
-
-        if (!tweet) {
-            return res.status(500).send({"data": {
-                "blocking": false,
-                "reason": "Unknown specified tweet id"
-            }}); 
-        }
-        targetUserData = await userSchema.findById(tweet.postedBy);
+        targetUserData = await userSchema.findById(req.params.target_user_id);
 
         if (!sourceUserData || !targetUserData) {
             return res.status(500).send({"data": {
@@ -469,18 +467,18 @@ router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res
 
         if (sourceUserData.role == "User" && targetUserData.role == "User") {
             // Check if source_user already blocking target_user
-            blockingExistPass = sourceUserData.blocks.find(blocking => blocking == tweet.postedBy);
+            blockingExistPass = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id);
 
             // Check if target_user is the same as source_user
-            selfPass = tweet.postedBy == req.params.source_user_id;
+            selfPass = req.params.target_user_id == req.params.source_user_id;
 
             if (!selfPass) {
                 if (blockingExistPass) {
                     // Delete following
-                    sourceUserData.blocks = removeItem(sourceUserData.blocks, tweet.postedBy);
+                    sourceUserData.blocks = removeItem(sourceUserData.blocks, req.params.target_user_id);
                     await userSchema.updateOne({"_id":req.params.source_user_id},{"blocks": sourceUserData.blocks});
                     // Check
-                    blockingExistPass = sourceUserData.blocks.find(blocking => blocking == tweet.postedBy);
+                    blockingExistPass = sourceUserData.blocks.find(blocking => blocking == req.params.target_user_id);
                     if(!blockingExistPass){
                         return res.status(200).send({"data": {
                             "blocking": false
@@ -509,7 +507,6 @@ router.delete('/:source_user_id/blocking/:target_user_id', auth, async (req, res
         }});
     }
 });
-
 
 
 //"""Follow endpoints"""

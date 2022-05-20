@@ -1,20 +1,35 @@
-import { useState, React } from 'react';
+import { useState, React, useEffect } from 'react';
 import NotiFeed from './NotiComponents/NotiFeed';
 import styles from './Notifications.module.css';
-import AllData from './NotiComponents/NotiData.json';
-import MentionData from './NotiComponents/MentionData.json';
+// import AllData from './NotiComponents/NotiData.json';
+// import MentionData from './NotiComponents/MentionData.json';
+import GetNotificationsArray from '../Services/NotificationServices';
+
 /**
  *
  * @returns shows everything in the notifications component
  */
 function Notifications() {
-  const [passedData, setpassedData] = useState(AllData);
+  // const [passedData, setpassedData] = useState(AllData);
+  const [allData, setAllData] = useState();
+  // const [mentionData, setMentionData] = useState();
+  useEffect(() => {
+    (async () => {
+      const resp = await GetNotificationsArray();
+      console.log(resp.data);
+      setAllData(resp.data);
+    })();
+  }, []);
   const handleAll = () => {
-    setpassedData(AllData);
+    (async () => {
+      const resp = await GetNotificationsArray();
+      console.log(resp.data);
+      setAllData(resp.data);
+    })();
   };
 
   const handleMention = () => {
-    setpassedData(MentionData);
+    // setAllData(null);
   };
   return (
     <div className={styles.notifications}>
@@ -29,7 +44,7 @@ function Notifications() {
         <h1>helloooooo</h1>
       </div> */}
       <div>
-        <NotiFeed className={styles.notifeed} data={passedData} />
+        {allData && <NotiFeed className={styles.notifeed} data={allData} />}
       </div>
     </div>
 

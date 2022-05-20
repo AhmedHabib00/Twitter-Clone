@@ -26,14 +26,17 @@ import styles from './NotiContent.module.css';
  */
 
 function NotiContent({
-  id, entityId, profileid, senderName, content, reason, date,
+  id, entityId, profileid, senderName, content, reason, date, blockDuration, from, to,
 }) {
   const navigate = useNavigate();
   let icon = null;
   let statement1 = null;
   let statement2 = null;
   let statement3 = null;
-  // console.log(content);
+  console.log(blockDuration);
+  console.log(from);
+  console.log(to);
+  console.log(date);
   if (reason === 'like') {
     icon = <FavoriteRoundedIcon className={styles['like-icon']} />;
     statement2 = ' liked your Tweet';
@@ -57,6 +60,11 @@ function NotiContent({
     // statement = ' Liked your Tweet';
   } else if (reason === 'block') {
     icon = <BlockIcon className={styles['block-icon']} />;
+    statement1 = 'You have been blocked by the admin for ';
+    statement2 = blockDuration;
+    statement3 = ' days.';
+    // eslint-disable-next-line no-param-reassign
+    senderName = '';
   } else {
     icon = null;
   }
@@ -66,11 +74,7 @@ function NotiContent({
     // console.log(entityId);
     // console.log(profileid);
     if (reason === 'like' || reason === 'retweet' || reason === 'missed') {
-      return navigate('/ViewTweet', {
-        state: {
-          entityId,
-        },
-      });
+      return navigate(`/tweet/${entityId}`);
     } if (reason === 'followed') {
       return navigate('/Profile', {
         state: {
@@ -97,10 +101,10 @@ function NotiContent({
           {/* <AccountCircleIcon /> */}
           <div className={styles['login-news']}>
             {statement1}
-            <b>{senderName}</b>
+            {/* <b>{senderName}</b> */}
             {statement2}
             <br />
-            {date}
+            {/* {date} */}
             {statement3}
           </div>
         </div>
@@ -129,6 +133,8 @@ function NotiContent({
         {statement1}
         <b>{senderName}</b>
         {statement2}
+        {statement3}
+
       </div>
       {' '}
       <div data-testid="content-render-test">
@@ -149,6 +155,9 @@ NotiContent.propTypes = {
   content: PropTypes.string.isRequired,
   reason: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
+  blockDuration: PropTypes.string.isRequired,
+  from: PropTypes.number.isRequired,
+  to: PropTypes.number.isRequired,
 };
 
 export default NotiContent;

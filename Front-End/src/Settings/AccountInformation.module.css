@@ -5,21 +5,22 @@
   text-align: left;
   font-size: 20px;
   font-weight: bold;
-  padding-left: 15px;
-  padding-top: 13px;
-  padding-bottom: 0;
+  padding-left: 50px;
+  padding-top: 20px;
+
+  /* padding-bottom: -100px; */
 }
 
-.header2 {
+/* .header2 {
   text-align: left;
   font-size: 14px;
   font-weight: 400;
   padding-left: 0;
   padding-top: 0;
-
-  /* padding-bottom: -100px; */
+  padding-bottom: 0;
+  top: 50px;
   color: rgb(89 105 118);
-}
+} */
 
 .flex1 {
   background-color: white;
@@ -49,4 +50,25 @@
   /* border-radius: 21px; */
   height: 53px;
   width: 310px; /* 278px */
+}
+
+.backarrow {
+  color: black;
+  font-size: 25px !important;
+  line-height: normal;
+  position: relative;
+  top: -26px;
+  left: -40px;
+  width: 35px;
+  height: 35px;
+  font-weight: lighter;
+  transform: scale(0.9);
+  cursor: pointer;
+}
+
+.backarrow:hover {
+  background-color: #e9ebec;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
 }

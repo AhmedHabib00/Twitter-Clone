@@ -1,12 +1,13 @@
 import React, {
   useState, useEffect,
 } from 'react';
+import { PropTypes } from 'prop-types';
 import Feed from './Components/Feed';
 import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
 import GetPostsArray from '../Services/postServices';
 
-function Home() {
+function Home({ isBlocked }) {
   const [postData, setPostData] = useState([]);
   const [page, setPage] = useState(1);
   const [isEndOfFeed, setisEndOfFeed] = useState(false);
@@ -41,7 +42,7 @@ function Home() {
       <div className={styles['home-header']}>
         <h2>Home</h2>
       </div>
-      <TweetBox placeHolder="What's happening" boxId="home" />
+      <TweetBox placeHolder="What's happening" boxId="home" canTweet={!isBlocked} />
       <hr className={styles['home-hor-hr']} />
       {postData && (
       <Feed
@@ -50,10 +51,19 @@ function Home() {
         updateData={updateData}
         canScrollUpdate
         isEndOfFeed={isEndOfFeed}
+        isBlocked={isBlocked}
       />
       )}
     </div>
   );
 }
+
+Home.propTypes = {
+  isBlocked: PropTypes.bool,
+};
+
+Home.defaultProps = {
+  isBlocked: false,
+};
 
 export default Home;

@@ -1,0 +1,28 @@
+[
+    {
+        "title1":"Account information",
+        "title2":"See your account information like your phone number and email address."
+    },
+    {
+        "title1":"Change your password",
+        "title2":"Change your password at any time."
+   },
+    {
+        "title1":"Download an archive of your data",
+        "title2":"Get insights into the type of informations stored for your account." 
+   },
+    {
+        "title1":"TweetDeck Teams",
+        "title2":"Invite anyone to Tweet from this account using the Teams feature in TweetDeck."
+     },
+    {
+        "title1":"Deactivate your account",
+        "title2":"Find out how you can deactivate your account." 
+         
+     },
+     {
+        "title1":"TweetDeck Teams",
+        "title2":"Invite anyone to Tweet from this account using the Teams feature in TweetDeck."
+     }
+     
+]

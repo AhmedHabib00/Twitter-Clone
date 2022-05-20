@@ -76,7 +76,7 @@ function Foundation({ setIsLoggedIn, userInfo, isBlocked }) {
                   className={[navStyles['tweet-button'], navStyles['whisp-button-text']].join(' ')}
                   onClick={() => setIsPopupTweetOpen(true)}
                 >
-                  Whisp
+                  Whisper
                 </button>
                 <button
                   type="button"

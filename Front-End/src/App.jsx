@@ -8,6 +8,10 @@ import Notifications from './Notifications/Notifications';
 import ViewTweet from './Notifications/ViewTweet';
 import Bookmarks from './Bookmarks/Bookmarks';
 import Settings from './Settings/Settings';
+import AccountInformation from './Settings/AccountInformation';
+import ChangePassword from './Settings/ChangePassword';
+import ConfirmPassword from './Settings/ConfirmPassword';
+import Age from './Settings/SettingsComponents/Age';
 import Home from './Home/Home';
 import Start from './Start/Start';
 import AdminFoundation from './Admin/AdminFoundation';
@@ -96,13 +100,17 @@ function App() {
   );
   const userRoutes = () => (
     <>
-      <Route path="Home" element={<Home />} />
+      <Route path="Home" element={<Home isBlocked={isBlocked} />} />
       <Route path="Notifications" element={<Notifications />} />
       <Route path="ViewTweet" element={<ViewTweet />} />
       <Route path="Bookmarks" element={<Bookmarks username={userInfo.username} />} />
-      <Route path="tweet/:id" element={<Tweet />} />
+      <Route path="tweet/:id" element={<Tweet isBlocked={isBlocked} />} />
       <Route path="Search" element={<Search />} />
       <Route path="Settings" element={<Settings />} />
+      <Route path="AccountInformation" element={<AccountInformation />} />
+      <Route path="ChangePassword" element={<ChangePassword />} />
+      <Route path="ConfirmPassword" element={<ConfirmPassword />} />
+      <Route path="Age" element={<Age />} />
     </>
   );
   const selectingRoute = () => {
