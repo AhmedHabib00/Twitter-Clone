@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import PropTypes from 'prop-types';
 // import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
 import styles from './SearchUser.module.css';
 // import ReactRoundedImage from "react-rounded-image";
 // import MyPhoto from "./images/me.jpg";
@@ -19,27 +18,19 @@ import styles from './SearchUser.module.css';
  */
 
 function SearchUser({
-  profileid, name, username, description, profilePic, buttonStyle, id,
+  name, username, description, profilePic, buttonStyle, id,
   buttonStyleClicked, isButtonActive,
 }) {
-  const navigate = useNavigate();
-  let isClicked = false;
   const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
+  const [follow, setFollow] = useState(false);
   console.log(id);
-  const handleOpenProfile = () => {
-    if (!isClicked) {
-      navigate('/Profile', {
-        state: {
-          profileid,
-        },
-      });
-    }
-    isClicked = false;
-  };
+  useEffect(() => {
+    // request from the back on the follow status
+  });
 
   // <button className={styles.wrapper} type="button" onCklick={handleOpenProfile}>
   return (
-    <div className={styles.wrapper} role="button" tabIndex={0} onClick={handleOpenProfile}>
+    <div className={styles.wrapper} role="button" tabIndex={0}>
       <div className={styles.wrapper2}>
         <img
           alt=""
@@ -57,11 +48,16 @@ function SearchUser({
 
         {username}
         <button
-          className={styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle]}
+          className={styles[(follow) ? buttonStyleClicked : buttonStyle]}
           type="button"
           id="followbutton"
           onClick={() => {
-            isClicked = true;
+            if (follow === true) {
+              // request and unfollow
+            } else {
+              // request and follow
+            }
+            setFollow(!follow);
             setIsButtonClicked(!isButtonClicked);
           }}
         >
@@ -91,7 +87,6 @@ SearchUser.propTypes = {
   username: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   profilePic: PropTypes.string.isRequired,
-  profileid: PropTypes.number.isRequired,
   buttonStyle: PropTypes.string,
   buttonStyleClicked: PropTypes.string,
   isButtonActive: PropTypes.bool,
