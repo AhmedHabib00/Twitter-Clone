@@ -32,5 +32,28 @@ def sign_in():
     except NoSuchElementException:
         pass
 
+    try:
+        driver.find_element(By.ID, accessabilities.sign_in_email_textbox_id).send_keys(
+            accessabilities.username)
+    except NoSuchElementException:
+        pass
+
+    try:
+        driver.find_element(By.ID, accessabilities.sign_in_next_button).click()
+    except NoSuchElementException:
+        pass
+
+    try:
+        driver.find_element(By.ID, accessabilities.sign_in_password_textbox_id).send_keys(
+            accessabilities.password)
+    except NoSuchElementException:
+        pass
+
+    try:
+        driver.find_element(By.ID, accessabilities.sign_in_login_button_id).click()
+    except NoSuchElementException:
+        pass
+    return driver
+
 def end_driver(driver):
     driver.quit()
