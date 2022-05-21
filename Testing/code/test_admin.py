@@ -167,7 +167,7 @@ class TestAdmin:
         assert (account_name not in text)
 
     @pytest.mark.slow
-    def sign_in_to_blocked_user(self):
+    def test_sign_in_to_blocked_user(self):
         driver = TestAdmin.sign_in_admin(self)
 
         # search an account to be blocked
