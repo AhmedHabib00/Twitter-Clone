@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, avoid_print, duplicate_ignore, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null
+// ignore_for_file: sized_box_for_whitespace, avoid_print, duplicate_ignore, non_constant_identifier_names, unnecessary_new, unused_local_variable, avoid_init_to_null, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -44,6 +44,7 @@ class _SignUpPage extends State<SignUpPage> {
     });
     _googleSignIn.signInSilently();
     super.initState();
+    _handleSignOut();
   }
 
   @override

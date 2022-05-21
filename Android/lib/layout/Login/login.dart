@@ -42,6 +42,7 @@ class _LoginPage extends State<LoginPage> {
       _currentUser = account;
     });
     _googleSignIn.signInSilently();
+    _handleSignOut();
   }
 
   @override

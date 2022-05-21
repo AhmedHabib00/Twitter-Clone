@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable, avoid_print, unused_element, prefer_typing_uninitialized_variables, unnecessary_new, unused_local_variable, deprecated_member_use
+// ignore_for_file: prefer_const_constructors, file_names, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unnecessary_string_interpolations, must_be_immutable, avoid_print, unused_element, prefer_typing_uninitialized_variables, unnecessary_new, unused_local_variable, deprecated_member_use, camel_case_types
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:whisper/layout/Timeline/addTweetPage.dart';
 import 'package:whisper/layout/Timeline/replyTweetPage.dart';
-import 'package:whisper/layout/Timeline/replyTimeline.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -16,22 +15,27 @@ import 'dart:convert';
 //   fontStyle: FontStyle.italic,
 // );
 
-class TimelinePage extends StatefulWidget {
+class replyTimeline extends StatefulWidget {
   final String token;
+  final String tweetId;
   final String userId;
-  const TimelinePage({Key? key, required this.token, required this.userId})
+  const replyTimeline(
+      {Key? key,
+      required this.token,
+      required this.userId,
+      required this.tweetId})
       : super(key: key);
 
   @override
-  State<TimelinePage> createState() => _TimelinePageState();
+  State<replyTimeline> createState() => _replyTimeline();
 }
 
-class _TimelinePageState extends State<TimelinePage> {
+class _replyTimeline extends State<replyTimeline> {
   final scrollController = ScrollController();
   TextEditingController tweetController = new TextEditingController();
 
   var scaffoldkey = GlobalKey<ScaffoldState>();
-  List listOfTweets = [];
+  List replylistOfTweets = [];
   late List URLss = [];
   late String images = '';
   late String content = 'Android first post';
@@ -39,13 +43,13 @@ class _TimelinePageState extends State<TimelinePage> {
   late String replyId = '';
   late List users = [];
   var URLs;
-  late Future<String> countFuture;
-  late Future<String> profilePictureFuture;
+  late Future<String> replycountFuture;
+  late Future<String> replyprofilePictureFuture;
   late var count = '';
   var token = '';
   bool scaffoldKey = false;
   late var profilePicture = '';
-  late String tweetId = '';
+  late String tweedId = '';
   // bool isRetweeted = false;
   // bool iscommented = false;
   // bool isLiked = false;
@@ -82,32 +86,32 @@ class _TimelinePageState extends State<TimelinePage> {
     }
   }
 
-  Future getTweet(token) async {
+  Future getreplyTweet(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=300&page=1&search='),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/${widget.tweetId}/repliesArray/?page=1&size=300'),
       ),
       headers: {
         'x-auth-token': token,
       },
     );
     if (response.statusCode == 200) {
-      var items = json.decode(response.body);
-      List info = items;
+      var itemsReply = json.decode(response.body);
+      List infoReply = itemsReply;
       setState(() {
-        listOfTweets = info;
+        replylistOfTweets = infoReply;
       });
     } else {
-      setState(() {
-        listOfTweets = [];
-      });
+      //setState(() {
+      replylistOfTweets = [];
+      // });
     }
   }
 
-  Future<String> getTweetcount(token) async {
+  Future<String> getreplyTweetcount(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=1&page=1&search='),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/${widget.tweetId}/repliesArray/?page=1&size=10'),
       ),
       headers: {
         'x-auth-token': token,
@@ -143,8 +147,14 @@ class _TimelinePageState extends State<TimelinePage> {
   @override
   void initState() {
     super.initState();
-    countFuture = getTweetcount(widget.token);
-    profilePictureFuture = getProfileInfo(widget.token);
+    replycountFuture = getreplyTweetcount(widget.token);
+    replyprofilePictureFuture = getProfileInfo(widget.token);
+    print('token');
+    print(widget.token);
+    print('user id');
+    print(widget.userId);
+    print('tweet id');
+    print(widget.tweetId);
   }
 
   @override
@@ -158,7 +168,7 @@ class _TimelinePageState extends State<TimelinePage> {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         leading: InkWell(
           child: FutureBuilder<String>(
-              future: profilePictureFuture,
+              future: replyprofilePictureFuture,
               builder: ((context, snapshot) {
                 if (snapshot.hasData) {
                   profilePicture = snapshot.data!;
@@ -202,12 +212,12 @@ class _TimelinePageState extends State<TimelinePage> {
       ),
       key: scaffoldkey,
       body: FutureBuilder<String>(
-          future: countFuture,
+          future: replycountFuture,
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
               count = snapshot.data!;
-              getTweet(widget.token);
-              return getTweetBody();
+              getreplyTweet(widget.token);
+              return getreplyTweetBody();
             } else {
               return const Center(child: CircularProgressIndicator());
             }
@@ -220,8 +230,9 @@ class _TimelinePageState extends State<TimelinePage> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return addTweetPage(
+                return replyTweetPage(
                   token: widget.token,
+                  tweetId: widget.tweetId,
                 );
               },
             ),
@@ -238,15 +249,15 @@ class _TimelinePageState extends State<TimelinePage> {
         duration: Duration(seconds: 1), curve: Curves.easeIn);
   }
 
-  Widget getTweetBody() {
+  Widget getreplyTweetBody() {
     return ListView.builder(
-        itemCount: listOfTweets.length,
+        itemCount: replylistOfTweets.length,
         itemBuilder: (context, index) {
-          return getTweetCard(listOfTweets[index]);
+          return getreplyTweetCard(replylistOfTweets[index]);
         });
   }
 
-  Widget getTweetCard(item) {
+  Widget getreplyTweetCard(item) {
     var tweetId = item['id'];
     var name = item['displayName'];
     var userName = item['userName'];
@@ -348,31 +359,17 @@ class _TimelinePageState extends State<TimelinePage> {
                           ),
                         ),
                         onTap: () {
-                          //Navigator.push(
-                          // context,
-                          // MaterialPageRoute(
-                          // builder: (context) {
-                          // return replyPage(
-                          //   token: widget.token,
-                          //   tweetId: tweetId,
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) {
+                          //       return replyPage(
+                          //         token: widget.token,
+                          //         tweetId: tweetId,
+                          //       );
+                          //     },
+                          //   ),
                           // );
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    replyTimeline(
-                                        token: widget.token,
-                                        userId: widget.userId,
-                                        tweetId: tweetId),
-                              ),
-                              (Route<dynamic> route) => false);
-                          //return
-                          // replyTimeline(
-                          // token: widget.token,
-                          //userId: widget.userId,
-                          //tweetId: tweetId);
-                          // },
-                          //),
-                          //);
                         },
                       ),
                     ),

@@ -140,22 +140,26 @@ class _SideMenuState extends State<SideMenu> {
                   ),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.home),
-                  title: const Text('Home'),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TimelinePage(
-                              token: token, userId: widget.userId))),
-                ),
+                    leading: const Icon(Icons.home),
+                    title: const Text('Home'),
+                    onTap: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => TimelinePage(
+                                    token: widget.token,
+                                    userId: widget.userId,
+                                  )),
+                          (Route<dynamic> route) => false);
+                    }),
                 ListTile(
-                  leading: const Icon(Icons.person),
-                  title: const Text('Profile'),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfilePage(token: token))),
-                ),
+                    leading: const Icon(Icons.person),
+                    title: const Text('Profile'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(token: token)));
+                    }),
                 // ListTile(
                 //   leading: const Icon(Icons.list_alt),
                 //   title: const Text('Lists'),
@@ -210,11 +214,11 @@ class _SideMenuState extends State<SideMenu> {
                   leading: const Icon(Icons.exit_to_app),
                   title: const Text('Logout'),
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const WelcomePage(),
-                      ),
-                    );
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const WelcomePage()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
               ],
