@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:whisper/layout/Timeline/addTweetPage.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -41,11 +42,6 @@ class _TimelinePageState extends State<TimelinePage> {
   late var count = '';
   var token = '';
   bool scaffoldKey = false;
-
-  //late String images = '';
-  // late String gifs = '';
-  //late String replyId = '';
-  //late List userss = [];
 
   // bool isRetweeted = false;
   // bool iscommented = false;
@@ -110,36 +106,6 @@ class _TimelinePageState extends State<TimelinePage> {
     return profilePicture;
   }
 
-  // Future<List> tweetPost(
-  //   //String images,
-  //   List content,
-  //   //String gifs,
-  //   //String replyId,
-  //   List users,
-  //   String token,
-  // ) async {
-  //   var data = {
-  //     content: ['$content'],
-  //     //'images': '',
-  //     //'gifs':
-  //     // 'https://i0.wp.com/voonze.com/wp-content/uploads/2020/07/img_5f2162a15c4d1.gif?h=250&ssl=1',
-  //     users: [],
-  //     //'replyId': '',
-  //   };
-  //   // print(images);
-  //   print(content);
-  //   // print(gifs);
-  //   //print(replyId);
-  //   print(users);
-  //   var response = await http.post(
-  //       Uri.parse(
-  //           'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/'),
-  //       body: data,
-  //       headers: {"x-auth-token": token});
-  //   print(response.body);
-  //   return users;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -149,8 +115,6 @@ class _TimelinePageState extends State<TimelinePage> {
 
   @override
   Widget build(BuildContext context) {
-    //print(userss);
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -216,8 +180,17 @@ class _TimelinePageState extends State<TimelinePage> {
         drawer: SideMenu(token: token, userId: widget.userId),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue,
-          onPressed: () async {
-            openAddTweetDialog();
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return addTweetPage(
+                    token: widget.token,
+                  );
+                },
+              ),
+            );
           },
           child: const Icon(Icons.local_fire_department_sharp),
         ),
@@ -274,57 +247,11 @@ class _TimelinePageState extends State<TimelinePage> {
         duration: Duration(seconds: 1), curve: Curves.easeIn);
   }
 
-  Future openAddTweetDialog() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            'Add Tweet',
-          ),
-          content: TextField(
-            controller: tweetController,
-            decoration: InputDecoration(
-              hintText: "What's happening?",
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                var request = http.MultipartRequest(
-                  'POST',
-                  Uri.parse(
-                      'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/'),
-                );
-                //Header....
-                request.headers['x-auth-token'] = widget.token;
-                print(widget.token);
-
-                request.fields['content'] = tweetController.text;
-                request.fields['replyId'] = replyId.toString();
-                request.fields['gifs'] = gifs.toString();
-                request.fields['users'] = users.toString();
-                // request.files.add(http.MultipartFile.fromBytes(
-                //   'images',
-                //   [],
-                //   filename: 'some-file-name.jpg',
-                //   contentType: MediaType("image", "jpg"),
-                //));
-                var response = await request.send();
-                print(response.stream);
-                print(response.statusCode);
-                final res = await http.Response.fromStream(response);
-                print(res.body);
-              },
-              child: Text('Tweet'),
-            ),
-          ],
-        ),
-      );
-
   Widget getTweetBody() {
     return ListView.builder(
         itemCount: listOfTweets.length,
         itemBuilder: (context, index) {
-          return getTweetCard(listOfTweets[index]); //Text('index $index');
+          return getTweetCard(listOfTweets[index]);
         });
   }
 
@@ -526,4 +453,4 @@ class _TimelinePageState extends State<TimelinePage> {
   }
 }
 
-MediaType(String s, String basename) {}
+//MediaType(String s, String basename) {}
