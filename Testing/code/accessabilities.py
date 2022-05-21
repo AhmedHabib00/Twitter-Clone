@@ -19,6 +19,11 @@ incorrect_verification_error_1 = 'sign-up-verify-error'
 incorrect_verification_error_2 = 'sign-up-verify-error'
 incorrect_verification_code_3 = 'fjijefiojioeuwuiueiorijfkdjscxnjchdufhioepj'
 password_page_title_class_name = 'StepPassword_title__7Ciya'
+password_page_password_textbox = 'password'
+password_page_next_button = 'Signup-submit-password'
+username_page_username_textbox = 'username'
+username_page_next_button = 'signup-submit-username'
+email_already_registered_error = 'sign-up-email-error'
 
 # fetching correct verification codes IDs
 gmail_url = 'https://www.gmail.com'
@@ -68,14 +73,6 @@ image_5_css_selector = "img[src$='imagerstu5.png']"
 images_in_tweetbox_id = 'image-box-image-canvas'
 feed_page_id = 'feed'
 
-chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
-# chrome_driver = "..\drivers\chromedriver.exe"
-email = 'testingwhisper2@gmail.com'
-password = 'BnSuliman@1'
-username = '@YasmeenZaki13'
-admin_username = 'adminUser'
-admin_password = '12345#Aa'
-
 # Profile
 profile_navbar = 'profile'
 profile_edit_button = 'edit_profile'
@@ -103,7 +100,6 @@ Settings_confirm_password_error = 'confirm-error'
 Settings_save_pass_change = 'save-password'
 Settings_password_error = 'invalid-password'
 
-
 # Bookmarks
 bookmarks_share_button = '#post > div > div:nth-child(3) > div > button > svg'
 bookmarks_option = '#share > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiMenu-paper.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-177ic5c > ul > ul > div'
@@ -119,13 +115,30 @@ admin_first_account_shown = '#admin-foundation > div.AdminUsers_admin-users__ifX
 admin_month_id = 'month'
 admin_day_id = 'day'
 admin_year_id = 'year'
+admin_invalid_date_error = '#popup-page-children > div > b.AdminUsers_unblock-popup-error-message__KBYEc'
 admin_block_page_button = '#popup-page-children > div > button'
 admin_blocked_users_button = '#blocked-users > div > p'
 admin_users_button = '#users > div > p'
 admin_search_bar = 'searchbar-input-element'
 admin_homepage_test = 'twbox-text-area-home'
+delete_user_email = 'whisptesting2@gmail.com'
+delete_user_password = 'BnSuliman@1'
+delete_user_username = '@whisptesting'
+admin_account_select = '#admin-foundation > div.AdminUsers_admin-users__ifX2F > div.UsersFeed_notifeed__Y\+Pcx > div > div:nth-child(1) > div.User_text-container__\+qAfN > b'
+admin_confirm_delete = '#popup-page-children > div > div.AdminUsers_buttons-container__0Pixg > button.AdminUsers_delete-button__xKPcY'
+admin_cancel_delete = '#popup-page-children > div > div.AdminUsers_buttons-container__0Pixg > button.AdminUsers_cancel-button__wW-iB'
+admin_error_in_sign = 'login-password-error'
+admin_no_result_found_element = '#admin-foundation > div.AdminUsers_admin-users__ifX2F > b'
+
+
+chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
+# chrome_driver = "..\drivers\chromedriver.exe"
+email = 'testingwhisper2@gmail.com'
+password = 'BnSuliman@1'
+username = '@YasmeenZaki13'
+admin_username = 'adminUser'
+admin_password = '12345#Aa'
 
 
 # chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
 # chrome_driver = "D:\Whisper-Testing\Testing\code\drivers/chromedriver.exe"
-
