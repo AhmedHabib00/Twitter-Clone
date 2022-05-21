@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, file_names, unused_local_variable, avoid_print, unnecessary_new, unused_element
+// ignore_for_file: camel_case_types, file_names, unused_local_variable, avoid_print, unnecessary_new, unused_element, must_be_immutable
 
 import 'dart:io';
 
@@ -26,7 +26,6 @@ class _addTweetPage extends State<addTweetPage> {
   late String content = 'Android first post';
   late String replyId = '';
   late List users = [];
-  late Future<String> gifsUrlFuture;
   TextEditingController tweetController = new TextEditingController();
 
   Future pickImage() async {
@@ -183,8 +182,6 @@ class _addTweetPage extends State<addTweetPage> {
                           request.headers['x-auth-token'] = widget.token;
                           print(widget.token);
                           image != null ? Image.file(image!) : image;
-                          print('gifs url inside api');
-                          print(gifsUrl);
                           request.fields['content'] = tweetController.text;
                           request.fields['replyId'] = replyId.toString();
                           request.fields['users'] = users.toString();
