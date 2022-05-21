@@ -458,7 +458,7 @@ class TestSignupPage:
             pass
 
         try:
-            driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys("nossair101@gmail.com")
+            driver.find_element(By.ID, accessabilities.signup_email_textbox_id).send_keys(accessabilities.gmail_email)
         except NoSuchElementException:
             pass
 
@@ -482,7 +482,6 @@ class TestSignupPage:
             driver.find_element(By.ID, accessabilities.signup_next_button_id).click()
         except NoSuchElementException:
             pass
-        driver = driver
         return driver
 
     def test_invalid_verification_code_1(self):
@@ -539,6 +538,79 @@ class TestSignupPage:
 
         try:
             assert (driver.find_element(By.ID, accessabilities.incorrect_verification_error_2)).is_displayed()
+        except NoSuchElementException:
+            pass
+
+        end_driver(driver)
+
+    def test_valid_verification_code(self):
+        driver = TestSignupPage.to_verification_page(self)
+        time.sleep(5)
+
+        current_window = driver.current_window_handle
+        driver.execute_script('''window.open("https://www.gmail.com","_blank");''')
+        new_window = [window for window in driver.window_handles if window != current_window][0]
+
+        # open gmail in a new tab
+        driver.switch_to.window(new_window)
+        time.sleep(3)
+        try:
+            driver.find_element(By.CSS_SELECTOR, accessabilities.gmail_sign_in_button_css_selector).click()
+        except NoSuchElementException:
+            pass
+
+        try:
+            driver.find_element(By.ID, accessabilities.gmail_email_textbox_id).send_keys(accessabilities.gmail_email)
+        except NoSuchElementException:
+            pass
+
+        try:
+            driver.find_element(By.CSS_SELECTOR, accessabilities.gmail_next_button_css_selector).click()
+        except NoSuchElementException:
+            pass
+
+        try:
+            driver.find_element(By.CSS_SELECTOR, accessabilities.gmail_password_textbox_css_selector).send_keys(
+                accessabilities.gmail_password)
+        except NoSuchElementException:
+            pass
+
+        try:
+            driver.find_element(By.CSS_SELECTOR, accessabilities.gmail_password_next_button_css_selector).click()
+        except NoSuchElementException:
+            pass
+
+        time.sleep(5)
+
+        code = []
+
+        if driver.current_url == 'https://mail.google.com/mail/u/0/#inbox':
+            try:
+                driver.find_element(By.ID, accessabilities.gmail_first_email_in_inbox_id).click()
+            except NoSuchElementException:
+                pass
+
+            time.sleep(2)
+            page_text = driver.page_source
+            index = page_text.find('your verification code is ')
+            code = page_text[index + 26:index + 37]
+
+        # return to verification code page
+        driver.switch_to.window(current_window)
+        try:
+            driver.find_element(By.ID, accessabilities.verification_code_textbox_id).send_keys(code)
+        except NoSuchElementException:
+            pass
+
+        try:
+            driver.find_element(By.ID, accessabilities.verification_page_next_button).click()
+        except NoSuchElementException:
+            pass
+
+        time.sleep(2)
+
+        try:
+            assert driver.find_element(By.CLASS_NAME, accessabilities.password_page_title_class_name).is_displayed()
         except NoSuchElementException:
             pass
 
