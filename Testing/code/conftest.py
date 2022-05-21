@@ -24,5 +24,13 @@ def start_driver():
     driver.get('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/')
     return driver
 
+def sign_in():
+    driver = start_driver()
+    # LOGIN
+    try:
+        driver.find_element(By.ID, accessabilities.sign_in_button_id).click()
+    except NoSuchElementException:
+        pass
+
 def end_driver(driver):
     driver.quit()
