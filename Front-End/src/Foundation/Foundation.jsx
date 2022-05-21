@@ -29,6 +29,7 @@ function Foundation({ setIsLoggedIn, userInfo, isBlocked }) {
     document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
   }, [openedPage]);
   const onSearchChange = (value) => {
+    console.log(`foundation ${value}`);
     navigate('/Search', {
       state: {
         dataFiltered: value,

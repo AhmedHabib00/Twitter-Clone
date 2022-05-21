@@ -30,16 +30,16 @@ export default async function GetPostsArray(searchVal) {
 
 export async function GetUsersArray(searchVal) {
   console.log(searchVal);
-  // let response = '';
-  // try {
-  //   response = await axios.get(`${SERVER_URL}/users`, {
-  //     headers: {
-  //       'x-auth-token': localStorage.token,
-  //     },
-  //   });
-  //   // Success
-  //   return (response);
-  // } catch (error) {
+  let response = '';
+  try {
+    response = await axios.get(`${SERVER_URL}/users?search=${searchVal}`, {
+      headers: {
+        'x-auth-token': localStorage.token,
+      },
+    });
+    // Success
+    return (response);
+  } catch (error) {
   //   // if (error.response) {
   //   //   // console.log(error.response.data);
   //   //   // console.log(error.response.status);
@@ -50,6 +50,6 @@ export async function GetUsersArray(searchVal) {
   //   //   console.log('Error', error.message);
   //   // }
   //   // console.log(error);
-  // }
-  // return response;
+  }
+  return response;
 }

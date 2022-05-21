@@ -1,7 +1,11 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import styles from './Loader.module.css';
-
+/**
+ * This component for the loader
+ * @param {number} dimension gives the dimension of the loader
+ * @returns the loader components
+ */
 function Loader({ dimension }) {
   return (
 

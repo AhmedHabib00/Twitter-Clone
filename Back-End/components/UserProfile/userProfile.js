@@ -93,6 +93,14 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
         const birthDate = user.birthdate;
         const profilePicture = user.profilePic;
         const coverPhoto = user.coverPhoto;
+        var today = new Date();
+        var birthDate2 = new Date(birthDate);
+        var age = today.getFullYear() - birthDate2.getFullYear();
+        var m = today.getMonth() - birthDate2.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate2.getDate())) 
+        {
+            age--;
+        }
         //console.log(name,location)
         //const token = jwt.sign({ _id: user.userProfileId})
         return res.status(200).send({
@@ -102,7 +110,10 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
             "description":description,
             "Birthdate":birthDate,
             "Profile Picture":profilePicture,
-            "Cover Photo": coverPhoto
+            "Cover Photo": coverPhoto,
+            "createdAt":user.createdAt.toDateString(),
+            "email":user.email,
+            "age":age
         });
     }
     catch (err){

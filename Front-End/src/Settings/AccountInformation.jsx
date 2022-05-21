@@ -1,11 +1,15 @@
 import { useState, React } from 'react';
-import NotiFeed from './SettingsComponents/YourAccountFeed';
-import styles from './Settings.module.css';
-import AllData from './SettingsComponents/YourAccount.json';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import NotiFeed from './SettingsComponents/AccountInformationFeed';
+import styles from './AccountInformation.module.css';
+import AllData from './SettingsComponents/AccountInformation.json';
 // import MentionData from './NotiComponents/MentionData.json';
 // import GetNotificationsArray from '../Services/NotificationServices';
+
 function Settings() {
   const [passedData, setpassedData] = useState(AllData);
+  const navigate = useNavigate();
   console.log(setpassedData);
   // const [allData, setAllData] = useState();
   // const [mentionData, setMentionData] = useState();
@@ -16,16 +20,23 @@ function Settings() {
   // const handleMention = () => {
   //   setpassedData();
   // };
+  const handleOpen = () => { navigate('/Settings'); };
+
   return (
     <div className={styles.notifications}>
       <section className={styles.header1}>
-        Your Account
-        {' '}
-        <p className={styles.header2}>
-          See information about your account, download an archive of your data,
-          or learn about your account deactivation options
+        Account information
 
-        </p>
+        <div
+          className={styles.backarrow}
+          role="button"
+          tabIndex={0}
+          onClick={handleOpen}
+        >
+          <ArrowBackIcon />
+
+        </div>
+
       </section>
       <section className={styles.flex1} />
       {/* <div>
