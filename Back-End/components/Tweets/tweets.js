@@ -82,7 +82,7 @@ router.get("/:id/repliesArray",auth,async (req,res)=>{
         const the_id= results[i]["_id"]
 
         var contentTemp="";
-        var gifTemp="";
+        var gifTemp=results[i]["gifs"]
         
     
         if(results[i]["content"])
@@ -1198,15 +1198,7 @@ catch (error) {
 
 /////////////////////////////////////////////////////////////////////////////Retrieve possible repliers:
 router.get("/:id/repliers",auth,async(req,res)=>{
-    //replyTo array: ba5tar users mo3ayana a reply leeha.
-    //urersrepliers array:el users di.
-    //fel endpoint di 3ayza id el tweet el ana ba-reply leeha directly
-    //we el tweet di ageeb el replyTo/usersrepliers array bta3ha araga3o+ el user el posted el tweet di(da el user el egbare)
-    //ba3deen el front end y5tar we yb3atlee el e5taro.
-    //capitooooo
 
-    //law ma3aya id direct tweet iam replying to:
-    //We can get possible users to reply to using the replyTo array that contains the tweets.
     token=req.user._id
     var userInfo=null;
     try
