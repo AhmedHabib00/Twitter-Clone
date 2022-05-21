@@ -32,7 +32,7 @@ export async function GetUsersArray(searchVal) {
   console.log(searchVal);
   let response = '';
   try {
-    response = await axios.get(`${SERVER_URL}/users`, {
+    response = await axios.get(`${SERVER_URL}/users?search=${searchVal}`, {
       headers: {
         'x-auth-token': localStorage.token,
       },

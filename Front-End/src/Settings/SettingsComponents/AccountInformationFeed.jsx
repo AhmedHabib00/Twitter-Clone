@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AccountInformationFeed.module.css';
 import NotiContent from './AccountInformationContent';
+import getUserInfo from '../../Services/UserServices';
 /**
  * @param {array} data array containing our notifications.
  * @returns map through the post array data and starts passing the notifications props
  * to display the notifications in the feed component.
  */
 function NotiFeed({ data }) {
+  const [info, setInfo] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      const resp = await getUserInfo(localStorage.userId);
+      console.log(resp);
+      setInfo(resp);
+      console.log(info);
+    })();
+  }, []);
   return (
     <div data-testid="notifeed-render-test" className={styles.notifeed}>
 
@@ -28,6 +39,7 @@ function NotiFeed({ data }) {
               title2={content.title2}
               acctitle1={content.acctitle1}
               acctitle2={content.acctitle2}
+              data={info}
             />
             //   </button>
             // </section>

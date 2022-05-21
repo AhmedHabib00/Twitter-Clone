@@ -38,3 +38,58 @@ export async function getBookMarks() {
     return (error);
   }
 }
+
+export async function getFollowing(friendId) {
+  let response = '';
+  try {
+    response = await axios.get(
+      `${SERVER_URL}/users/${localStorage.userId}/following/${friendId}`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    );
+    // Success
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export async function Follow(friendId) {
+  let response = '';
+  try {
+    response = await axios.post(
+      `${SERVER_URL}/users/${localStorage.userId}/following/${friendId}`,
+      { },
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    );
+    // Success
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export async function unFollow(friendId) {
+  let response = '';
+  try {
+    response = await axios.delete(
+      `${SERVER_URL}/users/${localStorage.userId}/following/${friendId}`,
+      {
+        headers: {
+          'x-auth-token': localStorage.token,
+        },
+      },
+    );
+    // Success
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}

@@ -530,6 +530,61 @@ router.get('/:id/followers', async (req, res) =>{
     })
 });
 
+
+// List of users who are followers of the user ID : GET /users/{id}/followers
+router.get('/:source_user_id/following/:target_user_id', auth, async (req, res) =>{
+
+    // Authrization
+    if (req.user.role != "User" || req.user._id != req.params.source_user_id) {
+        return res.status(403).send("Access denied");
+    }
+
+    // Get data of the user who want to follow by id
+    userSchema.findById(req.params.source_user_id).exec(async (err, sourceUserData)=>{
+        try {
+            // Get data of the user that will be followed from body request by target_user_id
+            userSchema.findById(req.params.target_user_id).exec(async(err, targetUserData)=>{
+                try {
+
+                    if (!sourceUserData || !targetUserData) {
+                        return res.status(500).send({"data": {
+                            "following": false,
+                            "reason": "Unknown specified id"
+                        }}); 
+                    }
+
+                    if (sourceUserData.role == "User" && targetUserData.role == "User") {
+                        // Check if the source_user_id not already follow the target_user_id
+                        followingExistPass = sourceUserData.following.find(following => following == req.params.target_user_id)
+                        followerExistPass = targetUserData.followers.find(follower => follower == req.params.source_user_id)
+
+                            if (followerExistPass && followingExistPass) {
+                                return res.status(200).send({"data": {
+                                    "following": true
+                                }});
+                            }else{
+                                return res.status(200).send({"data": {
+                                    "following": false
+                                }});
+                            }
+
+                    }else{
+                        throw err;
+                    }
+                } catch(err) {
+                    return res.status(500).send({"data": {
+                        "following": false
+                    }});
+                }
+            });
+        } catch(err) {
+            return res.status(500).send({"data": {
+                "following": false
+            }});
+        }
+    })
+});
+
 // List of users the specified user ID is following : GET /users/{id}/following
 router.get('/:id/following', async (req, res) =>{ 
 

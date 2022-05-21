@@ -11,10 +11,8 @@
 .header1 {
   font-size: 20px;
   font-weight: bold;
-  padding-left: 20%;
-  padding-top: 5px;
-  padding-bottom: 13px;
   position: relative;
+  padding: 5px 5px 13px;
   z-index: 10;
 }
 
