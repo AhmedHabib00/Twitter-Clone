@@ -101,6 +101,7 @@ class _ForgotPassPage extends State<ForgotPassPage> {
                             right: BorderSide(color: Colors.black),
                           )),
                       child: MaterialButton(
+                        key: const Key("NextButton"),
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {

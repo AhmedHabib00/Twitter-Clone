@@ -98,6 +98,7 @@ class _LoginPage extends State<LoginPage> {
                         children: <Widget>[
                           const SizedBox(height: 5),
                           TextFormField(
+                            //key: const Key("EmailOrUsernameField"),
                             controller: EmailorUserController,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
@@ -122,6 +123,7 @@ class _LoginPage extends State<LoginPage> {
                           ),
                           const SizedBox(height: 15),
                           TextFormField(
+                              key: const Key("passwordField"),
                               controller: PassController,
                               obscureText: _isObscure,
                               obscuringCharacter: "*",
@@ -131,6 +133,7 @@ class _LoginPage extends State<LoginPage> {
                                   color: Color.fromARGB(179, 255, 0, 0),
                                 ),
                                 suffixIcon: IconButton(
+                                  key: const Key('visiblePassword'),
                                   icon: Icon(_isObscure
                                       ? Icons.visibility_off
                                       : Icons.visibility),
@@ -171,6 +174,7 @@ class _LoginPage extends State<LoginPage> {
                             right: BorderSide(color: Colors.black),
                           )),
                       child: MaterialButton(
+                        key: const Key("LoginButton"),
                         minWidth: double.infinity,
                         height: 60,
                         onPressed: () {
