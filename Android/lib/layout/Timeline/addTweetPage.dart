@@ -197,6 +197,8 @@ class _addTweetPage extends State<addTweetPage> {
                             var multipartFile = new http.MultipartFile(
                                 'images', stream, length,
                                 filename: basename(image!.path));
+                            //print('this is multipart');
+                            //print(stream);
                             request.files.add(multipartFile);
                           } else {
                             request.fields['images'] = images.toString();

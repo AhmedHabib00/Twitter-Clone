@@ -21,8 +21,8 @@ class setUsername extends StatefulWidget {
 
 class _setUsername extends State<setUsername> {
   final formKey = GlobalKey<FormState>();
+  late final String userId = '';
   TextEditingController setUsernameController = new TextEditingController();
-  final String userId = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +111,7 @@ class _setUsername extends State<setUsername> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             setUser(setUsernameController.text, widget.email,
-                                widget.token);
+                                widget.token, userId);
                           }
                         },
                         color: const Color(0xff0095FF),
@@ -143,6 +143,7 @@ class _setUsername extends State<setUsername> {
     String username,
     String email,
     String token,
+    String userId,
   ) async {
     Map data = {'username': username, 'email': email, 'x-auth-token': token};
     var jsonData = null;
@@ -157,6 +158,7 @@ class _setUsername extends State<setUsername> {
     if (response.statusCode == 201) {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
+      userId = dataResponse['data']['userId'];
       setState(() {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(

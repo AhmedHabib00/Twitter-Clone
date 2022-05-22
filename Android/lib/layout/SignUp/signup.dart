@@ -373,10 +373,10 @@ class _SignUpPage extends State<SignUpPage> {
     }
     print('Google TokenId');
     print(GoogleTokenId);
-    GSignIn(token, GoogleTokenId!);
+    GSignIn(token, userId, GoogleTokenId!);
   }
 
-  Future GSignIn(String token, String GoogleTokenId) async {
+  Future GSignIn(String token, String userId, String GoogleTokenId) async {
     Map data = {'tokenId': GoogleTokenId};
     Map mapResponse;
     Map dataResponse;
@@ -390,6 +390,7 @@ class _SignUpPage extends State<SignUpPage> {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
       token = dataResponse["x-auth-token"];
+      userId = dataResponse['data']['userId'];
       //adminToken = dataResponse['data']['userId'];
       print('admin token');
       //print(adminToken);
