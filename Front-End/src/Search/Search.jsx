@@ -22,7 +22,6 @@ function Search() {
     document.getElementById('SearchBar').style.visibility = 'hidden';
     if (location.state !== null) {
       (async () => {
-        console.log(location.state.dataFiltered);
         const resp = await GetUsersArray(location.state.dataFiltered);
         setPeopleData(resp.data.Info[0].data);
       })();
@@ -40,15 +39,11 @@ function Search() {
     (async () => {
       setIsLoading(true);
       const resp = await GetPostsArray(Val);
-      console.log(resp.data);
       setIsLoading(false);
       setpostData(resp.data);
       if (resp.data !== 'No tweets found') {
         setIsContent(true);
       }
-      console.log(isPeopleTab);
-      console.log(searchVal);
-      console.log(isContent);
     })();
     setSearchVal(Val);
   };
@@ -92,7 +87,7 @@ function Search() {
         {(isPeopleTab && searchVal) && <SearchFeed className="notifeed" data={postData} UsersData={peopleData} dataType={isPeopleTab} />}
         {(!isPeopleTab && searchVal && isContent)
         && <Feed data={postData} canScrollUpdate={isLoading} />}
-        {(!isPeopleTab && searchVal && !isContent) && <h4>No Tweets Found</h4>}
+        {(!isPeopleTab && searchVal && !isContent) && <h4>No whispers Found</h4>}
       </div>
     </div>
 

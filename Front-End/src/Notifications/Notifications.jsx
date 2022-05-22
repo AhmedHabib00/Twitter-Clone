@@ -32,13 +32,13 @@ function Notifications() {
     // setAllData(null);
   };
   return (
-    <div className={styles.notifications}>
+    <div id="notification-page" className={styles.notifications}>
       <section className={styles.header1}>
         Notifications
       </section>
       <section className={styles.flex1}>
-        <button className={styles['flex-container']} type="button" onClick={handleAll}>All</button>
-        <button className={styles['flex-container']} type="button" onClick={handleMention}>Mentions</button>
+        <button id="all-tab-button" className={styles['flex-container']} type="button" onClick={handleAll}>All</button>
+        <button id="mentions-tab-button" className={styles['flex-container']} type="button" onClick={handleMention}>Mentions</button>
       </section>
       {/* <div>
         <h1>helloooooo</h1>

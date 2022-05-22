@@ -14,7 +14,7 @@ function NotiFeed({ data }) {
     setAllData(data);
   }, [data]);
   return (
-    <div data-testid="notifeed-render-test" className={styles.notifeed}>
+    <div id="notification-feed" data-testid="notifeed-render-test" className={styles.notifeed}>
 
       <div data-testid="noticontent-render-test" className={styles.parent}>
 
