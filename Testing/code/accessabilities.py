@@ -130,6 +130,19 @@ admin_cancel_delete = '#popup-page-children > div > div.AdminUsers_buttons-conta
 admin_error_in_sign = 'login-password-error'
 admin_no_result_found_element = '#admin-foundation > div.AdminUsers_admin-users__ifX2F > b'
 
+# notification
+user_1_username = '@YasmeenZaki13'
+user_1_password = 'BnSuliman@1'
+user_2_username = '@mernayoussef'
+user_2_password = 'BnSuliman@1'
+notifications_log_out_button = '#root > div > div > div:nth-child(1) > div > div > div.Foundation_user-menu__k3jLR > div'
+notification_tweet_body = '#root > div > div > div.Foundation_outlet__QoH\+\+ > div > div > div > div > button:nth-child(3) > div.NotiContent_display-name__aaNX8'
+like_tweet_button = '#post > div > div:nth-child(3) > div > div:nth-child(3) > button > svg'
+retweet_button = '#post > div > div:nth-child(3) > div > div:nth-child(2) > button > svg'
+reply_tweet_button = '#post > div > div:nth-child(3) > div > div:nth-child(1) > svg'
+notification_page_on_navbar = '#Notifications > div'
+homepage_on_navbar = '#Home > div'
+
 
 chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
 # chrome_driver = "..\drivers\chromedriver.exe"
@@ -138,7 +151,6 @@ password = 'BnSuliman@1'
 username = '@YasmeenZaki13'
 admin_username = 'adminUser'
 admin_password = '12345#Aa'
-
 
 # chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
 # chrome_driver = "D:\Whisper-Testing\Testing\code\drivers/chromedriver.exe"

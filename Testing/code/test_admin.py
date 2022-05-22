@@ -4,7 +4,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 import time
-import pytest
 from conftest import start_driver
 from conftest import sign_in
 
@@ -75,7 +74,6 @@ def sign_in_dummy_user():
 
 
 class TestAdmin:
-    @pytest.mark.slow
     def test_admin_search_bar(self):
         driver = sign_in_admin()
         # get an account name
@@ -108,7 +106,6 @@ class TestAdmin:
             assert True
         driver.close()
 
-    @pytest.mark.slow
     def test_invalid_date_to_unblock(self):
         # login to admin account
         driver = sign_in_admin()
@@ -158,7 +155,6 @@ class TestAdmin:
             pass
         driver.close()
 
-    @pytest.mark.slow
     def test_block_user(self):
         driver = sign_in_admin()
 
@@ -255,7 +251,6 @@ class TestAdmin:
             assert True
         driver.close()
 
-    @pytest.mark.slow
     def test_unblock_user(self):
         driver = sign_in_admin()
 
@@ -290,7 +285,6 @@ class TestAdmin:
             pass
         driver.close()
 
-    @pytest.mark.slow
     def test_sign_in_to_blocked_user(self):
         driver = sign_in_admin()
 
@@ -347,7 +341,6 @@ class TestAdmin:
 
         driver.close()
 
-    @pytest.mark.slow
     def test_sign_in_to_unblocked_account(self):
         driver = sign_in_admin()
         # open blocked user page
@@ -383,7 +376,6 @@ class TestAdmin:
             pass
         driver.close()
 
-    @pytest.mark.slow
     def test_cancel_delete_account(self):
         # sign in to admin
         driver = sign_in_admin()

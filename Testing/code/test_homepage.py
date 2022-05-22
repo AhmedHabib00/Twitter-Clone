@@ -15,10 +15,16 @@ class TestHomePage:
         driver = sign_in()
         # case 1
 
+        test = False
         try:
             test = (driver.find_element(By.ID, accessabilities.whisp_button_id).is_enabled())
         except NoSuchElementException:
             pass
+
+        if test:
+            assert True
+        else:
+            assert False
 
         # case 2
         # TYPE TWEET WITHIN LIMIT

@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 import time
+import pytest
 from conftest import start_driver
 from conftest import end_driver
 
@@ -542,7 +543,7 @@ class TestSignupPage:
             pass
 
         end_driver(driver)
-
+    @pytest.mark.slow
     def test_valid_verification_code(self):
         driver = TestSignupPage.to_verification_page(self)
         time.sleep(5)
