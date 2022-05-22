@@ -47,8 +47,6 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //print('Google token id in widget');
-    //print(GoogleTokenId);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,

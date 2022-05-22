@@ -14,13 +14,13 @@ void main() {
     expect(result, null);
   });
 
-  test('Email -Empty- return error string', () {
+  test('EmailOrUsername -Empty- return error string', () {
     var result = EmailFieldValidator.validate('');
-    expect(result, 'Enter correct email');
+    expect(result, 'Enter correct Email or Username');
   });
 
-  test('Email -Non-Empty- return null', () {
-    var result = EmailFieldValidator.validate('AnyEmail@Any.com');
+  test('EmailOrUsername -Non-Empty- return null', () {
+    var result = EmailFieldValidator.validate('AnyEmailorUsername@Any.com');
     expect(result, null);
   });
 
@@ -36,7 +36,7 @@ void main() {
 
   test('ForgetpassEmail Empty return error string', () {
     var result = ForgetPassFieldValidator.validate('');
-    expect(result, 'Enter correct email');
+    expect(result, 'Enter correct email or Username');
   });
 
   test('ForgetpassEmail -Non-Empty- return null', () {
@@ -50,7 +50,7 @@ void main() {
   });
 
   test('ForgetpassVerify -Non-Empty- return null', () {
-    var result = ForgetPassVerifyFieldValidator.validate('6582414');
+    var result = ForgetPassVerifyFieldValidator.validate('anytext');
     expect(result, null);
   });
 

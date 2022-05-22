@@ -20,7 +20,6 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPage extends State<AdminPage> {
   List users = [];
-  //late var usersBanned;
   List usersBanned = [];
   late var NoUser = 5;
   late var NoBan = 5;
@@ -97,13 +96,13 @@ class _AdminPage extends State<AdminPage> {
         'x-auth-token': token,
       },
     );
-    setState(() {
-      if (response.statusCode == 200) {
-        print('block was clicked');
-      } else {
-        print('block not working');
-      }
-    });
+    // setState(() {
+    //   if (response.statusCode == 200) {
+    //     print('block was clicked');
+    //   } else {
+    //     print('block not working');
+    //   }
+    // });
   }
 
   Future unblockUser(token, userId, user_id) async {
@@ -115,13 +114,13 @@ class _AdminPage extends State<AdminPage> {
         'x-auth-token': token,
       },
     );
-    setState(() {
-      if (response.statusCode == 200) {
-        print('block was clicked');
-      } else {
-        print('block not working');
-      }
-    });
+    // setState(() {
+    //   if (response.statusCode == 200) {
+    //     print('block was clicked');
+    //   } else {
+    //     print('block not working');
+    //   }
+    // });
   }
 
   Future<int> getUserNo(token) async {
@@ -140,7 +139,6 @@ class _AdminPage extends State<AdminPage> {
   }
 
   Future getUser(token) async {
-    //await Future.delayed(const Duration(seconds: 3));
     var response = await http.get(
       Uri.parse(
         ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$count&page=1&search=&state='),
@@ -162,26 +160,25 @@ class _AdminPage extends State<AdminPage> {
     }
   }
 
-  Future<int> getUserBannedNo(token) async {
-    var response = await http.get(
-      Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=1&page=1&search=&state=Banned'),
-      ),
-      headers: {
-        'x-auth-token': token,
-      },
-    );
-    setState(() {
-      countBanned = json.decode(response.body)['count'];
-    });
-    return countBanned;
-  }
+  // Future<int> getUserBannedNo(token) async {
+  //   var response = await http.get(
+  //     Uri.parse(
+  //       ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=1&page=1&search=&state=Banned'),
+  //     ),
+  //     headers: {
+  //       'x-auth-token': token,
+  //     },
+  //   );
+  //   setState(() {
+  //     countBanned = json.decode(response.body)['count'];
+  //   });
+  //   return countBanned;
+  // }
 
   Future getUserBanned(token) async {
-    //await Future.delayed(const Duration(seconds: 3));
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$countBanned&page=1&search=&state=Banned'),
+        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$NoUser&page=1&search=&state=Banned'),
       ),
       headers: {
         'x-auth-token': token,
@@ -203,18 +200,18 @@ class _AdminPage extends State<AdminPage> {
   @override
   void initState() {
     super.initState();
-    getUserNo(widget.token);
-    getUserBannedNo(widget.token);
+    //getUserNo(widget.token);
+    //getUserBannedNo(widget.token);
     noUserFuture = NoUsers(widget.token);
     noBanFuture = NoBanned(widget.token);
     ratioTweetFuture = ratioTweets(widget.token);
     getUserCountFuture = getUserNo(widget.token);
-    getUserBannedCountFuture = getUserBannedNo(widget.token);
+    getUserBannedCountFuture = NoUsers(widget.token);
+    //getUserBannedNo
   }
 
   @override
   Widget build(BuildContext context) {
-    //print(widget.token);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -293,6 +290,7 @@ class _AdminPage extends State<AdminPage> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               NoUser = snapshot.data!;
+
                               return _AdminCard(
                                 context: context,
                                 count: NoUser,
@@ -336,6 +334,7 @@ class _AdminPage extends State<AdminPage> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             ratioTweet = snapshot.data!;
+
                             return _AdminCard(
                               context: context,
                               count: ratioTweet,
@@ -476,15 +475,15 @@ class _AdminPage extends State<AdminPage> {
     );
   }
 
-  dynamic getBody() {
-    return ListView.builder(
+  getBody() {
+    return new ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
           return getCard(users[index]); //Text('index $index');
         });
   }
 
-  dynamic getCard(item) {
+  getCard(item) {
     var name = item['displayName'];
     var userName = item['username'];
     var profilePic = item['profilePic'];
@@ -528,12 +527,6 @@ class _AdminPage extends State<AdminPage> {
                     userName.toString(),
                     style: const TextStyle(color: Colors.grey),
                   ),
-                  //const SizedBox(height: 10),
-                  // Text(
-                  //   user_id.toString(),
-                  //   style: const TextStyle(
-                  //       fontSize: 17, fontWeight: FontWeight.bold),
-                  // ),
                   const SizedBox(height: 5),
                   Padding(
                     padding:
@@ -566,15 +559,15 @@ class _AdminPage extends State<AdminPage> {
     );
   }
 
-  dynamic getBodyBanned() {
-    return ListView.builder(
+  getBodyBanned() {
+    return new ListView.builder(
         itemCount: usersBanned.length,
         itemBuilder: (context, index2) {
           return getCardBanned(usersBanned[index2]); //Text('index $index');
         });
   }
 
-  dynamic getCardBanned(itemBanned) {
+  getCardBanned(itemBanned) {
     var nameBanned = itemBanned['displayName'];
     var userNameBanned = itemBanned['username'];
     var profilePicBanned = itemBanned['profilePic'];
@@ -612,13 +605,6 @@ class _AdminPage extends State<AdminPage> {
                   userNameBanned.toString(),
                   style: const TextStyle(color: Colors.grey),
                 ),
-                //const SizedBox(height: 10),
-                // Text(
-                //   user_idBanned.toString(),
-                //   style: const TextStyle(
-                //       fontSize: 17, fontWeight: FontWeight.bold),
-                // ),
-                //const SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.only(left: 150, bottom: 0, top: 0),
                   child: MaterialButton(

@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, avoid_print, unnecessary_new, unused_local_variable, avoid_init_to_null
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
@@ -163,6 +165,8 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
       headers: {"x-auth-token": token},
     );
     if (response.statusCode == 200) {
+      mapResponse = json.decode(response.body);
+      dataResponse = mapResponse;
       setState(() {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -180,7 +184,7 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      response.body,
+                      dataResponse["message"].toString(),
                       style: const TextStyle(
                         color: Color(0xff0095FF),
                         fontWeight: FontWeight.bold,

@@ -71,7 +71,7 @@ class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
                           const SizedBox(height: 5),
                           TextFormField(
                             controller: forgotPassCodeController,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.text,
                             obscureText: _isObscure,
                             obscuringCharacter: "*",
                             decoration: InputDecoration(
