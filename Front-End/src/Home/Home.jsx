@@ -7,6 +7,11 @@ import styles from './Home.module.css';
 import TweetBox from './Components/TweetBox';
 import GetPostsArray from '../Services/postServices';
 
+/**
+ *
+ * @param {Bool} isBlocked bool to check if the user is blocked or no.
+ * @returns tweet box to post a tweet & the timeline.
+ */
 function Home({ isBlocked }) {
   const [postData, setPostData] = useState([]);
   const [page, setPage] = useState(1);

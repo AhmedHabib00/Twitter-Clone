@@ -26,105 +26,89 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import FlashOnRoundedIcon from '@mui/icons-material/FlashOnRounded';
-// import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-// import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-// import TwitterIcon from '@mui/icons-material/Twitter';
-// import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
-// import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import PropTypes from 'prop-types';
 // import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
 import styles from './SearchUser.module.css';
 // import ReactRoundedImage from "react-rounded-image";
 // import MyPhoto from "./images/me.jpg";
+import { getFollowing, Follow, unFollow } from '../../Services/UserServices';
 
 /**
  * @param {Number} profileid      Id
  * @param {String} displayname    User display name (user first and second name).
  * @param {String} username       User username.
  * @param {String} description    User's bio.
- * @param {String} url
+ * @param {String} profilePic
  *
  /**
  return list of searched users
  */
 
 function SearchUser({
-  profileid, displayname, username, description, url,
+  name, username, description, profilePic, buttonStyle, id,
+  buttonStyleClicked,
 }) {
-  const navigate = useNavigate();
-  // const icon = null;
-  // const statement1 = null;
-  // const statement2 = null;
-  // const statement3 = null;
-  // console.log(content);
+  // const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
+  const [follow, setFollow] = useState(false);
+  console.log(id);
+  useEffect(() => {
+    // request from the back on the follow status
+    (async () => {
+      const resp = await getFollowing(id);
+      setFollow(resp.data.data.following);
+    })();
+  }, []);
 
-  const handleOpenProfile = () => {
-    console.log(profileid);
-    return navigate('/Profile', {
-      state: {
-        profileid,
-      },
-    });
-  };
-
-  const handlefollow = (e) => {
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-    if (e.target.className === styles.tweetfollowbutton) {
-      e.target.className = styles.tweetfollowingbutton;
-      e.target.textContent = 'Following';
-    } else {
-      e.target.className = styles.tweetfollowbutton;
-      e.target.textContent = 'Follow';
-    }
-  };
-
-  const handleEnter = (e) => {
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-    if (e.target.className === styles.tweetfollowingbutton) {
-      e.target.textContent = 'Unfollow';
-      e.target.className = styles.tweetfollowingbuttonhover;
-    }
-  };
-
-  const handleLeave = (e) => {
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-    if (e.target.className === styles.tweetfollowingbuttonhover) {
-      e.target.textContent = 'Following';
-      e.target.className = styles.tweetfollowingbutton;
-    }
-  };
-
-  // const pp = &lt;AccountCircleIcon />;
-
+  // &lt;button className={styles.wrapper} type="button" onCklick={handleOpenProfile}>
   return (
-    &lt;button className={styles.wrapper} type="button" onClick={handleOpenProfile}>
+    &lt;div className={styles.wrapper} role="button" tabIndex={0}>
       &lt;div className={styles.wrapper2}>
         &lt;img
           alt=""
-          src={url}
+          src={profilePic}
           style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
         />
 
         {/* &lt;AccountCircleIcon /> */}
-        &lt;div data-testid="noticontent-avatar-render-test" className={styles.postavatar}>
-          &lt;b>{displayname}&lt;/b>
+        &lt;div className={styles.postavatar}>
+          &lt;b>{name}&lt;/b>
         &lt;/div>
 
       &lt;/div>
       &lt;div className={styles.username}>
-        @
+
         {username}
-        &lt;button className={styles.tweetfollowbutton} type="button" id="followbutton" onClick={handlefollow} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-          Follow
+        {localStorage.userId !== id
+        &amp;&amp; (
+        &lt;button
+          className={styles[(follow) ? buttonStyleClicked : buttonStyle]}
+          type="button"
+          id="followbutton"
+          disabled={localStorage.userId === id}
+          onClick={() => {
+            if (follow === true) {
+              // request and unfollow
+              unFollow(id).then((response) => {
+                if (response.status === 200) {
+                  setFollow(!follow);
+                }
+              });
+            } else {
+              // request and follow
+              Follow(id).then((response) => {
+                if (response.status === 200) {
+                  setFollow(!follow);
+                }
+              });
+            }
+            setFollow(!follow);
+          }}
+        >
+          &lt;span />
         &lt;/button>
+        )}
       &lt;/div>
 
       &lt;div>
@@ -136,20 +120,26 @@ function SearchUser({
       &lt;/div>
       {' '}
 
-      &lt;div data-testid="content-render-test">
+      &lt;div>
         &lt;br />
       &lt;/div>
-    &lt;/button>
+    &lt;/div>
   );
 }
 
 SearchUser.propTypes = {
-  profileid: PropTypes.number.isRequired,
-  displayname: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  profilePic: PropTypes.string.isRequired,
+  buttonStyle: PropTypes.string,
+  buttonStyleClicked: PropTypes.string,
+};
 
+SearchUser.defaultProps = {
+  buttonStyle: 'tweetfollowbutton',
+  buttonStyleClicked: 'tweetfollowingbutton',
 };
 
 export default SearchUser;
@@ -163,13 +153,13 @@ export default SearchUser;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

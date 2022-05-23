@@ -30,64 +30,97 @@
 import { useLocation } from 'react-router-dom';
 import SearchFeed from './SearchComponents/SearchFeed';
 import styles from './Search.module.css';
-import PostData from '../Home/Components/PostData.json';
-import SearchBar from './SearchBar/SearchBar';
-import UsersData from '../Home/Components/UsersData.json';
+import GetPostsArray, { GetUsersArray } from '../Services/searchServices';
+import SearchBar from '../Components/SearchBar/SearchBar';
+import Feed from '../Home/Components/Feed';
 
 /**
  *
  * @returns shows everything in the search component
-
  */
 function Search() {
-  // const navigate = useNavigate();
   const location = useLocation();
-  const [passedData, setpassedData] = useState(UsersData);
-  const { dataFiltered } = location.state || { dataFiltered: '' };
+  const [searchVal, setSearchVal] = useState();
+  const [peopleData, setPeopleData] = useState([]);
+  const [postData, setpostData] = useState();
+  const [isPeopleTab, setIsPeopleTab] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isContent, setIsContent] = useState(false);
   useEffect(() => {
     document.getElementById('SearchBar').style.visibility = 'hidden';
-    // document.getElementById("SearchBar").remove();
-
-    // if(location.state !== null){
-    //   console.log("theree")
-    //   setpassedData();
-    // }
-
     if (location.state !== null) {
-      setpassedData([...location.state.dataFiltered]);
+      (async () => {
+        console.log(location.state.dataFiltered);
+        const resp = await GetUsersArray(location.state.dataFiltered);
+        setPeopleData(resp.data.Info[0].data);
+      })();
+      setSearchVal(location.state.dataFiltered);
     }
-  }, [dataFiltered]);
-
-  const [dataType, setdataType] = useState(true);
-  const handlePeople = () => {
-    if (dataFiltered !== '') {
-      setpassedData(dataFiltered);
-    } else {
-      setpassedData(UsersData);
-    }
-    setdataType(true);
+  }, []);
+  const handleSearchPeople = (Val) => {
+    (async () => {
+      const resp = await GetUsersArray(Val);
+      setPeopleData(resp.data.Info[0].data);
+    })();
+    setSearchVal(Val);
   };
-
-  const handleWhispers = () => {
-    setpassedData(PostData);
-    setdataType(false);
+  const handleSearchWhisps = (Val) => {
+    (async () => {
+      setIsLoading(true);
+      const resp = await GetPostsArray(Val);
+      console.log(resp.data);
+      setIsLoading(false);
+      setpostData(resp.data);
+      if (resp.data !== 'No tweets found') {
+        setIsContent(true);
+      }
+      console.log(isPeopleTab);
+      console.log(searchVal);
+      console.log(isContent);
+    })();
+    setSearchVal(Val);
   };
 
   return (
     &lt;div className={styles.notifications}>
       &lt;section className={styles.header1}>
-        &lt;SearchBar placeHolder="Search Twitter" className={styles.searchbartop} />
+        &lt;SearchBar
+          searchValue={(isPeopleTab) ? handleSearchPeople
+            : handleSearchWhisps}
+          placeHolder="Search Whisper"
+          enableDelay={false}
+        />
       &lt;/section>
       {/* &lt;br>&lt;/br> */}
       &lt;section className={styles.flex1}>
-        &lt;button className={styles['flex-container']} type="button" onClick={handlePeople}>People&lt;/button>
-        &lt;button className={styles['flex-container']} type="button" onClick={handleWhispers}>Whispers&lt;/button>
+        &lt;button
+          className={styles['flex-container']}
+          type="button"
+          onClick={() => {
+            setIsPeopleTab(true);
+            handleSearchPeople(searchVal);
+          }}
+        >
+          People
+
+        &lt;/button>
+        &lt;button
+          className={styles['flex-container']}
+          type="button"
+          onClick={() => {
+            setIsPeopleTab(false);
+            handleSearchWhisps(searchVal);
+          }}
+        >
+          Whispers
+
+        &lt;/button>
       &lt;/section>
-      {/* &lt;div> //ai
-        &lt;h1>helloooooo&lt;/h1>
-      &lt;/div> */}
       &lt;div>
-        &lt;SearchFeed className="notifeed" data={passedData} dataType={dataType} />
+        {(isPeopleTab &amp;&amp; searchVal) &amp;&amp; &lt;SearchFeed className="notifeed" data={postData} UsersData={peopleData} dataType={isPeopleTab} />}
+        {(!isPeopleTab &amp;&amp; searchVal &amp;&amp; isContent)
+        &amp;&amp; &lt;Feed data={postData} canScrollUpdate={isLoading} />}
+        {(!isPeopleTab &amp;&amp; searchVal &amp;&amp; !isContent) &amp;&amp; &lt;h4>No Tweets Found&lt;/h4>}
       &lt;/div>
     &lt;/div>
 
@@ -105,13 +138,13 @@ export default Search;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

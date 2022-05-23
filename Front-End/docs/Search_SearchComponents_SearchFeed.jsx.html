@@ -26,12 +26,12 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from 'react';
+            <pre class="prettyprint source linenums"><code>import { React } from 'react';
 import PropTypes from 'prop-types';
 import styles from './SearchFeed.module.css';
 import SearchUser from './SearchUser';
 // import data from '../../Home/Components/PostData.json';
-import Post from '../../Home/Components/Post';
+// import Post from '../../Home/Components/Post';
 
 /**
  * @param {array} data array containing our posts.
@@ -39,66 +39,77 @@ import Post from '../../Home/Components/Post';
  * @returns map through the post array data and starts passing the posts props
  * to display posts in the feed component.
  */
-function SearchFeed({ data, dataType }) {
-  console.log(dataType);
-
-  if (dataType) {
-    return (
-      &lt;div data-testid="feed-render-test" className={styles.notifeed}>
-        &lt;div data-testid="content-render-test" className={styles.parent}>
-          {
-            data &amp;&amp; data.map((content) => (
-              &lt;SearchUser
-                profileid={content.id}
-                displayname={content.displayName}
-                username={content.userName}
-                description={content.description}
-                url={content.url}
-              />
-            ))
-            }
-          &lt;div className={styles.emptyspace} />
-        &lt;/div>
-      &lt;/div>
-    );
-  }
+function SearchFeed({ UsersData }) {
   return (
     &lt;div data-testid="feed-render-test" className={styles.notifeed}>
-      &lt;div data-testid="content-render-test" className={styles.parent} id="FeedContainer">
+      &lt;div className={styles.parent}>
         {
-                        data &amp;&amp; data.map((content) => (
-                          &lt;Post
-                            id={content.id}
-                            displayname={content.displayName}
-                            username={content.userName}
-                            content={content.content}
-                            img1={content.img1}
-                            img2={content.img2}
-                            img3={content.img3}
-                            img4={content.img4}
-                            isLiked={content.isLiked}
-                            noOfLike={content.noOfLike}
-                            isRetweeted={content.isRetweeted}
-                            noOfReplies={content.noOfReplies}
-                            noOfRetweets={content.noOfRetweets}
-                          />
-                        ))
-                    }
+           UsersData &amp;&amp; UsersData.map((Content) => (
+             &lt;SearchUser
+               id={Content.id}
+               name={Content.name}
+               username={Content.username}
+               description={Content.description}
+               profilePic={Content.profilePic}
+             />
+           ))
+            }
         &lt;div className={styles.emptyspace} />
       &lt;/div>
     &lt;/div>
-
   );
 }
+
+//   return (
+//     &lt;div data-testid="feed-render-test" className={styles.notifeed}>
+//       &lt;div className={styles.parent} id="FeedContainer">
+//         {
+//           postData &amp;&amp; postData.map((post) => (
+//             &lt;Post
+//               key={post.id}
+//               id={post.id}
+//               displayName={post.displayName}
+//               userName={post.userName}
+//               content={post.content}
+//               URLs={post.URLs}
+//               isLiked={post.isLiked}
+//               noOfLike={post.noOfLike}
+//               isRetweeted={post.isRetweeted}
+//               noOfReplies={post.noOfReplies}
+//               noOfRetweets={post.noOfRetweets}
+//               url={post.url}
+//             />
+//           ))
+//       }
+//         &lt;div className={styles.emptyspace} />
+//       &lt;/div>
+//     &lt;/div>
+
+//   );
+// }
 SearchFeed.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    profileid: PropTypes.number.isRequired,
-    displayname: PropTypes.string.isRequired,
+  // postData: PropTypes.arrayOf(PropTypes.shape({
+  //   id: PropTypes.string.isRequired,
+  //   displayName: PropTypes.string.isRequired,
+  //   userName: PropTypes.string.isRequired,
+  //   content: PropTypes.string.isRequired,
+  //   URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  //   isLiked: PropTypes.bool.isRequired,
+  //   noOfLike: PropTypes.number.isRequired,
+  //   isRetweeted: PropTypes.bool.isRequired,
+  //   noOfReplies: PropTypes.number.isRequired,
+  //   noOfRetweets: PropTypes.number.isRequired,
+  //   url: PropTypes.string.isRequired,
+  // })).isRequired,
+  UsersData: PropTypes.arrayOf(PropTypes.shape({
+    banned: PropTypes.bool.isRequired,
+    displayName: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    profilePic: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
   })).isRequired,
-  dataType: PropTypes.string.isRequired,
+  // dataType: PropTypes.bool.isRequired,
 };
 export default SearchFeed;
 </code></pre>
@@ -111,13 +122,13 @@ export default SearchFeed;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Components/ListofUsers/User.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Components/ListofUsers/User.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styles from './User.module.css';
+
+/**
+ * @param {Number} profileid      Id
+ * @param {String} displayname    User display name (user first and second name).
+ * @param {String} username       User username.
+ * @param {String} description    User's bio.
+ * @param {String} url
+ *
+ /**
+ return list of searched users
+ */
+
+function User({
+  profileid, displayname, username, description, url, buttonStyle,
+  buttonStyleClicked, isButtonActive, onButtonClick, onProfileClick,
+  hasCheckbox, isButtonDisabled, enableStyleSwitching,
+}) {
+  let isClicked = false;
+  const [isButtonClicked, setIsButtonClicked] = useState(isButtonActive);
+
+  const handleOpenProfile = () => {
+    if (!isClicked) {
+      onProfileClick(profileid);
+    }
+    isClicked = false;
+  };
+
+  // &lt;button className={styles.wrapper} type="button" onCklick={handleOpenProfile}>
+  return (
+    &lt;div className={styles.wrapper} role="button" tabIndex={0} onClick={handleOpenProfile}>
+      &lt;div className={styles['button-container']}>
+        &lt;img
+          className={styles['profile-img']}
+          alt=""
+          src={url}
+        />
+      &lt;/div>
+
+      &lt;div className={styles['text-container']}>
+        &lt;b>{displayname}&lt;/b>
+        &lt;div className={styles.username}>
+          @
+          {username}
+        &lt;/div>
+        &lt;div className={styles.description}>
+          {description}
+        &lt;/div>
+      &lt;/div>
+      &lt;div className={styles['button-container']}>
+        {(hasCheckbox)
+          ? (
+            &lt;input
+              className={styles['checkbox-button']}
+              type="checkbox"
+              disabled={isButtonDisabled}
+              checked={isButtonClicked}
+              onChange={() => {
+                onButtonClick(profileid, !isButtonClicked);
+                isClicked = true;
+                setIsButtonClicked(!isButtonClicked);
+              }}
+            />
+          ) : (
+            &lt;button
+              className={[(enableStyleSwitching)
+                ? (styles[(isButtonClicked) ? buttonStyleClicked : buttonStyle])
+                : styles[buttonStyle],
+              styles['default-button']].join(' ')}
+              type="button"
+              id="followbutton"
+              onClick={() => {
+                onButtonClick(profileid);
+                isClicked = true;
+                setIsButtonClicked(!isButtonClicked);
+              }}
+              disabled={isButtonDisabled}
+            >
+              &lt;span />
+            &lt;/button>
+          )}
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+User.propTypes = {
+  profileid: PropTypes.string.isRequired,
+  displayname: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  url: PropTypes.string.isRequired,
+  buttonStyle: PropTypes.string,
+  buttonStyleClicked: PropTypes.string,
+  isButtonActive: PropTypes.bool,
+  onButtonClick: PropTypes.func,
+  onProfileClick: PropTypes.func,
+  hasCheckbox: PropTypes.bool.isRequired,
+  isButtonDisabled: PropTypes.bool,
+  enableStyleSwitching: PropTypes.bool,
+};
+
+User.defaultProps = {
+  isButtonActive: false,
+  buttonStyle: 'tweetfollowbutton',
+  buttonStyleClicked: 'tweetfollowingbutton',
+  description: '',
+  isButtonDisabled: false,
+  enableStyleSwitching: true,
+  onButtonClick: function tempFunc() {},
+  onProfileClick: function tempFunc() {},
+};
+
+export default User;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

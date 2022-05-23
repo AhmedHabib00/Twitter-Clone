@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Home/Components/PostFooter.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Home/Components/PostFooter.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Button, Menu, MenuList } from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faComment, faBookmark,
+} from '@fortawesome/free-regular-svg-icons';
+import { useNavigate } from 'react-router';
+import styles from './Post.module.css';
+import PopupPage from './PopupPage';
+import TweetBox from './TweetBox';
+import PostHeader from './PostHeader';
+import PostBody from './PostBody';
+import { handleLikes, addToBookmark, SendRetweets } from '../../Services/postServices';
+
+/**
+ *
+ * @param {Number} id     Post Id
+ * @param {String} displayName      User posted display name (user first name).
+ * @param {String} userName     User posted user name (user full name).
+ * @param {Array} URLs      array of the urls which will contain images &amp; gifs.
+ * @param {Bool} isLiked     flag to know if post was initially liked.
+ * @param {Number} noOfLike     number of likes for this post.
+ * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
+ * @param {Number} noOfRetweets     number of retweets for this post.
+ * @param {Number} noOfReplies     number of replies for this post.
+ * @param {Bool} isReplying     bool to check if it's a reply.
+ * @param {String} url      user profile image.
+ * @param {Bool} isBlocked      bool to check if the user is blocked or no.
+ *
+ * @returns div element containing the whispered tweet footer.
+ */
+
+function PostFooter({
+  id, displayName, userName, URLs, isLiked, noOfLike,
+  isRetweeted, noOfRetweets, noOfReplies, content, url,
+  isBlocked,
+}) {
+  const navigate = useNavigate();
+  const [retweetEl, setRetweetEl] = useState(null);
+  const [shareEl, setShareEl] = useState(null);
+  const [like, setLike] = useState(isLiked);
+  const [likeCount, setLikeCount] = useState(noOfLike);
+  const [replyPopUp, setReplyPopUp] = useState(false);
+  const [replyingToId, setReplyingToId] = useState([]);
+  const [retweet, setRetweet] = useState(isRetweeted);
+  const [retweetCount, setRetweetCount] = useState(noOfRetweets);
+
+  const handelOpenShare = (e) => {
+    setShareEl(e.currentTarget);
+  };
+
+  const handelCloseShare = () => {
+    setShareEl(null);
+  };
+
+  const handelCloseRetweet = () => {
+    setRetweetEl(null);
+  };
+  const handellikes = () => {
+    if (like) {
+      handleLikes(id).then(() => {
+        setLikeCount(likeCount - 1);
+        setLike(!like);
+      });
+    } else {
+      handleLikes(id).then(() => {
+        setLikeCount(likeCount + 1);
+        setLike(!like);
+      });
+    }
+  };
+
+  const handleAddToBookmark = () => {
+    (async () => {
+      await addToBookmark(id);
+    })();
+  };
+  const handleButtonOnClickReplying = (selectedUsers) => {
+    const updateArrayOfIds = selectedUsers.map((user) => (user.id));
+    setReplyingToId(updateArrayOfIds);
+  };
+  const handelRetweeets = () => {
+    if (retweet) {
+      SendRetweets(id).then(() => {
+        setRetweetCount(retweetCount - 1);
+        setRetweet(!retweet);
+        navigate('/');
+      });
+    } else {
+      SendRetweets(id).then(() => {
+        setRetweetCount(retweetCount + 1);
+        setRetweet(!retweet);
+        navigate('/');
+      });
+    }
+  };
+  return (
+    &lt;div>
+      &lt;PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
+        &lt;div>
+          &lt;div className={styles.postbody} key={id}>
+            &lt;PostHeader id={id} displayName={displayName} userName={userName} url={url} />
+            &lt;PostBody
+              id={id}
+              URLs={URLs}
+              content={content}
+              isReplying
+              switchEnabled
+              userName={userName}
+              displayName={displayName}
+              url={url}
+              onReplyButtonClick={handleButtonOnClickReplying}
+            />
+          &lt;/div>
+          &lt;TweetBox replyId={id} users={replyingToId} boxId="reply" placeHolder="Tweet your reply" className={styles.retweet} canTweet={!isBlocked} />
+        &lt;/div>
+      &lt;/PopupPage>
+      &lt;Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
+        &lt;MenuList className={styles['dropdown-content']}>
+          {'    '}
+          &lt;div onClick={handleAddToBookmark} role="button" tabIndex={0} className={styles['label-out']}>
+            &lt;FontAwesomeIcon
+              fontSize="large"
+              className={styles['dropdown-content']}
+              icon={faBookmark}
+            />
+            {' '}
+            &lt;p className={styles.label}>Bookmark&lt;/p>
+          &lt;/div>
+        &lt;/MenuList>
+
+      &lt;/Menu>
+
+      &lt;Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
+        &lt;MenuList className={styles['dropdown-content']}>
+          {'    '}
+          &lt;RepeatIcon className={styles['dropdown-content']} />
+          {' '}
+          Retweet
+        &lt;/MenuList>
+
+        &lt;MenuList className={styles['dropdown-content']}>
+          &lt;div className={styles['label-out']}>
+            {'    '}
+            &lt;EditOutlinedIcon className={styles['dropdown-content']} />
+            {' '}
+
+            &lt;p className={styles.label}>Quote Tweet&lt;/p>
+          &lt;/div>
+        &lt;/MenuList>
+
+      &lt;/Menu>
+
+      &lt;div data-testid="footer-render-test" className={styles.postfooter}>
+        &lt;div className={styles.like}>
+          &lt;FontAwesomeIcon
+            className={styles.postblue}
+            fontSize="large"
+            onClick={() => setReplyPopUp(true)}
+            icon={faComment}
+          />
+          &lt;p>{noOfReplies}&lt;/p>
+        &lt;/div>
+
+        &lt;div className={styles.like}>
+          &lt;Button disabled={isBlocked}>
+            &lt;RepeatIcon
+              style={(retweet) ? { color: 'rgb(18 180 26)' } : { color: 'rgb(0 0 0)' }}
+              className={styles.postgreen}
+              fontSize="small"
+              aria-controls="retweet"
+              onClick={handelRetweeets}
+            />
+          &lt;/Button>
+          &lt;p>{retweetCount}&lt;/p>
+        &lt;/div>
+        &lt;div className={styles.like}>
+          &lt;Button disabled={isBlocked}>
+            &lt;FavoriteBorderIcon
+              style={(like) ? { color: '#f02896' } : { color: 'rgb(0 0 0)' }}
+              className={styles.postpink}
+              fontSize="small"
+              onClick={handellikes}
+            />
+          &lt;/Button>
+          &lt;p>{likeCount}&lt;/p>
+        &lt;/div>
+        &lt;Button disabled={isBlocked}>
+          &lt;IosShareOutlinedIcon
+            className={styles.postblue}
+            fontSize="small"
+            aria-controls="share"
+            onClick={handelOpenShare}
+          />
+        &lt;/Button>
+
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+PostFooter.propTypes = {
+  id: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
+  URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isLiked: PropTypes.bool.isRequired,
+  isRetweeted: PropTypes.bool.isRequired,
+  noOfLike: PropTypes.number.isRequired,
+  noOfRetweets: PropTypes.number.isRequired,
+  noOfReplies: PropTypes.number.isRequired,
+  content: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  isBlocked: PropTypes.bool,
+};
+
+PostFooter.defaultProps = {
+  isBlocked: false,
+};
+
+export default PostFooter;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
