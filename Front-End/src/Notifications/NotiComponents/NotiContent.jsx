@@ -93,13 +93,13 @@ function NotiContent({
     }
     pp = null;
     return (
-      <button className={styles.wrapper} type="button" onClick={handleOpenNoti}>
-        <div className={styles.wrapper2}>
-          <div data-testid="reason-render-test">
+      <button id="single-notification" className={styles.wrapper} type="button" onClick={handleOpenNoti}>
+        <div id="single-notification-container" className={styles.wrapper2}>
+          <div id="single-notification-icon" data-testid="reason-render-test">
             {icon}
           </div>
           {/* <AccountCircleIcon /> */}
-          <div className={styles['login-news']}>
+          <div id="single-notification-statment" className={styles['login-news']}>
             {statement1}
             {/* <b>{senderName}</b> */}
             {statement2}
@@ -119,9 +119,9 @@ function NotiContent({
   console.log(id);
   // console.log(styles);
   return (
-    <button className={styles.wrapper} type="button" onClick={handleOpenNoti}>
-      <div className={styles.wrapper2}>
-        <div data-testid="reason-render-test">
+    <button id="single-notification" className={styles.wrapper} type="button" onClick={handleOpenNoti}>
+      <div id="single-notification-container" className={styles.wrapper2}>
+        <div id="single-notification-icon" data-testid="reason-render-test">
           {icon}
         </div>
         {/* <AccountCircleIcon /> */}
@@ -129,7 +129,7 @@ function NotiContent({
           {pp}
         </div>
       </div>
-      <div className={styles['display-name']}>
+      <div id="single-notification-statment" className={styles['display-name']}>
         {statement1}
         <b>{senderName}</b>
         {statement2}
@@ -137,7 +137,7 @@ function NotiContent({
 
       </div>
       {' '}
-      <div data-testid="content-render-test">
+      <div id="single-notification-content" data-testid="content-render-test">
         <br />
         <div className={styles.content2}>
           {content}

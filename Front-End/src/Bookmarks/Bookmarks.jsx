@@ -9,7 +9,7 @@ import styles from './Bookmarks.module.css';
  * @returns a lfeed containing the tweets the user bookmarked
  */
 function Bookmarks({ username }) {
-  const [bookmarks, setBookmarks] = useState([]);
+  const [bookmarks, setBookmarks] = useState();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
@@ -27,7 +27,7 @@ function Bookmarks({ username }) {
         <h2>Bookmarks</h2>
         <h2 className={styles['user-menu-text-name']}>
           @
-          {(username.length >= 12) ? `${username.substring(0, 11)}...` : username}
+          {(username !== '' && username.length >= 12) ? `${username.substring(0, 11)}...` : username}
 
         </h2>
       </div>
@@ -39,5 +39,9 @@ function Bookmarks({ username }) {
 }
 export default Bookmarks;
 Bookmarks.propTypes = {
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
+};
+
+Bookmarks.defaultProps = {
+  username: '',
 };

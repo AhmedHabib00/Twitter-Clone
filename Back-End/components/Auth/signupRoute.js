@@ -17,15 +17,15 @@ router.post('/', [validateDOB ,validateEmail, validateName],async (req, res) => 
     
     //return (res.status(201).send({statusCode: 201 , message: "Verifaication email sent" }));
     //request body is valid based on schema and joi validations
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()){
-    //     return res.status(400).send(errors.array());
-    // }
-    console.log( req.body)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).send(errors.array());
+    }
+    //console.log( req.body)
    // checking if user already exists
     const user =  await User.findOne({ email: req.body.email});
     var registerer =  await Registerer.findOne({ email: req.body.email});
-    console.log(req.body);
+    //console.log(req.body);
 
     if (user || (registerer && registerer.confirmedEmail)) return res.status(400).send('User already registered.');
 

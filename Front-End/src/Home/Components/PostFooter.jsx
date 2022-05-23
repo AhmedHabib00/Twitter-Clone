@@ -123,14 +123,14 @@ function PostFooter({
       <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
         <MenuList className={styles['dropdown-content']}>
           {'    '}
-          <div onClick={handleAddToBookmark} role="button" tabIndex={0} className={styles['label-out']}>
+          <div id="add-remove-bookmarks" onClick={handleAddToBookmark} role="button" tabIndex={0} className={styles['label-out']}>
             <FontAwesomeIcon
               fontSize="large"
               className={styles['dropdown-content']}
               icon={faBookmark}
             />
             {' '}
-            <p className={styles.label}>Bookmark</p>
+            <p className={styles.label}>Add/Remove bookmark</p>
           </div>
         </MenuList>
 
