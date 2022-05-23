@@ -15,7 +15,7 @@ export default function validatePassword(values) {
     errors.password = 'Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character';
   } else if (!/(?=.*?[0-9])/.test(values.password)) {
     errors.password = 'Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character';
-  } else if (!/(?=.*?[#?!@$%^&*-])/.test(values.password)) {
+  } else if (!/(?=.*?[#?!@$%^&*-/_])/.test(values.password)) {
     errors.password = 'Password should contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character';
   }
   return errors;

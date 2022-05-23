@@ -330,11 +330,17 @@ const createFollowerTweetingNotification = async function createFollowerTweeting
             return false;
     }
   };
+  // const deleteUserTweets = async function deleteUserTweets (tweetingUserId){
+  //   result = await Tweet.deleteMany({postedBy:tweetingUserId})
+  //   console.log(result)
+
+  // }
   //createLikeNotification("6260a395711f5ce89d8b54b0","6248c3b66ad307b6e8623c57");
   //result = getNotificationsMongo("6257129df18fcd7147c6c825");
   //result = getNotificationsMongo("6248c3b66ad307b6e8623c57");
   //createBlockNotification("6248c3b66ad307b6e8623c57","6249921db35e4fa55a5da228","2 days");
   //createFollowerTweetingNotification("6249921db35e4fa55a5da228","6260a395711f5ce89d8b54b0");
+  //deleteUserTweets("6283e4d5053a6cb9e3dbd819");
   module.exports = {
     createLikeNotification, createBlockNotification, createFollowerTweetingNotification,getNotifications ,getNotificationsMongo
   };  

@@ -33,6 +33,10 @@ function App() {
     if (isLogged) {
       (async () => {
         const resp = await getClientRole();
+        if (resp.data === 'Invalid token.') {
+          localStorage.clear();
+          updateRoutes(false);
+        }
         if (resp.role === 'Admin') {
           setIsAdmin(true);
         } else {
@@ -129,7 +133,6 @@ function App() {
           {selectingRoute()}
           <Route path="" element={<Navigate to={mainPath()} />} />
         </Route>
-        <Route path="*" element={<div />} />
       </Routes>
     </Router>
   );
