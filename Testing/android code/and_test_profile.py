@@ -1,12 +1,11 @@
-import time
 from selenium.common.exceptions import NoSuchElementException
 import and_accessabilities
-import and_conftest
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions import interaction
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
+
 
 def test_change_profile_pic(WebDriver):
     try:

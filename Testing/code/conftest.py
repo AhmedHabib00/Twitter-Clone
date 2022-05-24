@@ -19,6 +19,7 @@ def start_driver():
     driver = webdriver.Chrome(service=s, options=chrome_options, desired_capabilities=caps)
     driver.implicitly_wait(20)
     driver.maximize_window()
+    #driver.get('http://localhost:3000/')
     driver.get('http://habibs.me/')
     return driver
 

@@ -73,7 +73,6 @@ class TestLoginPage:
             driver.find_element(By.ID, accessabilities.sign_in_button_id).click()
         except NoSuchElementException:
             pass
-
         try:
             driver.find_element(By.ID, accessabilities.sign_in_email_textbox_id).send_keys(
                 accessabilities.username)
@@ -101,29 +100,6 @@ class TestLoginPage:
                                        accessabilities.sign_in_invalid_password_error).is_displayed() is True
         except NoSuchElementException:
             pass
-        end_driver(driver)
-
-    def test_unregistered_username_signin(self):
-        driver = start_driver()
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_button_id).click()
-        except NoSuchElementException:
-            pass
-
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_email_textbox_id).send_keys(
-                accessabilities.sample_username)
-        except NoSuchElementException:
-            pass
-
-        try:
-            driver.find_element(By.ID, accessabilities.sign_in_next_button).click()
-        except NoSuchElementException:
-            pass
-
-        with pytest.raises(NoSuchElementException):
-            driver.find_element(By.ID, accessabilities.sign_in_password_textbox_id)
-
         end_driver(driver)
 
     def test_unregistered_email_signin(self):

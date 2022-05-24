@@ -11,12 +11,15 @@ from selenium.webdriver.common.actions import interaction
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 
+
 def back_to_start_page(WebDriver):
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_back_button_xpath).click()
     except NoSuchElementException:
         pass
     time.sleep(4)
+
+
 def press_done_text(WebDriver):
     tweet_press = ActionChains(WebDriver)
     tweet_press.w3c_actions = ActionBuilder(WebDriver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
@@ -25,38 +28,41 @@ def press_done_text(WebDriver):
     tweet_press.w3c_actions.perform()
     time.sleep(4)
 
+
 def test_wrong_username(WebDriver):
-    #OPEN SIGN IN PAGE
+    # OPEN SIGN IN PAGE
     try:
         WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=and_accessabilities.sign_in_button_id).click()
     except NoSuchElementException:
         pass
     time.sleep(5)
-    #WRONG USERNAME
+    # WRONG USERNAME
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).click()
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).clear()
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).send_keys("#ABDC")
     except NoSuchElementException:
         pass
-    #VALID PASSWORD
+    # VALID PASSWORD
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).click()
-        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys(and_accessabilities.password)
+        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys(
+            and_accessabilities.password)
     except NoSuchElementException:
         pass
-    #NEXT BUTTON
+    # NEXT BUTTON
     press_done_text(WebDriver)
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_button_xpath).click()
     except NoSuchElementException:
         pass
     time.sleep(4)
-    #CHECK THE ERROR MESSAGE
+    # CHECK THE ERROR MESSAGE
     test = False
 
     try:
-        test = (WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=and_accessabilities.login_mail_error_id).is_displayed())
+        test = (WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
+                                       value=and_accessabilities.login_mail_error_id).is_displayed())
     except NoSuchElementException:
         pass
     print("WRONG MAIL LOGIN")
@@ -67,38 +73,41 @@ def test_wrong_username(WebDriver):
 
     back_to_start_page(WebDriver)
 
+
 def test_wrong_password(WebDriver):
-    #SIGN IN BUTTON
+    # SIGN IN BUTTON
     try:
         WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=and_accessabilities.sign_in_button_id).click()
     except NoSuchElementException:
         pass
     time.sleep(5)
-    #VALID MAIL
+    # VALID MAIL
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).click()
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).clear()
-        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).send_keys(and_accessabilities.username)
+        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).send_keys(
+            and_accessabilities.username)
     except NoSuchElementException:
         pass
-    #INVALID PASSWORD
+    # INVALID PASSWORD
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).click()
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys("!am11")
     except NoSuchElementException:
         pass
-    #NEXT BUTTON
+    # NEXT BUTTON
     press_done_text(WebDriver)
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_button_xpath).click()
     except NoSuchElementException:
         pass
     time.sleep(4)
-    #CHECK THE ERROR MESSAGE
+    # CHECK THE ERROR MESSAGE
     test = False
 
     try:
-        test = (WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value=and_accessabilities.login_password_error_id).is_displayed())
+        test = (WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
+                                       value=and_accessabilities.login_password_error_id).is_displayed())
     except NoSuchElementException:
         pass
     print("WRONG PASSWORD LOGIN")
@@ -108,6 +117,7 @@ def test_wrong_password(WebDriver):
         print('Test Failed')
 
     back_to_start_page(WebDriver)
+
 
 def test_empty_username(WebDriver):
     # SIGN IN BUTTON
@@ -126,7 +136,8 @@ def test_empty_username(WebDriver):
     # VALID PASSWORD
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).click()
-        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys(and_accessabilities.password)
+        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys(
+            and_accessabilities.password)
     except NoSuchElementException:
         pass
     # NEXT BUTTON
@@ -151,6 +162,7 @@ def test_empty_username(WebDriver):
         print('Test Failed')
 
     back_to_start_page(WebDriver)
+
 
 def test_empty_password(WebDriver):
     # SIGN IN BUTTON
@@ -196,6 +208,7 @@ def test_empty_password(WebDriver):
 
     back_to_start_page(WebDriver)
 
+
 def test_empty_password_and_mail(WebDriver):
     # SIGN IN BUTTON
     try:
@@ -228,8 +241,9 @@ def test_empty_password_and_mail(WebDriver):
 
     try:
         test = (WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
-                                       value=and_accessabilities.login_password_error_id).is_displayed() and WebDriver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
-                                       value=and_accessabilities.login_mail_error_id).is_displayed())
+                                       value=and_accessabilities.login_password_error_id).is_displayed() and WebDriver.find_element(
+            by=AppiumBy.ACCESSIBILITY_ID,
+            value=and_accessabilities.login_mail_error_id).is_displayed())
     except NoSuchElementException:
         pass
     print("EMPTY MAIL AND PASSWORD LOGIN")
@@ -252,13 +266,15 @@ def test_valid_mail_and_password(WebDriver):
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).click()
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).clear()
-        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).send_keys(and_accessabilities.username)
+        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_mail_xpath).send_keys(
+            and_accessabilities.username)
     except NoSuchElementException:
         pass
     # EMPTY PASSWORD
     try:
         WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).click()
-        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys(and_accessabilities.password)
+        WebDriver.find_element(by=AppiumBy.XPATH, value=and_accessabilities.login_password_xpath).send_keys(
+            and_accessabilities.password)
     except NoSuchElementException:
         pass
     # NEXT BUTTON

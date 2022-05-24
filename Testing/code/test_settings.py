@@ -1,15 +1,15 @@
 import accessabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from conftest import sign_in
 from conftest import end_driver
 import time
-from test_homepage import TestHomePage
 
 
 class TestSettingsPage:
     def test_password_change_invalid(self):
 
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
 
         try:
             driver.find_element(By.ID, accessabilities.Settings_navbar).click()
@@ -54,7 +54,7 @@ class TestSettingsPage:
 
     def test_password_change_wrong_confirmation(self):
 
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
 
         try:
             driver.find_element(By.ID, accessabilities.Settings_navbar).click()
@@ -100,7 +100,7 @@ class TestSettingsPage:
 
     def test_password_change_No_confirmation(self):
 
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
 
         try:
             driver.find_element(By.ID, accessabilities.Settings_navbar).click()
@@ -142,7 +142,7 @@ class TestSettingsPage:
 
     def test_password_change_wrong_confirmation(self):
 
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
 
         try:
             driver.find_element(By.ID, accessabilities.Settings_navbar).click()
@@ -188,7 +188,7 @@ class TestSettingsPage:
 
     def test_password_change_Valid(self):
 
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
 
         try:
             driver.find_element(By.ID, accessabilities.Settings_navbar).click()
@@ -230,7 +230,7 @@ class TestSettingsPage:
 
         time.sleep(2)
 
-        driver = TestHomePage.sign_in(self)
+        driver = sign_in()
 
         try:
             assert (driver.find_element(By.ID, accessabilities.sign_in_invalid_password_error).is_displayed())

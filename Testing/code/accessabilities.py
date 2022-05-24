@@ -101,12 +101,11 @@ Settings_save_pass_change = 'save-password'
 Settings_password_error = 'invalid-password'
 
 # Bookmarks
-bookmarks_share_button = '#post > div > div:nth-child(3) > div > button > svg'
-bookmarks_option = '#share > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiMenu-paper.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-177ic5c > ul > ul > div'
+bookmarks_option_id = 'add-remove-bookmarks'
 bookmarks_navbar_button = '#Bookmarks > div > p'
-bookmarked_tweet_options = '#post > div > div:nth-child(1) > div > h3 > div > svg'
-bookmark_remove_tweet = 'remove-bookmark'
+bookmark_remove_tweet_id = 'add-remove-bookmarks'
 bookmark_tweet_body = '#post > div > div:nth-child(2) > div:nth-child(1)'
+bookmark_share_button_on_page = '#post > div > div:nth-child(3) > div > button > svg'
 
 # Admin
 admin_block_button_id = 'followbutton'
@@ -142,7 +141,6 @@ retweet_button = '#post > div > div:nth-child(3) > div > div:nth-child(2) > butt
 reply_tweet_button = '#post > div > div:nth-child(3) > div > div:nth-child(1) > svg'
 notification_page_on_navbar = '#Notifications > div'
 homepage_on_navbar = '#Home > div'
-
 
 chrome_driver = 'E:\Sem 6\Software Engineering\Whisper\Testing\drivers\chromedriver.exe'
 # chrome_driver = "..\drivers\chromedriver.exe"

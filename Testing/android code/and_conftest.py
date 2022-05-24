@@ -1,12 +1,9 @@
-#import Accessabilities
 import time
 from appium import webdriver
-from appium.webdriver import appium_service
 from appium.webdriver.appium_service import AppiumService
 
 
 def start_up():
-
     desired_caps = dict(
         automationName="UiAutomator2",
         platformName="Android",
@@ -26,11 +23,14 @@ def start_up():
     time.sleep(10)
     return WebDriver
 
+
 def teardowm(WebDriver):
     WebDriver.quit()
 
-def teardownapp (WebDriver):
+
+def teardownapp(WebDriver):
     WebDriver.close_app()
+
 
 def start_app(WebDriver):
     WebDriver.activate_app('com.example.whisper')
