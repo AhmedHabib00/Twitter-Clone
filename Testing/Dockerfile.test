@@ -48,4 +48,4 @@ COPY Testing/ .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ls code/*.py|xargs -n 1 -P 3 python
+CMD ls code/*.py|xargs -n 1 -P 3 pytest
