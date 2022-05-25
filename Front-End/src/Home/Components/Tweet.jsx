@@ -13,8 +13,8 @@ import Post from './Post';
 import Loader from '../../Components/Loader/Loader';
 
 /**
- *
- * @returns Tweet Page initial layout
+ * @param {Bool} isBlocked      bool to check if the user is blocked or no.
+ * @returns Tweet Page, which contains tweeta & its replies.
  */
 function Tweet({ isBlocked }) {
   const { id } = useParams();

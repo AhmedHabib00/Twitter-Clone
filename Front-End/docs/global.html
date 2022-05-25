@@ -157,7 +157,7 @@ It displays the navbar and opened page.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Admin_AdminFoundation.jsx.html">Admin/AdminFoundation.jsx</a>, <a href="Admin_AdminFoundation.jsx.html#line11">line 11</a>
+        <a href="Admin_AdminFoundation.jsx.html">Admin/AdminFoundation.jsx</a>, <a href="Admin_AdminFoundation.jsx.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -193,7 +193,154 @@ It displays the navbar and opened page.</p>
     
 
     
-    <h4 class="name" id="Feed"><span class="type-signature"></span>Feed<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Bookmarks"><span class="type-signature"></span>Bookmarks<span class="signature">(username)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This page is used to show the bookmarked (saved) tweets of the user</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>username</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>this is the username of the account owner</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Bookmarks_Bookmarks.jsx.html">Bookmarks/Bookmarks.jsx</a>, <a href="Bookmarks_Bookmarks.jsx.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a lfeed containing the tweets the user bookmarked</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Feed"><span class="type-signature"></span>Feed<span class="signature">(data, isReplying, canScrollUpdate, updateData, isEndOfFeed, isBlocked)</span><span class="type-signature"></span></h4>
     
 
     
@@ -253,6 +400,121 @@ It displays the navbar and opened page.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>isReplying</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if it's a reply.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>canScrollUpdate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to handel hasMore in infiniteScroll component.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updateData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function that calls the api request for more data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isEndOfFeed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool no more data to handel hasMore.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isBlocked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if the user is blocked or no.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -290,7 +552,7 @@ It displays the navbar and opened page.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Home_Components_Feed.jsx.html">Home/Components/Feed.jsx</a>, <a href="Home_Components_Feed.jsx.html#line13">line 13</a>
+        <a href="Home_Components_Feed.jsx.html">Home/Components/Feed.jsx</a>, <a href="Home_Components_Feed.jsx.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -321,6 +583,200 @@ It displays the navbar and opened page.</p>
 <div class="param-desc">
     <p>map through the post array data and starts passing the post props
 to display the posts in the feed component.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="ForgotPassword"><span class="type-signature"></span>ForgotPassword<span class="signature">(setEmail, setForgotPassword, setVerifyCode)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This function is used to make a email or username form for the forgot
+my password process</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setEmail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Sets the info of the user trying to get his password</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setForgotPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the status of the forgot password modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setVerifyCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the verification code modal</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_ForgotPassword.jsx.html">Start/Login/ForgotPassword.jsx</a>, <a href="Start_Login_ForgotPassword.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>email or username form</p>
 </div>
 
 
@@ -391,7 +847,7 @@ The navbar is not scrollable</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Foundation_Foundation.jsx.html">Foundation/Foundation.jsx</a>, <a href="Foundation_Foundation.jsx.html#line24">line 24</a>
+        <a href="Foundation_Foundation.jsx.html">Foundation/Foundation.jsx</a>, <a href="Foundation_Foundation.jsx.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -416,6 +872,149 @@ The navbar is not scrollable</p>
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Home"><span class="type-signature"></span>Home<span class="signature">(isBlocked)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isBlocked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if the user is blocked or no.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Home_Home.jsx.html">Home/Home.jsx</a>, <a href="Home_Home.jsx.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>tweet box to post a tweet &amp; the timeline.</p>
+</div>
+
+
+
+    
 
 
 
@@ -779,6 +1378,711 @@ and passed childern</p>
     
 
     
+    <h4 class="name" id="Loader"><span class="type-signature"></span>Loader<span class="signature">(dimension)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This component for the loader</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dimension</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>gives the dimension of the loader</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Components_Loader_Loader.jsx.html">Components/Loader/Loader.jsx</a>, <a href="Components_Loader_Loader.jsx.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the loader components</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Login"><span class="type-signature"></span>Login<span class="signature">(closeLogin, handleLoginStatus)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This Function manages Login and its states.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>closeLogin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>boolen to close signup modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleLoginStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to manage authorization</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_Login.jsx.html">Start/Login/Login.jsx</a>, <a href="Start_Login_Login.jsx.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Login modal</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="LoginPassword"><span class="type-signature"></span>LoginPassword<span class="signature">(handleAfterSignin, email)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>In this function the user will type his password</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>handleAfterSignin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to manage the username selection step status</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to be able to send the password to the backend with it</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_LoginPassword.jsx.html">Start/Login/LoginPassword.jsx</a>, <a href="Start_Login_LoginPassword.jsx.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Password form</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="LoginStepOne"><span class="type-signature"></span>LoginStepOne<span class="signature">(setEmail, setStepOne, setLoginPassword, setForgotPassword)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This is the first state in the Login form in which the user will
+type the username or email.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setEmail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>sets the email of the user to be able to use
+it in the up comming steps</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setStepOne</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to manage the first step status</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setLoginPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to manage the password step</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setForgotPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to manage the forgot password step</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_LoginStepOne.jsx.html">Start/Login/LoginStepOne.jsx</a>, <a href="Start_Login_LoginStepOne.jsx.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Email or username form</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="Navbar"><span class="type-signature"></span>Navbar<span class="signature">(children, onTwIconClick, route)</span><span class="type-signature"></span></h4>
     
 
@@ -1123,7 +2427,7 @@ Usually used for the navbar component</p>
     
 
     
-    <h4 class="name" id="NotiContent"><span class="type-signature"></span>NotiContent<span class="signature">(id, postid, profileid, displayname, content, notitype, date)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="NotiContent"><span class="type-signature"></span>NotiContent<span class="signature">(id, entityId, profileid, senderName, content, reason, date)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1186,7 +2490,7 @@ Usually used for the navbar component</p>
 
         <tr>
             
-                <td class="name"><code>postid</code></td>
+                <td class="name"><code>entityId</code></td>
             
 
             <td class="type">
@@ -1232,7 +2536,7 @@ Usually used for the navbar component</p>
 
         <tr>
             
-                <td class="name"><code>displayname</code></td>
+                <td class="name"><code>senderName</code></td>
             
 
             <td class="type">
@@ -1278,7 +2582,7 @@ Usually used for the navbar component</p>
 
         <tr>
             
-                <td class="name"><code>notitype</code></td>
+                <td class="name"><code>reason</code></td>
             
 
             <td class="type">
@@ -1359,7 +2663,551 @@ return notifications content inside feed insidd notifications component</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Notifications_NotiComponents_NotiContent.jsx.html">Notifications/NotiComponents/NotiContent.jsx</a>, <a href="Notifications_NotiComponents_NotiContent.jsx.html#line27">line 27</a>
+        <a href="Notifications_NotiComponents_NotiContent.jsx.html">Notifications/NotiComponents/NotiContent.jsx</a>, <a href="Notifications_NotiComponents_NotiContent.jsx.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="NotiContent"><span class="type-signature"></span>NotiContent<span class="signature">(id, entityId, profileid, senderName, content, reason, date)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>entityId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>profileid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>senderName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User display name (user first name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>reason</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>different notifications icons.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>/**
+return notifications content inside feed insidd notifications component</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Settings_SettingsComponents_AccountInformationContent.jsx.html">Settings/SettingsComponents/AccountInformationContent.jsx</a>, <a href="Settings_SettingsComponents_AccountInformationContent.jsx.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="NotiContent"><span class="type-signature"></span>NotiContent<span class="signature">(id, entityId, profileid, senderName, content, reason, date)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>entityId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>profileid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>senderName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User display name (user first name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>reason</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>different notifications icons.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>/**
+return notifications content inside feed insidd notifications component</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Settings_SettingsComponents_YourAccountContent.jsx.html">Settings/SettingsComponents/YourAccountContent.jsx</a>, <a href="Settings_SettingsComponents_YourAccountContent.jsx.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -1539,6 +3387,294 @@ to display the notifications in the feed component.</p>
     
 
     
+    <h4 class="name" id="NotiFeed"><span class="type-signature"></span>NotiFeed<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array containing our notifications.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Settings_SettingsComponents_AccountInformationFeed.jsx.html">Settings/SettingsComponents/AccountInformationFeed.jsx</a>, <a href="Settings_SettingsComponents_AccountInformationFeed.jsx.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>map through the post array data and starts passing the notifications props
+to display the notifications in the feed component.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="NotiFeed"><span class="type-signature"></span>NotiFeed<span class="signature">(data)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array containing our notifications.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Settings_SettingsComponents_YourAccountFeed.jsx.html">Settings/SettingsComponents/YourAccountFeed.jsx</a>, <a href="Settings_SettingsComponents_YourAccountFeed.jsx.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>map through the post array data and starts passing the notifications props
+to display the notifications in the feed component.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="Notifications"><span class="type-signature"></span>Notifications<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -1587,7 +3723,7 @@ to display the notifications in the feed component.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Notifications_Notifications.jsx.html">Notifications/Notifications.jsx</a>, <a href="Notifications_Notifications.jsx.html#line10">line 10</a>
+        <a href="Notifications_Notifications.jsx.html">Notifications/Notifications.jsx</a>, <a href="Notifications_Notifications.jsx.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -1817,7 +3953,7 @@ It closes when user clicks outside of white area</p>
     
 
     
-    <h4 class="name" id="Post"><span class="type-signature"></span>Post<span class="signature">(id, displayname, username, content, img1, img2, img3, img4, isLiked, noOfLike, isRetweeted, noOfRetweets, noOfReplies)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Post"><span class="type-signature"></span>Post<span class="signature">(id, displayName, userName, content, URLs, isLiked, noOfLike, isRetweeted, noOfRetweets, noOfReplies, isReplying, url, isBlocked, whoRetweeted)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1880,7 +4016,7 @@ It closes when user clicks outside of white area</p>
 
         <tr>
             
-                <td class="name"><code>displayname</code></td>
+                <td class="name"><code>displayName</code></td>
             
 
             <td class="type">
@@ -1903,7 +4039,7 @@ It closes when user clicks outside of white area</p>
 
         <tr>
             
-                <td class="name"><code>username</code></td>
+                <td class="name"><code>userName</code></td>
             
 
             <td class="type">
@@ -1949,13 +4085,13 @@ It closes when user clicks outside of white area</p>
 
         <tr>
             
-                <td class="name"><code>img1</code></td>
+                <td class="name"><code>URLs</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Array</span>
 
 
             
@@ -1965,76 +4101,7 @@ It closes when user clicks outside of white area</p>
 
             
 
-            <td class="description last"><p>uploaded image-1 url.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>img2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>uploaded image-2 url.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>img3</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>uploaded image-3 url.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>img4</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>uploaded image-4 url.</p></td>
+            <td class="description last"><p>array of the urls which will contain images &amp; gifs.</p></td>
         </tr>
 
     
@@ -2153,6 +4220,98 @@ It closes when user clicks outside of white area</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>isReplying</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if it's a reply.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>user profile image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isBlocked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if the user is blocked or no.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>whoRetweeted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>string to get retweeted user name.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -2190,7 +4349,7 @@ It closes when user clicks outside of white area</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Home_Components_Post.jsx.html">Home/Components/Post.jsx</a>, <a href="Home_Components_Post.jsx.html#line43">line 43</a>
+        <a href="Home_Components_Post.jsx.html">Home/Components/Post.jsx</a>, <a href="Home_Components_Post.jsx.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -2220,6 +4379,964 @@ It closes when user clicks outside of white area</p>
         
 <div class="param-desc">
     <p>div element containing the whole whispered tweet</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="PostBody"><span class="type-signature"></span>PostBody<span class="signature">(id, displayName, userName, content, URLs, isReplying, url, switchEnable, onReplyButtonClick)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Post Id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>displayName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User posted display name (user first name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User posted user name (user full name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Posted text.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>URLs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of the urls which will contain images &amp; gifs.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isReplying</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if it's a reply.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>user profile image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>switchEnable</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>to handel display of mentioned users.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onReplyButtonClick</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>to check if the user is replying to the post.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Home_Components_PostBody.jsx.html">Home/Components/PostBody.jsx</a>, <a href="Home_Components_PostBody.jsx.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>div element containing the whispered tweet body.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="PostFooter"><span class="type-signature"></span>PostFooter<span class="signature">(id, displayName, userName, URLs, isLiked, noOfLike, isRetweeted, noOfRetweets, noOfReplies, isReplying, url, isBlocked)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Post Id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>displayName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User posted display name (user first name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User posted user name (user full name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>URLs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of the urls which will contain images &amp; gifs.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isLiked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>flag to know if post was initially liked.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>noOfLike</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>number of likes for this post.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isRetweeted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>flag to know if post was initially retweeted.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>noOfRetweets</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>number of retweets for this post.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>noOfReplies</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>number of replies for this post.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isReplying</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if it's a reply.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>user profile image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isBlocked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if the user is blocked or no.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Home_Components_PostFooter.jsx.html">Home/Components/PostFooter.jsx</a>, <a href="Home_Components_PostFooter.jsx.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>div element containing the whispered tweet footer.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="PostHeader"><span class="type-signature"></span>PostHeader<span class="signature">(id, displayName, userName, url, whoRetweeted)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Post Id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>displayName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User posted display name (user first name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User posted user name (user full name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>user profile image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>whoRetweeted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>string to get retweeted user name.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Home_Components_PostHeader.jsx.html">Home/Components/PostHeader.jsx</a>, <a href="Home_Components_PostHeader.jsx.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>div element containing the whispered tweet header.</p>
 </div>
 
 
@@ -2284,7 +5401,7 @@ It closes when user clicks outside of white area</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Search_Search.jsx.html">Search/Search.jsx</a>, <a href="Search_Search.jsx.html#line14">line 14</a>
+        <a href="Search_Search.jsx.html">Search/Search.jsx</a>, <a href="Search_Search.jsx.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -2319,6 +5436,167 @@ It closes when user clicks outside of white area</p>
 
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="SearchBar"><span class="type-signature"></span>SearchBar<span class="signature">(placeHolder, searchValue)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>a text input cmponent that enables user to type a search value</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>placeHolder</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>placeholder for searchbox</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>searchValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function passed from parent that gets the searched
+value on value change</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Components_SearchBar_SearchBar.jsx.html">Components/SearchBar/SearchBar.jsx</a>, <a href="Components_SearchBar_SearchBar.jsx.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2658,7 +5936,174 @@ to display posts in the feed component.</p>
     
 
     
-    <h4 class="name" id="SearchUser"><span class="type-signature"></span>SearchUser<span class="signature">(profileid, displayname, username, description, url)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SearchFeed"><span class="type-signature"></span>SearchFeed<span class="signature">(data, dataType)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array containing our posts.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dataType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Search_SearchComponents_SearchFeedd.jsx.html">Search/SearchComponents/SearchFeedd.jsx</a>, <a href="Search_SearchComponents_SearchFeedd.jsx.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>map through the post array data and starts passing the posts props
+to display posts in the feed component.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="SearchUser"><span class="type-signature"></span>SearchUser<span class="signature">(profileid, displayname, username, description, profilePic)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2790,7 +6235,7 @@ to display posts in the feed component.</p>
 
         <tr>
             
-                <td class="name"><code>url</code></td>
+                <td class="name"><code>profilePic</code></td>
             
 
             <td class="type">
@@ -2848,7 +6293,7 @@ return list of searched users</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Search_SearchComponents_SearchUser.jsx.html">Search/SearchComponents/SearchUser.jsx</a>, <a href="Search_SearchComponents_SearchUser.jsx.html#line28">line 28</a>
+        <a href="Search_SearchComponents_SearchUser.jsx.html">Search/SearchComponents/SearchUser.jsx</a>, <a href="Search_SearchComponents_SearchUser.jsx.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -3074,7 +6519,7 @@ return suggestions of users</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Search_SearchComponents_SearchUserDropDown.jsx.html">Search/SearchComponents/SearchUserDropDown.jsx</a>, <a href="Search_SearchComponents_SearchUserDropDown.jsx.html#line27">line 27</a>
+        <a href="Search_SearchComponents_SearchUserDropDown.jsx.html">Search/SearchComponents/SearchUserDropDown.jsx</a>, <a href="Search_SearchComponents_SearchUserDropDown.jsx.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -3110,7 +6555,178 @@ return suggestions of users</p></td>
     
 
     
-    <h4 class="name" id="SignUp"><span class="type-signature"></span>SignUp<span class="signature">(closeSignup)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SetPassword"><span class="type-signature"></span>SetPassword<span class="signature">(setSettingPassword, handleAfterSignin)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This function is used to make a set password form for the forgot
+my password process</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setSettingPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the status of the sitting password modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleAfterSignin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Handles the routing and authorization</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_SetPassword.jsx.html">Start/Login/SetPassword.jsx</a>, <a href="Start_Login_SetPassword.jsx.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>set password form</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="SignUp"><span class="type-signature"></span>SignUp<span class="signature">(closeSignup, handleLoginStatus)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3170,7 +6786,30 @@ return suggestions of users</p></td>
 
             
 
-            <td class="description last"><p>[boolen to close signup modal]</p></td>
+            <td class="description last"><p>boolen to close signup modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleLoginStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>function to manage authorization</p></td>
         </tr>
 
     
@@ -3211,7 +6850,7 @@ return suggestions of users</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_SignUp.jsx.html">Start/SignUp/SignUp.jsx</a>, <a href="Start_SignUp_SignUp.jsx.html#line14">line 14</a>
+        <a href="Start_SignUp_SignUp.jsx.html">Start/SignUp/SignUp.jsx</a>, <a href="Start_SignUp_SignUp.jsx.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -3359,7 +6998,7 @@ to the backend</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Services_accountServices.js.html">Services/accountServices.js</a>, <a href="Services_accountServices.js.html#line57">line 57</a>
+        <a href="Services_accountServices.js.html">Services/accountServices.js</a>, <a href="Services_accountServices.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -3507,7 +7146,7 @@ to the backend after encryption</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Services_accountServices.js.html">Services/accountServices.js</a>, <a href="Services_accountServices.js.html#line108">line 108</a>
+        <a href="Services_accountServices.js.html">Services/accountServices.js</a>, <a href="Services_accountServices.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -3655,7 +7294,7 @@ to the backend</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Services_accountServices.js.html">Services/accountServices.js</a>, <a href="Services_accountServices.js.html#line156">line 156</a>
+        <a href="Services_accountServices.js.html">Services/accountServices.js</a>, <a href="Services_accountServices.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -3754,7 +7393,7 @@ user can login or signup with google, facebook, or email.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_Start.jsx.html">Start/Start.jsx</a>, <a href="Start_Start.jsx.html#line14">line 14</a>
+        <a href="Start_Start.jsx.html">Start/Start.jsx</a>, <a href="Start_Start.jsx.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -3972,7 +7611,7 @@ it in the up comming steps]</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_StepOne.jsx.html">Start/SignUp/StepOne.jsx</a>, <a href="Start_SignUp_StepOne.jsx.html#line21">line 21</a>
+        <a href="Start_SignUp_StepOne.jsx.html">Start/SignUp/StepOne.jsx</a>, <a href="Start_SignUp_StepOne.jsx.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -4165,7 +7804,7 @@ it in the up comming steps]</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_StepPassword.jsx.html">Start/SignUp/StepPassword.jsx</a>, <a href="Start_SignUp_StepPassword.jsx.html#line19">line 19</a>
+        <a href="Start_SignUp_StepPassword.jsx.html">Start/SignUp/StepPassword.jsx</a>, <a href="Start_SignUp_StepPassword.jsx.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -4211,7 +7850,7 @@ it in the up comming steps]</p></td>
     
 
     
-    <h4 class="name" id="Tweet"><span class="type-signature"></span>Tweet<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Tweet"><span class="type-signature"></span>Tweet<span class="signature">(isBlocked)</span><span class="type-signature"></span></h4>
     
 
     
@@ -4224,6 +7863,55 @@ it in the up comming steps]</p></td>
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isBlocked</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>bool to check if the user is blocked or no.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -4259,7 +7947,7 @@ it in the up comming steps]</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Home_Components_Tweet.jsx.html">Home/Components/Tweet.jsx</a>, <a href="Home_Components_Tweet.jsx.html#line11">line 11</a>
+        <a href="Home_Components_Tweet.jsx.html">Home/Components/Tweet.jsx</a>, <a href="Home_Components_Tweet.jsx.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -4288,7 +7976,7 @@ it in the up comming steps]</p></td>
 
         
 <div class="param-desc">
-    <p>Tweet Page initial layout</p>
+    <p>Tweet Page, which contains tweeta &amp; its replies.</p>
 </div>
 
 
@@ -4395,7 +8083,224 @@ it uses gif's developer GET api, search, to get an array of gifs as the user typ
     
 
     
-    <h4 class="name" id="useForm"><span class="type-signature"></span>useForm<span class="signature">(date, setStepOne, setStepVerify)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="useForgetPasswordForm"><span class="type-signature"></span>useForgetPasswordForm<span class="signature">(setVerifyCode, setEmail, setForgotPassword, setIsLoading)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This function is used to manage the first step in the forgot passwors modals and apply
+validations.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setVerifyCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the verification code modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setEmail</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Sets the user email or username</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setForgotPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the status of the forgot password modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_components_useForgotPasswordForm.js.html">Start/Login/components/useForgotPasswordForm.js</a>, <a href="Start_Login_components_useForgotPasswordForm.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>handleChange, values, handleSubmit, errors,</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="useForm"><span class="type-signature"></span>useForm<span class="signature">(date, setStepOne, setStepVerify, setIsLoading)</span><span class="type-signature"></span></h4>
     
 
     
@@ -4506,6 +8411,29 @@ validations.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -4543,7 +8471,7 @@ validations.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_Components_useForm.js.html">Start/SignUp/Components/useForm.js</a>, <a href="Start_SignUp_Components_useForm.js.html#line13">line 13</a>
+        <a href="Start_SignUp_Components_useForm.js.html">Start/SignUp/Components/useForm.js</a>, <a href="Start_SignUp_Components_useForm.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -4589,7 +8517,7 @@ validations.</p>
     
 
     
-    <h4 class="name" id="useFormCode"><span class="type-signature"></span>useFormCode<span class="signature">(setStepPassword, setStepVerify, userEmail)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="useFormCode"><span class="type-signature"></span>useFormCode<span class="signature">(setStepPassword, setStepVerify, userEmail, setIsLoading)</span><span class="type-signature"></span></h4>
     
 
     
@@ -4700,6 +8628,29 @@ validations on the code.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -4737,7 +8688,7 @@ validations on the code.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_Components_useFormCode.js.html">Start/SignUp/Components/useFormCode.js</a>, <a href="Start_SignUp_Components_useFormCode.js.html#line13">line 13</a>
+        <a href="Start_SignUp_Components_useFormCode.js.html">Start/SignUp/Components/useFormCode.js</a>, <a href="Start_SignUp_Components_useFormCode.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -4783,7 +8734,7 @@ validations on the code.</p>
     
 
     
-    <h4 class="name" id="useFormPassword"><span class="type-signature"></span>useFormPassword<span class="signature">(setStepPassword, setStepUsername, userEmail)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="useFormPassword"><span class="type-signature"></span>useFormPassword<span class="signature">(setStepPassword, setStepUsername, userEmail, setIsLoading)</span><span class="type-signature"></span></h4>
     
 
     
@@ -4894,6 +8845,29 @@ validations on it.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -4931,7 +8905,7 @@ validations on it.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_Components_useFormPassword.js.html">Start/SignUp/Components/useFormPassword.js</a>, <a href="Start_SignUp_Components_useFormPassword.js.html#line13">line 13</a>
+        <a href="Start_SignUp_Components_useFormPassword.js.html">Start/SignUp/Components/useFormPassword.js</a>, <a href="Start_SignUp_Components_useFormPassword.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -5125,7 +9099,7 @@ validations on it.</p>
     
 
     
-    <h4 class="name" id="useLoginForm"><span class="type-signature"></span>useLoginForm<span class="signature">(setStepOne, setStepVerify)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="useLoginForm"><span class="type-signature"></span>useLoginForm<span class="signature">(setStepOne, setEmail, setLoginPassword)</span><span class="type-signature"></span></h4>
     
 
     
@@ -5193,7 +9167,7 @@ validations.</p>
 
         <tr>
             
-                <td class="name"><code>setStepVerify</code></td>
+                <td class="name"><code>setEmail</code></td>
             
 
             <td class="type">
@@ -5209,7 +9183,30 @@ validations.</p>
 
             
 
-            <td class="description last"><p>Manages the verification step status</p></td>
+            <td class="description last"><p>Sets the user email or username</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setLoginPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>handles authorization</p></td>
         </tr>
 
     
@@ -5250,7 +9247,7 @@ validations.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_Login_components_useLoginForm.js.html">Start/Login/components/useLoginForm.js</a>, <a href="Start_Login_components_useLoginForm.js.html#line10">line 10</a>
+        <a href="Start_Login_components_useLoginForm.js.html">Start/Login/components/useLoginForm.js</a>, <a href="Start_Login_components_useLoginForm.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -5296,7 +9293,7 @@ validations.</p>
     
 
     
-    <h4 class="name" id="usePasswordForm"><span class="type-signature"></span>usePasswordForm<span class="signature">(setStepPassword, setStepUsername, userEmail)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="usePasswordForm"><span class="type-signature"></span>usePasswordForm<span class="signature">(setStepPassword, setStepUsername, userEmail, setIsLoading)</span><span class="type-signature"></span></h4>
     
 
     
@@ -5407,6 +9404,29 @@ validations on it.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -5444,7 +9464,7 @@ validations on it.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_Login_components_usePasswordForm.js.html">Start/Login/components/usePasswordForm.js</a>, <a href="Start_Login_components_usePasswordForm.js.html#line11">line 11</a>
+        <a href="Start_Login_components_usePasswordForm.js.html">Start/Login/components/usePasswordForm.js</a>, <a href="Start_Login_components_usePasswordForm.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -5479,6 +9499,232 @@ validations on it.</p>
 
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="User"><span class="type-signature"></span>User<span class="signature">(profileid, displayname, username, description, url)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>profileid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>displayname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User display name (user first and second name).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>username</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User username.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>User's bio.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>/**
+return list of searched users</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Components_ListofUsers_User.jsx.html">Components/ListofUsers/User.jsx</a>, <a href="Components_ListofUsers_User.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5591,7 +9837,7 @@ validations on it.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_UserName.jsx.html">Start/SignUp/UserName.jsx</a>, <a href="Start_SignUp_UserName.jsx.html#line14">line 14</a>
+        <a href="Start_SignUp_UserName.jsx.html">Start/SignUp/UserName.jsx</a>, <a href="Start_SignUp_UserName.jsx.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -5621,6 +9867,584 @@ validations on it.</p>
         
 <div class="param-desc">
     <p>Username form</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="UsersFeed"><span class="type-signature"></span>UsersFeed<span class="signature">(data, dataType)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array containing our posts.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dataType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Components_ListofUsers_UsersFeed.jsx.html">Components/ListofUsers/UsersFeed.jsx</a>, <a href="Components_ListofUsers_UsersFeed.jsx.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>map through the post array data and starts passing the posts props
+to display posts in the feed component.</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="useSetPasswordForm"><span class="type-signature"></span>useSetPasswordForm<span class="signature">(setSettingPassword, handleAfterSignin, setIsLoading)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This function is used to manage the set new password step in the signup form and apply
+validations on the code.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setSettingPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the set newpassword step status</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>handleAfterSignin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>handles routing and authorization</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_components_useSetPasswordForm.js.html">Start/Login/components/useSetPasswordForm.js</a>, <a href="Start_Login_components_useSetPasswordForm.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>handleChange, values, handleSubmit, errors1, errors2</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="useVerifyCodeForm"><span class="type-signature"></span>useVerifyCodeForm<span class="signature">(setSettingPassword, setStepVerify, userEmailOrUsername, setIsLoading)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This function is used to manage the verification step in the forgot password form and apply
+validations on the code.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>setSettingPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the password step status</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setStepVerify</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the verification step status</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userEmailOrUsername</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to send with code to the backend</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsLoading</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>used to set the state of the loader</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_components_useVerifyCodeForm.js.html">Start/Login/components/useVerifyCodeForm.js</a>, <a href="Start_Login_components_useVerifyCodeForm.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>handleChange, values, handleSubmit, errors</p>
 </div>
 
 
@@ -5697,7 +10521,7 @@ validations on it.</p>
 
             
 
-            <td class="description last"><p>[used to manage the back arrow to step one]</p></td>
+            <td class="description last"><p>used to manage the back arrow to step one</p></td>
         </tr>
 
     
@@ -5720,7 +10544,7 @@ validations on it.</p>
 
             
 
-            <td class="description last"><p>[used to manage the password step status]</p></td>
+            <td class="description last"><p>used to manage the password step status</p></td>
         </tr>
 
     
@@ -5743,7 +10567,7 @@ validations on it.</p>
 
             
 
-            <td class="description last"><p>[used to manage the verification code step status]</p></td>
+            <td class="description last"><p>used to manage the verification code step status</p></td>
         </tr>
 
     
@@ -5766,7 +10590,7 @@ validations on it.</p>
 
             
 
-            <td class="description last"><p>[used to be able to send the password to the backend with it]</p></td>
+            <td class="description last"><p>used to be able to send the password to the backend with it</p></td>
         </tr>
 
     
@@ -5807,7 +10631,7 @@ validations on it.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Start_SignUp_VerifyEmail.jsx.html">Start/SignUp/VerifyEmail.jsx</a>, <a href="Start_SignUp_VerifyEmail.jsx.html#line18">line 18</a>
+        <a href="Start_SignUp_VerifyEmail.jsx.html">Start/SignUp/VerifyEmail.jsx</a>, <a href="Start_SignUp_VerifyEmail.jsx.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -5837,6 +10661,200 @@ validations on it.</p>
         
 <div class="param-desc">
     <p>Verfication email form</p>
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="VerifyForgotPasswordCode"><span class="type-signature"></span>VerifyForgotPasswordCode<span class="signature">(email, setSettingPassword, setVerifyCode)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>This function is used to make a verification code form for the forgot
+my password process</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The info of the user trying to get his password</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setSettingPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the status of the setting password modal</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setVerifyCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Manages the verification code modal</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Start_Login_VerifyForgotPasswordCode.jsx.html">Start/Login/VerifyForgotPasswordCode.jsx</a>, <a href="Start_Login_VerifyForgotPasswordCode.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>verification code form</p>
 </div>
 
 
@@ -6006,12 +11024,16 @@ validations on it.</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>

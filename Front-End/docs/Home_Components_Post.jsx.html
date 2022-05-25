@@ -26,384 +26,98 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+            <pre class="prettyprint source linenums"><code>import React from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import { useNavigate } from 'react-router-dom';
-import { Carousel } from 'react-responsive-carousel';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-// import PlaylistAddSharpIcon from '@mui/icons-material/PlaylistAddSharp';
-import BlockSharpIcon from '@mui/icons-material/BlockSharp';
-import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined';
-import { Menu, MenuList } from '@mui/material';
-// import BookmarkAddSharpIcon from '@mui/icons-material/BookmarkAddSharp';
-// import LinkIcon from '@mui/icons-material/Link';
-// import EditIcon from '@mui/icons-material/Edit';
-// import FollowTheSignsIcon from '@mui/icons-material/FollowTheSigns';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faComment, faBookmark,
-} from '@fortawesome/free-regular-svg-icons';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import VolumeOffOutlinedIcon from '@mui/icons-material/VolumeOffOutlined';
 import 'font-awesome/css/font-awesome.min.css';
-// import axios from 'axios';
 import styles from './Post.module.css';
-import ImagePopUp from './ImagePopUp';
-import PopupPage from './PopupPage';
-import TweetBox from './TweetBox';
+import PostHeader from './PostHeader';
+import PostFooter from './PostFooter';
+import PostBody from './PostBody';
+
 /**
  *
  * @param {Number} id     Post Id
- * @param {String} displayname      User posted display name (user first name).
- * @param {String} username     User posted user name (user full name).
+ * @param {String} displayName      User posted display name (user first name).
+ * @param {String} userName     User posted user name (user full name).
  * @param {String} content      Posted text.
- * @param {String} img1     uploaded image-1 url.
- * @param {String} img2     uploaded image-2 url.
- * @param {String} img3     uploaded image-3 url.
- * @param {String} img4     uploaded image-4 url.
+ * @param {Array} URLs      array of the urls which will contain images &amp; gifs.
  * @param {Bool} isLiked     flag to know if post was initially liked.
  * @param {Number} noOfLike     number of likes for this post.
  * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
  * @param {Number} noOfRetweets     number of retweets for this post.
  * @param {Number} noOfReplies     number of replies for this post.
+ * @param {Bool} isReplying     bool to check if it's a reply.
+ * @param {String} url      user profile image.
+ * @param {Bool} isBlocked      bool to check if the user is blocked or no.
+ * @param {String} whoRetweeted      string to get retweeted user name.
  *
  * @returns div element containing the whole whispered tweet
  */
 function Post({
-  id, displayname, username, content, img1, img2, img3,
-  img4, isLiked, noOfLike,
-  isRetweeted, noOfRetweets, noOfReplies,
+  id, displayName, userName, content, URLs, isLiked, noOfLike,
+  isRetweeted, noOfRetweets, noOfReplies, isReplying, url,
+  isBlocked, whoRetweeted,
 }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [imagePopUp, setImagePopUp] = useState(false);
-  const [replyPopUp, setReplyPopUp] = useState(false);
-  const [like, setLike] = useState(isLiked);
-  const [likeCount, setLikeCount] = useState(noOfLike);
-  // const [repliesCount, setRepliesCount] = useState(noOfReplies);
-  // const [retweetCount, setRetweetCount] = useState(noOfRetweets);
-  const [shareEl, setShareEl] = useState(null);
-  const [retweetEl, setRetweetEl] = useState(null);
-
-  // const handleRetweets = () => {
-
-  // };
-  /**
-   *@returns get the number of the post likes.
-   */
-  const handellikes = () => {
-    if (like) {
-      setLikeCount(likeCount - 1);
-      // axios.post(localurl, {
-      //   likes: (likeCount - 1),
-      //   isLiked: false,
-      //   id,
-      // })
-      //   .then((response) => {
-      //     setLikeCount(response.data[0].likes);
-      //     setLike(response.data[0].isLiked);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-    } else {
-      setLikeCount(likeCount + 1);
-      // axios.post(localurl, {
-      //   likes: (likeCount + 1),
-      //   isLiked: true,
-      // })
-      //   .then((response) => {
-      //     console.log(response);
-      //     setLikeCount(response.data[0].likes);
-      //     setLike(response.data[0].isLiked);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
-    }
-    setLike(!like);
-  };
-
-  const handelOpenMenu = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
-  const handelCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
-  const handelOpenShare = (e) => {
-    setShareEl(e.currentTarget);
-  };
-  const handelCloseShare = () => {
-    setShareEl(null);
-  };
-
-  const handelOpenRetweet = (e) => {
-    setRetweetEl(e.currentTarget);
-  };
-  const handelCloseRetweet = () => {
-    setRetweetEl(null);
-  };
-  // const trial = () => {
-  //   let response = '';
-  //   try {
-  //     response = axios.put('http://localhost:8000/posts', {
-  //       id,
-
-  //     });
-  //     return (response);
-  //   } catch (error) {
-  //     if (error.response) {
-  //       return (error.response);
-  //     }
-
-  //     return (response);
-  //   }
-  // };
-
   return (
-    &lt;div data-testid="post-render-test" className={styles.post}>
-      {/* &lt;div>
-        &lt;FontAwesomeIcon icon={faCoffee} />
-      &lt;/div> */}
-      {/* {
-         Data &amp;&amp; Data.map((post) => ( */}
-      &lt;div className={styles.postbody} key={id}>
-        &lt;div className={styles.postheader}>
-
-          &lt;div className={styles.postheadertext}>
-            &lt;h3>
-              &lt;div data-testid="post-avatar-render-test" className={styles.postavatar}>
-                &lt;AccountCircleIcon />
-                {displayname}
-                {' '}
-                &lt;span className={styles.postheaderSpecial}>
-                  {true &amp;&amp; &lt;VerifiedIcon className={styles.postbadge} />}
-                  {' '}
-                  @
-                  {username}
-                &lt;/span>
-                &lt;MoreHorizIcon aria-controls="menu" onClick={handelOpenMenu} className={`${styles.postblue} ${styles.posthoricon}`} />
-                &lt;Menu data-testid="menu-render-test" className={styles.dropdown} id="menu" onClose={handelCloseMenu} anchorEl={anchorEl} open={Boolean(anchorEl)}>
-
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    &lt;div className={styles['label-out']}>
-                      {'    '}
-                      &lt;VolumeOffOutlinedIcon className={styles['dropdown-content']} />
-                      &lt;p className={styles.label}>
-                        {' '}
-                        Mute @
-                        {displayname}
-                      &lt;/p>
-                    &lt;/div>
-                  &lt;/MenuList>
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    &lt;div className={styles['label-out']}>
-                      {'    '}
-                      &lt;BlockSharpIcon className={styles['dropdown-content']} />
-                      &lt;p className={styles.label}>
-                        {' '}
-                        Block @
-                        {displayname}
-                      &lt;/p>
-                    &lt;/div>
-                  &lt;/MenuList>
-                  {/* &lt;MenuList className={styles['dropdown-content']}>
-                    &lt;div className={styles['label-out']}>
-                      {'    '}
-                      &lt;FollowTheSignsIcon className={styles['dropdown-content']} />
-                      {' '}
-                      &lt;p className={styles.label}>
-                        {' '}
-                        Follow @
-                        {displayname}
-
-                      &lt;/p>
-                    &lt;/div>
-                  &lt;/MenuList> */}
-                &lt;/Menu>
-
-                &lt;Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    &lt;div className={styles['label-out']}>
-                      &lt;FontAwesomeIcon
-                        fontSize="large"
-                        className={styles['dropdown-content']}
-                        icon={faBookmark}
-                      />
-                      {/* &lt;BookmarkAddSharpIcon className={styles['dropdown-content']} /> */}
-                      {' '}
-                      &lt;p className={styles.label}>Bookmark&lt;/p>
-                    &lt;/div>
-                  &lt;/MenuList>
-                  {/*
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    &lt;LinkIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Copy link to Tweet
-                  &lt;/MenuList> */}
-
-                &lt;/Menu>
-
-                &lt;Menu className=" " id="retweet" onClose={handelCloseRetweet} anchorEl={retweetEl} open={Boolean(retweetEl)}>
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    {'    '}
-                    &lt;RepeatIcon className={styles['dropdown-content']} />
-                    {' '}
-                    Retweet
-                  &lt;/MenuList>
-
-                  &lt;MenuList className={styles['dropdown-content']}>
-                    &lt;div className={styles['label-out']}>
-                      {'    '}
-                      &lt;EditOutlinedIcon className={styles['dropdown-content']} />
-                      {' '}
-
-                      &lt;p className={styles.label}>Quote Tweet&lt;/p>
-                    &lt;/div>
-                  &lt;/MenuList>
-
-                &lt;/Menu>
-              &lt;/div>
-            &lt;/h3>
-          &lt;/div>
-
-          &lt;div data-testid="content-render-test" className={styles.postheaderdescription} role="button" tabIndex={0} onClick={() => navigate(`/tweet/${id}`)}>
-            &lt;p>{content}&lt;/p>
-          &lt;/div>
-        &lt;/div>
-
-        &lt;div data-testid="images-render-test">
-          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img1} alt="pic1" />&lt;/a>
-          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img2} alt="pic1" />&lt;/a>
-          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img3} alt="pic1" />&lt;/a>
-          &lt;a href="# " onClick={() => setImagePopUp(!imagePopUp)}>&lt;img src={img4} alt="pic1" />&lt;/a>
-        &lt;/div>
-        &lt;div>
-          &lt;ImagePopUp trigger={imagePopUp} setTrigger={setImagePopUp}>
-            &lt;Carousel showArrows={false}>
-
-              &lt;div>
-                &lt;img className={styles.imgpopup} src={img1} alt="pic1" />
-              &lt;/div>
-
-              &lt;div>
-                &lt;img className={styles.imgpopup} src={img2} alt="pic1" />
-              &lt;/div>
-
-              &lt;div>
-                &lt;img className={styles.imgpopup} src={img3} alt="pic1" />
-              &lt;/div>
-
-              &lt;div>
-                &lt;img className={styles.imgpopup} src={img4} alt="pic1" />
-              &lt;/div>
-
-            &lt;/Carousel>
-          &lt;/ImagePopUp>
-        &lt;/div>
-
-        &lt;PopupPage trigger={replyPopUp} SetTrigger={setReplyPopUp} isCloseEnabled={false}>
-          &lt;div className={styles.postbody} key={id}>
-            &lt;div className={styles.postheader}>
-              &lt;div className={styles.postheadertext}>
-                &lt;h3>
-                  &lt;div data-testid="post-avatar-render-test" className={styles.postavatar}>
-                    &lt;AccountCircleIcon />
-                    {displayname}
-                    {' '}
-                    &lt;span className={styles.postheaderSpecial}>
-                      {true &amp;&amp; &lt;VerifiedIcon className={styles.postbadge} />}
-                      {' '}
-                      @
-                      {username}
-
-                    &lt;/span>
-                    &lt;div data-testid="content-render-test" className={styles.postheaderdescription}>
-                      &lt;p>{content}&lt;/p>
-                    &lt;/div>
-                    &lt;div data-testid="images-render-test">
-                      &lt;img src={img1} alt="pic1" />
-                      &lt;img src={img2} alt="pic1" />
-                      &lt;img src={img3} alt="pic1" />
-                      &lt;img src={img4} alt="pic1" />
-                    &lt;/div>
-                  &lt;/div>
-                &lt;/h3>
-              &lt;/div>
-            &lt;/div>
-          &lt;/div>
-          &lt;TweetBox replyId={id} placeHolder="Tweet your reply" className={styles.retweet} />
-        &lt;/PopupPage>
-
-        &lt;div data-testid="footer-render-test" className={styles.postfooter}>
-
-          &lt;div className={styles.like}>
-            &lt;FontAwesomeIcon
-              className={styles.postblue}
-              fontSize="large"
-              onClick={() => setReplyPopUp(true)}
-              icon={faComment}
-            />
-            &lt;p>{noOfReplies}&lt;/p>
-          &lt;/div>
-
-          &lt;div className={styles.like}>
-            &lt;RepeatIcon
-              style={(isRetweeted) ? { color: 'rgb(18 180 26)' } : { color: '' }}
-              className={styles.postgreen}
-              fontSize="small"
-              aria-controls="retweet"
-              onClick={handelOpenRetweet}
-            />
-            &lt;p>{noOfRetweets}&lt;/p>
-          &lt;/div>
-          &lt;div className={styles.like}>
-            &lt;FavoriteBorderIcon
-              style={(like) ? { color: '#f02896' } : { color: '' }}
-              className={styles.postpink}
-              fontSize="small"
-              onClick={handellikes}
-            />
-            &lt;p>{likeCount}&lt;/p>
-          &lt;/div>
-
-          &lt;IosShareOutlinedIcon
-            className={styles.postblue}
-            fontSize="small"
-            aria-controls="share"
-            onClick={handelOpenShare}
-          />
-
-        &lt;/div>
-
+    &lt;div data-testid="post-render-test" className={styles.post} id="post">
+      &lt;div className={styles.postbody}>
+        &lt;PostHeader
+          displayName={displayName}
+          userName={userName}
+          url={url}
+          whoRetweeted={whoRetweeted}
+          id={id}
+        />
+        &lt;PostBody
+          id={id}
+          content={content}
+          URLs={URLs}
+          isReplying={isReplying}
+          userName={userName}
+          displayName={displayName}
+          url={url}
+        />
+        &lt;PostFooter
+          id={id}
+          displayName={displayName}
+          userName={userName}
+          content={content}
+          URLs={URLs}
+          isLiked={isLiked}
+          noOfLike={noOfLike}
+          isRetweeted={isRetweeted}
+          noOfRetweets={noOfRetweets}
+          noOfReplies={noOfReplies}
+          url={url}
+          isBlocked={isBlocked}
+        />
       &lt;/div>
-
     &lt;/div>
-
   );
 }
 
 Post.propTypes = {
-  id: PropTypes.number.isRequired,
-  displayname: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  displayName: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  img1: PropTypes.string.isRequired,
-  img2: PropTypes.string.isRequired,
-  img3: PropTypes.string.isRequired,
-  img4: PropTypes.string.isRequired,
+  URLs: PropTypes.arrayOf(PropTypes.string).isRequired,
   isLiked: PropTypes.bool.isRequired,
   noOfLike: PropTypes.number.isRequired,
   isRetweeted: PropTypes.bool.isRequired,
   noOfRetweets: PropTypes.number.isRequired,
   noOfReplies: PropTypes.number.isRequired,
+  isReplying: PropTypes.bool,
+  url: PropTypes.string.isRequired,
+  isBlocked: PropTypes.bool,
+  whoRetweeted: PropTypes.string,
+};
+
+Post.defaultProps = {
+  isReplying: false,
+  isBlocked: false,
+  whoRetweeted: '',
 };
 
 export default Post;
@@ -417,13 +131,13 @@ export default Post;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

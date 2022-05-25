@@ -27,36 +27,58 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import {
+  Link, Outlet, useLocation, useNavigate,
+} from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import styles from './AdminFoundation.module.css';
+import navStyles from '../Foundation/Navbar/Navbar.module.css';
 import Navbar from '../Foundation/Navbar/Navbar';
 import getAdminPages from './AdminNavitems';
 import NavItem from '../Foundation/Navbar/NavItem';
+
 /**
  * The main layout for a user logged in as admin.
  * It displays the navbar and opened page.
  */
-function AdminFoundation() {
+function AdminFoundation({ setIsLoggedIn }) {
   const pages = getAdminPages();
-  const [openedPage, setOpenedPage] = useState('users');
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [openedPage, setOpenedPage] = useState();
+
   useEffect(() => {
-    document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+    setOpenedPage(location.pathname.substring(1));
+    if (document.getElementById(openedPage)) {
+      document.getElementById(openedPage).style.setProperty('font-weight', 'bolder');
+    }
   }, [openedPage]);
+
   const onNavItemClick = (id) => {
-    document.getElementById(openedPage).style.setProperty('font-weight', '400');
-    document.getElementById(id).style.setProperty('font-weight', 'bolder');
-    setOpenedPage(id);
+    if (document.getElementById(openedPage)) {
+      document.getElementById(openedPage).style.setProperty('font-weight', '400');
+      document.getElementById(id).style.setProperty('font-weight', 'bolder');
+      setOpenedPage(id);
+    }
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    localStorage.clear();
+    setIsLoggedIn(false);
+    navigate('/');
   };
   return (
-    &lt;div className={styles['admin-foundation']}>
-      &lt;Navbar route="" onTwIconClick={onNavItemClick}>
+    &lt;div className={styles['admin-foundation']} id="admin-foundation">
+      &lt;Navbar route="" onTwIconClick={handleLogOut}>
         &lt;div>
           {
             pages.map((page) => (
               &lt;Link
                 to={`/${page.url}`}
                 key={page.url}
-                className="foundation-a-tag"
+                className={navStyles['foundation-a-tag']}
               >
                 &lt;div
                   id={page.url}
@@ -78,6 +100,10 @@ function AdminFoundation() {
   );
 }
 
+AdminFoundation.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+};
+
 export default AdminFoundation;
 </code></pre>
         </article>
@@ -89,13 +115,13 @@ export default AdminFoundation;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

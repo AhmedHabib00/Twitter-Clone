@@ -7,7 +7,6 @@ describe('testing post apis', () => {
   let username;
   let displayname;
   let content;
-  let img1;
   let isLiked;
   let noOfLike;
   let noOfReplies;
@@ -22,9 +21,6 @@ describe('testing post apis', () => {
 
   const setcontent = (data) => {
     content = data;
-  };
-  const setimg1 = (data) => {
-    img1 = data;
   };
   const setisliked = (data) => {
     isLiked = data;
@@ -43,7 +39,6 @@ describe('testing post apis', () => {
       setusername,
       setdisplayname,
       setcontent,
-      setimg1,
       setisliked,
       setnoOfLike,
       setnoOfReplies,
@@ -54,7 +49,6 @@ describe('testing post apis', () => {
     console.log(username);
     console.log(displayname);
     console.log(content);
-    console.log(img1);
     console.log(isLiked);
     console.log(noOfLike);
     console.log(noOfReplies);
