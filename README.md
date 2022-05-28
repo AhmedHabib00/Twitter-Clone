@@ -1,8 +1,10 @@
 # Whisper - Twitter Clone Project
 
-## Team Leader: Mariam Okasha <br />
+## Team Leader
+Mariam Okasha <br />
 
-## DevOps: Ahmed Habib <br />
+## DevOps
+Ahmed Habib <br />
 
 ## Testing
 Merna Tamer <br />
