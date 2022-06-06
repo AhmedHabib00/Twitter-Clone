@@ -30,9 +30,24 @@
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 import styles from './Start.module.css';
 import SignUp from './SignUp/SignUp';
 import Login from './Login/Login';
+import configData from '../config/production.json';
+import { facebookAuth } from '../Services/accountServices';
+import Loader from '../Components/Loader/Loader';
+
+export const axiosApiCall = (url, method, body = {}) => axios({
+  method,
+  url: configData.SERVER_URL + url,
+  data: body,
+});
+// import { authGoogle, authFacebook } from '../Services/accountServices';
 /**
  * This functions renders the start page from which
  * user can login or signup with google, facebook, or email.
@@ -41,13 +56,63 @@ import Login from './Login/Login';
 function Start({ setIsLoggedIn, setisAdmin }) {
   const [signup, setSignup] = useState(false);
   const [login, setLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const onGoogleSuccess = (response) => {
+    setIsLoading(true);
+    const { tokenId } = response;
+    axiosApiCall(
+      '/auth/google',
+      'post',
+      { tokenId },
+    ).then((res) => {
+      const token = res.data['x-auth-token'];
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', res.data.data.userId);
+      setIsLoggedIn(true);
+      setIsLoading(false);
+
+      // Save the JWT inside a cookie
+      Cookie.set('token', token);
+    }).catch((err) => {
+      throw new Error(err);
+    });
+  };
+  const onGoogleFailure = () => {};
+
   const handleLoginStatus = (logEvent, adminEvent) => {
     setIsLoggedIn(logEvent);
     setisAdmin(adminEvent);
+    navigate('/');
   };
+  const responseFacebook = (response) => {
+    setIsLoading(true);
+    // Login failed
+    if (response.status === 'unknown') {
+      setIsLoading(false);
+      return false;
+    }
+    const { email } = response;
+    const { name } = response;
+    (async () => {
+      const resp = await facebookAuth({ name, email });
+      if (resp.status === 201) {
+        console.log(resp);
+        const token = resp.data['x-auth-token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', resp.data.data.userId);
+        setIsLoggedIn(true);
+        setIsLoading(false);
+      }
+    })();
 
+    return response;
+  };
   return (
-    &lt;div>
+    &lt;div id="start-page">
+      &lt;div className={styles['loaders-container']}>
+        {isLoading &amp;&amp; &lt;Loader />}
+      &lt;/div>
       &lt;div className={styles.container}>
         &lt;div className={styles['right-column-container']}>
           &lt;div className={styles['right-group']}>
@@ -55,34 +120,29 @@ function Start({ setIsLoggedIn, setisAdmin }) {
             &lt;h1>Happening now&lt;/h1>
             &lt;h2>Join Whisper today.&lt;/h2>
             &lt;div className={styles['buttons-group']}>
-              &lt;Button
-                id="signup-google-button"
-                data-testid="google-button"
-                variant="outlined"
+              &lt;GoogleLogin
+                clientId={configData.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Sign up with Google"
+                onSuccess={onGoogleSuccess}
+                onFailure={onGoogleFailure}
                 className={styles['signup-tweet-google']}
-                onClick={handleGoogleAuth}
-              >
-                &lt;img
-                  className={styles['google-logo']}
-                  src="https://img.icons8.com/color/48/000000/google-logo.png"
-                  alt="google logo"
-                />
-                Sign up with Google
-              &lt;/Button>
-              &lt;Button
-                id="signup-facebook-button"
-                data-testid="facebook-button"
-                variant="outlined"
-                className={styles['signup-tweet-google']}
-                onClick={handleFacebookAuth}
-              >
-                &lt;img
-                  className={styles['google-logo']}
-                  src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
-                  alt="google logo"
-                />
-                Sign up with Facebook
-              &lt;/Button>
+              />
+              &lt;FacebookLogin
+                appId={configData.REACT_APP_FACEBOOK_APP_ID}
+                autoLoad={false}
+                fields="name,email"
+                callback={responseFacebook}
+                textButton=" Sign up with Facebook"
+                icon={(
+                  &lt;img
+                    className={styles['google-logo']}
+                    src="https://img.icons8.com/fluency/48/000000/facebook-new.png"
+                    alt="google logo"
+                  />
+)}
+                cssClass={styles['signup-tweet-google']}
+              />
+
               &lt;Button
                 id="signup-email-button"
                 data-testid="signup-button"
@@ -111,7 +171,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 &lt;span>Cookie Use&lt;/span>
                 .
               &lt;/p>
-              &lt;h3>Already have an acount?&lt;/h3>
+              &lt;h3>Already have an account?&lt;/h3>
               &lt;Button
                 id="signin-button"
                 data-testid="signin-button"
@@ -168,13 +228,13 @@ Start.propTypes = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

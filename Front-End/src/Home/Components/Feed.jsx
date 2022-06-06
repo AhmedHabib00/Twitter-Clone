@@ -8,7 +8,11 @@ import Loader from '../../Components/Loader/Loader';
 /**
  *
  * @param {array} data array containing our posts.
- *
+ * @param {Bool} isReplying bool to check if it's a reply.
+ * @param {Bool} canScrollUpdate bool to handel hasMore in infiniteScroll component.
+ * @param {Function} updateData function that calls the api request for more data.
+ * @param {Bool} isEndOfFeed bool no more data to handel hasMore.
+ * @param {Bool} isBlocked bool to check if the user is blocked or no.
  * @returns map through the post array data and starts passing the post props
  * to display the posts in the feed component.
  */

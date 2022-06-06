@@ -17,6 +17,24 @@ import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import { handleLikes, addToBookmark, SendRetweets } from '../../Services/postServices';
 
+/**
+ *
+ * @param {Number} id     Post Id
+ * @param {String} displayName      User posted display name (user first name).
+ * @param {String} userName     User posted user name (user full name).
+ * @param {Array} URLs      array of the urls which will contain images & gifs.
+ * @param {Bool} isLiked     flag to know if post was initially liked.
+ * @param {Number} noOfLike     number of likes for this post.
+ * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
+ * @param {Number} noOfRetweets     number of retweets for this post.
+ * @param {Number} noOfReplies     number of replies for this post.
+ * @param {Bool} isReplying     bool to check if it's a reply.
+ * @param {String} url      user profile image.
+ * @param {Bool} isBlocked      bool to check if the user is blocked or no.
+ *
+ * @returns div element containing the whispered tweet footer.
+ */
+
 function PostFooter({
   id, displayName, userName, URLs, isLiked, noOfLike,
   isRetweeted, noOfRetweets, noOfReplies, content, url,
@@ -105,14 +123,14 @@ function PostFooter({
       <Menu className="" id="share" onClose={handelCloseShare} anchorEl={shareEl} open={Boolean(shareEl)}>
         <MenuList className={styles['dropdown-content']}>
           {'    '}
-          <div onClick={handleAddToBookmark} role="button" tabIndex={0} className={styles['label-out']}>
+          <div id="add-remove-bookmarks" onClick={handleAddToBookmark} role="button" tabIndex={0} className={styles['label-out']}>
             <FontAwesomeIcon
               fontSize="large"
               className={styles['dropdown-content']}
               icon={faBookmark}
             />
             {' '}
-            <p className={styles.label}>Bookmark</p>
+            <p className={styles.label}>Add/Remove bookmark</p>
           </div>
         </MenuList>
 

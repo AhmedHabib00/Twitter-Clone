@@ -93,9 +93,8 @@ router.get('/:userProfileId/profile_settings', async(req,res) => {
         const birthDate = user.birthdate;
         const profilePicture = user.profilePic;
         const coverPhoto = user.coverPhoto;
-
         var today = new Date();
-        var birthDate2 = new Date("1995-04-14T00:00:00.000Z");
+        var birthDate2 = new Date(birthDate);
         var age = today.getFullYear() - birthDate2.getFullYear();
         var m = today.getMonth() - birthDate2.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate2.getDate())) 

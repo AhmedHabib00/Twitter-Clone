@@ -6,6 +6,7 @@ import styles from './AccountInformation.module.css';
 import AllData from './SettingsComponents/AccountInformation.json';
 // import MentionData from './NotiComponents/MentionData.json';
 // import GetNotificationsArray from '../Services/NotificationServices';
+
 function Settings() {
   const [passedData, setpassedData] = useState(AllData);
   const navigate = useNavigate();

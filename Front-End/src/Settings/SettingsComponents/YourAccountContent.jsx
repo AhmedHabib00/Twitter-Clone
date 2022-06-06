@@ -62,9 +62,6 @@ function NotiContent({
     if (title1 === 'Account information') {
       return navigate('/AccountInformation', {
       });
-    } if (title1 === 'Change your password') {
-      return navigate('/ChangePassword', {
-      });
     }
   };
   //   let pp = <AccountCircleIcon />;

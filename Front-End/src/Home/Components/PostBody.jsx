@@ -10,6 +10,20 @@ import styles from './Post.module.css';
 import ImageBox from './ImageBox';
 import GetUsersArray from '../../Services/tweetpageServices';
 
+/**
+ *
+ * @param {Number} id     Post Id
+ * @param {String} displayName      User posted display name (user first name).
+ * @param {String} userName     User posted user name (user full name).
+ * @param {String} content      Posted text.
+ * @param {Array} URLs      array of the urls which will contain images & gifs.
+ * @param {Bool} isReplying     bool to check if it's a reply.
+ * @param {String} url      user profile image.
+ * @param {Bool} switchEnable      to handel display of mentioned users.
+ * @param {Function} onReplyButtonClick to check if the user is replying to the post.
+ * @returns div element containing the whispered tweet body.
+ */
+
 function PostBody({
   id, content, URLs, userName, displayName, isReplying, url, switchEnabled, onReplyButtonClick,
 }) {

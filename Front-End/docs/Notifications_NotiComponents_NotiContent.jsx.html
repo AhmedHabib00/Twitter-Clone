@@ -35,6 +35,7 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import RepeatRoundedIcon from '@mui/icons-material/RepeatRounded';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import BlockIcon from '@mui/icons-material/Block';
 import PropTypes from 'prop-types';
 // import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -42,81 +43,96 @@ import styles from './NotiContent.module.css';
 
 /**
  * @param {Number} id      Id
- * @param {Number} postid
+ * @param {Number} entityId
  * @param {Number} profileid
- * @param {String} displayname      User display name (user first name).
+ * @param {String} senderName      User display name (user first name).
  * @param {String} content       text.
- * @param {String} notitype     different notifications icons.
+ * @param {String} reason     different notifications icons.
  * @param {String} date
  /**
  return notifications content inside feed insidd notifications component
  */
 
 function NotiContent({
-  id, postid, profileid, displayname, content, notitype, date,
+  id, entityId, profileid, senderName, content, reason, date, blockDuration, from, to,
 }) {
   const navigate = useNavigate();
   let icon = null;
   let statement1 = null;
   let statement2 = null;
   let statement3 = null;
-  // console.log(content);
-  if (notitype === 'like') {
+  console.log(blockDuration);
+  console.log(from);
+  console.log(to);
+  console.log(date);
+  if (reason === 'like') {
     icon = &lt;FavoriteRoundedIcon className={styles['like-icon']} />;
     statement2 = ' liked your Tweet';
-  } else if (notitype === 'retweet') {
+  } else if (reason === 'retweet') {
     icon = &lt;RepeatRoundedIcon className={styles['retweet-icon']} />;
     statement2 = ' Retweeted your Tweet';
-  } else if (notitype === 'missed') {
+  } else if (reason === 'missed') {
     icon = &lt;AutoAwesomeIcon className={styles['missed-icon']} />;
     statement1 = 'In case you missed ';
     statement2 = '\'s tweet';
-  } else if (notitype === 'followed') {
+  } else if (reason === 'followed') {
     icon = &lt;PersonRoundedIcon className={styles['followed-icon']} />;
     statement2 = ' followed you';
-  } else if (notitype === 'login') {
+  } else if (reason === 'login') {
     icon = &lt;TwitterIcon className={styles['login-icon']} />;
     statement1 = 'There was a login to your account @';
     statement2 = ' from a new device on';
     statement3 = '. Review it now.';
-  } else if (notitype === 'news') {
+  } else if (reason === 'news') {
     icon = &lt;FlashOnRoundedIcon className={styles['news-icon']} />;
     // statement = ' Liked your Tweet';
+  } else if (reason === 'block') {
+    icon = &lt;BlockIcon className={styles['block-icon']} />;
+    statement1 = 'You have been blocked by the admin for ';
+    statement2 = blockDuration;
+    statement3 = ' days.';
+    // eslint-disable-next-line no-param-reassign
+    senderName = '';
   } else {
     icon = null;
   }
 
+  // eslint-disable-next-line consistent-return
   const handleOpenNoti = () => {
-    // console.log(postid);
-    console.log(profileid);
-    return navigate('/ViewTweet', {
-      state: {
-        postid,
-      },
-    });
+    // console.log(entityId);
+    // console.log(profileid);
+    if (reason === 'like' || reason === 'retweet' || reason === 'missed') {
+      return navigate(`/tweet/${entityId}`);
+    } if (reason === 'followed') {
+      return navigate('/Profile', {
+        state: {
+          profileid,
+        },
+      });
+    }
     // setShareEl(e.currentTarget);
   };
 
   let pp = &lt;AccountCircleIcon />;
-  if (notitype === 'login' || notitype === 'news') {
+  if (reason === 'login' || reason === 'news') {
     // console.log('pppppppppp');
-    if (notitype === 'news') {
+    if (reason === 'news') {
       statement1 = content;
     }
     pp = null;
     return (
       &lt;button className={styles.wrapper} type="button" onClick={handleOpenNoti}>
         &lt;div className={styles.wrapper2}>
-          &lt;div data-testid="notitype-render-test">
+          &lt;div data-testid="reason-render-test">
             {icon}
           &lt;/div>
           {/* &lt;AccountCircleIcon /> */}
           &lt;div className={styles['login-news']}>
             {statement1}
-            &lt;b>{displayname}&lt;/b>
+            {/* &lt;b>{senderName}&lt;/b> */}
             {statement2}
             &lt;br />
-            {date}
+            {/* {date} */}
             {statement3}
           &lt;/div>
         &lt;/div>
@@ -133,7 +149,7 @@ function NotiContent({
   return (
     &lt;button className={styles.wrapper} type="button" onClick={handleOpenNoti}>
       &lt;div className={styles.wrapper2}>
-        &lt;div data-testid="notitype-render-test">
+        &lt;div data-testid="reason-render-test">
           {icon}
         &lt;/div>
         {/* &lt;AccountCircleIcon /> */}
@@ -143,8 +159,10 @@ function NotiContent({
       &lt;/div>
       &lt;div className={styles['display-name']}>
         {statement1}
-        &lt;b>{displayname}&lt;/b>
+        &lt;b>{senderName}&lt;/b>
         {statement2}
+        {statement3}
+
       &lt;/div>
       {' '}
       &lt;div data-testid="content-render-test">
@@ -159,12 +177,15 @@ function NotiContent({
 
 NotiContent.propTypes = {
   id: PropTypes.number.isRequired,
-  postid: PropTypes.number.isRequired,
+  entityId: PropTypes.number.isRequired,
   profileid: PropTypes.number.isRequired,
-  displayname: PropTypes.string.isRequired,
+  senderName: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  notitype: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
+  blockDuration: PropTypes.string.isRequired,
+  from: PropTypes.number.isRequired,
+  to: PropTypes.number.isRequired,
 };
 
 export default NotiContent;
@@ -178,13 +199,13 @@ export default NotiContent;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFoundation">AdminFoundation</a></li><li><a href="global.html#Bookmarks">Bookmarks</a></li><li><a href="global.html#Feed">Feed</a></li><li><a href="global.html#ForgotPassword">ForgotPassword</a></li><li><a href="global.html#Foundation">Foundation</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ImageBox">ImageBox</a></li><li><a href="global.html#ImagePopUp">ImagePopUp</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginPassword">LoginPassword</a></li><li><a href="global.html#LoginStepOne">LoginStepOne</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NavItem">NavItem</a></li><li><a href="global.html#NotiContent">NotiContent</a></li><li><a href="global.html#NotiFeed">NotiFeed</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PopupPage">PopupPage</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#PostBody">PostBody</a></li><li><a href="global.html#PostFooter">PostFooter</a></li><li><a href="global.html#PostHeader">PostHeader</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SearchFeed">SearchFeed</a></li><li><a href="global.html#SearchUser">SearchUser</a></li><li><a href="global.html#SetPassword">SetPassword</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#signUpCode">signUpCode</a></li><li><a href="global.html#signUpPassword">signUpPassword</a></li><li><a href="global.html#signUpUsername">signUpUsername</a></li><li><a href="global.html#Start">Start</a></li><li><a href="global.html#StepOne">StepOne</a></li><li><a href="global.html#StepPassword">StepPassword</a></li><li><a href="global.html#Tweet">Tweet</a></li><li><a href="global.html#TweetBox">TweetBox</a></li><li><a href="global.html#useForgetPasswordForm">useForgetPasswordForm</a></li><li><a href="global.html#useForm">useForm</a></li><li><a href="global.html#useFormCode">useFormCode</a></li><li><a href="global.html#useFormPassword">useFormPassword</a></li><li><a href="global.html#useFormUserName">useFormUserName</a></li><li><a href="global.html#useLoginForm">useLoginForm</a></li><li><a href="global.html#usePasswordForm">usePasswordForm</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#UserName">UserName</a></li><li><a href="global.html#UsersFeed">UsersFeed</a></li><li><a href="global.html#useSetPasswordForm">useSetPasswordForm</a></li><li><a href="global.html#useVerifyCodeForm">useVerifyCodeForm</a></li><li><a href="global.html#VerifyEmail">VerifyEmail</a></li><li><a href="global.html#VerifyForgotPasswordCode">VerifyForgotPasswordCode</a></li><li><a href="global.html#ViewTweet">ViewTweet</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Apr 26 2022 16:10:01 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sat May 21 2022 22:59:39 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

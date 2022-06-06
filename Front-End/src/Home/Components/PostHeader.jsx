@@ -9,6 +9,17 @@ import { useNavigate } from 'react-router';
 import styles from './Post.module.css';
 import { blockUser } from '../../Services/postServices';
 
+/**
+ *
+ * @param {Number} id     Post Id
+ * @param {String} displayName      User posted display name (user first name).
+ * @param {String} userName     User posted user name (user full name).
+ * @param {String} url      user profile image.
+ * @param {String} whoRetweeted      string to get retweeted user name.
+ *
+ * @returns div element containing the whispered tweet header.
+ */
+
 function PostHeader({
   id, displayName, userName, url, whoRetweeted,
 }) {

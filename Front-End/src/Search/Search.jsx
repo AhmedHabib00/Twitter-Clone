@@ -4,6 +4,7 @@ import SearchFeed from './SearchComponents/SearchFeed';
 import styles from './Search.module.css';
 import GetPostsArray, { GetUsersArray } from '../Services/searchServices';
 import SearchBar from '../Components/SearchBar/SearchBar';
+import Feed from '../Home/Components/Feed';
 
 /**
  *
@@ -15,34 +16,36 @@ function Search() {
   const [peopleData, setPeopleData] = useState([]);
   const [postData, setpostData] = useState();
   const [isPeopleTab, setIsPeopleTab] = useState(true);
-  useEffect((Val) => {
-    (async () => {
-      console.log(Val);
-      const resp = await GetUsersArray(Val);
-      console.log(resp.data.Info[0].data);
-      setPeopleData(resp.data.Info[0].data);
-    })();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isContent, setIsContent] = useState(false);
+  useEffect(() => {
     document.getElementById('SearchBar').style.visibility = 'hidden';
     if (location.state !== null) {
-      setSearchVal([...location.state.dataFiltered]);
+      (async () => {
+        const resp = await GetUsersArray(location.state.dataFiltered);
+        setPeopleData(resp.data.Info[0].data);
+      })();
+      setSearchVal(location.state.dataFiltered);
     }
   }, []);
-  console.log(setpostData);
   const handleSearchPeople = (Val) => {
     (async () => {
-      console.log(Val);
       const resp = await GetUsersArray(Val);
-      console.log(resp.data.Info[0].data);
       setPeopleData(resp.data.Info[0].data);
     })();
+    setSearchVal(Val);
   };
-  console.log(peopleData);
   const handleSearchWhisps = (Val) => {
     (async () => {
+      setIsLoading(true);
       const resp = await GetPostsArray(Val);
-      // console.log(resp);
+      setIsLoading(false);
       setpostData(resp.data);
+      if (resp.data !== 'No tweets found') {
+        setIsContent(true);
+      }
     })();
+    setSearchVal(Val);
   };
 
   return (
@@ -81,7 +84,10 @@ function Search() {
         </button>
       </section>
       <div>
-        {searchVal && <SearchFeed className="notifeed" data={postData} UsersData={peopleData} dataType={isPeopleTab} />}
+        {(isPeopleTab && searchVal) && <SearchFeed className="notifeed" data={postData} UsersData={peopleData} dataType={isPeopleTab} />}
+        {(!isPeopleTab && searchVal && isContent)
+        && <Feed data={postData} canScrollUpdate={isLoading} />}
+        {(!isPeopleTab && searchVal && !isContent) && <h4>No whispers Found</h4>}
       </div>
     </div>
 

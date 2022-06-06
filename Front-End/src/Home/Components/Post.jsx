@@ -13,15 +13,16 @@ import PostBody from './PostBody';
  * @param {String} displayName      User posted display name (user first name).
  * @param {String} userName     User posted user name (user full name).
  * @param {String} content      Posted text.
- * @param {String} img1     uploaded image-1 url.
- * @param {String} img2     uploaded image-2 url.
- * @param {String} img3     uploaded image-3 url.
- * @param {String} img4     uploaded image-4 url.
+ * @param {Array} URLs      array of the urls which will contain images & gifs.
  * @param {Bool} isLiked     flag to know if post was initially liked.
  * @param {Number} noOfLike     number of likes for this post.
  * @param {Bool} isRetweeted     flag to know if post was initially retweeted.
  * @param {Number} noOfRetweets     number of retweets for this post.
  * @param {Number} noOfReplies     number of replies for this post.
+ * @param {Bool} isReplying     bool to check if it's a reply.
+ * @param {String} url      user profile image.
+ * @param {Bool} isBlocked      bool to check if the user is blocked or no.
+ * @param {String} whoRetweeted      string to get retweeted user name.
  *
  * @returns div element containing the whole whispered tweet
  */

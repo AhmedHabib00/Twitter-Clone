@@ -16,7 +16,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // import BlockIcon from '@mui/icons-material/Block';
 import PropTypes from 'prop-types';
 // import { Route, Link, BrowserRouter, withRouter } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
 import styles from './AccountInformationContent.module.css';
 
 /**
@@ -32,11 +31,29 @@ import styles from './AccountInformationContent.module.css';
  */
 
 function NotiContent({
-  acctitle1, acctitle2,
+  acctitle1, data,
 //   id, entityId, profileid, senderName, content, reason, date,
 }) {
-  const navigate = useNavigate();
   const icon = null;
+  let acctitle2 = '';
+  if (acctitle1 === 'Username') {
+    acctitle2 = data.username;
+  }
+  if (acctitle1 === 'Email') {
+    acctitle2 = data.email;
+  }
+  if (acctitle1 === 'Account creation') {
+    acctitle2 = data.createdAt;
+  }
+  if (acctitle1 === 'Birthdate') {
+    acctitle2 = data.Birthdate;
+  }
+  if (acctitle1 === 'Birthdate') {
+    acctitle2 = data.Birthdate;
+  }
+  if (acctitle1 === 'Age') {
+    acctitle2 = data.age;
+  }
   //   const statement1 = null;
   //   const statement2 = null;
   //   const statement3 = null;
@@ -58,15 +75,7 @@ function NotiContent({
   //   }
 
   // eslint-disable-next-line consistent-return
-  const handleOpen = () => {
-    if (acctitle1 === 'Age') {
-      return navigate('/Age', {
-      });
-    } if (acctitle1 === 'Change your password') {
-      return navigate('/ChangePassword', {
-      });
-    }
-  };
+
   //   let pp = <AccountCircleIcon />;
   //   if (reason === 'login' || reason === 'news') {
   //     // console.log('pppppppppp');
@@ -100,7 +109,7 @@ function NotiContent({
   //   }
   // console.log(styles);
   return (
-    <button className={styles.wrapper} type="button" onClick={handleOpen}>
+    <button className={styles.wrapper} type="button">
       <div className={styles.wrapper2}>
         <div data-testid="reason-render-test">
           {icon}
@@ -134,9 +143,15 @@ NotiContent.propTypes = {
 //   content: PropTypes.string.isRequired,
 //   reason: PropTypes.string.isRequired,
   acctitle1: PropTypes.string.isRequired,
-  acctitle2: PropTypes.string.isRequired,
   //   date: PropTypes.string.isRequired,
-
+  data: PropTypes.shape({
+    displayName: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    Birthdate: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default NotiContent;

@@ -143,7 +143,7 @@ function Start({ setIsLoggedIn, setisAdmin }) {
                 <span>Cookie Use</span>
                 .
               </p>
-              <h3>Already have an acount?</h3>
+              <h3>Already have an account?</h3>
               <Button
                 id="signin-button"
                 data-testid="signin-button"
