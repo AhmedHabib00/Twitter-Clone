@@ -160,7 +160,8 @@ class _ForgotPassSetPass extends State<ForgotPassSetPass> {
     Map dataResponse;
     var response = await http.post(
       Uri.parse(
-          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword/newPassword"),
+          //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword/newPassword"),
+          "http://10.0.2.2:8080/forgotPassword/newPassword"),
       body: data,
       headers: {"x-auth-token": token},
     );

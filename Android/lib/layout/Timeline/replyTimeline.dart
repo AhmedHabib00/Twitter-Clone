@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:whisper/layout/Timeline/addTweetPage.dart';
 import 'package:whisper/layout/Timeline/replyTweetPage.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:http/http.dart' as http;
@@ -57,7 +56,8 @@ class _replyTimeline extends State<replyTimeline> {
   Future putLike(token, tweetId) async {
     var response = await http.put(
       Uri.parse(
-          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/like'),
+          //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/like'),
+          'http://10.0.2.2:8080/tweets/$tweetId/like'),
       headers: {'x-auth-token': token},
     );
     print('this is token');
@@ -75,7 +75,8 @@ class _replyTimeline extends State<replyTimeline> {
   Future retweet(token, tweetId) async {
     var response = await http.post(
       Uri.parse(
-          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/retweet'),
+          //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/retweet'),
+          'http://10.0.2.2:8080/tweets/$tweetId/retweet'),
       headers: {'x-auth-token': token},
     );
     if (response.statusCode == 200) {
@@ -89,7 +90,9 @@ class _replyTimeline extends State<replyTimeline> {
   Future getreplyTweet(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/${widget.tweetId}/repliesArray/?page=1&size=300'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/${widget.tweetId}/repliesArray/?page=1&size=300'),
+            'http://10.0.2.2:8080/tweets/${widget.tweetId}/repliesArray/?page=1&size=300'),
       ),
       headers: {
         'x-auth-token': token,
@@ -111,7 +114,9 @@ class _replyTimeline extends State<replyTimeline> {
   Future<String> getreplyTweetcount(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/${widget.tweetId}/repliesArray/?page=1&size=10'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/${widget.tweetId}/repliesArray/?page=1&size=10'),
+            'http://10.0.2.2:8080/tweets/${widget.tweetId}/repliesArray/?page=1&size=10'),
       ),
       headers: {
         'x-auth-token': token,
@@ -128,7 +133,9 @@ class _replyTimeline extends State<replyTimeline> {
   Future<String> getProfileInfo(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+            'http://10.0.2.2:8080/user/${widget.userId}/profile_settings'),
       ),
       headers: {
         'x-auth-token': token,

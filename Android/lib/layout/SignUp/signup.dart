@@ -292,10 +292,9 @@ class _SignUpPage extends State<SignUpPage> {
     Map mapResponse;
     Map dataResponse;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post(
-        Uri.parse(
-            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp"),
-        body: data);
+    var response = await http.post(Uri.parse(
+        //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp"
+        "http://10.0.2.2:8080/signUp"), body: data);
     if (response.statusCode == 201) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(

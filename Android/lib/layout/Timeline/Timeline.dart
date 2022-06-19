@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:whisper/layout/Timeline/addTweetPage.dart';
-import 'package:whisper/layout/Timeline/replyTweetPage.dart';
 import 'package:whisper/layout/Timeline/replyTimeline.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:http/http.dart' as http;
@@ -53,13 +52,16 @@ class _TimelinePageState extends State<TimelinePage> {
   Future putLike(token, tweetId) async {
     var response = await http.put(
       Uri.parse(
-          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/like'),
+          //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/like'),
+          'http://10.0.2.2:8080/tweets/$tweetId/like'),
       headers: {'x-auth-token': token},
     );
     print('this is token');
     print(token);
     print('tweet id inside api');
     print(tweetId);
+    print('User id inside put like');
+    print(widget.userId);
     if (response.statusCode == 200) {
       print(response.body);
     } else {
@@ -71,7 +73,8 @@ class _TimelinePageState extends State<TimelinePage> {
   Future retweet(token, tweetId) async {
     var response = await http.post(
       Uri.parse(
-          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/retweet'),
+          //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/$tweetId/retweet'),
+          'http://10.0.2.2:8080/tweets/$tweetId/retweet'),
       headers: {'x-auth-token': token},
     );
     if (response.statusCode == 200) {
@@ -85,7 +88,9 @@ class _TimelinePageState extends State<TimelinePage> {
   Future getTweet(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=300&page=1&search='),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=300&page=1&search='),
+            'http://10.0.2.2:8080/tweets/TimelineTweets/?size=300&page=1&search='),
       ),
       headers: {
         'x-auth-token': token,
@@ -107,7 +112,9 @@ class _TimelinePageState extends State<TimelinePage> {
   Future<String> getTweetcount(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=1&page=1&search='),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=1&page=1&search='),
+            'http://10.0.2.2:8080/tweets/TimelineTweets/?size=1&page=1&search='),
       ),
       headers: {
         'x-auth-token': token,
@@ -124,7 +131,9 @@ class _TimelinePageState extends State<TimelinePage> {
   Future<String> getProfileInfo(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+            'http://10.0.2.2:8080/user/${widget.userId}/profile_settings'),
       ),
       headers: {
         'x-auth-token': token,

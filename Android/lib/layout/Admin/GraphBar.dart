@@ -30,9 +30,8 @@ class _GraphBar extends State<GraphBar> {
     http.Response response;
     response = await http.get(
       Uri.parse(
-          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noMostFollowed'
-          //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
-          ),
+          //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noMostFollowed'
+          'http://10.0.2.2:8080/admins/statistics/noMostFollowed'),
       headers: {'x-auth-token': token},
     );
     setState(() {

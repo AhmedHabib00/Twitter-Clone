@@ -168,7 +168,8 @@ class _ForgotPassCodeVerify extends State<ForgotPassCodeVerify> {
     Map dataResponse;
     var response = await http.post(
       Uri.parse(
-          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword/codeVerification"),
+          //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword/codeVerification"),
+          "http://10.0.2.2:8080/forgotPassword/codeVerification"),
       body: data,
     );
     if (response.statusCode == 200) {

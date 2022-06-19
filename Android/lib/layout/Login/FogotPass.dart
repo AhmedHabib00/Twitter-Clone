@@ -139,10 +139,9 @@ class _ForgotPassPage extends State<ForgotPassPage> {
     var jsonData = null;
     Map mapResponse;
     Map dataResponse;
-    var response = await http.post(
-        Uri.parse(
-            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword"),
-        body: data);
+    var response = await http.post(Uri.parse(
+        //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/forgotPassword"),
+        "http://10.0.2.2:8080/forgotPassword"), body: data);
     if (response.statusCode == 200) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(

@@ -292,10 +292,9 @@ class _LoginPage extends State<LoginPage> {
     //var jsonData = null;
     Map mapResponse;
     Map dataResponse;
-    var response = await http.post(
-        Uri.parse(
-            "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/login"),
-        body: data);
+    var response = await http.post(Uri.parse(
+        //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/login"),
+        "http://10.0.2.2:8080/login"), body: data);
     if (response.statusCode == 200) {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;

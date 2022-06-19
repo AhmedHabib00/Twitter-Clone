@@ -25,7 +25,9 @@ class _SideMenuState extends State<SideMenu> {
   Future<String> getProfileInfo(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+            'http://10.0.2.2:8080/user/${widget.userId}/profile_settings'),
       ),
       headers: {
         'x-auth-token': token,
@@ -48,7 +50,6 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    var token = '';
     return SafeArea(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
@@ -60,83 +61,130 @@ class _SideMenuState extends State<SideMenu> {
                 DrawerHeader(
                   decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 70,
-                          height: 70,
-                          child: FutureBuilder<String>(
-                              future: profilePictureFuture,
-                              builder: ((context, snapshot) {
-                                if (snapshot.hasData) {
-                                  profilePicture = snapshot.data!;
-                                  return Padding(
-                                    padding: const EdgeInsets.all(9.0),
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        profilePicture.toString(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      FutureBuilder<String>(
+                          future: profilePictureFuture,
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasData) {
+                              profilePicture = snapshot.data!;
+                              return Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, top: 0),
+                                        child: SizedBox(
+                                          width: 70,
+                                          height: 60,
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                              profilePicture.toString(),
+                                            ),
+                                          ),
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, top: 5),
+                                        child: Text(
+                                          '${profileDisplayName}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, top: 5),
+                                        child: Text(
+                                          '$profileUsername',
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 5, top: 10),
+                                    child: Row(
+                                      children: const [
+                                        Text(
+                                          '2 ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'Following',
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Text(
+                                          '1 ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'Followers',
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                } else {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                }
-                              })),
-                        ),
-                        const SizedBox(
-                          height: 0,
-                        ),
-                        Text(
-                          '${profileDisplayName}',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 1,
-                        ),
-                        Text(
-                          '$profileUsername',
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        Row(
-                          children: const [
-                            Text(
-                              '2 ',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Following',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              '1 ',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Followers',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ));
+                            }
+                          })),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 5, top: 10),
+                      //   child: Row(
+                      //     children: const [
+                      //       Text(
+                      //         '2 ',
+                      //         style: TextStyle(fontWeight: FontWeight.bold),
+                      //       ),
+                      //       Text(
+                      //         'Following',
+                      //         style: TextStyle(color: Colors.grey),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 15,
+                      //       ),
+                      //       Text(
+                      //         '1 ',
+                      //         style: TextStyle(fontWeight: FontWeight.bold),
+                      //       ),
+                      //       Text(
+                      //         'Followers',
+                      //         style: TextStyle(color: Colors.grey),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
                 ListTile(
@@ -158,7 +206,8 @@ class _SideMenuState extends State<SideMenu> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfilePage(token: token)));
+                              builder: (context) => ProfilePage(
+                                  token: widget.token, userId: widget.userId)));
                     }),
                 // ListTile(
                 //   leading: const Icon(Icons.list_alt),

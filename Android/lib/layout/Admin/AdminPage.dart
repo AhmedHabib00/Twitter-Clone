@@ -37,7 +37,9 @@ class _AdminPage extends State<AdminPage> {
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
+            'http://10.0.2.2:8080/admins/statistics/noUsers'),
       ),
       headers: {
         'x-auth-token': token,
@@ -56,7 +58,8 @@ class _AdminPage extends State<AdminPage> {
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noBanned',
+        //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noBanned',
+        'http://10.0.2.2:8080/admins/statistics/noBanned',
       ),
       headers: {'x-auth-token': token},
     );
@@ -73,7 +76,8 @@ class _AdminPage extends State<AdminPage> {
     Map dataResponse;
     var response = await http.get(
       Uri.parse(
-        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/ratioTweets',
+        //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/ratioTweets',
+        'http://10.0.2.2:8080/admins/statistics/ratioTweets',
       ),
       headers: {'x-auth-token': token},
     );
@@ -89,7 +93,8 @@ class _AdminPage extends State<AdminPage> {
     Map data = {'end_date': '2023-05-28'};
     var response = await http.post(
       Uri.parse(
-        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${userId}/banning/${user_id}/',
+        //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${userId}/banning/${user_id}/',
+        'http://10.0.2.2:8080/admins/${userId}/banning/${user_id}/',
       ),
       body: data,
       headers: {
@@ -108,7 +113,8 @@ class _AdminPage extends State<AdminPage> {
   Future unblockUser(token, userId, user_id) async {
     var response = await http.delete(
       Uri.parse(
-        'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${userId}/banning/${user_id}/',
+        //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/${userId}/banning/${user_id}/',
+        'http://10.0.2.2:8080/admins/${userId}/banning/${user_id}/',
       ),
       headers: {
         'x-auth-token': token,
@@ -126,7 +132,9 @@ class _AdminPage extends State<AdminPage> {
   Future<int> getUserNo(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=1&page=1&search=&state='),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=1&page=1&search=&state='),
+            'http://10.0.2.2:8080/admins/users/?size=1&page=1&search=&state='),
       ),
       headers: {
         'x-auth-token': token,
@@ -141,7 +149,9 @@ class _AdminPage extends State<AdminPage> {
   Future getUser(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$count&page=1&search=&state='),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$count&page=1&search=&state='),
+            'http://10.0.2.2:8080/admins/users/?size=$count&page=1&search=&state='),
       ),
       headers: {
         'x-auth-token': token,
@@ -178,7 +188,9 @@ class _AdminPage extends State<AdminPage> {
   Future getUserBanned(token) async {
     var response = await http.get(
       Uri.parse(
-        ('http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$NoUser&page=1&search=&state=Banned'),
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/users/?size=$NoUser&page=1&search=&state=Banned'),
+            'http://10.0.2.2:8080/admins/users/?size=$NoUser&page=1&search=&state=Banned'),
       ),
       headers: {
         'x-auth-token': token,

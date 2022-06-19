@@ -166,7 +166,8 @@ class _setPassword extends State<setPassword> {
     Map dataResponse;
     var response = await http.patch(
       Uri.parse(
-          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setPassword"),
+          //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setPassword"
+          "http://localhost:10.0.2.2/signUp/setPassword"),
       body: data,
       headers: {"x-auth-token": token},
     );

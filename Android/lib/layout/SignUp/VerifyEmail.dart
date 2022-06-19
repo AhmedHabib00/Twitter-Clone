@@ -164,7 +164,8 @@ class _VerifyEmail extends State<VerifyEmail> {
     Map dataResponse;
     var response = await http.patch(
       Uri.parse(
-          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"),
+          //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/verifyEmail"
+          "http://localhost:10.0.2.2/signUp/verifyEmail"),
       body: data,
     );
     if (response.statusCode == 200) {

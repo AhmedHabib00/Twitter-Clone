@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, avoid_print, camel_case_types, unnecessary_new, duplicate_ignore, unused_local_variable, avoid_init_to_null
 
 import 'package:flutter/material.dart';
+import 'package:whisper/layout/Login/login.dart';
 import 'package:whisper/layout/Timeline/Timeline.dart';
 import 'package:whisper/models/TextFieldValidation.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +22,7 @@ class setUsername extends StatefulWidget {
 
 class _setUsername extends State<setUsername> {
   final formKey = GlobalKey<FormState>();
-  late final String userId = '';
+  late String userId = '';
   TextEditingController setUsernameController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,8 @@ class _setUsername extends State<setUsername> {
     Map dataResponse;
     var response = await http.post(
       Uri.parse(
-          "http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setUsername"),
+          //"http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/signUp/setUsername"
+          "http://localhost:10.0.2.2/signUp/setUsername"),
       body: data,
       headers: {"x-auth-token": token},
     );
@@ -159,11 +161,12 @@ class _setUsername extends State<setUsername> {
       mapResponse = json.decode(response.body);
       dataResponse = mapResponse;
       userId = dataResponse['data']['userId'];
+      print('this is user id');
+      print(userId);
       setState(() {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    TimelinePage(token: token, userId: userId)),
+                builder: (BuildContext context) => const LoginPage()),
             (Route<dynamic> route) => false);
         showModalBottomSheet<void>(
           context: context,

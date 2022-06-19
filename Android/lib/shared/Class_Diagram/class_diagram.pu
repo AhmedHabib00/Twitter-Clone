@@ -1,0 +1,578 @@
+@startuml AndroidClassDiagram
+
+set namespaceSeparator ::
+
+class "whisper::layout::Admin::AdminPage.dart::AdminPage" {
+  +String token
+  +String userId
+  +_AdminPage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Admin::AdminPage.dart::AdminPage"
+
+class "whisper::layout::Admin::AdminPage.dart::_AdminPage" {
+  +List<dynamic> users
+  +List<dynamic> usersBanned
+  +int NoUser
+  +int NoBan
+  +String ratioTweet
+  +int count
+  +int countBanned
+  +Future<int> noUserFuture
+  +Future<int> noBanFuture
+  +Future<String> ratioTweetFuture
+  +Future<int> getUserCountFuture
+  +Future<int> getUserBannedCountFuture
+  +Future<int> NoUsers()
+  +Future<int> NoBanned()
+  +Future<String> ratioTweets()
+  +Future<dynamic> blockUser()
+  +Future<dynamic> unblockUser()
+  +Future<int> getUserNo()
+  +Future<dynamic> getUser()
+  +Future<dynamic> getUserBanned()
+  +void initState()
+  +Widget build()
+  -Widget _AdminCard()
+  +dynamic getBody()
+  +dynamic getCard()
+  +dynamic getBodyBanned()
+  +dynamic getCardBanned()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Admin::AdminPage.dart::_AdminPage"
+
+class "whisper::layout::Admin::GraphBar.dart::GraphBar" {
+  +String token
+  +_GraphBar createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Admin::GraphBar.dart::GraphBar"
+
+class "whisper::layout::Admin::GraphBar.dart::_GraphBar" {
+  -List<Series<TaskBar, String>> _seriesPieData
+  +int count1
+  +String user1
+  +int count2
+  +String user2
+  +int count3
+  +String user3
+  +int count4
+  +String user4
+  +int count5
+  +String user5
+  +Future<int> datafuture
+  +Future<int> GraphBarApi()
+  +void initState()
+  +Widget build()
+  -dynamic _generateData()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Admin::GraphBar.dart::_GraphBar"
+
+class "whisper::layout::Admin::GraphBar.dart::TaskBar" {
+  +dynamic task
+  +dynamic taskvalue
+  +dynamic testt
+  +Color colorval
+}
+
+"whisper::layout::Admin::GraphBar.dart::TaskBar" o-- "dart::ui::Color"
+
+class "whisper::layout::Admin::GraphPie.dart::GraphPie" {
+  +String token
+  +_GraphPie createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Admin::GraphPie.dart::GraphPie"
+
+class "whisper::layout::Admin::GraphPie.dart::_GraphPie" {
+  -List<Series<TaskPie, String>> _seriesPieData
+  +Future<int> GraphPieFuture
+  +int count1
+  +String name1
+  +int count2
+  +String name2
+  +int count3
+  +String name3
+  +int count4
+  +String name4
+  +int count5
+  +String name5
+  +int count6
+  +String name6
+  +int count7
+  +String name7
+  +Future<int> GraphPieApi()
+  +void initState()
+  +Widget build()
+  -dynamic _generateData()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Admin::GraphPie.dart::_GraphPie"
+
+class "whisper::layout::Admin::GraphPie.dart::TaskPie" {
+  +dynamic task
+  +dynamic taskvalue
+  +Color colorval
+}
+
+"whisper::layout::Admin::GraphPie.dart::TaskPie" o-- "dart::ui::Color"
+
+class "whisper::layout::Login::FogotPass.dart::ForgotPassPage" {
+  +_ForgotPassPage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Login::FogotPass.dart::ForgotPassPage"       
+
+class "whisper::layout::Login::FogotPass.dart::_ForgotPassPage" {
+  +TextEditingController EmailOrUsernameController
+  +GlobalKey<FormState> formKey
+  +Widget build()
+  +dynamic forgetPassAPI()
+}
+
+"whisper::layout::Login::FogotPass.dart::_ForgotPassPage" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"whisper::layout::Login::FogotPass.dart::_ForgotPassPage" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>" 
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Login::FogotPass.dart::_ForgotPassPage"
+
+class "whisper::layout::Login::ForgetPassCodeVerifiy.dart::ForgotPassCodeVerify" {
+  +String emailOrUsername
+  +_ForgotPassCodeVerify createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Login::ForgetPassCodeVerifiy.dart::ForgotPassCodeVerify"
+
+class "whisper::layout::Login::ForgetPassCodeVerifiy.dart::_ForgotPassCodeVerify" {
+  +GlobalKey<FormState> formKey
+  +TextEditingController forgotPassCodeController
+  +String token
+  -bool _isObscure
+  +Widget build()
+  +dynamic forgotPassCode()
+}
+
+"whisper::layout::Login::ForgetPassCodeVerifiy.dart::_ForgotPassCodeVerify" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"whisper::layout::Login::ForgetPassCodeVerifiy.dart::_ForgotPassCodeVerify" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Login::ForgetPassCodeVerifiy.dart::_ForgotPassCodeVerify"
+
+class "whisper::layout::Login::ForgotPassSetPass.dart::ForgotPassSetPass" {
+  +String email
+  +String token
+  +_ForgotPassSetPass createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Login::ForgotPassSetPass.dart::ForgotPassSetPass"
+
+class "whisper::layout::Login::ForgotPassSetPass.dart::_ForgotPassSetPass" {
+  +GlobalKey<FormState> formKey
+  +TextEditingController forgotSetPassController
+  -bool _isObscure
+  +Widget build()
+  +dynamic forgotSetPass()
+}
+
+"whisper::layout::Login::ForgotPassSetPass.dart::_ForgotPassSetPass" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"whisper::layout::Login::ForgotPassSetPass.dart::_ForgotPassSetPass" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Login::ForgotPassSetPass.dart::_ForgotPassSetPass"    
+
+class "whisper::layout::Login::login.dart::LoginPage" {
+  +_LoginPage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Login::login.dart::LoginPage"
+
+class "whisper::layout::Login::login.dart::_LoginPage" {
+  +GlobalKey<FormState> formKey
+  +TextEditingController EmailorUserController
+  +TextEditingController PassController
+  -bool _isObscure
+  -String _email
+  -bool _isLoading
+  +String token
+  +String userId
+  -GoogleSignInAccount? _currentUser
+  -String _contactText
+  +String? GoogleTokenId
+  +IconData? icon
+  +void initState()
+  +Widget build()
+  +dynamic SignIn()
+  -Future<dynamic> _handleSignIn()
+  +Future<dynamic> GSignIn()
+}
+
+"whisper::layout::Login::login.dart::_LoginPage" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"whisper::layout::Login::login.dart::_LoginPage" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"     
+"whisper::layout::Login::login.dart::_LoginPage" o-- "google_sign_in::google_sign_in.dart::GoogleSignInAccount"
+"whisper::layout::Login::login.dart::_LoginPage" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Login::login.dart::_LoginPage"
+
+class "whisper::layout::SignUp::setPassword.dart::setPassword" {
+  +String email
+  +String token
+  +_setPassword createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::SignUp::setPassword.dart::setPassword"       
+
+class "whisper::layout::SignUp::setPassword.dart::_setPassword" {
+  +GlobalKey<FormState> formKey
+  +TextEditingController SetPassController
+  -bool _isObscure
+  +Widget build()
+  +dynamic SetPass()
+}
+
+"whisper::layout::SignUp::setPassword.dart::_setPassword" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>" 
+"whisper::layout::SignUp::setPassword.dart::_setPassword" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::SignUp::setPassword.dart::_setPassword"
+
+class "whisper::layout::SignUp::setUsername.dart::setUsername" {
+  +String email
+  +String token
+  +_setUsername createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::SignUp::setUsername.dart::setUsername"       
+
+class "whisper::layout::SignUp::setUsername.dart::_setUsername" {
+  +GlobalKey<FormState> formKey
+  +String userId
+  +TextEditingController setUsernameController
+  +Widget build()
+  +dynamic setUser()
+}
+
+"whisper::layout::SignUp::setUsername.dart::_setUsername" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>" 
+"whisper::layout::SignUp::setUsername.dart::_setUsername" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::SignUp::setUsername.dart::_setUsername"
+
+class "whisper::layout::SignUp::signup.dart::SignUpPage" {
+  +_SignUpPage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::SignUp::signup.dart::SignUpPage"
+
+class "whisper::layout::SignUp::signup.dart::_SignUpPage" {
+  +GlobalKey<FormState> formKey
+  +DateFormat format
+  +TextEditingController NameController
+  +TextEditingController EmailController
+  +TextEditingController dateinput
+  -GoogleSignInAccount? _currentUser
+  -String _contactText
+  +String? GoogleTokenId
+  +String token
+  +String adminToken
+  +String userId
+  +IconData? icon
+  +void initState()
+  +Widget build()
+  +dynamic SignUpp()
+  -Future<dynamic> _handleSignIn()
+  +Future<dynamic> GSignIn()
+}
+
+"whisper::layout::SignUp::signup.dart::_SignUpPage" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"       
+"whisper::layout::SignUp::signup.dart::_SignUpPage" o-- "intl::src::intl::date_format.dart::DateFormat"
+"whisper::layout::SignUp::signup.dart::_SignUpPage" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"  
+"whisper::layout::SignUp::signup.dart::_SignUpPage" o-- "google_sign_in::google_sign_in.dart::GoogleSignInAccount"
+"whisper::layout::SignUp::signup.dart::_SignUpPage" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::SignUp::signup.dart::_SignUpPage"
+
+class "whisper::layout::SignUp::VerifyEmail.dart::VerifyEmail" {
+  +String email
+  +_VerifyEmail createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::SignUp::VerifyEmail.dart::VerifyEmail"       
+
+class "whisper::layout::SignUp::VerifyEmail.dart::_VerifyEmail" {
+  +GlobalKey<FormState> formKey
+  -bool _isObscure
+  +TextEditingController VerifyEmailController
+  +String token
+  +Widget build()
+  +dynamic VerifyEmailcode()
+}
+
+"whisper::layout::SignUp::VerifyEmail.dart::_VerifyEmail" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>" 
+"whisper::layout::SignUp::VerifyEmail.dart::_VerifyEmail" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::SignUp::VerifyEmail.dart::_VerifyEmail"
+
+class "whisper::layout::Timeline::addTweetPage.dart::addTweetPage" {
+  +String token
+  +_addTweetPage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Timeline::addTweetPage.dart::addTweetPage"   
+
+class "whisper::layout::Timeline::addTweetPage.dart::_addTweetPage" {
+  +File? image
+  +File? camera
+  +GiphyGif? gifs
+  +String gifsUrl
+  +String gifss
+  +String images
+  +String content
+  +String replyId
+  +List<dynamic> users
+  +TextEditingController tweetController
+  +Future<dynamic> pickImage()
+  +Future<dynamic> pickCamera()
+  +Future<String> pickGifs()
+  +void initState()
+  +Widget build()
+}
+
+"whisper::layout::Timeline::addTweetPage.dart::_addTweetPage" o-- "dart::io::File"
+"whisper::layout::Timeline::addTweetPage.dart::_addTweetPage" o-- "giphy_picker::src::model::client::gif.dart::GiphyGif"    
+"whisper::layout::Timeline::addTweetPage.dart::_addTweetPage" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Timeline::addTweetPage.dart::_addTweetPage"
+
+class "whisper::layout::Timeline::replyTimeline.dart::replyTimeline" {
+  +String token
+  +String tweetId
+  +String userId
+  +State<replyTimeline> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Timeline::replyTimeline.dart::replyTimeline" 
+
+class "whisper::layout::Timeline::replyTimeline.dart::_replyTimeline" {
+  +ScrollController scrollController
+  +TextEditingController tweetController
+  +GlobalKey<ScaffoldState> scaffoldkey
+  +List<dynamic> replylistOfTweets
+  +List<dynamic> URLss
+  +String images
+  +String content
+  +String gifs
+  +String replyId
+  +List<dynamic> users
+  +dynamic URLs
+  +Future<String> replycountFuture
+  +Future<String> replyprofilePictureFuture
+  +String count
+  +String token
+  +bool scaffoldKey
+  +String profilePicture
+  +String tweedId
+  +Future<dynamic> putLike()
+  +Future<dynamic> retweet()
+  +Future<dynamic> getreplyTweet()
+  +Future<String> getreplyTweetcount()
+  +Future<String> getProfileInfo()
+  +void initState()
+  +Widget build()
+  +void scrollUp()
+  +Widget getreplyTweetBody()
+  +Widget getreplyTweetCard()
+}
+
+"whisper::layout::Timeline::replyTimeline.dart::_replyTimeline" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"whisper::layout::Timeline::replyTimeline.dart::_replyTimeline" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"whisper::layout::Timeline::replyTimeline.dart::_replyTimeline" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Timeline::replyTimeline.dart::_replyTimeline"
+
+class "whisper::layout::Timeline::replyTweetPage.dart::replyTweetPage" {
+  +String token
+  +String tweetId
+  +_replyTweetPage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Timeline::replyTweetPage.dart::replyTweetPage"
+
+class "whisper::layout::Timeline::replyTweetPage.dart::_replyTweetPage" {
+  +File? image
+  +File? camera
+  +GiphyGif? gifs
+  +String gifsUrl
+  +String gifss
+  +String images
+  +String content
+  +String replyId
+  +String users
+  +TextEditingController tweetController
+  +Future<dynamic> pickImage()
+  +Future<dynamic> pickCamera()
+  +Future<String> pickGifs()
+  +void initState()
+  +Widget build()
+}
+
+"whisper::layout::Timeline::replyTweetPage.dart::_replyTweetPage" o-- "dart::io::File"
+"whisper::layout::Timeline::replyTweetPage.dart::_replyTweetPage" o-- "giphy_picker::src::model::client::gif.dart::GiphyGif"
+"whisper::layout::Timeline::replyTweetPage.dart::_replyTweetPage" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Timeline::replyTweetPage.dart::_replyTweetPage"       
+
+class "whisper::layout::Timeline::sidemenu.dart::SideMenu" {
+  +String token
+  +String userId
+  +State<SideMenu> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Timeline::sidemenu.dart::SideMenu"
+
+class "whisper::layout::Timeline::sidemenu.dart::_SideMenuState" {
+  +String profilePicture
+  +String profileDisplayName
+  +String profileUsername
+  +Future<String> profilePictureFuture
+  +Future<String> getProfileInfo()
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Timeline::sidemenu.dart::_SideMenuState"
+
+class "whisper::layout::Timeline::Timeline.dart::TimelinePage" {
+  +String token
+  +String userId
+  +State<TimelinePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::Timeline::Timeline.dart::TimelinePage"       
+
+class "whisper::layout::Timeline::Timeline.dart::_TimelinePageState" {
+  +ScrollController scrollController
+  +TextEditingController tweetController
+  +GlobalKey<ScaffoldState> scaffoldkey
+  +List<dynamic> listOfTweets
+  +List<dynamic> URLss
+  +String images
+  +String content
+  +String gifs
+  +String replyId
+  +List<dynamic> users
+  +dynamic URLs
+  +Future<String> countFuture
+  +Future<String> profilePictureFuture
+  +String count
+  +String token
+  +bool scaffoldKey
+  +String profilePicture
+  +String tweetId
+  +Future<dynamic> putLike()
+  +Future<dynamic> retweet()
+  +Future<dynamic> getTweet()
+  +Future<String> getTweetcount()
+  +Future<String> getProfileInfo()
+  +void initState()
+  +Widget build()
+  +void scrollUp()
+  +Widget getTweetBody()
+  +Widget getTweetCard()
+}
+
+"whisper::layout::Timeline::Timeline.dart::_TimelinePageState" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"whisper::layout::Timeline::Timeline.dart::_TimelinePageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"whisper::layout::Timeline::Timeline.dart::_TimelinePageState" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::Timeline::Timeline.dart::_TimelinePageState"
+
+class "whisper::layout::UserProfile::profile_layout.dart::ProfilePage" {
+  +String token
+  +State<ProfilePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::UserProfile::profile_layout.dart::ProfilePage"
+
+class "whisper::layout::UserProfile::profile_layout.dart::_ProfilePageState" {
+  +bool isTitlePassed
+  +bool isLiked
+  +int selectedIndex
+  +List<TweetModel> Tweets
+  +List<TweetModel> TweetsAndReplies
+  +List<TweetModel> Media
+  +List<TweetModel> Likes
+  +void like()
+  -void _onUpdateScroll()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::UserProfile::profile_layout.dart::_ProfilePageState"  
+"flutter::src::widgets::ticker_provider.dart::SingleTickerProviderStateMixin" <|-- "whisper::layout::UserProfile::profile_layout.dart::_ProfilePageState"
+
+class "whisper::layout::WelcomePage::WelcomePage.dart::WelcomePage" {
+  +_WelcomePage createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "whisper::layout::WelcomePage::WelcomePage.dart::WelcomePage"  
+
+class "whisper::layout::WelcomePage::WelcomePage.dart::_WelcomePage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "whisper::layout::WelcomePage::WelcomePage.dart::_WelcomePage"
+
+class "whisper::models::date_time_format.dart::DateTimeFormat" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "whisper::models::date_time_format.dart::DateTimeFormat"      
+
+class "whisper::models::TextFieldValidation.dart::NameFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::EmailFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::PassFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::ForgetPassFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::ForgetPassVerifyFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::DateOfBirthFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::VerifyEmailFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::SetPassFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::TextFieldValidation.dart::SetUsernameFieldValidator" {
+  {static} +String? validate()
+}
+
+class "whisper::models::tweet_model.dart::TweetModel" {
+  +bool isLiked
+  +bool isReTweet
+  +bool isCommented
+  +int comments
+  +int retweets
+  +int loves
+  +String tweetmessg
+  +String username
+  +String time
+  +String twitterHandle
+  +DateTime date
+  +void setLike()
+  +void setReTweet()
+  +void setComment()
+  +bool getLike()
+
+  +void onEvent()
+  +void onChange()
+  +void onTransition()
+  +void onError()
+  +void onClose()
+}
+
+"bloc::src::bloc_observer.dart::BlocObserver" <|-- "whisper::shared::bloc_observer.dart::MyBlocObserver"
+
+
+@enduml

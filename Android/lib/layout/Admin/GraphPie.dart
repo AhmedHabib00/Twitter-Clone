@@ -34,9 +34,8 @@ class _GraphPie extends State<GraphPie> {
     http.Response response;
     response = await http.get(
       Uri.parse(
-          'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noAgeUsers'
-          //   //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noUsers'),
-          ),
+          //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/admins/statistics/noAgeUsers'
+          'http://10.0.2.2:8080/admins/statistics/noAgeUsers'),
       headers: {'x-auth-token': token},
     );
     setState(() {
