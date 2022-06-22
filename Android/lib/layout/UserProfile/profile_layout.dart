@@ -25,7 +25,16 @@ class _ProfilePageState extends State<ProfilePage>
   late var profileDisplayName = '';
   late var profileUsername = '';
   late var coverPicture = '';
+  late var location = '';
+  late var description = '';
+  late var createdAt = '';
+  late var Birthdate = '';
+  late var content = '';
+  late var postedBy = '';
+  late var likes = '';
+  late var retweets = '';
   late Future<String> profilePictureFuture;
+  late Future<String> coverPictureFuture;
 
   Future<String> getProfileInfo(token) async {
     var response = await http.get(
@@ -41,13 +50,57 @@ class _ProfilePageState extends State<ProfilePage>
     if (response.statusCode == 200) {
       var items = json.decode(response.body);
       profilePicture = items['Profile Picture'];
-      print("user profile picture");
-      print(profilePicture);
-      coverPicture = items['cover Picture'];
       profileDisplayName = items['displayName'];
       profileUsername = items['username'];
+      coverPicture = items['Cover Photo'];
+      location = items['location'];
+      description = items['description'];
+      createdAt = items['createdAt'];
+      Birthdate = items['Birthdate'];
     }
     return profilePicture;
+  }
+
+  Future<String> getProfileCover(token) async {
+    var response = await http.get(
+      Uri.parse(
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/user/${widget.userId}/profile_settings'),
+            'http://10.0.2.2:8080/user/${widget.userId}/profile_settings'),
+      ),
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var items = json.decode(response.body);
+      coverPicture = items['Cover Photo'];
+    }
+    return coverPicture;
+  }
+
+  Future getUserTweets(token) async {
+    var response = await http.get(
+      Uri.parse(
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=300&page=1&search='),
+            'http://10.0.2.2:8080/user/${widget.userId}'),
+      ),
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var items = json.decode(response.body);
+      List info = items['filteredTweets'];
+      // content = info[1];
+      // postedBy = info[2];
+      // likes = info[3];
+      // retweets = info[4];
+      print(info);
+      print(content);
+      print(postedBy);
+    }
   }
 
   void like() {
@@ -65,66 +118,6 @@ class _ProfilePageState extends State<ProfilePage>
   var selectedIndex = 0;
 
   final List<TweetModel> Tweets = [
-    // TweetModel(
-    //   username: "Kareem",
-    //   tweet: "Lorem ipsum dolor sit amet",
-    //   time: "7h",
-    //   twitterHandle: "@Kareem1",
-    // ),
-    // TweetModel(
-    //     username: "Ahmed",
-    //     tweet: "Lorem ipsum dolor sit amet",
-    //     time: "3m",
-    //     twitterHandle: "@Ahmed28"),
-    // TweetModel(
-    //   username: "Kareem",
-    //   tweet: "Lorem ipsum dolor sit amet",
-    //   time: "7h",
-    //   twitterHandle: "@Kareem1",
-    // ),
-    // TweetModel(
-    //     username: "Ahmed",
-    //     tweet: "Lorem ipsum dolor sit amet",
-    //     time: "3m",
-    //     twitterHandle: "@Ahmed28"),
-    // TweetModel(
-    //     username: "Hassan",
-    //     tweet: "Lorem ipsum dolor sit amet",
-    //     time: "3m",
-    //     twitterHandle: "@Hassan212"),
-  ];
-
-  final List<TweetModel> TweetsAndReplies = [
-    TweetModel(
-      username: "Mario",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Mario12",
-    ),
-    TweetModel(
-        username: "Ahmed",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Ahmed28"),
-    TweetModel(
-      username: "Kareem",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Kareem1",
-    ),
-    TweetModel(
-        username: "Mazen",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Mazen13"),
-    TweetModel(
-        username: "Hassan",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Hassan212"),
-  ];
-
-  final List<TweetModel> Media = [
     TweetModel(
       username: "Kareem",
       tweet: "Lorem ipsum dolor sit amet",
@@ -147,36 +140,6 @@ class _ProfilePageState extends State<ProfilePage>
         tweet: "Lorem ipsum dolor sit amet",
         time: "3m",
         twitterHandle: "@Ahmed28"),
-    TweetModel(
-        username: "Hassan",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Hassan212"),
-  ];
-
-  final List<TweetModel> Likes = [
-    TweetModel(
-      username: "Mario",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Mario12",
-    ),
-    TweetModel(
-        username: "Ahmed",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Ahmed28"),
-    TweetModel(
-      username: "Kareem",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Kareem1",
-    ),
-    TweetModel(
-        username: "Mazen",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Mazen13"),
     TweetModel(
         username: "Hassan",
         tweet: "Lorem ipsum dolor sit amet",
@@ -200,10 +163,12 @@ class _ProfilePageState extends State<ProfilePage>
   void initState() {
     super.initState();
     profilePictureFuture = getProfileInfo(widget.token);
+    coverPictureFuture = getProfileCover(widget.token);
   }
 
   @override
   Widget build(BuildContext context) {
+    getUserTweets(widget.token);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -223,90 +188,127 @@ class _ProfilePageState extends State<ProfilePage>
             slivers: <Widget>[
               SliverAppBar(
                 title: Text(
-                  isTitlePassed ? 'Username' : '',
+                  isTitlePassed ? '$profileUsername' : '',
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
-                leading: const Icon(Icons.arrow_back_rounded),
+                leading: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
                 actions: [
                   const Icon(
                     Icons.search_rounded,
+                    color: Color.fromARGB(255, 255, 255, 255),
                     size: 30,
                   ),
                   const Icon(
                     Icons.more_vert_rounded,
+                    color: Color.fromARGB(255, 255, 255, 255),
                     size: 30,
                   ),
                 ],
                 pinned: true,
                 expandedHeight: 140,
-                // flexibleSpace: FlexibleSpaceBar(
-                //   background:
-                //   Image.network(
-                //     coverPicture.toString(),
-                //     fit: BoxFit.cover,
-                //   ),
-                // ),
+                flexibleSpace: FutureBuilder<String>(
+                    future: coverPictureFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        coverPicture = snapshot.data!;
+                        return FlexibleSpaceBar(
+                          background: Image.network(
+                            coverPicture.toString(),
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.red,
+                        ));
+                      }
+                    }),
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(
-                            width: 70,
-                            height: 70,
-                            child: FutureBuilder<String>(
-                                future: profilePictureFuture,
-                                builder: ((context, snapshot) {
-                                  print('lol');
-                                  print(widget.token);
-                                  print(profilePictureFuture);
-                                  print(profilePicture);
-                                  if (snapshot.hasData) {
-                                    profilePicture = snapshot.data!;
-                                    print('here is future');
-                                    print(profilePicture);
-
-                                    return Padding(
-                                      padding: const EdgeInsets.all(9.0),
-                                      child: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          profilePicture.toString(),
-                                        ),
+                          FutureBuilder<dynamic>(
+                              future: profilePictureFuture,
+                              builder: ((context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 70,
+                                            width: 70,
+                                            child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                profilePicture.toString(),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  } else {
-                                    print('didnt work');
-                                    return const Center(
-                                        child: CircularProgressIndicator(
-                                      color: Colors.black,
-                                      value: 0,
-                                    ));
-                                  }
-                                })),
-                          ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              '${profileDisplayName}',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w800,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: Text(
+                                              '$profileUsername',
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              })),
                           ElevatedButton(
                               onPressed: () {},
                               style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18.0),
-                                          side: const BorderSide(
-                                              color: Colors.black,
-                                              width: 0.25))),
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
-                                  overlayColor:
-                                      MaterialStateProperty.all(Colors.grey),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                      side: const BorderSide(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          width: 150))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      const Color.fromARGB(255, 255, 255, 255)),
+                                  overlayColor: MaterialStateProperty.all(
+                                      const Color.fromARGB(255, 0, 195, 255)),
                                   fixedSize: MaterialStateProperty.all(
                                       const Size(120, 30))),
                               child: const Text('Edit Profile',
@@ -317,117 +319,143 @@ class _ProfilePageState extends State<ProfilePage>
                         ],
                         mainAxisSize: MainAxisSize.max,
                       ),
-                      Text(
-                        profileDisplayName,
-                        style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 0, 0, 0)),
+                      FutureBuilder<dynamic>(
+                        future: profilePictureFuture,
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        '$description',
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text.rich(
+                                          TextSpan(children: <InlineSpan>[
+                                            const WidgetSpan(
+                                                child: Icon(
+                                              Icons.location_on_outlined,
+                                              size: 20,
+                                            )),
+                                            TextSpan(text: '$location')
+                                          ]),
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black45),
+                                        )),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
+                                          child: Text.rich(
+                                            TextSpan(children: <InlineSpan>[
+                                              const WidgetSpan(
+                                                  child: Icon(
+                                                Icons.circle_outlined,
+                                                size: 20,
+                                              )),
+                                              TextSpan(
+                                                text: Birthdate.toString()
+                                                            .length >
+                                                        10
+                                                    ? Birthdate.toString()
+                                                            .substring(0, 10) +
+                                                        ''
+                                                    : Birthdate.toString(),
+                                              )
+                                            ]),
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black45),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, left: 50),
+                                          child: Text.rich(
+                                            TextSpan(children: <InlineSpan>[
+                                              const WidgetSpan(
+                                                  child: Icon(
+                                                Icons.calendar_month_outlined,
+                                                size: 20,
+                                              )),
+                                              TextSpan(
+                                                  text: 'Joined $createdAt')
+                                            ]),
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.black45),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          '${profileUsername}',
-                          style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: const Text(
-                          'Bio inserted here!',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Row(children: [
-                          const Expanded(
-                              child: const Text.rich(
-                            TextSpan(children: <InlineSpan>[
-                              WidgetSpan(
-                                  child: Icon(
-                                Icons.location_on_outlined,
-                                size: 20,
-                              )),
-                              TextSpan(text: ' Location')
-                            ]),
-                            style:
-                                TextStyle(fontSize: 15, color: Colors.black45),
-                          )),
-                          const Expanded(
-                              child: const Text.rich(
-                            TextSpan(children: <InlineSpan>[
-                              WidgetSpan(
-                                  child: Icon(
-                                Icons.circle_outlined,
-                                size: 20,
-                              )),
-                              TextSpan(text: ' Birthday')
-                            ]),
-                            style:
-                                TextStyle(fontSize: 15, color: Colors.black45),
-                          )),
-                        ]),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text.rich(
-                          const TextSpan(children: <InlineSpan>[
-                            WidgetSpan(
-                                child: Icon(
-                              Icons.calendar_month_outlined,
-                              size: 20,
-                            )),
-                            TextSpan(text: ' Join Date')
-                          ]),
-                          style: TextStyle(fontSize: 15, color: Colors.black45),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: Row(
-                          children: [
-                            const Text(
-                              '999',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: const Text(
-                                ' Following',
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.black45),
-                              ),
-                              highlightColor: Colors.black26,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              '999',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: const Text(
-                                ' Followers',
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.black45),
-                              ),
-                              highlightColor: Colors.black26,
-                            ),
-                          ],
-                        ),
-                      )
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 16.0),
+                      //   child: Row(
+                      //     children: [
+                      //       const Text(
+                      //         '999',
+                      //         style: TextStyle(
+                      //             fontSize: 16, fontWeight: FontWeight.w700),
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child: const Text(
+                      //           ' Following',
+                      //           style: const TextStyle(
+                      //               fontSize: 16, color: Colors.black45),
+                      //         ),
+                      //         highlightColor: Colors.black26,
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //       const Text(
+                      //         '999',
+                      //         style: TextStyle(
+                      //             fontSize: 16, fontWeight: FontWeight.w700),
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child: const Text(
+                      //           ' Followers',
+                      //           style: const TextStyle(
+                      //               fontSize: 16, color: Colors.black45),
+                      //         ),
+                      //         highlightColor: Colors.black26,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // )
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                   ),
@@ -468,28 +496,6 @@ class _ProfilePageState extends State<ProfilePage>
                           padding: const EdgeInsets.all(12)),
                       maintainState: true,
                       visible: selectedIndex == 0,
-                    ),
-                    Visibility(
-                      child: Padding(
-                          child:
-                              tweetBoxWidget(TweetsAndReplies, isLiked, like),
-                          padding: const EdgeInsets.all(12)),
-                      maintainState: true,
-                      visible: selectedIndex == 1,
-                    ),
-                    Visibility(
-                      child: Padding(
-                          child: tweetBoxWidget(Media, isLiked, like),
-                          padding: const EdgeInsets.all(12)),
-                      maintainState: true,
-                      visible: selectedIndex == 2,
-                    ),
-                    Visibility(
-                      child: Padding(
-                          child: tweetBoxWidget(Likes, isLiked, like),
-                          padding: const EdgeInsets.all(12)),
-                      maintainState: true,
-                      visible: selectedIndex == 3,
                     ),
                   ],
                   index: selectedIndex,
