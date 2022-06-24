@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
+import 'package:whisper/layout/UserProfile/edit_profile.dart';
 import 'package:whisper/modules/tweetBoxWidget_Profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:whisper/models/tweet_model_Profile.dart';
@@ -97,9 +98,9 @@ class _ProfilePageState extends State<ProfilePage>
       // postedBy = info[2];
       // likes = info[3];
       // retweets = info[4];
-      print(info);
-      print(content);
-      print(postedBy);
+      // print(info);
+      // print(content);
+      // print(postedBy);
     }
   }
 
@@ -298,7 +299,26 @@ class _ProfilePageState extends State<ProfilePage>
                                 }
                               })),
                           ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // Navigator.of(context).pushAndRemoveUntil(
+                                //     MaterialPageRoute(
+                                //       builder: (BuildContext context) =>
+                                //           editProfile(
+                                //         token: widget.token,
+                                //         userId: widget.userId,
+                                //       ),
+                                //     ),
+                                //     (Route<dynamic> route) => false);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return editProfile(
+                                          token: widget.token,
+                                          userId: widget.userId);
+                                    },
+                                  ),
+                                );
+                              },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25.0),
@@ -325,90 +345,110 @@ class _ProfilePageState extends State<ProfilePage>
                           if (snapshot.hasData) {
                             return Column(
                               children: [
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        '$description',
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                description.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              '$description',
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text.rich(
-                                          TextSpan(children: <InlineSpan>[
-                                            const WidgetSpan(
-                                                child: Icon(
-                                              Icons.location_on_outlined,
-                                              size: 20,
-                                            )),
-                                            TextSpan(text: '$location')
-                                          ]),
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black45),
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
-                                          child: Text.rich(
-                                            TextSpan(children: <InlineSpan>[
-                                              const WidgetSpan(
-                                                  child: Icon(
-                                                Icons.circle_outlined,
-                                                size: 20,
+                                location.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : Row(
+                                        children: [
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: Text.rich(
+                                                TextSpan(children: <InlineSpan>[
+                                                  const WidgetSpan(
+                                                      child: Icon(
+                                                    Icons.location_on_outlined,
+                                                    size: 20,
+                                                  )),
+                                                  TextSpan(text: '$location')
+                                                ]),
+                                                style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.black45),
                                               )),
-                                              TextSpan(
-                                                text: Birthdate.toString()
-                                                            .length >
-                                                        10
-                                                    ? Birthdate.toString()
-                                                            .substring(0, 10) +
-                                                        ''
-                                                    : Birthdate.toString(),
-                                              )
-                                            ]),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black45),
+                                        ],
+                                      ),
+                                Birthdate.isEmpty
+                                    ? const SizedBox.shrink()
+                                    : Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: Text.rich(
+                                                  TextSpan(
+                                                      children: <InlineSpan>[
+                                                        const WidgetSpan(
+                                                            child: Icon(
+                                                          Icons.circle_outlined,
+                                                          size: 20,
+                                                        )),
+                                                        TextSpan(
+                                                          text: Birthdate.toString()
+                                                                      .length >
+                                                                  10
+                                                              ? Birthdate.toString()
+                                                                      .substring(
+                                                                          0,
+                                                                          10) +
+                                                                  ''
+                                                              : Birthdate
+                                                                  .toString(),
+                                                        )
+                                                      ]),
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.black45),
+                                                ),
+                                              ),
+                                              createdAt.isEmpty
+                                                  ? const SizedBox.shrink()
+                                                  : Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10,
+                                                              left: 50),
+                                                      child: Text.rich(
+                                                        TextSpan(children: <
+                                                            InlineSpan>[
+                                                          const WidgetSpan(
+                                                              child: Icon(
+                                                            Icons
+                                                                .calendar_month_outlined,
+                                                            size: 20,
+                                                          )),
+                                                          TextSpan(
+                                                              text:
+                                                                  'Joined $createdAt')
+                                                        ]),
+                                                        style: const TextStyle(
+                                                            fontSize: 15,
+                                                            color:
+                                                                Colors.black45),
+                                                      ),
+                                                    ),
+                                            ],
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, left: 50),
-                                          child: Text.rich(
-                                            TextSpan(children: <InlineSpan>[
-                                              const WidgetSpan(
-                                                  child: Icon(
-                                                Icons.calendar_month_outlined,
-                                                size: 20,
-                                              )),
-                                              TextSpan(
-                                                  text: 'Joined $createdAt')
-                                            ]),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black45),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                        ],
+                                      ),
                               ],
                             );
                           } else {

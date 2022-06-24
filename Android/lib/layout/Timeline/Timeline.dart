@@ -273,12 +273,13 @@ class _TimelinePageState extends State<TimelinePage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(200)),
             child: Image.network(
               profilePic.toString(),
               width: 60,
+              height: 60,
             ),
           ),
         ),

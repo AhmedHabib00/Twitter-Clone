@@ -93,11 +93,11 @@ class _SideMenuState extends State<SideMenu> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 5, top: 5),
+                                            left: 5, top: 15),
                                         child: Text(
                                           '${profileDisplayName}',
                                           style: const TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 20,
                                             fontWeight: FontWeight.w800,
                                             color: Colors.black,
                                           ),
@@ -114,41 +114,41 @@ class _SideMenuState extends State<SideMenu> {
                                           '$profileUsername',
                                           style: const TextStyle(
                                             color: Colors.grey,
-                                            fontSize: 15,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 5, top: 10),
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          '2 ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'Following',
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Text(
-                                          '1 ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'Followers',
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding:
+                                  //       const EdgeInsets.only(left: 5, top: 10),
+                                  //   child: Row(
+                                  //     children: const [
+                                  //       Text(
+                                  //         '2 ',
+                                  //         style: TextStyle(
+                                  //             fontWeight: FontWeight.bold),
+                                  //       ),
+                                  //       Text(
+                                  //         'Following',
+                                  //         style: TextStyle(color: Colors.grey),
+                                  //       ),
+                                  //       SizedBox(
+                                  //         width: 15,
+                                  //       ),
+                                  //       Text(
+                                  //         '1 ',
+                                  //         style: TextStyle(
+                                  //             fontWeight: FontWeight.bold),
+                                  //       ),
+                                  //       Text(
+                                  //         'Followers',
+                                  //         style: TextStyle(color: Colors.grey),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             } else {
