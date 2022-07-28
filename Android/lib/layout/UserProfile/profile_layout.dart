@@ -1,11 +1,10 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_literals_to_create_immutables, unnecessary_const, avoid_print, unnecessary_brace_in_string_interps, unnecessary_string_interpolations
+// ignore_for_file: non_constant_identifier_names, prefer_const_literals_to_create_immutables, unnecessary_const, avoid_print, unnecessary_brace_in_string_interps, unnecessary_string_interpolations, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:whisper/layout/Timeline/sidemenu.dart';
 import 'package:whisper/layout/UserProfile/edit_profile.dart';
-import 'package:whisper/modules/tweetBoxWidget_Profile.dart';
 import 'package:http/http.dart' as http;
-import 'package:whisper/models/tweet_model_Profile.dart';
 import 'dart:convert';
 
 class ProfilePage extends StatefulWidget {
@@ -34,8 +33,12 @@ class _ProfilePageState extends State<ProfilePage>
   late var postedBy = '';
   late var likes = '';
   late var retweets = '';
+  late var count = '';
+  List listOfTweets = [];
   late Future<String> profilePictureFuture;
   late Future<String> coverPictureFuture;
+  late Future<String> userTweetsFuture;
+  late Future<String> countFuture;
 
   Future<String> getProfileInfo(token) async {
     var response = await http.get(
@@ -80,6 +83,25 @@ class _ProfilePageState extends State<ProfilePage>
     return coverPicture;
   }
 
+  Future<String> getUserTweetsCount(token) async {
+    var response = await http.get(
+      Uri.parse(
+        (
+            //'http://habibsw-env-1.eba-rktzmmab.us-east-1.elasticbeanstalk.com/api/tweets/TimelineTweets/?size=1&page=1&search='),
+            'http://10.0.2.2:8080/user/${widget.userId}'),
+      ),
+      headers: {
+        'x-auth-token': token,
+      },
+    );
+    if (response.statusCode == 200) {
+      var items = json.decode(response.body);
+      count = items['filteredTweets'][0]['tweet ID'];
+      print(count);
+    }
+    return count;
+  }
+
   Future getUserTweets(token) async {
     var response = await http.get(
       Uri.parse(
@@ -94,13 +116,14 @@ class _ProfilePageState extends State<ProfilePage>
     if (response.statusCode == 200) {
       var items = json.decode(response.body);
       List info = items['filteredTweets'];
-      // content = info[1];
-      // postedBy = info[2];
-      // likes = info[3];
-      // retweets = info[4];
-      // print(info);
-      // print(content);
-      // print(postedBy);
+      listOfTweets = info;
+      setState(() {
+        listOfTweets = info;
+      });
+    } else {
+      setState(() {
+        listOfTweets = [];
+      });
     }
   }
 
@@ -118,36 +141,6 @@ class _ProfilePageState extends State<ProfilePage>
 
   var selectedIndex = 0;
 
-  final List<TweetModel> Tweets = [
-    TweetModel(
-      username: "Kareem",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Kareem1",
-    ),
-    TweetModel(
-        username: "Ahmed",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Ahmed28"),
-    TweetModel(
-      username: "Kareem",
-      tweet: "Lorem ipsum dolor sit amet",
-      time: "7h",
-      twitterHandle: "@Kareem1",
-    ),
-    TweetModel(
-        username: "Ahmed",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Ahmed28"),
-    TweetModel(
-        username: "Hassan",
-        tweet: "Lorem ipsum dolor sit amet",
-        time: "3m",
-        twitterHandle: "@Hassan212"),
-  ];
-
   void _onUpdateScroll(ScrollMetrics metrics) {
     if (metrics.pixels.round() > 100) {
       setState(() {
@@ -163,6 +156,7 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
+    countFuture = getUserTweetsCount(widget.token);
     profilePictureFuture = getProfileInfo(widget.token);
     coverPictureFuture = getProfileCover(widget.token);
   }
@@ -300,15 +294,6 @@ class _ProfilePageState extends State<ProfilePage>
                               })),
                           ElevatedButton(
                               onPressed: () {
-                                // Navigator.of(context).pushAndRemoveUntil(
-                                //     MaterialPageRoute(
-                                //       builder: (BuildContext context) =>
-                                //           editProfile(
-                                //         token: widget.token,
-                                //         userId: widget.userId,
-                                //       ),
-                                //     ),
-                                //     (Route<dynamic> route) => false);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
@@ -458,44 +443,6 @@ class _ProfilePageState extends State<ProfilePage>
                           }
                         }),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 16.0),
-                      //   child: Row(
-                      //     children: [
-                      //       const Text(
-                      //         '999',
-                      //         style: TextStyle(
-                      //             fontSize: 16, fontWeight: FontWeight.w700),
-                      //       ),
-                      //       InkWell(
-                      //         onTap: () {},
-                      //         child: const Text(
-                      //           ' Following',
-                      //           style: const TextStyle(
-                      //               fontSize: 16, color: Colors.black45),
-                      //         ),
-                      //         highlightColor: Colors.black26,
-                      //       ),
-                      //       const SizedBox(
-                      //         width: 10,
-                      //       ),
-                      //       const Text(
-                      //         '999',
-                      //         style: TextStyle(
-                      //             fontSize: 16, fontWeight: FontWeight.w700),
-                      //       ),
-                      //       InkWell(
-                      //         onTap: () {},
-                      //         child: const Text(
-                      //           ' Followers',
-                      //           style: const TextStyle(
-                      //               fontSize: 16, color: Colors.black45),
-                      //         ),
-                      //         highlightColor: Colors.black26,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // )
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                   ),
@@ -515,7 +462,9 @@ class _ProfilePageState extends State<ProfilePage>
                     const Tab(
                       text: 'Tweets & Replies',
                     ),
-                    const Tab(text: 'Media'),
+                    const Tab(
+                      text: 'Media',
+                    ),
                     const Tab(
                       text: 'Likes',
                     ),
@@ -530,22 +479,279 @@ class _ProfilePageState extends State<ProfilePage>
               SliverToBoxAdapter(
                 child: IndexedStack(
                   children: <Widget>[
-                    Visibility(
-                      child: Padding(
-                          child: tweetBoxWidget(Tweets, isLiked, like),
-                          padding: const EdgeInsets.all(12)),
-                      maintainState: true,
-                      visible: selectedIndex == 0,
+                    Container(
+                      child: const Text(
+                        'Tweets',
+                      ),
+                    ),
+                    Container(
+                      child: const Text(
+                        'Tweets & Replies',
+                      ),
+                    ),
+                    Container(
+                      child: const Text(
+                        'Media',
+                      ),
+                    ),
+                    Container(
+                      child: const Text(
+                        'Likes',
+                      ),
                     ),
                   ],
                   index: selectedIndex,
                 ),
-              ),
+              )
+              // SliverToBoxAdapter(
+              //   child: IndexedStack(
+              //     children: <Widget>[
+              //       FutureBuilder<String>(
+              //           future: countFuture,
+              //           builder: ((context, snapshot) {
+              //             print(getUserTweetsCount(widget.token));
+              //             if (snapshot.hasData) {
+              //               count = snapshot.data!;
+              //               getUserTweets(widget.token);
+              //               return getTweetBody();
+              //             } else {
+              //               return const Center(
+              //                   child: CircularProgressIndicator());
+              //             }
+              //           })),
+
+              // FutureBuilder<dynamic>(
+              //     future: getUserTweets(widget.token),
+              //     builder: ((context, snapshot) {
+              //       //if (snapshot.hasData) {
+              //       //listOfTweets = snapshot.data!;
+              //       getUserTweets(widget.token);
+              //       return getTweetBody();
+
+              //       // }
+              //       //  else {
+              //       //   return const Center(
+              //       //       child: CircularProgressIndicator());
+              //       // }
+              //     })),
+              //],
+              //index: selectedIndex,
+              // ),
+              //),
             ],
           ),
         ),
         drawer: SideMenu(token: widget.token, userId: widget.userId),
       ),
+    );
+  }
+
+  Widget getTweetBody() {
+    return ListView.builder(
+        itemCount: listOfTweets.length,
+        itemBuilder: (context, index) {
+          return getTweetCard(listOfTweets[index]);
+        });
+  }
+
+  Widget getTweetCard(item) {
+    var tweetId = item['id'];
+    var name = item['displayName'];
+    var userName = item['userName'];
+    var profilePic = item['url'];
+    var content = item['content'];
+    var noOfLike = item['noOfLike'];
+    var noOfReplies = item['noOfReplies'];
+    var noOfRetweets = item['noOfRetweets'];
+    var isLiked = item['isLiked'];
+    var isRetweeted = item['isRetweeted'];
+    bool iscommented = false;
+    List URLss = item['URLs'];
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(200)),
+            child: Image.network(
+              profilePic.toString(),
+              width: 60,
+              height: 60,
+            ),
+          ),
+        ),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                      name.toString().length > 15
+                          ? name.toString().substring(0, 15) + ''
+                          : name.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                        "@${userName.toString().length > 11 ? userName.toString().substring(0, 11) + '..' : userName.toString()}"),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+                child: Text(content.toString()),
+              ),
+              URLss.isEmpty
+                  ? SizedBox.shrink()
+                  : Column(
+                      children: [
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            child: Image.network(
+                              URLss[0].toString(),
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                WidgetSpan(
+                                    child: iscommented
+                                        ? FaIcon(
+                                            FontAwesomeIcons.comment,
+                                            size: 17,
+                                            color:
+                                                Color.fromARGB(255, 0, 60, 255),
+                                          )
+                                        : FaIcon(
+                                            FontAwesomeIcons.comment,
+                                            size: 17,
+                                            //color: Colors.green,
+                                          )),
+                                TextSpan(text: "  $noOfReplies"),
+                              ],
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          //Navigator.push(
+                          // context,
+                          // MaterialPageRoute(
+                          // builder: (context) {
+                          // return replyPage(
+                          //   token: widget.token,
+                          //   tweetId: tweetId,
+                          // );
+                          // Navigator.of(context).pushAndRemoveUntil(
+                          //     MaterialPageRoute(
+                          //       builder: (BuildContext context) =>
+                          //           replyTimeline(
+                          //               token: widget.token,
+                          //               userId: widget.userId,
+                          //               tweetId: tweetId),
+                          //     ),
+                          //     (Route<dynamic> route) => false);
+                          //return
+                          // replyTimeline(
+                          // token: widget.token,
+                          //userId: widget.userId,
+                          //tweetId: tweetId);
+                          // },
+                          //),
+                          //);
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                  child: isRetweeted
+                                      ? FaIcon(
+                                          FontAwesomeIcons.retweet,
+                                          size: 17,
+                                          color: Colors.green,
+                                        )
+                                      : FaIcon(
+                                          FontAwesomeIcons.retweet,
+                                          size: 17,
+                                          //color: Colors.green,
+                                        )),
+                              TextSpan(
+                                text: '  ${noOfRetweets.toString()}',
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          // retweet(widget.token, tweetId);
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: isLiked
+                                    ? FaIcon(
+                                        FontAwesomeIcons.solidHeart,
+                                        size: 17,
+                                        color: Colors.redAccent,
+                                      )
+                                    : FaIcon(
+                                        FontAwesomeIcons.heart,
+                                        size: 17,
+                                      ),
+                              ),
+                              TextSpan(text: '  ${noOfLike.toString()}')
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          // putLike(
+                          //   widget.token,
+                          //   tweetId,
+                          // );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
+          ),
+        ))
+      ],
     );
   }
 }
